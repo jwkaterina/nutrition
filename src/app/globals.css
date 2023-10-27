@@ -1,6 +1,9 @@
 :root {
   --primary-color: #7E57C2;
+  --primary-lighter-color: #B39DDB;
+  --primary-light-color: #EDE7F6;
   --secondary-color: #66BB6A;
+  --tertiary-color: #FFA726;
 }
 
 * {
@@ -12,12 +15,5 @@
 body {
   font-family: 'Montserrat', sans-serif;
   line-height: 1.6;
-  background-color: #f4f4f4;
-}
-
-.title {
-  font-size: 2rem;
-  font-weight: 600;
-  margin: 20px 0;
-  text-align: center;
+  background-color: var(--primary-lighter-color);
 }

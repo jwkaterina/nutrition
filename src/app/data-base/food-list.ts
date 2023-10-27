@@ -1,4 +1,4 @@
-export const FoodList = [
+const FoodList = [
     {
         "foodId":
             "food_a1gb9ubb72c7snbuxr3weagwv0dd",
@@ -57,3 +57,5 @@ export const FoodList = [
         },
     },
 ]
+
+export default FoodList;
