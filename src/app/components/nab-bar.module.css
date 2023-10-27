@@ -1,12 +1,21 @@
 .container {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    /* padding: 0 20px; */
+    height: 80px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.links {
+    display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    background-color: #fff;
-    padding: 0 20px;
-    height: 80px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 100%;
 }
 
 .link {
@@ -15,8 +24,21 @@
     font-size: 1.2rem;
     font-weight: 600;
     margin: 0 10px;
+    /* width: 100px; */
+    text-align: center;
 }
 
+.scroll_bar {
+    position: absolute;
+    bottom: 5px;
+    /* left: 0; */
+    /* width: 20%; */
+    height: 5px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    transition: 0.4s;
+}
+/* 
 .active {
     color: var(--primary-color);
-}
+} */

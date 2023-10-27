@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <div>
-      <NavBar scrollTo={setScrollTo}/>
+      <NavBar slide={scrollTo} scrollTo={setScrollTo}/>
       <Slider slide={scrollTo}/>
     </div>
   )
