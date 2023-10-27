@@ -9,7 +9,7 @@ const Menu = () => {
 
     const menuList = MenuList.map(menu => {
         return (
-            <Card title={menu.name} id={menu.id} text={'My menu'} type={'preview'} />
+            <Card title={menu.name} text={'My menu'} type={'preview'} key={menu.id}/>
         )
     })
 

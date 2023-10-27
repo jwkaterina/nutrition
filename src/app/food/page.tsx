@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import styles from './page.module.css'
 import FoodList from '@/app/data-base/food-list'
 import PageGrid from '../components/page-grid'
@@ -9,14 +10,16 @@ const Food = () => {
 
     const foodList = FoodList.map(food => {
         return (
-            <Card title={food.label} id={food.foodId} text={food.nutrients.ENERC_KCAL} type={'preview'}/>
+            <Card title={food.label} text={food.nutrients.ENERC_KCAL} type={'preview'} key={food.foodId}/>
         )
     })
 
     return (
-        <PageGrid>
-            {foodList}
-        </PageGrid>
+        <div>
+             <PageGrid >
+                {foodList}
+            </PageGrid>
+        </div>
     )
 }
 

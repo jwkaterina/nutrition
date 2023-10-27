@@ -9,7 +9,7 @@ const Recipe = () => {
 
     const recipeList = RecipeList.map(recipe => {
         return (
-            <Card title={recipe.name} id={recipe.id} text={recipe.description} type={'preview'}/>
+            <Card title={recipe.name} text={recipe.description} type={'preview'} key={recipe.id}/>
         )
     })
 
