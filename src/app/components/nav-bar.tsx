@@ -4,9 +4,10 @@
 import styles from "./nab-bar.module.css"
 // import { usePathname} from 'next/navigation';
 import Food from "../food/page"
+import { Slide } from "../page"
 
 
-const NavBar = () => {
+const NavBar = ({ scrollTo }) => {
 
     // const pathname = usePathname();
 
@@ -20,9 +21,9 @@ const NavBar = () => {
             </Link>
             <Link href="/menu" className={pathname == "/menu" ? `${styles.active} ${styles.link}` : styles.link}>Menu
             </Link> */}
-            <a>Food</a>
-            <a>Recipe</a>
-            <a>Menu</a>
+            <a className={styles.link} onClick={() => scrollTo(Slide.FOOD)}>Food</a>
+            <a className={styles.link} onClick={() => scrollTo(Slide.RECIPE)}>Recipe</a>
+            <a className={styles.link} onClick={() => scrollTo(Slide.MENU)}>Menu</a>
         </nav>
     )
 }

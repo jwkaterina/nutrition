@@ -5,6 +5,7 @@ import styles from './page.module.css'
 import FoodList from '@/app/data-base/food-list'
 import PageGrid from '../components/page-grid'
 import Card from '../components/card'
+import { Slide } from '@/app/page'
 
 const Food = () => {
 
@@ -15,11 +16,9 @@ const Food = () => {
     })
 
     return (
-        <div>
-             <PageGrid >
-                {foodList}
-            </PageGrid>
-        </div>
+        <PageGrid >
+            {foodList}
+        </PageGrid>
     )
 }
 
