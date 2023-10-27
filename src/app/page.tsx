@@ -3,6 +3,10 @@
 import styles from './page.module.css'
 import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 import { useEffect, useState } from 'react' 
+import Food from './food/page';
+import Recipe from './recipe/page';
+import Menu from './menu/page';
+import NavBar from '@/app/components/nav-bar';
 
 export default function Home() {
 
@@ -18,7 +22,17 @@ export default function Home() {
   //   fetchData();
   // }, []);
 
+  const [scroll, setScroll] = useState(null);
+
   return (
-    <div className='title'>{data.calories != 0 ? data.calories : 'Home'}</div>
+    <div className={styles.slider}>
+      {/* <div className='slide'>{data.calories != 0 ? data.calories : 'Home'}</div> */}
+      <NavBar />
+      <div className={styles.slides}>
+        <Food />
+        <Recipe />
+        <Menu />
+      </div>
+    </div>
   )
 }
