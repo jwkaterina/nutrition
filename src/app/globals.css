@@ -1,5 +1,6 @@
 :root {
-  /* --book-animation-duration : 0.3s; */
+  --primary-color: #7E57C2;
+  --secondary-color: #66BB6A;
 }
 
 * {
@@ -11,4 +12,12 @@
 body {
   font-family: 'Montserrat', sans-serif;
   line-height: 1.6;
+  background-color: #f4f4f4;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 20px 0;
+  text-align: center;
 }

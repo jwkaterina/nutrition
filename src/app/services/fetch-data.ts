@@ -1,4 +1,4 @@
-'use cl'
+'use client'
 
 export const fetchNutritionAnalysisAPI = async() => {
 
