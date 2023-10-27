@@ -2,11 +2,9 @@
 
 import styles from './page.module.css'
 import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
-import { useEffect, useState, useRef } from 'react' 
-import Food from './food/page';
-import Recipe from './recipe/page';
-import Menu from './menu/page';
+import { useState } from 'react' 
 import NavBar from '@/app/components/nav-bar';
+import Slider from '@/app/components/slider';
 
 export enum Slide {
   FOOD,
@@ -28,28 +26,12 @@ export default function Home() {
   //   fetchData();
   // }, []);
 
-  const slidesRef = useRef(null);
   const [scrollTo, setScrollTo] = useState<Slide>(Slide.FOOD);
 
-
-  useEffect(() => {
-    if(!slidesRef.current) return;
-    slidesRef.current.scrollTo({
-      top: 0,
-      left: slidesRef.current.clientWidth * scrollTo,
-      behavior: "smooth",
-    });
-  }, [scrollTo]);
-
   return (
-    <div className={styles.slider}>
-      {/* <div className='slide'>{data.calories != 0 ? data.calories : 'Home'}</div> */}
+    <div>
       <NavBar scrollTo={setScrollTo}/>
-      <div className={styles.slides} ref={slidesRef}>
-        <Food/>
-        <Recipe/>
-        <Menu />
-      </div>
+      <Slider slide={scrollTo}/>
     </div>
   )
 }

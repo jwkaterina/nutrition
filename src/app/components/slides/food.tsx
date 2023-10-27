@@ -1,11 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import styles from './page.module.css'
 import FoodList from '@/app/data-base/food-list'
-import PageGrid from '../components/page-grid'
-import Card from '../components/card'
-import { Slide } from '@/app/page'
+import PageGrid from '../page-grid'
+import Card from '../card'
 
 const Food = () => {
 

@@ -1,9 +1,8 @@
 'use client'
 
-import styles from './page.module.css'
-import MenuList from "../data-base/menu-list"
-import PageGrid from "../components/page-grid"
-import Card from "../components/card"
+import MenuList from "../../data-base/menu-list"
+import PageGrid from "../page-grid"
+import Card from "../card"
 
 const Menu = () => {
 

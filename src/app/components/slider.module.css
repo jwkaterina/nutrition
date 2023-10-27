@@ -1,0 +1,11 @@
+.slides {
+    height: 100vh;
+
+    display: flex;
+    flex: 1;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+
+    scroll-behavior: smooth;
+}

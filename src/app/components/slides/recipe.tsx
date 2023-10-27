@@ -1,9 +1,8 @@
 'use client'
 
-import styles from './page.module.css'
-import RecipeList from '../data-base/recipe-list'
-import PageGrid from '../components/page-grid'
-import Card from '../components/card'
+import RecipeList from '../../data-base/recipe-list'
+import PageGrid from '../page-grid'
+import Card from '../card'
 
 const Recipe = () => {
 
