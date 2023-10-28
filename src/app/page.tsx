@@ -13,7 +13,7 @@ export enum Slide {
   MENU
 }
 
-export default function Home() {
+export default function Home(): JSX.Element {
 
   // const [data, setData] = useState({calories: 0});
 
@@ -28,7 +28,7 @@ export default function Home() {
   // }, []);
 
   const [slide, setSlide] = useState<Slide>(Slide.FOOD);
-  const [blockScrollHandler, setBlockScrollHandler] = useState(false);
+  const [blockScrollHandler, setBlockScrollHandler] = useState<boolean>(false);
 
   const mediaQuery = window.matchMedia('(max-width: 600px)');
 

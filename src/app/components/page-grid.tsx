@@ -3,7 +3,11 @@
 import styels from './page-grid.module.css'
 import Card from './card'
 
-const PageGrid = ( { children }) => {
+interface PageGridProps {
+    children: JSX.Element[]
+}
+
+const PageGrid = ( { children }: PageGridProps): JSX.Element => {
 
     const mediaQuery = window.matchMedia('(max-width: 600px)');
 

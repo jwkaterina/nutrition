@@ -2,7 +2,13 @@
 
 import styles from './card.module.css'
 
-const Card = ({ title, text, type }) => {
+interface CardProps {
+    title: string | null,
+    text: string | null,
+    type?: string
+}
+
+const Card = ({ title, text, type }: CardProps): JSX.Element => {
     if(type === 'add') return (
         <div className={styles.card}>
             <div className={styles.add}>
