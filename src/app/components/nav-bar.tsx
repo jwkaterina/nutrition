@@ -4,29 +4,20 @@
 import styles from "./nab-bar.module.css"
 // import { usePathname} from 'next/navigation';
 import { Slide } from "../page"
-import { useEffect, useRef } from "react";
 
 
 const NavBar = ({ slide, scrollTo }) => {
 
     // const pathname = usePathname();
-    const navRef = useRef(null);
-    const navBarWidth = useRef(0);
 
     const linkWidth = 100;
+    const scrollBarWidth = '20vw';
 
-    // setTimeout(() => {
-    //     navBarWidth.current = navRef.current.clientWidth;
-    // }
-    // , 0)
-
-    const handleScrollBar = () => {
-        if(!navRef.current) console.log("navRef.current is null");
-        const spaceWidth = (navBarWidth.current - 3 * linkWidth) / 4;
-        const scrollBarWidth = navBarWidth.current / 5;
-        const position1 = spaceWidth + linkWidth / 2 - scrollBarWidth / 2;
-        const position2 = 2 * spaceWidth + linkWidth / 2 * 3 - scrollBarWidth / 2;
-        const position3 = 3 * spaceWidth + linkWidth / 2 * 5 - scrollBarWidth / 2;
+    const calculateScrollBarPosition = () => {
+        const spaceWidth = `(100vw - 3 * ${linkWidth}px) / 4`;
+        const position1 = `calc(${spaceWidth} + ${linkWidth}px / 2 - ${scrollBarWidth} / 2)`;   
+        const position2 = `calc(2 * ${spaceWidth} + ${linkWidth}px / 2 * 3 - ${scrollBarWidth} / 2)`;
+        const position3 = `calc(3 * ${spaceWidth} + ${linkWidth}px / 2 * 5 - ${scrollBarWidth} / 2)`;
         let position;
         switch(slide) {
             case Slide.FOOD:
@@ -41,15 +32,14 @@ const NavBar = ({ slide, scrollTo }) => {
             default:
                 position = position1;
         }
-        console.log(slide, position)
         return {
-            left: `${position}px`,
-            width: `${scrollBarWidth}px`
+            left: position,
+            width: scrollBarWidth
         }
     }
 
     return (
-        <nav className={styles.container} ref={navRef}>
+        <nav className={styles.container}>
             {/* <Link href="/" className={pathname == "/" ? `${styles.active} ${styles.link}` : styles.link}>Home
             </Link> */}
             {/* <Link href="/food" className={pathname == "/food" ? `${styles.active} ${styles.link}` : styles.link}>Food
@@ -63,7 +53,7 @@ const NavBar = ({ slide, scrollTo }) => {
                 <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => scrollTo(Slide.RECIPE)}>Recipe</a>
                 <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => scrollTo(Slide.MENU)}>Menu</a>
             </div>
-            <div className={styles.scroll_bar} style={handleScrollBar()}></div>
+            <div className={styles.scroll_bar} style={calculateScrollBarPosition()}></div>
            
         </nav>
     )
