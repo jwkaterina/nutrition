@@ -25,17 +25,12 @@ const Slider = ({ slide, setSlide, blockScrollHandler }) => {
         const scrollLeft = slidesRef.current.scrollLeft;
         const width = slidesRef.current.clientWidth;
         if(scrollLeft - 5 <= 0 && slide != Slide.FOOD) {
-            setTimeout(() => {
             setSlide(Slide.FOOD)
-            }, 300)
         } else if(scrollLeft + 5 >= width && scrollLeft - 5 <= width  && slide != Slide.RECIPE) {
-            setTimeout(() => {
             setSlide(Slide.RECIPE)
-            }, 300)
         } else if(scrollLeft + 5 >= 2 * width && slide != Slide.MENU) {
-            setTimeout(() => {
+            // setTimeout(() => {
             setSlide(Slide.MENU)
-            }, 300)
         }
     }
 

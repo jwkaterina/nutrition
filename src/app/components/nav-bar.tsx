@@ -43,7 +43,7 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }) => {
         setSlide(slide);
         setTimeout(() => {
             setBlockScrollHandler(false);
-        }, 300)
+        }, 500)
     }
 
     return (
