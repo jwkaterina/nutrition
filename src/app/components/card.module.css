@@ -1,13 +1,25 @@
 .card {
+    height: 150px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 1rem;
-    border-radius: 0.5rem;
+    border-radius: 0.2rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease-in-out;
     background-color: white;
     cursor: pointer;
+}
+
+.card h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.card p {
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-align: right;
 }
 
 .add {
@@ -21,6 +33,6 @@
 }
 
 .add__icon {
-    font-size: 3rem;
+    font-size: 4rem;
     color: var(--primary-color);
 }

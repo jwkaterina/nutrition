@@ -1,6 +1,4 @@
 .container {
-    /* max-width: 1200px; */
-    /* margin: 0 auto; */
     padding: 0 1rem;
     width: 100vw;
 
@@ -10,7 +8,13 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 1rem;
     margin: 1rem 0;
+}
+
+@media(max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

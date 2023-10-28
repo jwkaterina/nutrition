@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    background-color: var(--primary-color);
     height: 80px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -19,9 +19,9 @@
 
 .link {
     text-decoration: none;
-    color: #000;
+    color: white;
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 400;
     margin: 0 10px;
     text-align: center;
 }
@@ -30,11 +30,7 @@
     position: absolute;
     bottom: 5px;
     height: 5px;
-    background-color: var(--primary-color);
+    background-color: white;
     border-radius: 10px;
     transition: 0.4s;
 }
-/* 
-.active {
-    color: var(--primary-color);
-} */
