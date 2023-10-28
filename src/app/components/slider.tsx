@@ -4,9 +4,10 @@ import styles from './slider.module.css'
 import Food from '@/app/components/slides/food';
 import Recipe from '@/app/components/slides/recipe';
 import Menu from '@/app/components/slides/menu';
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Slide } from '../page';
 
-const Slider = ({ slide}) => {
+const Slider = ({ slide, setSlide, blockScrollHandler }) => {
 
     const slidesRef = useRef(null);
 
@@ -19,11 +20,30 @@ const Slider = ({ slide}) => {
         });
       }, [slide]);
 
+    const handleScroll = () => {
+      if(blockScrollHandler || !slidesRef.current) return;
+        const scrollLeft = slidesRef.current.scrollLeft;
+        const width = slidesRef.current.clientWidth;
+        if(scrollLeft - 5 <= 0 && slide != Slide.FOOD) {
+            setTimeout(() => {
+            setSlide(Slide.FOOD)
+            }, 300)
+        } else if(scrollLeft + 5 >= width && scrollLeft - 5 <= width  && slide != Slide.RECIPE) {
+            setTimeout(() => {
+            setSlide(Slide.RECIPE)
+            }, 300)
+        } else if(scrollLeft + 5 >= 2 * width && slide != Slide.MENU) {
+            setTimeout(() => {
+            setSlide(Slide.MENU)
+            }, 300)
+        }
+    }
+
     return (
-        <div className={styles.slides} ref={slidesRef}>
+        <div className={styles.slides} ref={slidesRef} onScroll={handleScroll}>
             <Food/>
             <Recipe/>
-            <Menu />
+            <Menu/>
       </div>
     )
 }

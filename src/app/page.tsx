@@ -26,12 +26,13 @@ export default function Home() {
   //   fetchData();
   // }, []);
 
-  const [scrollTo, setScrollTo] = useState<Slide>(Slide.FOOD);
+  const [slide, setSlide] = useState<Slide>(Slide.FOOD);
+  const [blockScrollHandler, setBlockScrollHandler] = useState(false);
 
   return (
     <div>
-      <NavBar slide={scrollTo} scrollTo={setScrollTo}/>
-      <Slider slide={scrollTo}/>
-    </div>
+      <NavBar slide={slide} setSlide={setSlide} setBlockScrollHandler={setBlockScrollHandler} />
+     <Slider slide={slide} setSlide={setSlide} blockScrollHandler={blockScrollHandler} />
+   </div>
   )
 }

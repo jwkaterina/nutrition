@@ -6,7 +6,7 @@ import styles from "./nab-bar.module.css"
 import { Slide } from "../page"
 
 
-const NavBar = ({ slide, scrollTo }) => {
+const NavBar = ({ slide, setSlide, setBlockScrollHandler }) => {
 
     // const pathname = usePathname();
 
@@ -38,6 +38,14 @@ const NavBar = ({ slide, scrollTo }) => {
         }
     }
 
+    const handleClick = (slide) => {
+        setBlockScrollHandler(true);
+        setSlide(slide);
+        setTimeout(() => {
+            setBlockScrollHandler(false);
+        }, 300)
+    }
+
     return (
         <nav className={styles.container}>
             {/* <Link href="/" className={pathname == "/" ? `${styles.active} ${styles.link}` : styles.link}>Home
@@ -49,9 +57,9 @@ const NavBar = ({ slide, scrollTo }) => {
             <Link href="/menu" className={pathname == "/menu" ? `${styles.active} ${styles.link}` : styles.link}>Menu
             </Link> */}
             <div className={styles.links}>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => scrollTo(Slide.FOOD)}>Food</a>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => scrollTo(Slide.RECIPE)}>Recipe</a>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => scrollTo(Slide.MENU)}>Menu</a>
+                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.FOOD)}>Food</a>
+                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.RECIPE)}>Recipe</a>
+                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.MENU)}>Menu</a>
             </div>
             <div className={styles.scroll_bar} style={calculateScrollBarPosition()}></div>
            
