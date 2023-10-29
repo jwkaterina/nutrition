@@ -8,7 +8,7 @@ const Food = () => {
 
     const foodList = FoodList.map((food, index) => {
         return (
-            <Card title={food.label} text={food.nutrients.ENERC_KCAL} type={'preview'} key={food.foodId} index={index + 1}/>
+            <Card title={food.label} text={food.nutrients.ENERC_KCAL} key={food.foodId} index={index + 1}/>
         )
     })
 

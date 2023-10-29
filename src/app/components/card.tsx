@@ -4,17 +4,16 @@ import styles from './card.module.css'
 import { useState, useRef } from 'react'
 
 interface CardProps {
-    title: string | null,
-    text: string | number | null,
-    type: string,
-    index?: number
+    title: string,
+    text: string | number,
+    index: number
 }
 
-const Card = ({ title, text, type, index }: CardProps): JSX.Element => {
+const Card = ({ title, text, index }: CardProps): JSX.Element => {
 
     const [openCard, setOpenCard] = useState<boolean>(false);
 
-    const cardRef = useRef<HTMLDivElement>();
+    const cardRef = useRef<HTMLDivElement>(null);
 
     const column: number = index % 4 === 0 ? 4 : index % 4;
     const row: number = Math.ceil(index / 4);
@@ -33,18 +32,9 @@ const Card = ({ title, text, type, index }: CardProps): JSX.Element => {
         fill: 'forwards'
     };
 
-    if(openCard) {
-        cardRef.current!.animate(keyframes, options);
-        console.log('animate', index, column, row);
+    if(cardRef.current && openCard) {
+        cardRef.current.animate(keyframes, options);
     }
-
-    if(type === 'add') return (
-        <div className={styles.card}>
-            <div className={styles.add}>
-                <div className={styles.add__icon}>+</div>
-            </div>
-        </div>
-    )
 
     return (
         <div className={styles.card} onClick={() => setOpenCard(true)} ref={cardRef}>
