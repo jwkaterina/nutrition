@@ -6,14 +6,14 @@ import Card from '../card'
 
 const Food = () => {
 
-    const foodList = FoodList.map(food => {
+    const foodList = FoodList.map((food, index) => {
         return (
-            <Card title={food.label} text={food.nutrients.ENERC_KCAL} type={'preview'} key={food.foodId}/>
+            <Card title={food.label} text={food.nutrients.ENERC_KCAL} type={'preview'} key={food.foodId} index={index}/>
         )
     })
 
     return (
-        <PageGrid >
+        <PageGrid>
             {foodList}
         </PageGrid>
     )
