@@ -6,9 +6,9 @@ import Card from "../card"
 
 const Menu = () => {
 
-    const menuList = MenuList.map(menu => {
+    const menuList = MenuList.map((menu, index) => {
         return (
-            <Card title={menu.name} text={'My menu'} type={'preview'} key={menu.id}/>
+            <Card title={menu.name} text={'My menu'} key={menu.id} index={index + 1}/>
         )
     })
 

@@ -6,9 +6,9 @@ import Card from '../card'
 
 const Recipe = () => {
 
-    const recipeList = RecipeList.map(recipe => {
+    const recipeList = RecipeList.map((recipe, index) => {
         return (
-            <Card title={recipe.name} text={recipe.description} type={'preview'} key={recipe.id}/>
+            <Card title={recipe.name} text={recipe.description} key={recipe.id} index={index + 1}/>
         )
     })
 
