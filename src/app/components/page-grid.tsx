@@ -1,6 +1,6 @@
 'use client'
 
-import styels from './page-grid.module.css'
+import styles from './page-grid.module.css'
 import Card from './card'
 
 interface PageGridProps {
@@ -9,17 +9,16 @@ interface PageGridProps {
 
 const PageGrid = ( { children }: PageGridProps): JSX.Element => {
 
-    const mediaQuery = window.matchMedia('(max-width: 600px)');
+    const mediaQuery = window.matchMedia('(max-width: 600px)'); 
 
     return (
-        <div className={styels.container}>
-            <div className={styels.grid}>
+        <div className={styles.container}>
+            <div className={styles.grid}>
                 {children}
                 {!mediaQuery.matches && <Card title={null} text={null} type={'add'} />}
             </div>
-
         </div>
-    );
+    )
 }
 
 export default PageGrid
