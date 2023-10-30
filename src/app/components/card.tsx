@@ -1,7 +1,8 @@
 'use client'
 
 import styles from './card.module.css'
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
+import { SetCardOpenContext } from '@/app/context/context'
 
 interface CardProps {
     title: string,
@@ -11,15 +12,15 @@ interface CardProps {
 
 const Card = ({ title, text, index }: CardProps): JSX.Element => {
 
-    const [openCard, setOpenCard] = useState<boolean>(false);
+    const setCardOpen = useContext(SetCardOpenContext);
+
+    const [active, setActive] = useState<boolean>(false);
 
     const cardRef = useRef<HTMLDivElement>(null);
 
     const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 600px)');
 
     const gridGap: number = 1;
-    const headerHeight: number = 80;
-    const footerHeight: number = 80;
 
     const cardHeight: number = cardRef.current ? cardRef.current.clientHeight : 0;
     const cardWidth: number = cardRef.current ? cardRef.current.clientWidth : 0;
@@ -51,12 +52,15 @@ const Card = ({ title, text, index }: CardProps): JSX.Element => {
         fill: 'forwards'
     };
 
-    if(cardRef.current && openCard) {
+    if(cardRef.current && active) {
         cardRef.current.animate(keyframes, options);
     }
 
     return (
-        <div className={styles.card} onClick={() => setOpenCard(true)} ref={cardRef}>
+        <div className={styles.card} onClick={() => {
+            setActive(true);
+            setCardOpen(true);
+        }} ref={cardRef}>
             <h2>{title}</h2>
             <p>{text}</p>
         </div>

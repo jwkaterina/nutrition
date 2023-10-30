@@ -5,7 +5,7 @@ import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 import { useState } from 'react' 
 import NavBar from '@/app/components/nav-bar';
 import Slider from '@/app/components/slider';
-import Footer from '@/app/components/footer';
+import { CardOpenProvider } from '@/app/context/context';
 
 export enum Slide {
   FOOD,
@@ -33,9 +33,9 @@ export default function Home(): JSX.Element {
   const mediaQuery = window.matchMedia('(max-width: 600px)');
 
   return (
-    <div>
+    <CardOpenProvider>
       <NavBar slide={slide} setSlide={setSlide} setBlockScrollHandler={setBlockScrollHandler} />
       <Slider slide={slide} setSlide={setSlide} blockScrollHandler={blockScrollHandler} />
-   </div>
+    </CardOpenProvider>
   )
 }

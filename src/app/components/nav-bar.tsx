@@ -4,16 +4,21 @@
 import styles from "./nab-bar.module.css"
 // import { usePathname} from 'next/navigation';
 import { Slide } from "../page"
+import { CardOpenContext } from "@/app/context/context"
+import { useContext } from "react"
+import { Main } from "next/document"
 
 interface NavBarProps {
     slide: Slide,
     setSlide: (slide: Slide) => void,
-    setBlockScrollHandler: (blockScrollHandler: boolean) => void
+    setBlockScrollHandler: (blockScrollHandler: boolean) => void,
 }
 
 const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.Element => {
 
     // const pathname = usePathname();
+
+    const cardOpen = useContext(CardOpenContext);
 
     const linkWidth: string = '100px';
     const scrollBarWidth: string = '20vw';
@@ -56,6 +61,26 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
         }, 500)
     }
 
+    const MainMenu = () => {
+        return <>
+            <div className={styles.main_links}>
+                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.FOOD)}>My Food</a>
+                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.RECIPE)}>My Recipes</a>
+                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.MENU)}>My Menus</a>
+            </div>
+            <div className={styles.scroll_bar} style={calculateScrollBarPosition()}></div>
+        </>
+    }
+
+    const OpenCardMenu = () => {
+        return <>
+            <div className={styles.links}>
+                <a className={styles.link} >Back</a>
+                <a className={styles.link} >Delete</a>
+            </div>
+        </>
+    }
+
     return (
         <nav className={styles.container}>
             {/* <Link href="/" className={pathname == "/" ? `${styles.active} ${styles.link}` : styles.link}>Home
@@ -66,13 +91,7 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
             </Link>
             <Link href="/menu" className={pathname == "/menu" ? `${styles.active} ${styles.link}` : styles.link}>Menu
             </Link> */}
-            <div className={styles.links}>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.FOOD)}>My Food</a>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.RECIPE)}>My Recipes</a>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.MENU)}>My Menus</a>
-            </div>
-            <div className={styles.scroll_bar} style={calculateScrollBarPosition()}></div>
-           
+            {cardOpen ? <OpenCardMenu /> : <MainMenu />}
         </nav>
     )
 }
