@@ -24,17 +24,16 @@ const Card = ({ title, text, index }: CardProps): JSX.Element => {
     const cardHeight: number = cardRef.current ? cardRef.current.clientHeight : 0;
     const cardWidth: number = cardRef.current ? cardRef.current.clientWidth : 0;
 
-    let column: number, row: number, height: number;
+    let column: number, row: number;
     if(mediaQuery.matches) {
         column = index % 2 === 0 ? 2 : index % 2;
         row = Math.ceil(index / 2);
-        height = window.innerHeight - headerHeight - footerHeight;
     } else {
         column = index % 4 === 0 ? 4 : index % 4;
         row = Math.ceil(index / 4);
-        height = window.innerHeight - headerHeight;
     }
 
+    const height = window.innerHeight;
     const translateX = (1 - column) * cardWidth;
     const translateY: number = (1 - row) * cardHeight;
     const top: number = - gridGap * row;

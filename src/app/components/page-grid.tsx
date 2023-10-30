@@ -22,11 +22,17 @@ const PageGrid = ( { children }: PageGridProps): JSX.Element => {
         )
     }
 
+    const MobileButton = () => {
+        return (
+            <button className={styles.button}>+</button>
+        )
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.grid}>
                 {children}
-                {!mediaQuery.matches && <Button />}
+                {mediaQuery.matches ? <MobileButton /> : <Button />}
             </div>
         </div>
     )

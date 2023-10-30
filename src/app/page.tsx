@@ -36,7 +36,6 @@ export default function Home(): JSX.Element {
     <div>
       <NavBar slide={slide} setSlide={setSlide} setBlockScrollHandler={setBlockScrollHandler} />
       <Slider slide={slide} setSlide={setSlide} blockScrollHandler={blockScrollHandler} />
-      {mediaQuery.matches &&  <Footer />}
    </div>
   )
 }
