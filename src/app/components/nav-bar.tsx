@@ -67,9 +67,9 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
             <Link href="/menu" className={pathname == "/menu" ? `${styles.active} ${styles.link}` : styles.link}>Menu
             </Link> */}
             <div className={styles.links}>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.FOOD)}>Food</a>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.RECIPE)}>Recipe</a>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.MENU)}>Menu</a>
+                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.FOOD)}>My Food</a>
+                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.RECIPE)}>My Recipes</a>
+                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.MENU)}>My Menus</a>
             </div>
             <div className={styles.scroll_bar} style={calculateScrollBarPosition()}></div>
            
