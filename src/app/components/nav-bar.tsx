@@ -4,7 +4,7 @@
 import styles from "./nab-bar.module.css"
 // import { usePathname} from 'next/navigation';
 import { Slide } from "../page"
-import { CardOpenContext } from "@/app/context/context"
+import { CardOpenContext, SetCardOpenContext } from "@/app/context/context"
 import { useContext } from "react"
 import { Main } from "next/document"
 
@@ -18,10 +18,18 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
 
     // const pathname = usePathname();
 
-    const cardOpen = useContext(CardOpenContext);
+    const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 600px)');
 
-    const linkWidth: string = '100px';
-    const scrollBarWidth: string = '20vw';
+    const cardOpen = useContext(CardOpenContext);
+    const setCardOpen = useContext(SetCardOpenContext);
+
+    let linkWidth: string;
+    if(mediaQuery.matches) {
+        linkWidth = '100px';
+    } else {
+        linkWidth = '200px';
+    }
+    const scrollBarWidth = '20vw';
 
     type ScrollBarPosition = {
         left: string,
@@ -64,9 +72,9 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
     const MainMenu = () => {
         return <>
             <div className={styles.main_links}>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.FOOD)}>My Food</a>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.RECIPE)}>My Recipes</a>
-                <a className={styles.link} style={{width: `${linkWidth}px`}} onClick={() => handleClick(Slide.MENU)}>My Menus</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(Slide.FOOD)}>My Food</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(Slide.RECIPE)}>My Recipes</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(Slide.MENU)}>My Menus</a>
             </div>
             <div className={styles.scroll_bar} style={calculateScrollBarPosition()}></div>
         </>
@@ -75,8 +83,8 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
     const OpenCardMenu = () => {
         return <>
             <div className={styles.links}>
-                <a className={styles.link} >Back</a>
-                <a className={styles.link} >Delete</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => setCardOpen(false)}>Back</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}}>Delete</a>
             </div>
         </>
     }

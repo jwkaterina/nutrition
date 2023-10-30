@@ -44,6 +44,8 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
 
     if(cardOpen && slidesRef.current) {
       (slidesRef.current as HTMLElement).style.overflow = 'hidden';
+    }  else if(!cardOpen && slidesRef.current){
+      (slidesRef.current as HTMLElement).style.overflow = 'auto';
     }
 
     return (
