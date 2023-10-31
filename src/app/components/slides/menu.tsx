@@ -3,19 +3,13 @@
 import MenuList from "../../data-base/menu-list"
 import PageGrid from "../page-grid"
 import Card from "../card"
-import { MenuProp } from "@/app/types/types"
+import { useMenu } from '@/app/context/menu-context'
 
 const Menu = () => {
 
-    let initialMenus: MenuProp[];
-    if(localStorage.getItem('menus')) {
-      initialMenus = JSON.parse(localStorage.getItem('menus')!)
-    } else {
-        initialMenus = MenuList;
-        localStorage.setItem('menus', JSON.stringify(initialMenus))
-    } 
+    const menus = useMenu();
 
-    const menuList = initialMenus.map((menu, index) => {
+    const menuList = menus.map((menu, index) => {
         return (
             <Card title={menu.name} text={'My menu'} key={menu.id} index={index + 1}/>
         )

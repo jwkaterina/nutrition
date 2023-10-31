@@ -5,8 +5,8 @@ import styles from './page.module.css'
 import { useState } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import Slider from '@/app/components/slider';
-import { CardOpenProvider } from '@/app/context/context';
 import { Slide } from '@/app/types/types';
+import HomeProviders from './context/home-providers';
 
 export default function Home(): JSX.Element {
 
@@ -26,9 +26,9 @@ export default function Home(): JSX.Element {
   const [blockScrollHandler, setBlockScrollHandler] = useState<boolean>(false);
 
   return (
-    <CardOpenProvider>
+    <HomeProviders>
       <NavBar slide={slide} setSlide={setSlide} setBlockScrollHandler={setBlockScrollHandler} />
       <Slider slide={slide} setSlide={setSlide} blockScrollHandler={blockScrollHandler} />
-    </CardOpenProvider>
+    </HomeProviders>
   )
 }

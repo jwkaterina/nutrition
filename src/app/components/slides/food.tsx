@@ -1,21 +1,14 @@
 'use client'
 
-import FoodList from '@/app/data-base/food-list'
 import PageGrid from '../page-grid'
 import Card from '../card'
-import { FoodProp } from '@/app/types/types'
+import { useFood } from '@/app/context/food-context'
 
 const Food = () => {
 
-    let initialFood: FoodProp[];
-    if(localStorage.getItem('food')) {
-      initialFood = JSON.parse(localStorage.getItem('food')!)
-    } else {
-        initialFood = FoodList;
-        localStorage.setItem('food', JSON.stringify(initialFood))
-    }
+    const food = useFood();
 
-    const foodList = initialFood.map((food, index) => {
+    const foodList = food.map((food, index) => {
         return (
             <Card title={food.label} text={food.nutrients.ENERC_KCAL} key={food.foodId} index={index + 1}/>
         )

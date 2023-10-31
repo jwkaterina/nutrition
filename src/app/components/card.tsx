@@ -2,7 +2,7 @@
 
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
-import { CardOpenContext, SetCardOpenContext } from '@/app/context/context'
+import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
 
 interface CardProps {
     title: string,

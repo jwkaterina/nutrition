@@ -6,7 +6,7 @@ import Recipe from '@/app/components/slides/recipe';
 import Menu from '@/app/components/slides/menu';
 import { useEffect, useRef, useContext } from 'react';
 import { Slide } from '@/app/types/types';
-import { CardOpenContext } from '@/app/context/context';
+import { CardOpenContext } from '@/app/context/card-context';
 
 interface SliderProps {
     slide: Slide,
