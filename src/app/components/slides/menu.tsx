@@ -16,7 +16,7 @@ const Menu = () => {
     })
 
     return (
-        <PageGrid>
+        <PageGrid search={'analysis/menu-analysis'}>
             {menuList}
         </PageGrid>
     )

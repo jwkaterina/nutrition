@@ -16,7 +16,7 @@ const Recipe = () => {
     })
 
     return (
-        <PageGrid>
+        <PageGrid search={'analysis/recipe-analysis'}>
             {recipeList}
         </PageGrid>
     )
