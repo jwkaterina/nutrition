@@ -3,9 +3,7 @@
 import styles from './page.module.css'
 // import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 import { useState } from 'react' 
-import NavBar from '@/app/components/nav-bar/nav-bar';
-import Slider from '@/app/components/slider';
-// import HomeProviders from './context/home-providers';
+import NavBar from '@/app/analysis/components/nav-bar';
 
 export const FoodSearch = (): JSX.Element => {
 
@@ -21,8 +19,9 @@ export const FoodSearch = (): JSX.Element => {
   //   fetchData();
   // }, []);
 
-  return (
-    <h1>Food Search</h1>
+  return (<>
+      <NavBar header={'Food Analysis'}/>
+    </>
   )
 }
 
