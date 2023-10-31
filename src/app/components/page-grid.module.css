@@ -5,6 +5,7 @@
     scroll-snap-align: start;
     border-left: 1px solid var(--primary-color);
     border-right: 1px solid var(--primary-color);
+    position: relative;
 }
 
 .grid {
@@ -45,7 +46,7 @@
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    position: fixed;
+    position: absolute;
     right: 3rem;
     bottom: 3rem;
 }

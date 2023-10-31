@@ -35,8 +35,9 @@ const PageGrid = ( { search, children }: PageGridProps): JSX.Element => {
         <div className={styles.container}>
             <div className={styles.grid}>
                 {children}
-                {mediaQuery.matches ? <MobileButton /> : <Button />}
+                {!mediaQuery.matches && <Button />}
             </div>
+            {mediaQuery.matches && <MobileButton />}
         </div>
     )
 }
