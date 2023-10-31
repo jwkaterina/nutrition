@@ -15,8 +15,6 @@ const Card = ({ title, text, index }: CardProps): JSX.Element => {
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
 
-    const [active, setActive] = useState<boolean>(false);
-
     const cardRef = useRef<HTMLDivElement>(null);
 
     const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 600px)');
@@ -57,21 +55,19 @@ const Card = ({ title, text, index }: CardProps): JSX.Element => {
         fill: 'forwards'
     };
 
-    if(cardRef.current && active && cardOpen) {
+    if(cardRef.current && cardOpen === index) {
         cardRef.current.animate(keyframes, options);
     } 
 
     useEffect(() => {
-        if(cardOpen === false) {
+        if(cardOpen === 0) {
             cardRef.current?.animate(keyframesReverse, options);
-            setActive(false);
         }
     }, [cardOpen])
 
     return (
         <div className={styles.card} onClick={() => {
-            setActive(true);
-            setCardOpen(true);
+            setCardOpen(index);
         }} ref={cardRef}>
             <h2>{title}</h2>
             <p>{text}</p>

@@ -83,8 +83,8 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
     const OpenCardMenu = () => {
         return <>
             <div className={styles.links}>
-                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => setCardOpen(false)}>Back</a>
-                <a className={styles.link} style={{width: `${linkWidth}`}}>Delete</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => setCardOpen(0)}>Back</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}} >Delete</a>
             </div>
         </>
     }

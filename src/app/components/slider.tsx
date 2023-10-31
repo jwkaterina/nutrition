@@ -42,9 +42,9 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
         }
     }
 
-    if(cardOpen && slidesRef.current) {
+    if(cardOpen && cardOpen!= 0 && slidesRef.current) {
       (slidesRef.current as HTMLElement).style.overflow = 'hidden';
-    }  else if(!cardOpen && slidesRef.current){
+    }  else if(slidesRef.current){
       (slidesRef.current as HTMLElement).style.overflow = 'auto';
     }
 

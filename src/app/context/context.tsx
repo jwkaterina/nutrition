@@ -1,9 +1,9 @@
 import { createContext, useState } from "react";
 
-export const CardOpenContext = createContext<boolean | null>(null);
+export const CardOpenContext = createContext<number | null>(null);
 export const SetCardOpenContext = createContext((() => {}) as React.SetStateAction<any>);
 
-export const CardOpenProvider = ({ children}: any) => {
+export const CardOpenProvider = ({ children }: any) => {
 
     const [cardOpen, setCardOpen] = useState(null);
 
