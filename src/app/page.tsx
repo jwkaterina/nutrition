@@ -3,7 +3,7 @@
 import styles from './page.module.css'
 import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 import { useState } from 'react' 
-import NavBar from '@/app/components/nav-bar';
+import NavBar from '@/app/components/nav-bar/nav-bar';
 import Slider from '@/app/components/slider';
 import { CardOpenProvider } from '@/app/context/context';
 
@@ -29,8 +29,6 @@ export default function Home(): JSX.Element {
 
   const [slide, setSlide] = useState<Slide>(Slide.FOOD);
   const [blockScrollHandler, setBlockScrollHandler] = useState<boolean>(false);
-
-  const mediaQuery = window.matchMedia('(max-width: 600px)');
 
   return (
     <CardOpenProvider>
