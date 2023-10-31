@@ -6,7 +6,7 @@ import styles from "./nab-bar.module.css"
 import { Slide } from "../page"
 import { CardOpenContext, SetCardOpenContext } from "@/app/context/context"
 import { useContext } from "react"
-import { Main } from "next/document"
+import { FoodProp } from "./slides/food"
 
 interface NavBarProps {
     slide: Slide,
@@ -69,6 +69,33 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
         }, 500)
     }
 
+    const deleteCard = (index: number | null): void => {
+        setCardOpen(0);
+        switch(slide) {
+            case Slide.FOOD:
+                deleteFood(index);
+                break;
+            case Slide.RECIPE:
+                deleteRecipe(index);
+                break;
+            case Slide.MENU:
+                deleteMenu(index);
+                break;
+        }
+    }
+
+    const deleteFood = (index: number | null): void => {
+        localStorage.setItem('food', JSON.stringify(JSON.parse(localStorage.getItem('food')!).filter((food: FoodProp, i: number) => i != index! - 1)))
+    }
+
+    const deleteRecipe = (index: number | null): void => {
+        localStorage.setItem('recipes', JSON.stringify(JSON.parse(localStorage.getItem('recipes')!).filter((recipe: FoodProp, i: number) => i != index! - 1)))
+    }
+
+    const deleteMenu = (index: number | null): void => {
+        localStorage.setItem('menus', JSON.stringify(JSON.parse(localStorage.getItem('menus')!).filter((menu: FoodProp, i: number) => i != index! - 1)))
+    }
+
     const MainMenu = () => {
         return <>
             <div className={styles.main_links}>
@@ -84,7 +111,7 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
         return <>
             <div className={styles.links}>
                 <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => setCardOpen(0)}>Back</a>
-                <a className={styles.link} style={{width: `${linkWidth}`}} >Delete</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => deleteCard(cardOpen)} >Delete</a>
             </div>
         </>
     }
