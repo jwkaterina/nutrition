@@ -1,17 +1,12 @@
 'use client'
 
 import styles from './page.module.css'
-import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
+// import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 import { useState } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import Slider from '@/app/components/slider';
 import { CardOpenProvider } from '@/app/context/context';
-
-export enum Slide {
-  FOOD,
-  RECIPE,
-  MENU
-}
+import { Slide } from '@/app/types/types';
 
 export default function Home(): JSX.Element {
 

@@ -3,18 +3,7 @@
 import FoodList from '@/app/data-base/food-list'
 import PageGrid from '../page-grid'
 import Card from '../card'
-
-export type FoodProp = {
-    foodId: string,
-    label: string,
-    nutrients: {
-        ENERC_KCAL: number,
-        PROCNT: number,
-        FAT: number,
-        CHOCDF: number,
-        FIBTG: number
-    }
-}
+import { FoodProp } from '@/app/types/types'
 
 const Food = () => {
 

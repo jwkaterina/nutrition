@@ -1,10 +1,10 @@
 'use client'
 
 import styles from './nav-bar.module.css'
-import { Slide } from "@/app/page"
+import { Slide } from "@/app/types/types"
 import { useContext } from "react"
 import { SetCardOpenContext } from "@/app/context/context"
-import { FoodProp } from "../slides/food"
+import { FoodProp, RecipeProp, MenuProp } from "@/app/types/types"
 
 interface OpenCardMenuProps {
     slide: Slide,
@@ -34,11 +34,11 @@ const deleteFood = (index: number | null): void => {
 }
 
 const deleteRecipe = (index: number | null): void => {
-    localStorage.setItem('recipes', JSON.stringify(JSON.parse(localStorage.getItem('recipes')!).filter((recipe: FoodProp, i: number) => i != index! - 1)))
+    localStorage.setItem('recipes', JSON.stringify(JSON.parse(localStorage.getItem('recipes')!).filter((recipe: RecipeProp, i: number) => i != index! - 1)))
 }
 
 const deleteMenu = (index: number | null): void => {
-    localStorage.setItem('menus', JSON.stringify(JSON.parse(localStorage.getItem('menus')!).filter((menu: FoodProp, i: number) => i != index! - 1)))
+    localStorage.setItem('menus', JSON.stringify(JSON.parse(localStorage.getItem('menus')!).filter((menu: MenuProp, i: number) => i != index! - 1)))
 }
     return <>
         <div className={styles.links}>

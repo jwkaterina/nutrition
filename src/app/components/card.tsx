@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './card.module.css'
-import { useState, useRef, useContext, useEffect } from 'react'
+import { useRef, useContext, useEffect } from 'react'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/context'
 
 interface CardProps {

@@ -3,19 +3,7 @@
 import RecipeList from '../../data-base/recipe-list'
 import PageGrid from '../page-grid'
 import Card from '../card'
-
-export type RecipeProp =     {
-    id: number,
-    name: string,
-    description: string,
-    imagePath: string,
-    ingredients: Ingredient[]
-}
-
-type Ingredient = {
-    name: string,
-    amount: number
-}
+import { RecipeProp } from '@/app/types/types'
 
 const Recipe = () => {
 

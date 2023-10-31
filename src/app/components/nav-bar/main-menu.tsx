@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './nav-bar.module.css'
-import { Slide } from "@/app/page"
+import { Slide } from "@/app/types/types"
 
 interface MainMenuProps {
     slide: Slide,

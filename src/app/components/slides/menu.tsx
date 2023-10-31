@@ -3,11 +3,7 @@
 import MenuList from "../../data-base/menu-list"
 import PageGrid from "../page-grid"
 import Card from "../card"
-
-export type MenuProp = {
-    id: number,
-    name: string,
-}
+import { MenuProp } from "@/app/types/types"
 
 const Menu = () => {
 

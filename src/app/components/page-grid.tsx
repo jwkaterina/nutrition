@@ -2,7 +2,6 @@
 
 import styles from './page-grid.module.css'
 import cardStyles from './card.module.css'
-import Card from './card'
 
 interface PageGridProps {
     children: JSX.Element[]
