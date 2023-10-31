@@ -42,14 +42,8 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
         }
     }
 
-    if(cardOpen && cardOpen!= 0 && slidesRef.current) {
-      (slidesRef.current as HTMLElement).style.overflow = 'hidden';
-    }  else if(slidesRef.current){
-      (slidesRef.current as HTMLElement).style.overflow = 'auto';
-    }
-
     return (
-        <div className={styles.slides} ref={slidesRef} onScroll={handleScroll}>
+        <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} style={cardOpen && cardOpen != 0 ? {overflow: 'hidden'} : {overflow: 'auto'}}>
             <Food/>
             <Recipe/>
             <Menu/>
