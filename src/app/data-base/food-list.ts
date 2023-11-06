@@ -1,7 +1,7 @@
 const FoodList = [
     {
         "foodId":
-            "food_a1gb9ubb72c7snbuxr3weagwv0dd",
+            "1",
         "label":
             "apples",
         "nutrients":
@@ -20,7 +20,7 @@ const FoodList = [
     },
     {
         "foodId":
-            "food_a1gb9ubb72c7snbuxr3weagwv0cc",
+            "2",
         "label":
             "rice",
         "nutrients":
@@ -39,7 +39,7 @@ const FoodList = [
     },
     {
         "foodId":
-            "food_a1gb9ubb72c7snbuxr3weagwv0bb",
+            "3",
         "label":
             "chicken",
         "nutrients":
@@ -58,7 +58,7 @@ const FoodList = [
     },
     {
         "foodId":
-            "food_a1gb9ubb72c7snbuxr3weagwv0aa",
+            "4",
         "label":
             "bread",
         "nutrients":
@@ -77,7 +77,7 @@ const FoodList = [
     },
     {
         "foodId":
-            "food_a1gb9ubb72c7snbuxr3weagwv0zz",
+            "5",
         "label":
             "broccoli",
         "nutrients":
@@ -96,7 +96,7 @@ const FoodList = [
     },
     {
         "foodId":
-            "food_a1gb9ubb72c7snbuxr3weagwv0vv",
+            "6",
         "label":
             "potatoes",
         "nutrients":
@@ -115,7 +115,7 @@ const FoodList = [
     },
     {
         "foodId":
-            "food_a1gb9ubb72c7snbuxr3weagwv0pp",
+            "7",
         "label":
             "tomatoes",
         "nutrients":
@@ -134,7 +134,7 @@ const FoodList = [
     },
     {
         "foodId":
-            "food_a1gb9ubb72c7snbuxr3weagwv0xx",
+            "8",
         "label":
             "carrots",
         "nutrients":
@@ -153,7 +153,7 @@ const FoodList = [
     },
     {
         "foodId":
-            "food_a1gb9ubb72c7snbuxr3weagwv0yy",
+            "9",
         "label":
             "banans",
         "nutrients":

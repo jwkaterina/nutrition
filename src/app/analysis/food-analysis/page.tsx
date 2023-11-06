@@ -38,11 +38,12 @@ export const FoodSearch = (): JSX.Element => {
 
     const result = await parseQuery(option.innerText);
     setFoodArr(result.hints);
+    console.log(result.hints);
   }
 
   const foodList = foodArr.map((hint, index) => {
     return (
-        <Card title={hint.food.label} text={''} key={hint.food.foodId} index={index + 1} imgUrl={hint.food.image}/>
+        <Card title={hint.food.label} text={''} key={`${hint.food.foodId}-${hint.food.label}`} index={index + 1} imgUrl={hint.food.image}/>
     )
 })
 
