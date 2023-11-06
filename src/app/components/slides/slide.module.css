@@ -1,5 +1,4 @@
 .container {
-    padding: 0 1rem;
     width: 100vw;
     flex-shrink: 0;
     scroll-snap-align: start;
