@@ -21,3 +21,18 @@
     font-weight: 400;
     text-align: right;
 }
+
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    grid-gap: 1rem;
+}
+
+.img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 0.2rem;
+}

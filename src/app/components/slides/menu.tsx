@@ -1,9 +1,9 @@
 'use client'
 
-import MenuList from "../../data-base/menu-list"
-import PageGrid from "../page-grid"
 import Card from "../card"
 import { useMenu } from '@/app/context/menu-context'
+import Slide from './slide'
+import Button from '@/app/components/button'
 
 const Menu = () => {
 
@@ -11,14 +11,15 @@ const Menu = () => {
 
     const menuList = menus.map((menu, index) => {
         return (
-            <Card title={menu.name} text={'My menu'} key={menu.id} index={index + 1}/>
+            <Card title={menu.name} text={'My menu'} key={menu.id} index={index + 1} imgUrl=""/>
         )
     })
 
     return (
-        <PageGrid search={'analysis/menu-analysis'}>
+        <Slide>
             {menuList}
-        </PageGrid>
+            <Button search={'analysis/menu-analysis'}/>
+        </Slide>    
     )
 }
 

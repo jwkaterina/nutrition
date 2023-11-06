@@ -1,0 +1,21 @@
+'use client'
+
+import Link from 'next/link'
+import styles from './button.module.css'
+import cardStyles from './card.module.css'
+
+interface ButtonProps {
+    search: string
+}
+
+export const Button = ({ search }: ButtonProps): JSX.Element => {
+    return (
+        <div className={cardStyles.card}>
+            <Link href={`/${search}`} className={styles.link}>
+                <div className={styles.add__icon}>+</div>
+            </Link> 
+        </div>
+    )
+}
+
+export default Button

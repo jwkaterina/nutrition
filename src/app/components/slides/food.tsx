@@ -1,8 +1,9 @@
 'use client'
 
-import PageGrid from '../page-grid'
 import Card from '../card'
 import { useFood } from '@/app/context/food-context'
+import Slide from './slide'
+import Button from '@/app/components/button'
 
 const Food = () => {
 
@@ -10,14 +11,15 @@ const Food = () => {
 
     const foodList = food.map((food, index) => {
         return (
-            <Card title={food.label} text={food.nutrients.ENERC_KCAL} key={food.foodId} index={index + 1}/>
+            <Card title={food.label} text={food.nutrients.ENERC_KCAL} key={food.foodId} index={index + 1} imgUrl=''/>
         )
     })
 
     return (
-        <PageGrid search={'analysis/food-analysis'}>
+        <Slide>
             {foodList}
-        </PageGrid>
+            <Button search={'analysis/food-analysis'}/>
+        </Slide>    
     )
 }
 

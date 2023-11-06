@@ -1,9 +1,9 @@
 'use client'
 
-import RecipeList from '../../data-base/recipe-list'
-import PageGrid from '../page-grid'
 import Card from '../card'
 import { useRecipe } from '@/app/context/recipe-context'
+import Slide from './slide'
+import Button from '@/app/components/button'
 
 const Recipe = () => {
 
@@ -11,14 +11,15 @@ const Recipe = () => {
 
     const recipeList = recipes.map((recipe, index) => {
         return (
-            <Card title={recipe.name} text={recipe.description} key={recipe.id} index={index + 1}/>
+            <Card title={recipe.name} text={recipe.description} key={recipe.id} index={index + 1} imgUrl=''/>
         )
     })
 
     return (
-        <PageGrid search={'analysis/recipe-analysis'}>
+        <Slide>
             {recipeList}
-        </PageGrid>
+            <Button search={'analysis/recipe-analysis'}/>
+        </Slide>    
     )
 }
 

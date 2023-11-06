@@ -7,10 +7,15 @@ import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
 interface CardProps {
     title: string,
     text: string | number,
-    index: number
+    index: number,
+    imgUrl: string
 }
 
-const Card = ({ title, text, index }: CardProps): JSX.Element => {
+const Card = ({ title, text, index, imgUrl }: CardProps): JSX.Element => {
+
+    const isImage = (url: string) => {
+        return /\.(jpg|jpeg)$/.test(url);
+      }
 
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
@@ -69,7 +74,10 @@ const Card = ({ title, text, index }: CardProps): JSX.Element => {
         <div className={styles.card} onClick={() => {
             setCardOpen(index);
         }} ref={cardRef}>
-            <h2>{title}</h2>
+            <div className={styles.title}>
+                {isImage(imgUrl) && <img src={imgUrl} alt="" className={styles.img}/>}
+                <h2>{title}</h2>
+            </div>
             <p>{text}</p>
         </div>
     )
