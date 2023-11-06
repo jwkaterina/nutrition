@@ -23,21 +23,21 @@ const PageGrid = ( { search, children }: PageGridProps): JSX.Element => {
         )
     }
 
-    const MobileButton = () => {
-        return (
-            <button className={styles.button}>
-                <Link href={`/${search}`} className={styles.mobile_link}>+</Link>
-            </button>
-        )
-    }
+    // const MobileButton = () => {
+    //     return (
+    //         <button className={styles.button}>
+    //             <Link href={`/${search}`} className={styles.mobile_link}>+</Link>
+    //         </button>
+    //     )
+    // }
 
     return (
         <div className={styles.container}>
             <div className={styles.grid}>
                 {children}
-                {!mediaQuery.matches && <Button />}
+                <Button />
             </div>
-            {mediaQuery.matches && <MobileButton />}
+            {/* {mediaQuery.matches && <MobileButton />} */}
         </div>
     )
 }

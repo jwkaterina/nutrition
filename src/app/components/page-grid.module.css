@@ -6,6 +6,7 @@
     border-left: 1px solid var(--primary-color);
     border-right: 1px solid var(--primary-color);
     position: relative;
+    background-color: var(--primary-light-color);
 }
 
 .grid {
@@ -26,17 +27,17 @@
     cursor: pointer;
 }
 
-.mobile_link {
+/* .mobile_link {
     text-decoration: none;
     color: white;
     font-size: 3rem;
-}
+} */
 
 .add__icon {
     font-size: 4rem;
     color: var(--primary-color);
 }
-
+/* 
 .button {
     background-color: var(--primary-color);
     border: none;
@@ -49,7 +50,7 @@
     position: absolute;
     right: 3rem;
     bottom: 3rem;
-}
+} */
 
 @media(max-width: 600px) {
     .grid {
