@@ -1,10 +1,14 @@
 import styles from './search.module.css'
 
-const Search = () => {
+interface SearchProps {
+    children: React.ReactNode
+}
+
+const Search = ({ children }: SearchProps): JSX.Element => {
     
     return (
         <div className={styles.container}>
-            <h1>Search</h1>
+            {children}
         </div>
     )
 }
