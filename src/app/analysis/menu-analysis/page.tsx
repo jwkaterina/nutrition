@@ -4,6 +4,7 @@ import styles from './page.module.css'
 // import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 import { useState } from 'react' 
 import NavBar from '@/app/analysis/components/nav-bar';
+import Search from '../components/search';
 
 export const MenuSearch = (): JSX.Element => {
 
@@ -21,6 +22,7 @@ export const MenuSearch = (): JSX.Element => {
 
   return (<>
     <NavBar header={'Menu Analysis'}/>
+    <Search />
   </>
   )
 }

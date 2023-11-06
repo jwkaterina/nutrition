@@ -3,6 +3,8 @@
   --primary-lighter-color: #B39DDB;
   --primary-light-color: #EDE7F6;
   --secondary-color: #66BB6A;
+  --secondary-lighter-color: #A5D6A7;
+  --secondary-light-color: #E8F5E9;
   --tertiary-color: #FFA726;
 }
 
@@ -15,5 +17,4 @@
 body {
   font-family: 'Montserrat', sans-serif;
   line-height: 1.6;
-  background-color: white;
 }
