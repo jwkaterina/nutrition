@@ -5,12 +5,12 @@ import Food from '@/app/components/slides/food';
 import Recipe from '@/app/components/slides/recipe';
 import Menu from '@/app/components/slides/menu';
 import { useEffect, useRef, useContext } from 'react';
-import { Slide } from '@/app/types/types';
+import { SlideType } from '@/app/types/types';
 import { CardOpenContext } from '@/app/context/card-context';
 
 interface SliderProps {
-    slide: Slide,
-    setSlide: (slide: Slide) => void,
+    slide: SlideType,
+    setSlide: (slide: SlideType) => void,
     blockScrollHandler: boolean,
 }
 
@@ -32,13 +32,13 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
       if(blockScrollHandler || !slidesRef.current) return;
         const scrollLeft = (slidesRef.current as HTMLElement).scrollLeft;
         const width = (slidesRef.current as HTMLElement).clientWidth;
-        if(scrollLeft - 5 <= 0 && slide != Slide.FOOD) {
-            setSlide(Slide.FOOD)
-        } else if(scrollLeft + 5 >= width && scrollLeft - 5 <= width  && slide != Slide.RECIPE) {
-            setSlide(Slide.RECIPE)
-        } else if(scrollLeft + 5 >= 2 * width && slide != Slide.MENU) {
+        if(scrollLeft - 5 <= 0 && slide != SlideType.FOOD) {
+            setSlide(SlideType.FOOD)
+        } else if(scrollLeft + 5 >= width && scrollLeft - 5 <= width  && slide != SlideType.RECIPE) {
+            setSlide(SlideType.RECIPE)
+        } else if(scrollLeft + 5 >= 2 * width && slide != SlideType.MENU) {
             // setTimeout(() => {
-            setSlide(Slide.MENU)
+            setSlide(SlideType.MENU)
         }
     }
 

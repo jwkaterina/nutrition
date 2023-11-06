@@ -1,4 +1,4 @@
-export enum Slide {
+export enum SlideType {
     FOOD,
     RECIPE,
     MENU

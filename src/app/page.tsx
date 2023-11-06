@@ -5,7 +5,7 @@ import styles from './page.module.css'
 import { useState } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import Slider from '@/app/components/slider';
-import { Slide } from '@/app/types/types';
+import { SlideType } from '@/app/types/types';
 import HomeProviders from './context/home-providers';
 
 export default function Home(): JSX.Element {
@@ -22,7 +22,7 @@ export default function Home(): JSX.Element {
   //   fetchData();
   // }, []);
 
-  const [slide, setSlide] = useState<Slide>(Slide.FOOD);
+  const [slide, setSlide] = useState<SlideType>(SlideType.FOOD);
   const [blockScrollHandler, setBlockScrollHandler] = useState<boolean>(false);
 
   return (

@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './nav-bar.module.css'
-import { Slide } from "@/app/types/types"
+import { SlideType } from "@/app/types/types"
 import { useContext } from "react"
 import { SetCardOpenContext } from "@/app/context/card-context"
 import { useFoodDispatch } from '@/app/context/food-context'
@@ -9,7 +9,7 @@ import { useRecipeDispatch } from '@/app/context/recipe-context'
 import { useMenuDispatch } from '@/app/context/menu-context'
 
 interface OpenCardMenuProps {
-    slide: Slide,
+    slide: SlideType,
     cardOpen: number | null,
 }
 
@@ -23,13 +23,13 @@ const OpenCardMenu = ({ slide, cardOpen }: OpenCardMenuProps): JSX.Element => {
     const deleteCard = (index: number | null): void => {
         setCardOpen(0);
         switch(slide) {
-            case Slide.FOOD:
+            case SlideType.FOOD:
                 deleteFood(index);
                 break;
-            case Slide.RECIPE:
+            case SlideType.RECIPE:
                 deleteRecipe(index);
                 break;
-            case Slide.MENU:
+            case SlideType.MENU:
                 deleteMenu(index);
                 break;
         }

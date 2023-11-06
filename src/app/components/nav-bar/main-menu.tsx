@@ -1,11 +1,11 @@
 'use client'
 
 import styles from './nav-bar.module.css'
-import { Slide } from "@/app/types/types"
+import { SlideType } from "@/app/types/types"
 
 interface MainMenuProps {
-    slide: Slide,
-    setSlide: (slide: Slide) => void,
+    slide: SlideType,
+    setSlide: (slide: SlideType) => void,
     setBlockScrollHandler: (blockScrollHandler: boolean) => void,
 }
 
@@ -31,13 +31,13 @@ const MainMenu = ({ slide, setSlide, setBlockScrollHandler }: MainMenuProps): JS
         const position3: string = `calc(3 * ${spaceWidth} + ${linkWidth} / 2 * 5 - ${scrollBarWidth} / 2)`;
         let position: string;
         switch(slide) {
-            case Slide.FOOD:
+            case SlideType.FOOD:
                 position = position1;
                 break;
-            case Slide.RECIPE:
+            case SlideType.RECIPE:
                 position = position2;
                 break;
-            case Slide.MENU:
+            case SlideType.MENU:
                 position = position3;
                 break;
             default:
@@ -49,7 +49,7 @@ const MainMenu = ({ slide, setSlide, setBlockScrollHandler }: MainMenuProps): JS
         }
     }
     
-    const handleClick = (slide: Slide): void => {
+    const handleClick = (slide: SlideType): void => {
         setBlockScrollHandler(true);
         setSlide(slide);
         setTimeout(() => {
@@ -59,9 +59,9 @@ const MainMenu = ({ slide, setSlide, setBlockScrollHandler }: MainMenuProps): JS
 
     return <>
         <div className={styles.main_links}>
-            <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(Slide.FOOD)}>My Food</a>
-            <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(Slide.RECIPE)}>My Recipes</a>
-            <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(Slide.MENU)}>My Menus</a>
+            <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(SlideType.FOOD)}>My Food</a>
+            <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(SlideType.RECIPE)}>My Recipes</a>
+            <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(SlideType.MENU)}>My Menus</a>
         </div>
         <div className={styles.scroll_bar} style={calculateScrollBarPosition()}></div>
     </>

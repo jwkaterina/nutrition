@@ -3,15 +3,15 @@
 // import Link from "next/link"
 import styles from "./nav-bar.module.css"
 // import { usePathname} from 'next/navigation';
-import { Slide } from "@/app/types/types"
+import { SlideType } from "@/app/types/types"
 import { CardOpenContext, SetCardOpenContext } from "@/app/context/card-context"
 import { useContext } from "react"
 import MainMenu from "./main-menu"
 import OpenCardMenu from "./opencard-menu"
 
 interface NavBarProps {
-    slide: Slide,
-    setSlide: (slide: Slide) => void,
+    slide: SlideType,
+    setSlide: (slide: SlideType) => void,
     setBlockScrollHandler: (blockScrollHandler: boolean) => void,
 }
 
