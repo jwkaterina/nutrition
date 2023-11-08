@@ -6,7 +6,13 @@ import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
 
 interface CardProps {
     title: string,
-    text: string | number,
+    text: {
+        kcal: number,
+        prot: number,
+        fat: number,
+        carb: number
+    
+    },
     index: number,
     imgUrl: string
 }
@@ -78,7 +84,25 @@ const Card = ({ title, text, index, imgUrl }: CardProps): JSX.Element => {
                 {isImage(imgUrl) && <img src={imgUrl} alt="" className={styles.img}/>}
                 <h2>{title}</h2>
             </div>
-            <p>{text}</p>
+            <div className={styles.nutrients}>
+                <div className={styles.column}>
+                    <h5>kcal</h5>
+                    <p>{text.kcal}</p>
+                </div>
+                <div className={styles.column}>
+                    <h5>prot</h5>
+                    <p>{text.prot}</p>
+                </div>
+                <div className={styles.column}>
+                    <h5>fat</h5>
+                    <p>{text.fat}</p>
+                </div>
+                <div className={styles.column}>
+                    <h5>carb</h5>
+                    <p>{text.carb}</p>
+                </div>
+            </div>
+            {/* <p>{text}</p> */}
         </div>
     )
 }

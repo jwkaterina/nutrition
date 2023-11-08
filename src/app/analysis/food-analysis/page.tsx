@@ -85,7 +85,17 @@ export const FoodSearch = (): JSX.Element => {
 
 	const foodList = foodArr.map((hint, index) => {
 		return (
-			<Card title={hint.food.label} text={hint.food.nutrients.ENERC_KCAL} key={`${hint.food.foodId}-${hint.food.label}`} index={index + 1} imgUrl={hint.food.image}/>
+			<Card title={hint.food.label}
+				text={{
+					kcal: Math.round(hint.food.nutrients.ENERC_KCAL),
+					prot: Math.round(hint.food.nutrients.PROCNT),
+					fat: Math.round(hint.food.nutrients.FAT),
+					carb: Math.round(hint.food.nutrients.CHOCDF)
+				}} 
+				key={`${hint.food.foodId}-${hint.food.label}`} 
+				index={index + 1} 
+				imgUrl={hint.food.image}
+			/>
 		)
 	})
 

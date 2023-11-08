@@ -16,12 +16,6 @@
     font-weight: 600;
 }
 
-.card p {
-    font-size: 0.8rem;
-    font-weight: 400;
-    text-align: right;
-}
-
 .title {
     display: flex;
     flex-direction: row;
@@ -35,4 +29,30 @@
     width: 50px;
     object-fit: cover;
     border-radius: 0.2rem;
+}
+
+.nutrients {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    grid-gap: 1rem;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 0.5rem;
+}
+
+.column h5 {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.column p {
+    font-size: 0.8rem;
+    font-weight: 400;
 }
