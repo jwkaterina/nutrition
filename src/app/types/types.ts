@@ -7,6 +7,7 @@ export enum SlideType {
 export type FoodProp = {
     foodId: string,
     label: string,
+    image: string,
     nutrients: {
         ENERC_KCAL: number,
         PROCNT: number,
