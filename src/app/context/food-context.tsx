@@ -2,14 +2,13 @@
 
 import { createContext, useReducer, useContext} from 'react';
 import { FoodProp } from '@/app/types/types';
-import FoodList from '@/app/data-base/food-list';
 import { FoodReducer } from './food-reducer';
 
 let initialFood: FoodProp[];
 if(localStorage.getItem('food')) {
   initialFood = JSON.parse(localStorage.getItem('food')!)
 } else {
-    initialFood = FoodList;
+    initialFood = [];
     localStorage.setItem('food', JSON.stringify(initialFood))
 }
 

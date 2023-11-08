@@ -12,27 +12,17 @@ import Card from '@/app/components/card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext } from '@/app/context/card-context';
+import { FoodProp } from '@/app/types/types';
 
 export const FoodSearch = (): JSX.Element => {
 
 	interface Food {
-		food: {
-			foodId: string,
-			label: string,
-			image: string,
-			nutrients: {
-				ENERC_KCAL: number,
-				PROCNT: number,
-				FAT: number,
-				CHOCDF: number,
-				FIBTG: number
-			}
-		}  
+		food: FoodProp
   	}
 
 	const cardOpen = useContext(CardOpenContext);
 
-	const [foodArr, setFoodArr] = useState<Food[]>([]);
+	const [foodArr, setFoodArr] = useState<FoodProp[]>([]);
 	const [showOptions, setShowOptions] = useState(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
 
@@ -116,7 +106,7 @@ export const FoodSearch = (): JSX.Element => {
 	return (<>
 		<NavBar color={'var(--secondary-color)'}>
 			{cardOpen ? 
-			<AnalysisMenu cardOpen={cardOpen}/>: 
+			<AnalysisMenu cardOpen={cardOpen} foodArray={foodArr}/>: 
 			<div className={NavbarStyles.header}>Food Analysis</div>
 			}
 		</NavBar>
