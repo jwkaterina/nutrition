@@ -1,12 +1,10 @@
-import type { Metadata } from 'next'
+'use client'
+
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { CardOpenProvider } from '@/app/context/card-context'
 
 const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'Nutrition',
-}
 
 export default function RootLayout({
   children,
@@ -15,9 +13,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+      <title>Nutrition</title>
+      </head>
       <body className={inter.className}>
-        {children}
-        </body>
+        <CardOpenProvider>
+          {children}
+        </CardOpenProvider>
+      </body>
     </html>
   )
 }
