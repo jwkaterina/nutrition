@@ -3,26 +3,19 @@
 // import Link from "next/link"
 import styles from "./nav-bar.module.css"
 // import { usePathname} from 'next/navigation';
-import { SlideType } from "@/app/types/types"
-import { CardOpenContext, SetCardOpenContext } from "@/app/context/card-context"
-import { useContext } from "react"
-import MainMenu from "./main-menu"
-import OpenCardMenu from "./opencard-menu"
 
 interface NavBarProps {
-    slide: SlideType,
-    setSlide: (slide: SlideType) => void,
-    setBlockScrollHandler: (blockScrollHandler: boolean) => void,
+    color: string,
+    children: React.ReactNode,
 }
 
-const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.Element => {
+const NavBar = ({ color, children }: NavBarProps): JSX.Element => {
 
     // const pathname = usePathname();
 
-    const cardOpen = useContext(CardOpenContext);
 
     return (
-        <nav className={styles.container}>
+        <nav className={styles.container} style={{background: color}}>
             {/* <Link href="/" className={pathname == "/" ? `${styles.active} ${styles.link}` : styles.link}>Home
             </Link> */}
             {/* <Link href="/food" className={pathname == "/food" ? `${styles.active} ${styles.link}` : styles.link}>Food
@@ -31,16 +24,7 @@ const NavBar = ({ slide, setSlide, setBlockScrollHandler }: NavBarProps): JSX.El
             </Link>
             <Link href="/menu" className={pathname == "/menu" ? `${styles.active} ${styles.link}` : styles.link}>Menu
             </Link> */}
-            {cardOpen ? 
-            <OpenCardMenu 
-                slide={slide}
-                cardOpen={cardOpen}
-            /> : 
-            <MainMenu 
-                slide={slide} 
-                setSlide={setSlide}
-                setBlockScrollHandler={setBlockScrollHandler}
-            />}
+            {children}
         </nav>
     )
 }

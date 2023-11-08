@@ -1,9 +1,10 @@
 'use client'
 
-import styles from './page.module.css'
+// import styles from './page.module.css'
 // import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
-import { useState } from 'react' 
-import NavBar from '@/app/analysis/components/nav-bar';
+// import { useState } from 'react' 
+import NavBar from '@/app/components/nav-bar/nav-bar';
+import NavbarStyles from '@/app/components/nav-bar/nav-bar.module.css';
 import Search from '../components/search';
 
 export const MenuSearch = (): JSX.Element => {
@@ -21,8 +22,12 @@ export const MenuSearch = (): JSX.Element => {
   // }, []);
 
   return (<>
-    <NavBar header={'Menu Analysis'}/>
-    <Search />
+    <NavBar color={'var(--secondary-color)'}>
+      <div className={NavbarStyles.header}>Menu Analysis</div>
+    </NavBar>
+    <Search>
+      <h1>Menu Search</h1>
+    </Search>
   </>
   )
 }
