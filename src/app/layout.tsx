@@ -2,7 +2,7 @@
 
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { CardOpenProvider } from '@/app/context/card-context'
+import ContextProviders from '@/app/context/context-providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,9 +17,9 @@ export default function RootLayout({
       <title>Nutrition</title>
       </head>
       <body className={inter.className}>
-        <CardOpenProvider>
+        <ContextProviders>
           {children}
-        </CardOpenProvider>
+        </ContextProviders>
       </body>
     </html>
   )
