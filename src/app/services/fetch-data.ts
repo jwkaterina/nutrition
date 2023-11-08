@@ -81,37 +81,38 @@ export const parseQuery = async (ingr: string) => {
 
     // *********************************** */
 
-    export const findNutrients = async () => {
+    export const findNutrients = async (foodId: string) => {
 
         const appId= "1ed9471e";
         const appKey= "d596751a2948e390e2bcbd335e0564fa";
 
-    // //Food Request Step 2 - Nutrients
+    // Food Request Step 2 - Nutrients
 
-    // const url = `https://api.edamam.com/api/food-database/v2/nutrients?app_id=${appId}&app_key=${appKey}`;
-    // const options = {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //         "ingredients": [
-    //           {
-    //             "quantity": 1,
-    //             "measureURI": "http://www.edamam.com/ontologies/edamam.owl#Measure_serving",         
-    //             "foodId": "food_a1gb9ubb72c7snbuxr3weagwv0dd"
-    //           }
-    //         ]
-    //       })
-    // };
-    // try {
-    //     const response = await fetch(url, options);
-    //     const result = await response.json();
-    //     console.log(result);
-    // } catch (error) {
-    //     console.error(error);
-    // }
+    const url = `https://api.edamam.com/api/food-database/v2/nutrients?app_id=${appId}&app_key=${appKey}`;
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            "ingredients": [
+              {
+                "quantity": 1,
+                "measureURI": "http://www.edamam.com/ontologies/edamam.owl#Measure_serving",         
+                "foodId": foodId
+              }
+            ]
+          })
+    };
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        // console.log(result);
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
     }
 
     // *********************************** */
