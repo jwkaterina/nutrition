@@ -5,7 +5,7 @@ import NavbarStyles from '@/app/components/nav-bar/nav-bar.module.css'
 import { parseQuery, autocomplete, findNutrients } from '@/app/services/fetch-data'
 import { useState, useRef, useContext, useEffect } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
-import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
+import OpenAnalysisMenu from '@/app/components/nav-bar/menus/openanalysis-menu';
 import Search from '@/app/analysis/components/search';
 import PageGrid from '@/app/components/page-grid';
 import Card from '@/app/components/card';
@@ -113,7 +113,7 @@ export const FoodSearch = (): JSX.Element => {
 	return (<>
 		<NavBar color={'var(--secondary-color)'}>
 			{cardOpen ? 
-			<AnalysisMenu foodArray={foodArr}/>: 
+			<OpenAnalysisMenu foodArray={foodArr}/>: 
 			<div className={NavbarStyles.header}>Food Analysis</div>
 			}
 		</NavBar>

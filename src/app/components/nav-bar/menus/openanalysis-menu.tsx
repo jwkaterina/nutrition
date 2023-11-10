@@ -1,16 +1,15 @@
 'use client'
 
-import styles from './nav-bar.module.css'
 import { useContext } from "react"
 import { SetCardOpenContext } from "@/app/context/card-context"
 import { useFoodDispatch } from "@/app/context/food-context"
 import Menu from './menu'
 
-interface OpenCardMenuProps {
+interface OpenAnalysisMenuProps {
     foodArray: any[]
 }
 
-const AnalysisMenu = ({ foodArray }: OpenCardMenuProps): JSX.Element => {
+const OpenAnalysisMenu = ({ foodArray }: OpenAnalysisMenuProps): JSX.Element => {
 
     const cardOpen = useContext(SetCardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
@@ -18,7 +17,6 @@ const AnalysisMenu = ({ foodArray }: OpenCardMenuProps): JSX.Element => {
 
     const addToFavorites = (index: number | null): void => {
         const cardFood = foodArray[index! - 1];
-        // console.log(cardFood);
         const food = {
             foodId: cardFood.food.foodId,
 			label: cardFood.food.label,
@@ -43,4 +41,4 @@ const AnalysisMenu = ({ foodArray }: OpenCardMenuProps): JSX.Element => {
     />
 }
 
-export default AnalysisMenu
+export default OpenAnalysisMenu
