@@ -1,11 +1,11 @@
 'use client'
 
 import styles from './page.module.css'
-import NavbarStyles from '@/app/components/nav-bar/nav-bar.module.css'
 import { parseQuery, autocomplete, findNutrients } from '@/app/services/fetch-data'
 import { useState, useRef, useContext, useEffect } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import OpenAnalysisMenu from '@/app/components/nav-bar/menus/openanalysis-menu';
+import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
 import Search from '@/app/analysis/components/search';
 import PageGrid from '@/app/components/page-grid';
 import Card from '@/app/components/card';
@@ -23,7 +23,7 @@ export const FoodSearch = (): JSX.Element => {
 	const cardOpen = useContext(CardOpenContext);
 	const setCardOpen = useContext(SetCardOpenContext);
 
-	const [foodArr, setFoodArr] = useState<FoodProp[]>([]);
+	const [foodArr, setFoodArr] = useState<Food[]>([]);
 	const [showOptions, setShowOptions] = useState(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
 
@@ -36,9 +36,8 @@ export const FoodSearch = (): JSX.Element => {
 		setQueryOptions(result);
 	}
 
-	const handleOptionClick = async(event: MouseEvent) => {
+	const handleOptionClick = async(option: HTMLLIElement) => {
 
-		const option = event.target as HTMLLIElement;
 		setShowOptions(false);
 		setQueryOptions(null);
 		setCardOpen(null);
@@ -102,9 +101,9 @@ export const FoodSearch = (): JSX.Element => {
 		return (
 		<div className={styles.options}>
 		<ul>
-			<li onClick={(e) => handleOptionClick(e)}>{queryOptions ? queryOptions[0] : 'apple'}</li>
-			<li onClick={(e) => handleOptionClick(e)}>{queryOptions ? queryOptions[1] : 'rice'}</li>
-			<li onClick={(e) => handleOptionClick(e)}>{queryOptions ? queryOptions[2] : 'broccoli'}</li>
+			<li onClick={(e) => handleOptionClick(e.target as HTMLLIElement)}>{queryOptions ? queryOptions[0] : 'apple'}</li>
+			<li onClick={(e) => handleOptionClick(e.target as HTMLLIElement)}>{queryOptions ? queryOptions[1] : 'rice'}</li>
+			<li onClick={(e) => handleOptionClick(e.target as HTMLLIElement)}>{queryOptions ? queryOptions[2] : 'broccoli'}</li>
 		</ul>
 		</div>
 		)
@@ -113,8 +112,8 @@ export const FoodSearch = (): JSX.Element => {
 	return (<>
 		<NavBar color={'var(--secondary-color)'}>
 			{cardOpen ? 
-			<OpenAnalysisMenu foodArray={foodArr}/>: 
-			<div className={NavbarStyles.header}>Food Analysis</div>
+			<OpenAnalysisMenu foodArray={foodArr}/> : 
+			<AnalysisMenu title="Food"/>
 			}
 		</NavBar>
 		<div style={cardOpen && cardOpen != 0 ? {overflow: 'hidden'} : {overflow: 'auto'}}>

@@ -4,8 +4,8 @@
 // import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 // import { useState } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
-import NavbarStyles from '@/app/components/nav-bar/nav-bar.module.css';
 import Search from '../components/search';
+import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
 
 export const MenuSearch = (): JSX.Element => {
 
@@ -23,7 +23,7 @@ export const MenuSearch = (): JSX.Element => {
 
   return (<>
     <NavBar color={'var(--secondary-color)'}>
-      <div className={NavbarStyles.header}>Menu Analysis</div>
+        <AnalysisMenu title="Menu"/>
     </NavBar>
     <Search>
       <h1>Menu Search</h1>

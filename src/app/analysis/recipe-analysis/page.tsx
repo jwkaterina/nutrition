@@ -3,8 +3,8 @@
 // import styles from './page.module.css'
 // import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 import NavBar from '@/app/components/nav-bar/nav-bar';
-import NavbarStyles from '@/app/components/nav-bar/nav-bar.module.css';
 import Search from '../components/search';
+import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
 
 export const RecipeSearch = (): JSX.Element => {
 
@@ -21,12 +21,12 @@ export const RecipeSearch = (): JSX.Element => {
   // }, []);
 
   return (<>
-    <NavBar color={'var(--secondary-color)'}>
-      <div className={NavbarStyles.header}>Recipe Analysis</div>
+   	<NavBar color={'var(--secondary-color)'}>
+        <AnalysisMenu title="Food"/>
     </NavBar>
-      <Search>
-        <h1>Recipe Search</h1>
-      </Search>
+    <Search>
+    <h1>Recipe Search</h1>
+    </Search>
     </>  )
 }
 

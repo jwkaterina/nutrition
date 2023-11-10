@@ -2,14 +2,14 @@
 
 import styles from '../nav-bar.module.css'
 
-interface OpenCardMenuProps {
+interface MenuProps {
 	leftText: string,
 	rightText: string,
 	onLeftclick: () => void,
 	onRightclick: () => void
 }
 
-const Menu = ({ leftText, rightText, onLeftclick, onRightclick}: OpenCardMenuProps): JSX.Element => {
+const Menu = ({ leftText, rightText, onLeftclick, onRightclick}: MenuProps): JSX.Element => {
 
 	return <>
 		<div className={styles.links}>
