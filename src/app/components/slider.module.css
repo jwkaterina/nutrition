@@ -8,5 +8,4 @@
     scroll-snap-stop: always;
 
     scroll-behavior: smooth;
-    background-color: var(--primary-light-color);
 }
