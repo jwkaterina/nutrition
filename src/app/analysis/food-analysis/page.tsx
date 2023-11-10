@@ -2,7 +2,7 @@
 
 import styles from './page.module.css'
 import { parseQuery, autocomplete, findNutrients } from '@/app/services/fetch-data'
-import { useState, useRef, useContext, useEffect } from 'react' 
+import { useState, useContext, useEffect, FormEvent } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import OpenAnalysisMenu from '@/app/components/nav-bar/menus/openanalysis-menu';
 import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
@@ -25,12 +25,13 @@ export const FoodSearch = (): JSX.Element => {
 	const [foodArr, setFoodArr] = useState<Food[]>([]);
 	const [showOptions, setShowOptions] = useState(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
+	const [input, setInput] = useState('');
 
-	const inputRef = useRef<HTMLInputElement>(null);
-
-	const handleInput = async() => {
+	const handleInput = async(e: FormEvent) => {
+		const inputValue = (e.target as HTMLInputElement).value;
+		setInput(inputValue);
 	
-		const result: string[] = await autocomplete(inputRef.current?.value || '');
+		const result: string[] = await autocomplete(inputValue || '');
 		setShowOptions(true);
 		setQueryOptions(result);
 	}
@@ -40,7 +41,7 @@ export const FoodSearch = (): JSX.Element => {
 		setShowOptions(false);
 		setQueryOptions(null);
 		setCardOpen(null);
-		inputRef.current!.value = option.innerText;
+		setInput(option.innerText);
 
 		const result = await parseQuery(option.innerText);
 		setFoodArr(result.hints);
@@ -58,12 +59,12 @@ export const FoodSearch = (): JSX.Element => {
 		if (e.key === 'Enter') {
 		setShowOptions(false);
 		setCardOpen(null);
-		const result = await parseQuery(inputRef.current!.value);
+		const result = await parseQuery(input);
 		setFoodArr(result.hints);    }
 	}
 
 	const emptyInput = () => {
-		inputRef.current!.value = '';
+		setInput('');
 		setQueryOptions(null);
 	}
 
@@ -125,7 +126,7 @@ export const FoodSearch = (): JSX.Element => {
 		</NavBar>
 		<div style={(cardOpen && cardOpen != 0) ? {overflow: 'hidden', height: '100vh'} : {overflow: 'auto'}}>
 			{!cardOpen && <div className={styles.input_container}>
-				<input type="text" className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search } placeholder='search food' ref={inputRef} onClick={() => setShowOptions(true)} onInput={handleInput} onKeyUp={handleEnterKey}/>
+				<input type="text" className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search } placeholder='search food' onClick={() => setShowOptions(true)} onInput={e => handleInput(e)} value={input} onKeyUp={handleEnterKey}/>
 				{!showOptions && <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon}/>}
 				{showOptions && <FontAwesomeIcon icon={faArrowLeft} className={styles.backIcon} onClick={handleBackclick}/>}
 				{showOptions && <FontAwesomeIcon icon={faXmark} className={styles.deleteIcon} onClick={emptyInput}/>}
