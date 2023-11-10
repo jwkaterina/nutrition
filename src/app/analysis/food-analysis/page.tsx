@@ -3,7 +3,7 @@
 import styles from './page.module.css'
 import NavbarStyles from '@/app/components/nav-bar/nav-bar.module.css'
 import { parseQuery, autocomplete, findNutrients } from '@/app/services/fetch-data'
-import { useState, useRef, useContext, useEffect } from 'react' 
+import { useState, useRef, useContext, useEffect, use } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import AnalysisMenu from '@/app/components/nav-bar/analysis-menu';
 import Search from '@/app/analysis/components/search';
@@ -11,7 +11,7 @@ import PageGrid from '@/app/components/page-grid';
 import Card from '@/app/components/card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { CardOpenContext } from '@/app/context/card-context';
+import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context';
 import { FoodProp } from '@/app/types/types';
 
 export const FoodSearch = (): JSX.Element => {
@@ -21,6 +21,7 @@ export const FoodSearch = (): JSX.Element => {
   	}
 
 	const cardOpen = useContext(CardOpenContext);
+	const setCardOpen = useContext(SetCardOpenContext);
 
 	const [foodArr, setFoodArr] = useState<FoodProp[]>([]);
 	const [showOptions, setShowOptions] = useState(false);
@@ -40,6 +41,7 @@ export const FoodSearch = (): JSX.Element => {
 		const option = event.target as HTMLLIElement;
 		setShowOptions(false);
 		setQueryOptions(null);
+		setCardOpen(null);
 		inputRef.current!.value = option.innerText;
 
 		const result = await parseQuery(option.innerText);
@@ -57,6 +59,7 @@ export const FoodSearch = (): JSX.Element => {
 	const handleEnterKey = async(e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
 		setShowOptions(false);
+		setCardOpen(null);
 		const result = await parseQuery(inputRef.current!.value);
 		setFoodArr(result.hints);    }
 	}
@@ -68,9 +71,13 @@ export const FoodSearch = (): JSX.Element => {
 
 	useEffect(() => {
 		if(cardOpen) {
-		setShowOptions(false);
+			setShowOptions(false);
 		}
 	}, [cardOpen])
+
+	useEffect(() => {
+		setCardOpen(null);
+	}, [])
 
 
 	const foodList = foodArr.map((hint, index) => {
