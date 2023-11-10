@@ -6,7 +6,6 @@ import { useState, useRef, useContext, useEffect } from 'react'
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import OpenAnalysisMenu from '@/app/components/nav-bar/menus/openanalysis-menu';
 import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
-import Search from '@/app/analysis/components/search';
 import PageGrid from '@/app/components/page-grid';
 import Card from '@/app/components/card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -78,6 +77,14 @@ export const FoodSearch = (): JSX.Element => {
 		setCardOpen(null);
 	}, [])
 
+	const handleHeaderClick = () => {
+		setCardOpen(null);
+		emptyInput();
+		setShowOptions(false);
+		// console.log('header clicked');
+		setFoodArr([]);
+	}
+
 
 	const foodList = foodArr.map((hint, index) => {
 		return (
@@ -113,11 +120,10 @@ export const FoodSearch = (): JSX.Element => {
 		<NavBar color={'var(--secondary-color)'}>
 			{cardOpen ? 
 			<OpenAnalysisMenu foodArray={foodArr}/> : 
-			<AnalysisMenu title="Food"/>
+			<AnalysisMenu title="Food" onHeaderClick={handleHeaderClick}/>
 			}
 		</NavBar>
-		<div style={cardOpen && cardOpen != 0 ? {overflow: 'hidden'} : {overflow: 'auto'}}>
-		<Search>
+		<div style={(cardOpen && cardOpen != 0) ? {overflow: 'hidden', height: '100vh'} : {overflow: 'auto'}}>
 			{!cardOpen && <div className={styles.input_container}>
 				<input type="text" className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search } placeholder='search food' ref={inputRef} onClick={() => setShowOptions(true)} onInput={handleInput} onKeyUp={handleEnterKey}/>
 				{!showOptions && <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon}/>}
@@ -126,10 +132,8 @@ export const FoodSearch = (): JSX.Element => {
 			</div>}
 			<Options/>
 			{foodArr.length > 0 && <PageGrid>{foodList}</PageGrid>}
-		</Search>
 		</div>
-		</>
-	)
+	</>)
 }
 
 export default FoodSearch

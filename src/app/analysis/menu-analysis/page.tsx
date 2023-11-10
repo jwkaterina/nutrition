@@ -4,7 +4,6 @@
 // import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 // import { useState } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
-import Search from '../components/search';
 import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
 
 export const MenuSearch = (): JSX.Element => {
@@ -21,13 +20,15 @@ export const MenuSearch = (): JSX.Element => {
   //   fetchData();
   // }, []);
 
+  const handleHeaderClick = () => {
+    console.log('header clicked');
+  }
+
   return (<>
     <NavBar color={'var(--secondary-color)'}>
-        <AnalysisMenu title="Menu"/>
+        <AnalysisMenu title="Menu" onHeaderClick={handleHeaderClick}/>
     </NavBar>
-    <Search>
       <h1>Menu Search</h1>
-    </Search>
   </>
   )
 }

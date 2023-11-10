@@ -3,7 +3,6 @@
 // import styles from './page.module.css'
 // import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 import NavBar from '@/app/components/nav-bar/nav-bar';
-import Search from '../components/search';
 import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
 
 export const RecipeSearch = (): JSX.Element => {
@@ -20,13 +19,15 @@ export const RecipeSearch = (): JSX.Element => {
   //   fetchData();
   // }, []);
 
+  const handleHeaderClick = () => {
+    console.log('header clicked');
+  }
+
   return (<>
    	<NavBar color={'var(--secondary-color)'}>
-        <AnalysisMenu title="Food"/>
+        <AnalysisMenu title="Food" onHeaderClick={handleHeaderClick}/>
     </NavBar>
-    <Search>
     <h1>Recipe Search</h1>
-    </Search>
     </>  )
 }
 
