@@ -7,10 +7,10 @@ import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
 interface CardProps {
     title: string,
     text: {
-        kcal: number,
-        prot: number,
-        fat: number,
-        carb: number
+        kcal: number | string,
+        prot: number | string,
+        fat: number | string,
+        carb: number | string
     
     },
     index: number,
@@ -18,6 +18,8 @@ interface CardProps {
 }
 
 const Card = ({ title, text, index, imgUrl }: CardProps): JSX.Element => {
+
+    if(title.length >30) title = title.substring(0,30) + '...';
 
     const isImage = (url: string) => {
         return /\.(jpg|jpeg)$/.test(url);
