@@ -7,7 +7,7 @@ import NavBar from '@/app/components/nav-bar/nav-bar';
 import Slider from '@/app/components/slider';
 import { SlideType } from '@/app/types/types';
 import MainMenu from '@/app/components/nav-bar/main-menu';
-import OpenCardMenu from '@/app/components/nav-bar/opencard-menu';
+import OpenCardMenu from '@/app/components/nav-bar/menus/opencard-menu';
 import { CardOpenContext } from './context/card-context';
 
 export default function Home(): JSX.Element {
@@ -34,7 +34,6 @@ export default function Home(): JSX.Element {
         {cardOpen ? 
           <OpenCardMenu 
               slide={slide}
-              cardOpen={cardOpen}
           /> : 
           <MainMenu 
               slide={slide} 

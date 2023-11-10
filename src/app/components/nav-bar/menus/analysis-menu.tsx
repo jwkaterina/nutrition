@@ -4,20 +4,21 @@ import styles from './nav-bar.module.css'
 import { useContext } from "react"
 import { SetCardOpenContext } from "@/app/context/card-context"
 import { useFoodDispatch } from "@/app/context/food-context"
+import Menu from './menu'
 
 interface OpenCardMenuProps {
-    cardOpen: number | null,
     foodArray: any[]
 }
 
-const AnalysisMenu = ({ cardOpen, foodArray }: OpenCardMenuProps): JSX.Element => {
+const AnalysisMenu = ({ foodArray }: OpenCardMenuProps): JSX.Element => {
 
+    const cardOpen = useContext(SetCardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
     const foodDispatch = useFoodDispatch();
 
     const addToFavorites = (index: number | null): void => {
         const cardFood = foodArray[index! - 1];
-        console.log(cardFood);
+        // console.log(cardFood);
         const food = {
             foodId: cardFood.food.foodId,
 			label: cardFood.food.label,
@@ -34,12 +35,12 @@ const AnalysisMenu = ({ cardOpen, foodArray }: OpenCardMenuProps): JSX.Element =
         console.log(food);
     }
 
-    return <>
-        <div className={styles.links}>
-            <a className={styles.link} onClick={() => setCardOpen(0)}>Back</a>
-            <a className={styles.link} onClick={() => addToFavorites(cardOpen)} >Add To Favorites</a>
-        </div>
-    </>
+    return <Menu 
+        leftText='Back' 
+        rightText='Add To Favorites' 
+        onLeftclick={() => setCardOpen(0)} 
+        onRightclick={() => addToFavorites(cardOpen)}
+    />
 }
 
 export default AnalysisMenu
