@@ -17,6 +17,17 @@ export type FoodProp = {
     }
 }
 
+export type MeasureProp = {
+    uri: string
+    label: string
+    weight: number
+}
+
+export interface Food {
+    food: FoodProp
+    measures: MeasureProp[]
+  }
+
 export type MenuProp = {
     id: number,
     name: string,

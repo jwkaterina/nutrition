@@ -81,7 +81,7 @@ export const parseQuery = async (ingr: string) => {
 
     // *********************************** */
 
-    export const findNutrients = async (foodId: string) => {
+    export const findNutrients = async (foodId: string, measure: string) => {
 
         const appId= "1ed9471e";
         const appKey= "d596751a2948e390e2bcbd335e0564fa";
@@ -99,7 +99,7 @@ export const parseQuery = async (ingr: string) => {
             "ingredients": [
               {
                 "quantity": 1,
-                "measureURI": "http://www.edamam.com/ontologies/edamam.owl#Measure_serving",         
+                "measureURI": measure,         
                 "foodId": foodId
               }
             ]

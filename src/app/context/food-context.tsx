@@ -1,10 +1,11 @@
 "use client"
 
 import { createContext, useReducer, useContext} from 'react';
-import { FoodProp } from '@/app/types/types';
+import { Food } from '@/app/types/types';
 import { FoodReducer } from './food-reducer';
 
-let initialFood: FoodProp[];
+let initialFood: Food[];
+// localStorage.clear();
 if(localStorage.getItem('food')) {
   initialFood = JSON.parse(localStorage.getItem('food')!)
 } else {
@@ -12,7 +13,7 @@ if(localStorage.getItem('food')) {
     localStorage.setItem('food', JSON.stringify(initialFood))
 }
 
-const FoodContext = createContext<FoodProp[]>(initialFood);
+const FoodContext = createContext<Food[]>(initialFood);
 
 const FoodDispatchContext = createContext((() => {}) as React.Dispatch<any>);
 

@@ -14,7 +14,7 @@ const Menu = ({ leftText, rightText, onLeftclick, onRightclick}: MenuProps): JSX
 	return <>
 		<div className={styles.links}>
 				<a className={styles.link} onClick={onLeftclick}>{leftText}</a>
-				<a className={styles.link} onClick={onRightclick} >{rightText}</a>
+				<a className={styles.link} onClick={onRightclick}>{rightText}</a>
 		</div>
 	</>
 }

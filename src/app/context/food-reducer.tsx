@@ -1,12 +1,12 @@
-import { FoodProp } from "@/app/types/types";
+import { Food } from "@/app/types/types";
 
 type ACTIONTYPE = { 
     type: 'delete' | 'add',
     index: number,
-    item: FoodProp
+    item: Food
 }
 
-export const  FoodReducer = (food: FoodProp[], action: ACTIONTYPE) => {
+export const  FoodReducer = (food: Food[], action: ACTIONTYPE) => {
     switch (action.type) {
         case 'delete': {
             const newFood = food.filter((food, i) => i != action.index);
@@ -24,6 +24,6 @@ export const  FoodReducer = (food: FoodProp[], action: ACTIONTYPE) => {
     }
 }
 
-const saveFood = (food: FoodProp[]) => {
+const saveFood = (food: Food[]) => {
     localStorage.setItem('food', JSON.stringify(food));
 }

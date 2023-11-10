@@ -11,17 +11,19 @@ const Food = () => {
 
     const foodList = food.map((food, index) => {
         return (
-            <Card title={food.label} 
+            <Card title={food.food.label} 
                 text={{
-                    kcal: food.nutrients.ENERC_KCAL,
-                    carb: food.nutrients.CHOCDF,
-                    fat: food.nutrients.FAT,
-                    prot: food.nutrients.PROCNT,
+                    kcal: food.food.nutrients.ENERC_KCAL,
+                    carb: food.food.nutrients.CHOCDF,
+                    fat: food.food.nutrients.FAT,
+                    prot: food.food.nutrients.PROCNT,
             
                 }} 
-                key={food.foodId} 
+                key={food.food.foodId} 
                 index={index + 1} 
-                imgUrl={food.image}/>
+                imgUrl={food.food.image}
+                measures={food.measures}
+            />
         )
     })
 

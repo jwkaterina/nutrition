@@ -14,11 +14,15 @@ interface CardProps {
     
     },
     index: number,
-    imgUrl: string
+    imgUrl: string,
+    measures: {
+        uri: string
+        label: string
+        weight: number
+    }[]
 }
 
-const Card = ({ title, text, index, imgUrl }: CardProps): JSX.Element => {
-
+const Card = ({ title, text, index, imgUrl, measures }: CardProps): JSX.Element => {
     if(title.length >30) title = title.substring(0,30) + '...';
 
     const isImage = (url: string) => {
@@ -86,6 +90,13 @@ const Card = ({ title, text, index, imgUrl }: CardProps): JSX.Element => {
                 {isImage(imgUrl) && <img src={imgUrl} alt="" className={styles.img}/>}
                 <h2>{title}</h2>
             </div>
+            {cardOpen === index && <div className={styles.measures}>{
+                    measures.map((measure) => {
+                        return (
+                            <p key={measure.uri}>{measure.label}</p>
+                        )
+                    })
+                }</div>}
             <div className={styles.nutrients}>
                 <div className={styles.column}>
                     <h5>kcal</h5>
@@ -104,7 +115,6 @@ const Card = ({ title, text, index, imgUrl }: CardProps): JSX.Element => {
                     <p>{text.carb}</p>
                 </div>
             </div>
-            {/* <p>{text}</p> */}
         </div>
     )
 }

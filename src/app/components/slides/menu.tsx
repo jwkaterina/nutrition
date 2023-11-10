@@ -11,7 +11,7 @@ const Menu = () => {
 
     const menuList = menus.map((menu, index) => {
         return (
-            <Card title={menu.name} text={'My menu'} key={menu.id} index={index + 1} imgUrl=""/>
+            <Card title={menu.name} text={'My menu'} key={menu.id} index={index + 1} imgUrl="" measures={[]}/> 
         )
     })
 

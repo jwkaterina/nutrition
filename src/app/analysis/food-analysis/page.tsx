@@ -11,13 +11,9 @@ import Card from '@/app/components/card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context';
-import { FoodProp } from '@/app/types/types';
+import { Food } from '@/app/types/types';
 
 export const FoodSearch = (): JSX.Element => {
-
-	interface Food {
-		food: FoodProp
-  	}
 
 	const cardOpen = useContext(CardOpenContext);
 	const setCardOpen = useContext(SetCardOpenContext);
@@ -45,8 +41,8 @@ export const FoodSearch = (): JSX.Element => {
 
 		const result = await parseQuery(option.innerText);
 		setFoodArr(result.hints);
-		console.log(result);
-		// const nutrients = await findNutrients(result.hints[4].food.foodId);
+		console.log(result.hints);
+		// const nutrients = await findNutrients(result.hints[0].food.foodId, result.hints[0].measures[0].uri);
 		// console.log(nutrients);
 	}
 
@@ -99,6 +95,7 @@ export const FoodSearch = (): JSX.Element => {
 				key={`${hint.food.foodId}-${hint.food.label}`} 
 				index={index + 1} 
 				imgUrl={hint.food.image}
+				measures={hint.measures}
 			/>
 		)
 	})
@@ -126,10 +123,24 @@ export const FoodSearch = (): JSX.Element => {
 		</NavBar>
 		<div style={(cardOpen && cardOpen != 0) ? {overflow: 'hidden', height: '100vh'} : {overflow: 'auto'}}>
 			{!cardOpen && <div className={styles.input_container}>
-				<input type="text" className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search } placeholder='search food' onClick={() => setShowOptions(true)} onInput={e => handleInput(e)} value={input} onKeyUp={handleEnterKey}/>
-				{!showOptions && <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.searchIcon}/>}
-				{showOptions && <FontAwesomeIcon icon={faArrowLeft} className={styles.backIcon} onClick={handleBackclick}/>}
-				{showOptions && <FontAwesomeIcon icon={faXmark} className={styles.deleteIcon} onClick={emptyInput}/>}
+				<input 
+					type="text" 
+					className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search } placeholder='search food' 
+					onClick={() => setShowOptions(true)} 
+					onInput={e => handleInput(e)} 
+					value={input} 
+					onKeyUp={handleEnterKey}/>
+				{!showOptions && <FontAwesomeIcon 
+					icon={faMagnifyingGlass} 
+					className={styles.searchIcon}/>}
+				{showOptions && <FontAwesomeIcon 
+					icon={faArrowLeft} 
+					className={styles.backIcon} 
+					onClick={handleBackclick}/>}
+				{showOptions && <FontAwesomeIcon 
+					icon={faXmark} 
+					className={styles.deleteIcon} 
+					onClick={emptyInput}/>}
 			</div>}
 			<Options/>
 			{foodArr.length > 0 && <PageGrid>{foodList}</PageGrid>}

@@ -11,7 +11,7 @@ const Recipe = () => {
 
     const recipeList = recipes.map((recipe, index) => {
         return (
-            <Card title={recipe.name} text={recipe.description} key={recipe.id} index={index + 1} imgUrl=''/>
+            <Card title={recipe.name} text={recipe.description} key={recipe.id} index={index + 1} imgUrl='' measures={[]}/>
         )
     })
 
