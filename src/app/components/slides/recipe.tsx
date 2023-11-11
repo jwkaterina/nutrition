@@ -9,15 +9,15 @@ const Recipe = () => {
 
     const recipes = useRecipe();
 
-    const recipeList = recipes.map((recipe, index) => {
-        return (
-            <Card title={recipe.name} text={recipe.description} key={recipe.id} index={index + 1} imgUrl='' measures={[]}/>
-        )
-    })
+    // const recipeList = recipes.map((recipe, index) => {
+    //     return (
+    //         <Card title={recipe.name} text={recipe.description} key={recipe.id} index={index + 1} imgUrl='' measures={[]}/>
+    //     )
+    // })
 
     return (
         <Slide>
-            {recipeList}
+            {/* {recipeList} */}
             <Button search={'analysis/recipe-analysis'}/>
         </Slide>    
     )

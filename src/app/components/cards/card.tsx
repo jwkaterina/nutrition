@@ -3,34 +3,14 @@
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
-import { Food } from '@/app/types/types'
+
 
 interface CardProps {
-    food: Food[],
-    index: number
-    // title: string,
-    // text: {
-    //     kcal: number | string,
-    //     prot: number | string,
-    //     fat: number | string,
-    //     carb: number | string
-    
-    // },
-    // index: number,
-    // imgUrl: string,
-    // measures: {
-    //     uri: string
-    //     label: string
-    //     weight: number
-    // }[]
+    index: number,
+    children: React.ReactNode
 }
 
-const Card = ({ food, index }: CardProps): JSX.Element => {
-    // if(title.length >30) title = title.substring(0,30) + '...';
-
-    const isImage = (url: string) => {
-        return /\.(jpg|jpeg)$/.test(url);
-      }
+const Card = ({ index, children }: CardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
@@ -86,39 +66,8 @@ const Card = ({ food, index }: CardProps): JSX.Element => {
     }, [cardOpen])
 
     return (
-        <div className={styles.card} onClick={() => {
-            setCardOpen(index);
-        }} ref={cardRef}>
-            {cardOpen ? <ClosedCard/> : <OpenCard/> }
-            {/* <div className={styles.title}>
-                {isImage(imgUrl) && <img src={imgUrl} alt="" className={styles.img}/>}
-                <h2>{title}</h2>
-            </div>
-            {cardOpen === index && <div className={styles.measures}>{
-                    measures.map((measure) => {
-                        return (
-                            <p key={measure.uri}>{measure.label}</p>
-                        )
-                    })
-                }</div>} */}
-            {/* <div className={styles.nutrients}>
-                <div className={styles.column}>
-                    <h5>kcal</h5>
-                    <p>{text.kcal}</p>
-                </div>
-                <div className={styles.column}>
-                    <h5>prot</h5>
-                    <p>{text.prot}</p>
-                </div>
-                <div className={styles.column}>
-                    <h5>fat</h5>
-                    <p>{text.fat}</p>
-                </div>
-                <div className={styles.column}>
-                    <h5>carb</h5>
-                    <p>{text.carb}</p>
-                </div>
-            </div> */}
+        <div className={styles.card} onClick={() => {setCardOpen(index)}} ref={cardRef}>
+            {children}
         </div>
     )
 }
