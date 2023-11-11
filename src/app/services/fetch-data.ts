@@ -81,7 +81,7 @@ export const parseQuery = async (ingr: string) => {
 
     // *********************************** */
 
-    export const findNutrients = async (foodId: string, measure: string) => {
+    export const findNutrients = async (foodId: string, measure: string, quantity: number) => {
 
         const appId= "1ed9471e";
         const appKey= "d596751a2948e390e2bcbd335e0564fa";
@@ -98,7 +98,7 @@ export const parseQuery = async (ingr: string) => {
         body: JSON.stringify({
             "ingredients": [
               {
-                "quantity": 1,
+                "quantity": quantity,
                 "measureURI": measure,         
                 "foodId": foodId
               }

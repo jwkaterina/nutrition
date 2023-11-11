@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './page.module.css'
-import { parseQuery, autocomplete, findNutrients } from '@/app/services/fetch-data'
+import { parseQuery, autocomplete } from '@/app/services/fetch-data'
 import { useState, useContext, useEffect, FormEvent } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import OpenAnalysisMenu from '@/app/components/nav-bar/menus/openanalysis-menu';
@@ -41,9 +41,7 @@ export const FoodSearch = (): JSX.Element => {
 
 		const result = await parseQuery(option.innerText);
 		setFoodArr(result.hints);
-		console.log(result.hints);
-		// const nutrients = await findNutrients(result.hints[0].food.foodId, result.hints[0].measures[0].uri);
-		// console.log(nutrients);
+		// console.log(result.hints);
 	}
 
 	const handleBackclick = () => {
