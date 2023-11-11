@@ -7,7 +7,7 @@ import NavBar from '@/app/components/nav-bar/nav-bar';
 import OpenAnalysisMenu from '@/app/components/nav-bar/menus/openanalysis-menu';
 import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
 import PageGrid from '@/app/components/page-grid';
-import Card from '@/app/components/card';
+import Card from '@/app/components/cards/card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context';
@@ -85,18 +85,19 @@ export const FoodSearch = (): JSX.Element => {
 
 	const foodList = foodArr.map((hint, index) => {
 		return (
-			<Card title={hint.food.label}
-				text={{
-					kcal: Math.round(hint.food.nutrients.ENERC_KCAL),
-					prot: Math.round(hint.food.nutrients.PROCNT),
-					fat: Math.round(hint.food.nutrients.FAT),
-					carb: Math.round(hint.food.nutrients.CHOCDF)
-				}} 
-				key={`${hint.food.foodId}-${hint.food.label}`} 
-				index={index + 1} 
-				imgUrl={hint.food.image}
-				measures={hint.measures}
-			/>
+			<Card food={hint} index={index + 1} key={`${hint.food.foodId}-${hint.food.label}`} />
+			// title={hint.food.label}
+			// 	text={{
+			// 		kcal: Math.round(hint.food.nutrients.ENERC_KCAL),
+			// 		prot: Math.round(hint.food.nutrients.PROCNT),
+			// 		fat: Math.round(hint.food.nutrients.FAT),
+			// 		carb: Math.round(hint.food.nutrients.CHOCDF)
+			// 	}} 
+			// 	key={`${hint.food.foodId}-${hint.food.label}`} 
+			// 	index={index + 1} 
+			// 	imgUrl={hint.food.image}
+			// 	measures={hint.measures}
+			// />
 		)
 	})
 

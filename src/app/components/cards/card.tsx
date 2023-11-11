@@ -3,27 +3,30 @@
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
+import { Food } from '@/app/types/types'
 
 interface CardProps {
-    title: string,
-    text: {
-        kcal: number | string,
-        prot: number | string,
-        fat: number | string,
-        carb: number | string
+    food: Food[],
+    index: number
+    // title: string,
+    // text: {
+    //     kcal: number | string,
+    //     prot: number | string,
+    //     fat: number | string,
+    //     carb: number | string
     
-    },
-    index: number,
-    imgUrl: string,
-    measures: {
-        uri: string
-        label: string
-        weight: number
-    }[]
+    // },
+    // index: number,
+    // imgUrl: string,
+    // measures: {
+    //     uri: string
+    //     label: string
+    //     weight: number
+    // }[]
 }
 
-const Card = ({ title, text, index, imgUrl, measures }: CardProps): JSX.Element => {
-    if(title.length >30) title = title.substring(0,30) + '...';
+const Card = ({ food, index }: CardProps): JSX.Element => {
+    // if(title.length >30) title = title.substring(0,30) + '...';
 
     const isImage = (url: string) => {
         return /\.(jpg|jpeg)$/.test(url);
@@ -86,7 +89,8 @@ const Card = ({ title, text, index, imgUrl, measures }: CardProps): JSX.Element 
         <div className={styles.card} onClick={() => {
             setCardOpen(index);
         }} ref={cardRef}>
-            <div className={styles.title}>
+            {cardOpen ? <ClosedCard/> : <OpenCard/> }
+            {/* <div className={styles.title}>
                 {isImage(imgUrl) && <img src={imgUrl} alt="" className={styles.img}/>}
                 <h2>{title}</h2>
             </div>
@@ -96,8 +100,8 @@ const Card = ({ title, text, index, imgUrl, measures }: CardProps): JSX.Element 
                             <p key={measure.uri}>{measure.label}</p>
                         )
                     })
-                }</div>}
-            <div className={styles.nutrients}>
+                }</div>} */}
+            {/* <div className={styles.nutrients}>
                 <div className={styles.column}>
                     <h5>kcal</h5>
                     <p>{text.kcal}</p>
@@ -114,7 +118,7 @@ const Card = ({ title, text, index, imgUrl, measures }: CardProps): JSX.Element 
                     <h5>carb</h5>
                     <p>{text.carb}</p>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -1,29 +1,31 @@
 'use client'
 
-import Card from '../card'
+import Card from '../cards/card'
 import { useFood } from '@/app/context/food-context'
 import Slide from './slide'
 import Button from '@/app/components/button'
+import { Food } from '@/app/types/types'
 
 const Food = () => {
 
-    const food = useFood();
+    const food: Food[] = useFood();
 
     const foodList = food.map((food, index) => {
         return (
-            <Card title={food.food.label} 
-                text={{
-                    kcal: food.food.nutrients.ENERC_KCAL,
-                    carb: food.food.nutrients.CHOCDF,
-                    fat: food.food.nutrients.FAT,
-                    prot: food.food.nutrients.PROCNT,
+            <Card food={food} index={index + 1} key={`${food.food.foodId}-${food.food.label}`}/>
+            //     title={food.food.label} 
+            //     text={{
+            //         kcal: food.food.nutrients.ENERC_KCAL,
+            //         carb: food.food.nutrients.CHOCDF,
+            //         fat: food.food.nutrients.FAT,
+            //         prot: food.food.nutrients.PROCNT,
             
-                }} 
-                key={food.food.foodId} 
-                index={index + 1} 
-                imgUrl={food.food.image}
-                measures={food.measures}
-            />
+            //     }} 
+            //     key={food.food.foodId} 
+            //     index={index + 1} 
+            //     imgUrl={food.food.image}
+            //     measures={food.measures}
+            // />
         )
     })
 

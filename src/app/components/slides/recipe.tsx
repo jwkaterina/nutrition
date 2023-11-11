@@ -1,6 +1,6 @@
 'use client'
 
-import Card from '../card'
+import Card from '../cards/card'
 import { useRecipe } from '@/app/context/recipe-context'
 import Slide from './slide'
 import Button from '@/app/components/button'
