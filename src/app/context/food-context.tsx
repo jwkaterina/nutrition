@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useReducer, useContext} from 'react';
+import { createContext, useReducer, useContext, useState } from 'react';
 import { Food } from '@/app/types/types';
 import { FoodReducer } from './food-reducer';
 
@@ -35,4 +35,20 @@ export const useFood = () => {
   
 export const  useFoodDispatch = () => {
   return useContext(FoodDispatchContext);
+}
+
+export const CurrentFoodContext = createContext<string| null>(null);
+
+export const SetCurrentFoodContext = createContext((() => {}) as React.Dispatch<any>);
+
+export const CurrentFoodProvider = ({ children }: any) => {
+  const [currentFood, setCurrentFood] = useState<string | null>(null);
+
+  return (
+    <CurrentFoodContext.Provider value={currentFood}>
+      <SetCurrentFoodContext.Provider value={setCurrentFood}>
+        {children}
+      </SetCurrentFoodContext.Provider>
+    </CurrentFoodContext.Provider>
+  );
 }

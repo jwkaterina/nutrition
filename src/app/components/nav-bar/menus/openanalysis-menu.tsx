@@ -26,7 +26,7 @@ const OpenAnalysisMenu = ({ foodArray }: OpenAnalysisMenuProps): JSX.Element => 
         console.log(cardFood);
         const Food = {
             food: {
-                foodId: cardFood.food.foodId,
+                foodId: `${cardFood.food.foodId}-${cardFood.food.label}`,
                 label: cardFood.food.label,
                 image: cardFood.food.image,
                 nutrients: {
@@ -47,8 +47,9 @@ const OpenAnalysisMenu = ({ foodArray }: OpenAnalysisMenuProps): JSX.Element => 
         if(rightText === 'Add To Favorites') {
             addToFavorites();
         } else if(rightText === 'Go To Favorites') {
-            setCardOpen(null);
-            router.push('/');
+            setCardOpen(0);
+            setTimeout(() => {
+            router.push('/')}, 300);
         }
     }
 

@@ -12,7 +12,7 @@ const Food = () => {
 
     const foodList = food.map((food, index) => {
         return (
-            <FoodCard food={food} index={index + 1} key={`${food.food.foodId}-${food.food.label}`}/>
+            <FoodCard food={food} index={index + 1} key={food.food.foodId} id={food.food.foodId}/>
         )
     })
 

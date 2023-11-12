@@ -3,18 +3,20 @@
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
+import { SetCurrentFoodContext } from '@/app/context/food-context'
 
 
 interface CardProps {
     index: number,
+    id: string,
     children: React.ReactNode
 }
 
-const Card = ({ index, children }: CardProps): JSX.Element => {
+const Card = ({ index, id, children }: CardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
-
+    const setCurrentFood = useContext(SetCurrentFoodContext);
     const cardRef = useRef<HTMLDivElement>(null);
 
     const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 600px)');
@@ -66,7 +68,7 @@ const Card = ({ index, children }: CardProps): JSX.Element => {
     }, [cardOpen])
 
     return (
-        <div className={styles.card} onClick={() => {setCardOpen(index)}} ref={cardRef}>
+        <div className={styles.card} onClick={() => {setCardOpen(index); setCurrentFood(id); console.log(id)}} ref={cardRef}>
             {children}
         </div>
     )
