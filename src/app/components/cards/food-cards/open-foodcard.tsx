@@ -30,7 +30,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
             nutrientsArr.push(content.totalNutrients[key]);
         }
         return nutrientsArr.map((nutrient, index) => {
-            return <h2 key={index}>{`${nutrient.label}: ${nutrient.quantity} ${nutrient.unit}`}</h2>
+            return <p key={index}>{`${nutrient.label}: ${nutrient.quantity} ${nutrient.unit}`}</p>
         })
     }
     
