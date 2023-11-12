@@ -1,16 +1,20 @@
 'use client'
 
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { CardOpenContext, SetCardOpenContext } from "@/app/context/card-context"
 import { useFoodDispatch } from "@/app/context/food-context"
 import Menu from './menu'
 import { Food } from "@/app/types/types"
+import { useRouter } from 'next/navigation'
 
 interface OpenAnalysisMenuProps {
     foodArray: Food[]
 }
 
 const OpenAnalysisMenu = ({ foodArray }: OpenAnalysisMenuProps): JSX.Element => {
+
+    const [rightText, setRightText] = useState('Add To Favorites');
+    const router = useRouter();
 
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
@@ -36,13 +40,23 @@ const OpenAnalysisMenu = ({ foodArray }: OpenAnalysisMenuProps): JSX.Element => 
             measures: cardFood.measures
         };
         foodDispatch({type: 'add', item: Food});
+        setRightText('Go To Favorites');
+    }
+
+    const handleRightClick = (): void => {
+        if(rightText === 'Add To Favorites') {
+            addToFavorites();
+        } else if(rightText === 'Go To Favorites') {
+            setCardOpen(null);
+            router.push('/');
+        }
     }
 
     return <Menu 
         leftText='Back' 
-        rightText='Add To Favorites' 
+        rightText={rightText} 
         onLeftclick={() => setCardOpen(0)} 
-        onRightclick={() => addToFavorites()}
+        onRightclick={handleRightClick}
     />
 }
 
