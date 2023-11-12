@@ -25,8 +25,8 @@ const Card = ({ index, children }: CardProps): JSX.Element => {
 
     let column: number, row: number;
     if(mediaQuery.matches) {
-        column = index % 2 === 0 ? 2 : index % 2;
-        row = Math.ceil(index / 2);
+        column = 1;
+        row = Math.ceil(index);
     } else {
         column = index % 4 === 0 ? 4 : index % 4;
         row = Math.ceil(index / 4);
