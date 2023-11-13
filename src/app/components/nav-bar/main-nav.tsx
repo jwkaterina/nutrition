@@ -3,13 +3,13 @@
 import styles from './nav-bar.module.css'
 import { SlideType } from "@/app/types/types"
 
-interface MainMenuProps {
+interface MainNavProps {
     slide: SlideType,
     setSlide: (slide: SlideType) => void,
     setBlockScrollHandler: (blockScrollHandler: boolean) => void,
 }
 
-const MainMenu = ({ slide, setSlide, setBlockScrollHandler }: MainMenuProps): JSX.Element => {
+const MainNav = ({ slide, setSlide, setBlockScrollHandler }: MainNavProps): JSX.Element => {
     const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 600px)');
 
     let linkWidth: string;
@@ -67,4 +67,4 @@ const MainMenu = ({ slide, setSlide, setBlockScrollHandler }: MainMenuProps): JS
     </>
 }
 
-export default MainMenu
+export default MainNav

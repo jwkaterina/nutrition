@@ -4,7 +4,7 @@ import { useContext, useState } from 'react'
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import Slider from '@/app/components/slider';
 import { SlideType } from '@/app/types/types';
-import MainMenu from '@/app/components/nav-bar/main-menu';
+import MainNav from '@/app/components/nav-bar/main-nav';
 import OpenCardMenu from '@/app/components/nav-bar/menus/opencard-menu';
 import { CardOpenContext } from './context/card-context';
 
@@ -21,7 +21,7 @@ export default function Home(): JSX.Element {
           <OpenCardMenu 
               slide={slide}
           /> : 
-          <MainMenu 
+          <MainNav
               slide={slide} 
               setSlide={setSlide}
               setBlockScrollHandler={setBlockScrollHandler}
