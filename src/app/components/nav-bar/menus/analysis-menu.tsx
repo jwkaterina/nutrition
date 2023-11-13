@@ -1,7 +1,9 @@
 'use client'
 
-import styles from '../nav-bar.module.css'
-import Link from 'next/link'
+import Menu from './menu'
+import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
+import { SetCardOpenContext } from '@/app/context/card-context'
 
 interface AnalysisMenuProps {
     title: string,
@@ -10,12 +12,22 @@ interface AnalysisMenuProps {
 
 const AnalysisMenu = ({ title, onHeaderClick }: AnalysisMenuProps): JSX.Element => {
 
-	return <>
-		<div className={styles.links}>
-				<a className={styles.link} onClick={onHeaderClick}>{`${title} Analysis`}</a>
-				<Link className={styles.link} href={'/'} >{`Back To Favorites`}</Link>
-		</div>
-	</>
+	const setCardOpen = useContext(SetCardOpenContext);
+	const router = useRouter();
+
+	const onBackClick = (): void => {
+		setCardOpen(null);
+		router.push('/');
+	}
+
+	return (
+		<Menu 
+		   leftText="Back To Favorites" 
+		   rightText= {`${title} Analysis`}
+		   onLeftclick={onBackClick} 
+		   onRightclick={onHeaderClick}  
+		/>
+	)
 }
 
 export default AnalysisMenu
