@@ -12,7 +12,7 @@ interface CardProps {
     children: React.ReactNode
 }
 
-const Card = ({ index, id, children }: CardProps): JSX.Element => {
+const Card = ({ index, children, id }: CardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);

@@ -23,7 +23,6 @@ const OpenAnalysisMenu = ({ foodArray }: OpenAnalysisMenuProps): JSX.Element => 
     const addToFavorites = (): void => {
         const index = cardOpen;
         const cardFood = foodArray[index! - 1];
-        console.log(cardFood);
         const Food = {
             food: {
                 foodId: `${cardFood.food.foodId}-${cardFood.food.label}`,

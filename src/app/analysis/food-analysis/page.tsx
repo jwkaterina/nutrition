@@ -82,7 +82,7 @@ export const FoodSearch = (): JSX.Element => {
 
 	const foodList = foodArr.map((hint, index) => {
 		return (
-			<FoodCard food={hint} index={index + 1} key={hint.food.foodId} id={hint.food.foodId} />
+			<FoodCard food={hint} index={index + 1} key={`${hint.food.foodId}-${hint.food.label}`} id={`${hint.food.foodId}-${hint.food.label}`}/>
 		)
 	})
 
