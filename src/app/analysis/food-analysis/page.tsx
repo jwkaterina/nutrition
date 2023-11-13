@@ -40,8 +40,16 @@ export const FoodSearch = (): JSX.Element => {
 		setInput(option.innerText);
 
 		const result = await parseQuery(option.innerText);
-		setFoodArr(result.hints);
 		// console.log(result.hints);
+		let foodArr: Food[] = [];
+		result.hints.forEach((hint: Food) => {
+			if(foodArr.find((food: Food) => food.food.foodId === hint.food.foodId)) {
+				return;
+			} else {
+				foodArr.push(hint);
+			}
+		});
+		setFoodArr(foodArr);
 	}
 
 	const handleBackclick = () => {
