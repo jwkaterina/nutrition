@@ -72,7 +72,6 @@ export const parseQuery = async (ingr: string) => {
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        // console.log(result);
         return result;
     } catch (error) {
         console.error(error);
@@ -108,7 +107,6 @@ export const parseQuery = async (ingr: string) => {
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        // console.log(result);
         return result;
     } catch (error) {
         console.error(error);
@@ -136,7 +134,6 @@ export const parseQuery = async (ingr: string) => {
         const response = await fetch(url, options);
         const result = await response.json();
         return result;
-        // console.log(result);
     } catch (error) {
         console.error(error);
     }

@@ -40,7 +40,6 @@ export const FoodSearch = (): JSX.Element => {
 		setInput(option.innerText);
 
 		const result = await parseQuery(option.innerText);
-		// console.log(result.hints);
 		let foodArr: Food[] = [];
 		result.hints.forEach((hint: Food) => {
 			if(foodArr.find((food: Food) => food.food.foodId === hint.food.foodId)) {

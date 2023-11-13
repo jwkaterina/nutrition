@@ -13,14 +13,14 @@ export const RecipeSearch = (): JSX.Element => {
   //   async function fetchData() {
 
   //     const response = await fetchNutritionAnalysisAPI();
-  //     // console.log(response);
+  //     console.log(response);
   //     setData(response);
   //   }
   //   fetchData();
   // }, []);
 
   const handleHeaderClick = () => {
-    console.log('header clicked');
+    // console.log('header clicked');
   }
 
   return (<>

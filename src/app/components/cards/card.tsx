@@ -68,7 +68,7 @@ const Card = ({ index, children, id }: CardProps): JSX.Element => {
     }, [cardOpen])
 
     return (
-        <div className={styles.card} onClick={() => {setCardOpen(index); setCurrentFood(id); console.log(id)}} ref={cardRef}>
+        <div className={styles.card} onClick={() => {setCardOpen(index); setCurrentFood(id)}} ref={cardRef}>
             {children}
         </div>
     )

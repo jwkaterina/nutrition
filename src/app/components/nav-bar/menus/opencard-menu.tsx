@@ -37,7 +37,6 @@ const OpenCardMenu = ({ slide }: OpenCardMenuProps): JSX.Element => {
     }
 
     const deleteFood = (index: number | null): void => {
-        console.log(currentFood);
         foodDispatch({type: 'delete', id: currentFood});
     }
 

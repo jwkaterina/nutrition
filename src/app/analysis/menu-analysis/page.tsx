@@ -21,7 +21,7 @@ export const MenuSearch = (): JSX.Element => {
   // }, []);
 
   const handleHeaderClick = () => {
-    console.log('header clicked');
+    // console.log('header clicked');
   }
 
   return (<>
