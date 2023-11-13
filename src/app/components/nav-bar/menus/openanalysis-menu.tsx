@@ -25,7 +25,7 @@ const OpenAnalysisMenu = ({ foodArray }: OpenAnalysisMenuProps): JSX.Element => 
         const cardFood = foodArray[index! - 1];
         const Food = {
             food: {
-                foodId: `${cardFood.food.foodId}-${cardFood.food.label}`,
+                foodId: cardFood.food.foodId,
                 label: cardFood.food.label,
                 image: cardFood.food.image,
                 nutrients: {

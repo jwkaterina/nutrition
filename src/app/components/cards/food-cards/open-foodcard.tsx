@@ -43,7 +43,6 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
     const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const select = e.target;
         const id = select.children[select.selectedIndex].id;
-        // console.log(id);
         setSelectedOption(select.value);
         setSelectedUri(id);
     }
