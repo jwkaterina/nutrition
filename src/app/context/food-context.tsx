@@ -5,7 +5,6 @@ import { Food } from '@/app/types/types';
 import { FoodReducer } from './food-reducer';
 
 let initialFood: Food[];
-// localStorage.clear();
 if(localStorage.getItem('food')) {
   initialFood = JSON.parse(localStorage.getItem('food')!)
 } else {

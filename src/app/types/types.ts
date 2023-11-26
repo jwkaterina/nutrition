@@ -8,6 +8,7 @@ export type FoodProp = {
     foodId: string,
     label: string,
     image: string,
+    category: string,
     nutrients: {
         ENERC_KCAL: number,
         PROCNT: number,

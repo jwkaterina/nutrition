@@ -2,7 +2,7 @@
 
 import styles from './page.module.css'
 import { parseQuery, autocomplete } from '@/app/services/fetch-data'
-import { useState, useContext, useEffect, FormEvent } from 'react' 
+import { useState, useContext, useEffect, FormEvent, KeyboardEvent } from 'react' 
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import OpenAnalysisMenu from '@/app/components/nav-bar/menus/openanalysis-menu';
 import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
@@ -40,9 +40,22 @@ export const FoodSearch = (): JSX.Element => {
 		setInput(option.innerText);
 
 		const result = await parseQuery(option.innerText);
+		addHintsToArray(result.hints);
+	}
+
+	const handleEnterKey = async(e: KeyboardEvent) => {
+		if (e.key === 'Enter') {
+		setShowOptions(false);
+		setCardOpen(null);
+		const result = await parseQuery(input);
+		addHintsToArray(result.hints);    
+		}
+	}
+
+	const addHintsToArray = (hints: Food[]) => {
 		let foodArr: Food[] = [];
-		result.hints.forEach((hint: Food) => {
-			if(foodArr.find((food: Food) => food.food.foodId === hint.food.foodId)) {
+		hints.forEach((hint: Food) => {
+			if(foodArr.find((food: Food) => food.food.foodId === hint.food.foodId) || hint.food.category !== "Generic foods") {
 				return;
 			} else {
 				foodArr.push(hint);
@@ -54,14 +67,6 @@ export const FoodSearch = (): JSX.Element => {
 	const handleBackclick = () => {
 		setShowOptions(false);
 		emptyInput();
-	}
-
-	const handleEnterKey = async(e: React.KeyboardEvent) => {
-		if (e.key === 'Enter') {
-		setShowOptions(false);
-		setCardOpen(null);
-		const result = await parseQuery(input);
-		setFoodArr(result.hints);    }
 	}
 
 	const emptyInput = () => {
@@ -88,24 +93,11 @@ export const FoodSearch = (): JSX.Element => {
 
 
 	const foodList = foodArr.map((hint, index) => {
+		// console.log(hint.food);
 		return (
 			<FoodCard food={hint} index={index + 1} key={hint.food.foodId} id={hint.food.foodId}/>
 		)
 	})
-
-	const Options = () => {
-		if(!showOptions) return <></>
-    
-		return (
-		<div className={styles.options}>
-		<ul>
-			<li onClick={(e) => handleOptionClick(e.target as HTMLLIElement)}>{queryOptions ? queryOptions[0] : 'apple'}</li>
-			<li onClick={(e) => handleOptionClick(e.target as HTMLLIElement)}>{queryOptions ? queryOptions[1] : 'rice'}</li>
-			<li onClick={(e) => handleOptionClick(e.target as HTMLLIElement)}>{queryOptions ? queryOptions[2] : 'broccoli'}</li>
-		</ul>
-		</div>
-		)
-	}
 
 	return (<>
 		<NavBar color={'var(--secondary-color)'}>
@@ -135,10 +127,30 @@ export const FoodSearch = (): JSX.Element => {
 					className={styles.deleteIcon} 
 					onClick={emptyInput}/>}
 			</div>}
-			<Options/>
+				{showOptions && <Options 
+					queryOptions={queryOptions} 
+					onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}/>}
 			{foodArr.length > 0 && <PageGrid>{foodList}</PageGrid>}
 		</div>
 	</>)
 }
 
 export default FoodSearch
+
+interface OptionsProps {
+	queryOptions: string[] | null;
+	onclick: (e: any) => Promise<void>;
+}
+
+const Options = ({queryOptions, onclick}: OptionsProps): JSX.Element => {
+    
+	return (
+	<div className={styles.options}>
+	<ul>
+		<li onClick={onclick}>{queryOptions ? queryOptions[0] : 'apple'}</li>
+		<li onClick={onclick}>{queryOptions ? queryOptions[1] : 'rice'}</li>
+		<li onClick={onclick}>{queryOptions ? queryOptions[2] : 'broccoli'}</li>
+	</ul>
+	</div>
+	)
+}
