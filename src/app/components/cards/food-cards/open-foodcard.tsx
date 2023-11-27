@@ -17,6 +17,11 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
         weight: number
     }
 
+    const { image } = food.food;
+    const isImage = (url: string) => {
+        return /\.(jpg|jpeg)$/.test(url);
+    }
+
     const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
 
     const [content, setContent] = useState<Nutrients | null>(null);
@@ -92,18 +97,30 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
     }
 
     return (
-        <div>
-            <h1>{food.food.label}</h1>
-            {/* <input type="number" value={quantity} placeholder='100' onChange={(e) => hangleQuantityChange(e)}/> */}
-            <select name="measure" id="measure" value={selectedOption} onChange={(e) => handleOptionChange(e)}>{measuresSelect()}</select>
-            <h2>{`
-            // ${quantity} 
-            ${selectedOption}`}</h2>
-            {content && <div>
-                <h2>{`${content.calories} kcal`}</h2>
-                <h2>{`${content.totalWeight} g`}</h2>
-                <TotalNutrients />
-            </div>}
+        <div className={styles.card_grid}>
+            <div className={styles.analysis_card}>
+                <div className={styles.header}>
+                    {isImage(image) && <img src={image} alt="" className={styles.img}/>}
+                    <h1>{food.food.label}</h1>      
+                </div>
+                {/* <input type="number" value={quantity} placeholder='100' onChange={(e) => hangleQuantityChange(e)}/> */}
+                <select 
+                    name="measure" 
+                    id="measure" 
+                    className={styles.select} 
+                    value={selectedOption} 
+                    onChange={(e) => handleOptionChange(e)}>
+                    {measuresSelect()}
+                </select>
+            </div>
+            <div className={styles.analysis_card}>
+                   {/* <h2>{`${quantity} ${selectedOption}`}</h2> */}
+                {content && <div>
+                    <h2>{`${content.calories} kcal`}</h2>
+                    {/* <h2>{`${content.totalWeight} g`}</h2> */}
+                    <TotalNutrients />
+                </div>}
+            </div>
         </div>
     )
 }
