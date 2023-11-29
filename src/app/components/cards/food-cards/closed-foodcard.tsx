@@ -9,11 +9,11 @@ interface CardProps {
 
 const ClosedCard = ({ food }: CardProps): JSX.Element => {
     const { label, image } = food.food;
-    const { ENERC_KCAL, PROCNT, FAT, CHOCDF } = food.food.nutrients;
-    const kcal = Math.round(ENERC_KCAL);
-    const prot = Math.round(PROCNT);
-    const fat = Math.round(FAT);
-    const carb = Math.round(CHOCDF);
+    // const { ENERC_KCAL, PROCNT, FAT, CHOCDF } = food.food.nutrients;
+    // const kcal = ENERC_KCAL;
+    // const prot = PROCNT;
+    // const fat = FAT;
+    // const carb = CHOCDF;
 
     let title = label;
      if(title.length >30) title = title.substring(0,30) + '...';
@@ -30,19 +30,19 @@ const ClosedCard = ({ food }: CardProps): JSX.Element => {
              <div className={styles.nutrients}>
              <div className={styles.column}>
                  <h5>kcal</h5>
-                 <p>{kcal}</p>
+                 <p>{food && food.food.nutrients.ENERC_KCAL}</p>
              </div>
              <div className={styles.column}>
                  <h5>prot</h5>
-                 <p>{prot}</p>
+                 <p>{food && food.food.nutrients.PROCNT}</p>
              </div>
              <div className={styles.column}>
                  <h5>fat</h5>
-                 <p>{fat}</p>
+                 <p>{food && food.food.nutrients.FAT}</p>
              </div>
              <div className={styles.column}>
                  <h5>carb</h5>
-                 <p>{carb}</p>
+                 <p>{food && food.food.nutrients.CHOCDF}</p>
              </div>
          </div> 
     </>)

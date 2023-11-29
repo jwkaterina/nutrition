@@ -40,15 +40,15 @@ export const FoodSearch = (): JSX.Element => {
 		setInput(option.innerText);
 
 		const result = await parseQuery(option.innerText);
-		addHintsToArray(result.hints);
+		if(result) addHintsToArray(result.hints);
 	}
 
 	const handleEnterKey = async(e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
-		setShowOptions(false);
-		setCardOpen(null);
-		const result = await parseQuery(input);
-		addHintsToArray(result.hints);    
+			setShowOptions(false);
+			setCardOpen(null);
+			const result = await parseQuery(input);
+			if(result) addHintsToArray(result.hints);    
 		}
 	}
 
