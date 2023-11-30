@@ -28,6 +28,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
     const kilogramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_kilogram";
 
     const [content, setContent] = useState<Nutrients | null>(null);
+    const [contentPercent, setContentPercent] = useState<Nutrients | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedOption, setSelectedOption] = useState<string>('Value pre 100g');
     const [measureUri, setMeasureUri] = useState<string>(food.measures[0].uri);
@@ -67,6 +68,12 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
             setMeasures(measures);
         }
         fetchMeasuresWeight();
+
+        const fetchNutreintsPercent = async() => {
+            const nutrientsPercent = await findNutrients(food.food.foodId, gramUri, 100);
+            setContentPercent(nutrientsPercent);
+        }
+        fetchNutreintsPercent();
     }, [])
 
     const measuresSelect = () => {
@@ -112,12 +119,21 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
         if(content.totalNutrients.FAT) fat = content.totalNutrients.FAT.quantity;
     }
 
+    let waterPercent: number, proteinPercent: number, carbsPercent: number, fatPercent: number;
+    if(contentPercent) {
+        if(contentPercent.totalNutrients.WATER) waterPercent = contentPercent.totalNutrients.WATER.quantity;;
+        if(contentPercent.totalNutrients.PROCNT) proteinPercent = contentPercent.totalNutrients.PROCNT.quantity;
+        if(contentPercent.totalNutrients.CHOCDF) carbsPercent = contentPercent.totalNutrients.CHOCDF.quantity;
+        if(contentPercent.totalNutrients.FAT) fatPercent = contentPercent.totalNutrients.FAT.quantity;
+    }
+
     const compositionStyle = () => {
-        if(!content) return;
-        const proteinDeg = protein / 100 * 360;
-        const carbsDeg = (protein + carbs) / 100 * 360;
-        const fatDeg = (protein + carbs + fat) / 100 * 360;
-        console.log(proteinDeg, carbsDeg, fatDeg);
+        if(!contentPercent) return;
+
+        const proteinDeg = proteinPercent / 100 * 360;
+        const carbsDeg = (proteinPercent + carbsPercent) / 100 * 360;
+        const fatDeg = (proteinPercent + carbsPercent + fatPercent) / 100 * 360;
+        // console.log(proteinDeg, carbsDeg, fatDeg);
         return {
             background: `conic-gradient(var(--primary-color) 0deg, var(--primary-color) ${proteinDeg}deg, var(--secondary-color) ${proteinDeg}deg, var(--secondary-color) ${carbsDeg}deg, var(--tertiary-color) ${carbsDeg}deg, var(--tertiary-color) ${fatDeg}deg, gray ${fatDeg}deg, gray 360deg)`
         }
@@ -162,27 +178,25 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
             </div>
             <div className={styles.analysis_card}>
                 <div className={styles.composition_grid}>
-                    <div className={styles.outer_circle} 
-                    style={compositionStyle()}
-                    >
+                    <div className={styles.outer_circle} style={compositionStyle()}>
                         <div className={styles.composition_inner_circle}></div>
                     </div>
                     <div className={styles.composition_column}>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.water_circle}`}></div>
-                            {water && <p>{`${Math.round(water)} % Water`}</p>}
+                            {waterPercent && <p>{`${Math.round(waterPercent)} % Water`}</p>}
                         </div>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.prot_circle}`}></div>
-                            {protein && <p>{`${Math.round(protein)} % Protein`}</p>}
+                            {proteinPercent && <p>{`${Math.round(proteinPercent)} % Protein`}</p>}
                         </div>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.carbs_circle}`}></div>
-                            {carbs && <p>{`${Math.round(carbs)} % Carbs`}</p>}
+                            {carbsPercent && <p>{`${Math.round(carbsPercent)} % Carbs`}</p>}
                         </div>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.fat_circle}`}></div>
-                            {fat && <p>{`${Math.round(fat)} % Fat`}</p>}
+                            {fatPercent && <p>{`${Math.round(fatPercent)} % Fat`}</p>}
                         </div>
                     </div>
                 </div>
@@ -191,19 +205,15 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                 <div className={styles.daylies_grid}>
                     <div className={styles.daylies_column}>
                         <h3>Protein</h3>
-                        {/* {content && <p>{`${content.totalNutrients.PROCNT.quantity} g`}</p>} */}
+                        {protein && <p>{`${protein} g`}</p>}
                     </div>
                     <div className={styles.daylies_column}>
                         <h3>Carbs</h3>
-                        {/* {content && <p>{`${content.totalNutrients.CHOCDF.quantity} g`}</p>} */}
+                        {carbs && <p>{`${carbs} g`}</p>}
                     </div>
                     <div className={styles.daylies_column}>
                         <h3>Fat</h3>
-                        {/* {content && <p>{`${content.totalNutrients.FAT.quantity}`}</p>} */}
-                    </div>
-                    <div className={styles.daylies_column}>
-                        <h3>Fiber</h3>
-                        {/* {content && <p>{`${content.totalNutrients.FIBTG.quantity}`}</p>} */}
+                        {fat && <p>{`${fat}`}</p>}
                     </div>
                 </div>
             </div>

@@ -54,6 +54,7 @@ export const FoodSearch = (): JSX.Element => {
 
 	const addHintsToArray = (hints: Food[]) => {
 		let foodArr: Food[] = [];
+		if(!hints) return;
 		hints.forEach((hint: Food) => {
 			if(foodArr.find((food: Food) => food.food.foodId === hint.food.foodId) || hint.food.category !== "Generic foods") {
 				return;
