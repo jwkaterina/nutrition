@@ -3,7 +3,7 @@ import styles from './alanysis_card.module.css';
 import { Nutrients } from '@/app/types/types';
 
 interface DailyValueCardProps {
-    content: Nutrients
+    content: Nutrients | null;
 }
 
 const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
