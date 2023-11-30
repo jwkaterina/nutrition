@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import styles from './alanysis_card.module.css';
 
 import { Nutrients } from '@/app/types/types';
@@ -58,22 +59,50 @@ interface DailyProgressProps {
 
 const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyUnit, text }: DailyProgressProps): JSX.Element => {
 
-    const showProgress = () => {
+    const arcRef = useRef<SVGCircleElement>(null);
+    const radius = 44;
+    const circumreference = radius * 2 * Math.PI;
 
-        const progressPercent = dailyQuantity / 100 * 180;
+    useEffect(() => {
+        const arc = arcRef.current;
+        const options: KeyframeAnimationOptions  = {
+            duration: 1000,
+            easing: 'ease-in-out',
+            fill: 'forwards'
+        };
+
+        const progressPercent = circumreference - (dailyQuantity / 100 * circumreference) ;
+
+        const keyframes: Keyframe[] = [
+            { strokeDashoffset: `${progressPercent}` }
+        ];
+
+        if(arc) {
+            arcRef.current.animate(keyframes, options);
+        }
+    })
+
+    const styleProgress = () => {
 
         return {
-            background: `conic-gradient(var(--primary-color) 0deg, var(--primary-color) ${progressPercent}deg, transparent ${progressPercent}deg)`
+            strokeDasharray: circumreference,
+            strokeDashoffset: circumreference,
+        }
+    }
+
+    const styleArc = () => {
+
+        return {
+            strokeDasharray: circumreference / 2,
         }
     }
 
     return (
         <div className={styles.daily_container}>
-            <div className={styles.daily_circle}>
-                <div className={styles.progress} style={showProgress()}>
-                    <div className={styles.inner_circle}></div>
-                </div>
-            </div>
+            <svg width="100" height="100">
+                <circle  style={styleArc()}  cx="50" cy="50" r={radius} stroke="#ccc" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <circle className={styles.arc_animation} ref={arcRef} style={styleProgress()}  cx="50" cy="50" r={radius} stroke='var(--tertiary-color)' stroke-width="6" fill="none" stroke-linecap="round"/>
+            </svg>
             <div className={styles.percentage}>
                 <p>{`${dailyQuantity} ${dailyUnit}`}</p>
                 <h5>{`${nutrientsQuantity} ${nutrientsUnit} ${text}`}</h5>

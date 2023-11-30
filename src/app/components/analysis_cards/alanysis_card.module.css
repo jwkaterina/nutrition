@@ -60,34 +60,6 @@
     position: relative;
 }
 
-.daily_circle {
-    height: 110px;
-    width: 110px;
-    border-radius: 50%;
-    background: conic-gradient(#ccc 0deg, #ccc 180deg, transparent 180deg);
-    position: relative;
-    transform: rotate(-90deg);
-}
-
-.progress {
-    height: 110px;
-    width: 110px;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.inner_circle {
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    background: white;
-    position: absolute;
-    top: 5px;
-    left: 5px;
-}
-
 .percentage {
     position: absolute;
     width: 100%;
@@ -101,6 +73,10 @@
     font-size: 1rem;
     font-weight: 400;
     margin: 1rem 0;
+}
+
+.daily_container svg {
+    transform: rotate(180deg);
 }
 
 .composition_grid {

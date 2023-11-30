@@ -52,17 +52,14 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
         })
     }
 
-    let water: number, protein: number, carbs: number, fat: number;
-    if(content) {
-        if(content.totalNutrients.WATER) water = content.totalNutrients.WATER.quantity;
-        if(content.totalNutrients.PROCNT) protein = content.totalNutrients.PROCNT.quantity;
-        if(content.totalNutrients.CHOCDF) carbs = content.totalNutrients.CHOCDF.quantity;
-        if(content.totalNutrients.FAT) fat = content.totalNutrients.FAT.quantity;
-    }
-
     return (
         <div className={styles.card_grid}>
-            <HeaderCard food={food} option={selectedOption} setOption={setSelectedOption} setMeasure={setMeasureUri} setQuantity={setQuantity}/>
+            <HeaderCard 
+                food={food} 
+                option={selectedOption} 
+                setOption={setSelectedOption} 
+                setMeasure={setMeasureUri} 
+                setQuantity={setQuantity}/>
             <DailyValueCard content={content} />
             <div className={styles.analysis_card}>
                    {/* <h2>{`${quantity} ${selectedOption}`}</h2> */}
