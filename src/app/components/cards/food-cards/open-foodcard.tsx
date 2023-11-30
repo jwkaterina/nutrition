@@ -5,6 +5,7 @@ import { findNutrients } from '@/app/services/fetch-data'
 import { Food, Nutrient, Nutrients } from '@/app/types/types'
 import { useEffect, useState } from 'react'
 import HeaderCard from '../../analysis_cards/header_card'
+import DailyValueCard from '../../analysis_cards/dailyvalue_card'
 
 interface OpenFoodCardProps {
     food: Food
@@ -91,51 +92,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
     return (
         <div className={styles.card_grid}>
             <HeaderCard food={food} option={selectedOption} setOption={setSelectedOption} setMeasure={setMeasureUri} setQuantity={setQuantity}/>
-            <div className={styles.analysis_card}>
-                <h3 className={styles.title}>Daily Value</h3>
-                <div className={styles.daily_grid}>
-                    <div className={styles.total}>
-                        <div className={styles.progress}>
-                            <div className={styles.inner_circle}>
-                                {content && <div className={styles.percentage}>
-                                    <p>{`${content.totalDaily.ENERC_KCAL.quantity} ${content.totalDaily.ENERC_KCAL.unit}`}</p>
-                                    <h3>{`${content.calories} Calories`}</h3>
-                                </div>}
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.total}>
-                        <div className={styles.progress}>
-                            <div className={styles.inner_circle}>
-                                {content && <div className={styles.percentage}>
-                                    <p>{`${content.totalDaily.PROCNT.quantity} ${content.totalDaily.PROCNT.unit}`}</p>
-                                    <h3>{`${content.totalNutrients.PROCNT.quantity} ${content.totalNutrients.PROCNT.unit} Protein`}</h3>
-                                </div>}
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.total}>
-                        <div className={styles.progress}>
-                            <div className={styles.inner_circle}>
-                                {content && <div className={styles.percentage}>
-                                    <p>{`${content.totalDaily.CHOCDF.quantity} ${content.totalDaily.CHOCDF.unit}`}</p>
-                                    <h3>{`${content.totalNutrients.CHOCDF.quantity} ${content.totalNutrients.CHOCDF.unit} Carbs`}</h3>
-                                </div>}
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.total}>
-                        <div className={styles.progress}>
-                            <div className={styles.inner_circle}>
-                                {content && <div className={styles.percentage}>
-                                    <p>{`${content.totalDaily.FAT.quantity} ${content.totalDaily.FAT.unit}`}</p>
-                                    <h3>{`${content.totalNutrients.FAT.quantity} ${content.totalNutrients.FAT.unit} Fat`}</h3>
-                                </div>}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <DailyValueCard content={content} />
             <div className={styles.analysis_card}>
                    {/* <h2>{`${quantity} ${selectedOption}`}</h2> */}
                 {content && <div style={{overflow: 'auto'}}>
@@ -165,22 +122,6 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                             <div className={`${styles.circle} ${styles.fat_circle}`}></div>
                             {fatPercent && <p>{`${Math.round(fatPercent)} % Fat`}</p>}
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div className={styles.analysis_card}>
-                <div className={styles.daylies_grid}>
-                    <div className={styles.daylies_column}>
-                        <h3>Protein</h3>
-                        {protein && <p>{`${protein} g`}</p>}
-                    </div>
-                    <div className={styles.daylies_column}>
-                        <h3>Carbs</h3>
-                        {carbs && <p>{`${carbs} g`}</p>}
-                    </div>
-                    <div className={styles.daylies_column}>
-                        <h3>Fat</h3>
-                        {fat && <p>{`${fat}`}</p>}
                     </div>
                 </div>
             </div>
