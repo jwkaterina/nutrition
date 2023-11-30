@@ -1,0 +1,47 @@
+.container {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    border-radius: 0.2rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+    background-color: white;
+    cursor: pointer;
+    position: relative;
+    overflow: auto;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    grid-gap: 1rem;
+}
+
+.img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 0.2rem;
+}
+
+.select {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--primary-color);
+    background-color: #fff;
+    border: 1px solid var(--primary-color);
+    border-radius: 0.2rem;
+    padding: 0.6rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    padding: 0.7rem;
+}
+
+.select:focus {
+    outline: none;
+}
+

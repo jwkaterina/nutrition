@@ -123,3 +123,9 @@ export interface Nutrients {
     totalDaily: Daily,
     totalWeight: number
 }
+
+export type Measure = {
+    label: string,
+    uri: string,
+    weight: number
+}

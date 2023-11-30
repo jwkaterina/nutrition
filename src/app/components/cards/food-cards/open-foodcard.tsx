@@ -4,6 +4,7 @@ import styles from '../card.module.css'
 import { findNutrients } from '@/app/services/fetch-data'
 import { Food, Nutrient, Nutrients } from '@/app/types/types'
 import { useEffect, useState } from 'react'
+import HeaderCard from '../../analysis_cards/header_card'
 
 interface OpenFoodCardProps {
     food: Food
@@ -11,28 +12,13 @@ interface OpenFoodCardProps {
 
 const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
 
-    type Measure = {
-        label: string,
-        uri: string,
-        weight: number
-    }
-
-    const { image } = food.food;
-    const isImage = (url: string) => {
-        return /\.(jpg|jpeg)$/.test(url);
-    }
-
     const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
-    const ounseUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce";
-    const poundUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_pound";
-    const kilogramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_kilogram";
 
     const [content, setContent] = useState<Nutrients | null>(null);
     const [contentPercent, setContentPercent] = useState<Nutrients | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedOption, setSelectedOption] = useState<string>('Value pre 100g');
     const [measureUri, setMeasureUri] = useState<string>(food.measures[0].uri);
-    const [measures, setMeasures] = useState<Measure[]>([]);
 
     useEffect(() => {
         const fetchContent = async() => {
@@ -54,20 +40,6 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
     }, [quantity, selectedOption]);
 
     useEffect(() => {
-        let measureNutrients: Nutrients[] = [];
-        const fetchMeasuresWeight = async() => {
-            for(let i = 0; i < food.measures.length; i++) {
-                
-                const nutrients: Nutrients = await findNutrients(food.food.foodId, food.measures[i].uri, 1);
-                measureNutrients.push(nutrients);
-            }
-            const measures: Measure[] = measureNutrients.map((measure: any, i) => {
-                return {label: food.measures[i].label, uri: food.measures[i].uri, weight: measure.totalWeight};
-            })
-
-            setMeasures(measures);
-        }
-        fetchMeasuresWeight();
 
         const fetchNutreintsPercent = async() => {
             const nutrientsPercent = await findNutrients(food.food.foodId, gramUri, 100);
@@ -75,18 +47,6 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
         }
         fetchNutreintsPercent();
     }, [])
-
-    const measuresSelect = () => {
-        const options = [<option key={0} value='Value pre 100g' id='initial'>Value pre 100g</option>];
-            measures.forEach((measure, index) => {
-                if(measure.uri !== gramUri && measure.uri !== ounseUri && measure.uri !== poundUri && measure.uri !== kilogramUri) {
-                    options.push(<option key={index + 1} value={measure.label} id={measure.uri}>{`1 ${measure.label} - ${measure.weight} g`}</option>)
-                }
-            });
-        
-        options.push(<option key={measures.length + 1} value='Custom weight' id='custom'>Custom weight</option>)
-        return options;
-    }
 
     const TotalNutrients = () => {
         let nutrientsArr: Nutrient[] = [];
@@ -98,17 +58,6 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
         return nutrientsArr.map((nutrient, index) => {
             return <p key={index}>{`${nutrient.label}: ${nutrient.quantity} ${nutrient.unit} `}</p>
         })
-    }
-
-    // const hangleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setQuantity(parseInt(e.target.value));
-    // }
-    
-    const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const select = e.target;
-        const id = select.children[select.selectedIndex].id;
-        setSelectedOption(select.value);
-        setMeasureUri(id);
     }
 
     let water: number, protein: number, carbs: number, fat: number;
@@ -141,30 +90,48 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
 
     return (
         <div className={styles.card_grid}>
-            <div className={styles.analysis_card}>
-                <div className={styles.header}>
-                    {isImage(image) && <img src={image} alt="" className={styles.img}/>}
-                    <h1>{food.food.label}</h1>      
-                </div>
-                {/* <input type="number" value={quantity} placeholder='100' onChange={(e) => hangleQuantityChange(e)}/> */}
-                <select 
-                    name="measure" 
-                    id="measure" 
-                    className={styles.select} 
-                    value={selectedOption} 
-                    onChange={(e) => handleOptionChange(e)}>
-                    {measuresSelect()}
-                </select>
-            </div>
+            <HeaderCard food={food} option={selectedOption} setOption={setSelectedOption} setMeasure={setMeasureUri} setQuantity={setQuantity}/>
             <div className={styles.analysis_card}>
                 <h3 className={styles.title}>Daily Value</h3>
-                <div className={styles.total_calories}>
-                    <div className={styles.calories_progress}>
-                        <div className={styles.calories_inner_circle}>
-                            {content && <div className={styles.percentage}>
-                                <p>{`${content.totalDaily.ENERC_KCAL.quantity} ${content.totalDaily.ENERC_KCAL.unit}`}</p>
-                                <h3>{`${content.calories} Calories`}</h3>
-                            </div>}
+                <div className={styles.daily_grid}>
+                    <div className={styles.total}>
+                        <div className={styles.progress}>
+                            <div className={styles.inner_circle}>
+                                {content && <div className={styles.percentage}>
+                                    <p>{`${content.totalDaily.ENERC_KCAL.quantity} ${content.totalDaily.ENERC_KCAL.unit}`}</p>
+                                    <h3>{`${content.calories} Calories`}</h3>
+                                </div>}
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.total}>
+                        <div className={styles.progress}>
+                            <div className={styles.inner_circle}>
+                                {content && <div className={styles.percentage}>
+                                    <p>{`${content.totalDaily.PROCNT.quantity} ${content.totalDaily.PROCNT.unit}`}</p>
+                                    <h3>{`${content.totalNutrients.PROCNT.quantity} ${content.totalNutrients.PROCNT.unit} Protein`}</h3>
+                                </div>}
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.total}>
+                        <div className={styles.progress}>
+                            <div className={styles.inner_circle}>
+                                {content && <div className={styles.percentage}>
+                                    <p>{`${content.totalDaily.CHOCDF.quantity} ${content.totalDaily.CHOCDF.unit}`}</p>
+                                    <h3>{`${content.totalNutrients.CHOCDF.quantity} ${content.totalNutrients.CHOCDF.unit} Carbs`}</h3>
+                                </div>}
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.total}>
+                        <div className={styles.progress}>
+                            <div className={styles.inner_circle}>
+                                {content && <div className={styles.percentage}>
+                                    <p>{`${content.totalDaily.FAT.quantity} ${content.totalDaily.FAT.unit}`}</p>
+                                    <h3>{`${content.totalNutrients.FAT.quantity} ${content.totalNutrients.FAT.unit} Fat`}</h3>
+                                </div>}
+                            </div>
                         </div>
                     </div>
                 </div>
