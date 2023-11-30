@@ -56,19 +56,23 @@
 
 }
 
-.total {
+.daily_container {
+    position: relative;
+}
+
+.daily_circle {
     height: 110px;
     width: 110px;
     border-radius: 50%;
-    background: conic-gradient(#ccc 0deg, #ccc 90deg, transparent 90deg, transparent 270deg, #ccc 270deg);
+    background: conic-gradient(#ccc 0deg, #ccc 180deg, transparent 180deg);
     position: relative;
+    transform: rotate(-90deg);
 }
 
 .progress {
     height: 110px;
     width: 110px;
     border-radius: 50%;
-    background: conic-gradient(var(--primary-color) 0deg, var(--primary-color) 30deg, transparent 30deg, transparent 270deg, var(--primary-color) 270deg);
     position: absolute;
     top: 0;
     left: 0;
@@ -86,11 +90,11 @@
 
 .percentage {
     position: absolute;
+    width: 100%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-
 }
 
 .container p {

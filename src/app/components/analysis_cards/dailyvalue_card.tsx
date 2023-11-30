@@ -7,6 +7,7 @@ interface DailyValueCardProps {
 }
 
 const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
+
     if(!content) return <></>
     return (
         <div className={styles.container}>
@@ -56,16 +57,27 @@ interface DailyProgressProps {
 }
 
 const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyUnit, text }: DailyProgressProps): JSX.Element => {
+
+    const showProgress = () => {
+
+        const progressPercent = dailyQuantity / 100 * 180;
+
+        return {
+            background: `conic-gradient(var(--primary-color) 0deg, var(--primary-color) ${progressPercent}deg, transparent ${progressPercent}deg)`
+        }
+    }
+
     return (
-        <div className={styles.total}>
-        <div className={styles.progress}>
-            <div className={styles.inner_circle}>
-                <div className={styles.percentage}>
-                    <p>{`${dailyQuantity} ${dailyUnit}`}</p>
-                    <h5>{`${nutrientsQuantity} ${nutrientsUnit} ${text}`}</h5>
+        <div className={styles.daily_container}>
+            <div className={styles.daily_circle}>
+                <div className={styles.progress} style={showProgress()}>
+                    <div className={styles.inner_circle}></div>
                 </div>
             </div>
+            <div className={styles.percentage}>
+                <p>{`${dailyQuantity} ${dailyUnit}`}</p>
+                <h5>{`${nutrientsQuantity} ${nutrientsUnit} ${text}`}</h5>
+            </div>
         </div>
-    </div>
     )
 }
