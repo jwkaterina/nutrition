@@ -82,15 +82,18 @@
 .composition_grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 5rem;
+    grid-gap: 3rem;
 }
 
-.composition_grid svg {
-    transform: rotate(180deg);
+.composition_donut {
+    position: relative;
+}
+
+.composition_donut svg {
+    position: absolute;
 }
 
 .composition_column {
-    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;

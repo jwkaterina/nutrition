@@ -10,6 +10,10 @@ interface CompositionCardProps {
 const CompositionCard = ({ food }: CompositionCardProps): JSX.Element => {
 
     const [contentPercent, setContentPercent] = useState<Nutrients | null>(null);
+    const [waterPercent, setWaterPercent] = useState<number>(0);
+    const [proteinPercent, setProteinPercent] = useState<number>(0);
+    const [carbsPercent, setCarbsPercent] = useState<number>(0);
+    const [fatPercent, setFatPercent] = useState<number>(0);
     const waterRef = useRef<SVGCircleElement>(null);
     const proteinRef = useRef<SVGCircleElement>(null);
     const carbsRef = useRef<SVGCircleElement>(null);
@@ -26,84 +30,69 @@ const CompositionCard = ({ food }: CompositionCardProps): JSX.Element => {
         fetchNutreintsPercent();
     }, [])
 
-    let waterPercent: number, proteinPercent: number, carbsPercent: number, fatPercent: number;
-    if(contentPercent) {
-        if(contentPercent.totalNutrients.WATER) waterPercent = contentPercent.totalNutrients.WATER.quantity;;
-        if(contentPercent.totalNutrients.PROCNT) proteinPercent = contentPercent.totalNutrients.PROCNT.quantity;
-        if(contentPercent.totalNutrients.CHOCDF) carbsPercent = contentPercent.totalNutrients.CHOCDF.quantity;
-        if(contentPercent.totalNutrients.FAT) fatPercent = contentPercent.totalNutrients.FAT.quantity;
-    }
-
-    const radius = 96;
+    const radius = 70;
     const circumreference = radius * 2 * Math.PI;
 
     useEffect(() => {
-        showComposition();
+        if(contentPercent) {
+            if(contentPercent.totalNutrients.WATER) setWaterPercent(contentPercent.totalNutrients.WATER.quantity);
+            if(contentPercent.totalNutrients.PROCNT) setProteinPercent(contentPercent.totalNutrients.PROCNT.quantity);
+            if(contentPercent.totalNutrients.CHOCDF) setCarbsPercent(contentPercent.totalNutrients.CHOCDF.quantity);
+            if(waterPercent && carbsPercent && proteinPercent) setFatPercent(100 - (waterPercent + carbsPercent + proteinPercent));
+            showComposition(waterPercent, waterRef.current);
+            showComposition(proteinPercent, proteinRef.current);
+            showComposition(carbsPercent, carbsRef.current);
+            showComposition(100 - (waterPercent + carbsPercent + proteinPercent), fatRef.current);
+        }  
+      
     }, [contentPercent])
 
-    const showComposition = () => {
+    const showComposition = (percent: number, ref: SVGCircleElement | null) => {
+
         const options: KeyframeAnimationOptions  = {
             duration: 1000,
             easing: 'ease-in-out',
             fill: 'forwards'
         };
 
-        showWater(options);
-        showProtein(options);
-        // showCarbs(options);
-        // showFat(options);
-    }
-
-    const showWater = (options: KeyframeAnimationOptions) => {
-
         const keyframes: Keyframe[] = [
             { strokeDashoffset: circumreference },
-            { strokeDashoffset: circumreference - (waterPercent / 100 * circumreference)}
+            { strokeDashoffset: circumreference - (percent / 100 * circumreference) }
         ];
 
-        if(waterRef.current) {
-            waterRef.current.animate(keyframes, options);
+        if(ref) {
+            ref.animate(keyframes, options);
         }
     }
 
-    const showProtein = (options: KeyframeAnimationOptions) => {
+    const waterDeg = 0;
+    const proteinDeg = (waterPercent / 100 * 360);
+    const carbsDeg = ((proteinPercent + waterPercent) / 100 * 360);
+    const fatDeg = ((carbsPercent + proteinPercent + waterPercent) / 100 * 360);
 
-        const keyframes: Keyframe[] = [
-            { strokeDashoffset: circumreference - (waterPercent / 100 * circumreference)},
-            { strokeDashoffset: circumreference - (proteinPercent / 100 * circumreference)}
-        ];
+    const strokeWidth = 20;
+    const widthHeight = 2 * radius + 2 * strokeWidth;
+    const center = widthHeight / 2;
 
-        if(proteinRef.current) {
-            proteinRef.current.animate(keyframes, options);
-        }
-    }
-
-    const styleWater = () => {
-        if(waterPercent) {
-            return {
-                strokeDasharray: circumreference
-            }
-        }
-    }
-
-    const styleProtein = () => {
-        if(proteinPercent) {
-            return {
-                strokeDasharray: circumreference
-            };
-        }
-    }  
-
+    if(!contentPercent) return <></>
     return (
         <div className={styles.container}>
                 <div className={styles.composition_grid}>
-                    <svg width="200" height="200">
-                        <circle  style={styleWater()} ref={waterRef} cx="100" cy="100" r={radius} stroke="#ccc" stroke-width="6" fill="none"/>
-                        <circle style={styleProtein()} ref={proteinRef} cx="100" cy="100" r={radius} stroke='var(--primary-color)' stroke-width="6" fill="none"/>
-                        {/* <circle  style={{strokeDasharray: circumreference}} ref={carbsRef} cx="100" cy="100" r={radius} stroke="var(--secondary-color)" stroke-width="6" fill="none"/> */}
-                        {/* <circle style={{strokeDasharray: circumreference}} ref={fatRef} cx="100" cy="100" r={radius} stroke='var(--tertiary-color)' stroke-width="6" fill="none"/> */}
-                    </svg>
-                    <div className={styles.composition_column}>
+                    {contentPercent && <div className={styles.composition_donut} style={{width: widthHeight}}>
+                        <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${waterDeg}deg)`}}>
+                            <circle  style={{strokeDasharray: circumreference}} ref={waterRef} cx={center} cy={center} r={radius} stroke="#ccc" strokeWidth={strokeWidth} fill="none"/>
+                        </svg>
+                        <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${proteinDeg}deg)`}}>
+                            <circle style={{strokeDasharray: circumreference}} ref={proteinRef} cx={center} cy={center} r={radius} stroke='var(--primary-color)' strokeWidth={strokeWidth} fill="none"/>
+                        </svg>
+                        <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${carbsDeg}deg)`}}>
+                            <circle style={{strokeDasharray: circumreference}} ref={carbsRef} cx={center} cy={center} r={radius} stroke='var(--secondary-color)' strokeWidth={strokeWidth} fill="none"/>
+                        </svg>
+                        <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${fatDeg}deg)`}}>
+                            <circle style={{strokeDasharray: circumreference}} ref={fatRef} cx={center} cy={center} r={radius} stroke='var(--tertiary-color)' strokeWidth={strokeWidth} fill="none"/>
+                        </svg>
+                    </div>}
+                    <div className={styles.composition_column} style={{height: widthHeight}}>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.water_circle}`}></div>
                             {waterPercent && <p>{`${Math.round(waterPercent)} % Water`}</p>}

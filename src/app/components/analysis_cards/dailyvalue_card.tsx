@@ -20,6 +20,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                 dailyQuantity={content.totalDaily.ENERC_KCAL.quantity.toFixed(2)} 
                 dailyUnit={content.totalDaily.ENERC_KCAL.unit} 
                 text = 'Calories'
+                color='#666'
             />
             <DailyProgress 
                 nutrientsQuantity={content.totalNutrients.PROCNT.quantity.toFixed(2)} 
@@ -27,6 +28,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                 dailyQuantity={content.totalDaily.PROCNT.quantity.toFixed(2)} 
                 dailyUnit={content.totalDaily.PROCNT.unit} 
                 text = 'Protein'
+                color='var(--primary-color)'
             />
             <DailyProgress 
                 nutrientsQuantity={content.totalNutrients.CHOCDF.quantity.toFixed(2)} 
@@ -34,6 +36,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                 dailyQuantity={content.totalDaily.CHOCDF.quantity.toFixed(2)} 
                 dailyUnit={content.totalDaily.CHOCDF.unit} 
                 text = 'Carbs'
+                color='var(--secondary-color)'
             />
             <DailyProgress 
                 nutrientsQuantity={content.totalNutrients.FAT.quantity.toFixed(2)} 
@@ -41,6 +44,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                 dailyQuantity={content.totalDaily.FAT.quantity.toFixed(2)} 
                 dailyUnit={content.totalDaily.FAT.unit} 
                 text = 'Fat'
+                color='var(--ertiary-color)'
             />
         </div>
     </div>
@@ -57,7 +61,7 @@ interface DailyProgressProps {
     text: string;
 }
 
-const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyUnit, text }: DailyProgressProps): JSX.Element => {
+const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyUnit, text, color }: DailyProgressProps): JSX.Element => {
 
     const arcRef = useRef<SVGCircleElement>(null);
     const radius = 44;
@@ -101,8 +105,8 @@ const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyU
     return (
         <div className={styles.daily_container}>
             <svg width="100" height="100">
-                <circle  style={styleArc()}  cx="50" cy="50" r={radius} stroke="#ccc" stroke-width="2" fill="none" stroke-linecap="round"/>
-                <circle className={styles.arc_animation} ref={arcRef} style={styleProgress()}  cx="50" cy="50" r={radius} stroke='var(--tertiary-color)' stroke-width="6" fill="none" stroke-linecap="round"/>
+                <circle  style={styleArc()}  cx="50" cy="50" r={radius} stroke="#ccc" strokeWidth="2" fill="none" strokeLinecap="round"/>
+                <circle className={styles.arc_animation} ref={arcRef} style={styleProgress()}  cx="50" cy="50" r={radius} stroke={color} strokeWidth="6" fill="none" strokeLinecap="round"/>
             </svg>
             <div className={styles.percentage}>
                 <p>{`${dailyQuantity} ${dailyUnit}`}</p>
