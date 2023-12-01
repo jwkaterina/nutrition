@@ -74,6 +74,7 @@ const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyU
         const progressPercent = circumreference - (dailyQuantity / 100 * circumreference) ;
 
         const keyframes: Keyframe[] = [
+            { strokeDashoffset: circumreference },
             { strokeDashoffset: `${progressPercent}` }
         ];
 

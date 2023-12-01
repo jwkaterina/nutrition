@@ -85,21 +85,8 @@
     grid-gap: 5rem;
 }
 
-.outer_circle {
-    height: 200px;
-    width: 200px;
-    border-radius: 50%;
-    position: relative;
-}
-
-.composition_inner_circle {
-    height: 140px;
-    width: 140px;
-    border-radius: 50%;
-    background: white;
-    position: absolute;
-    top: 30px;
-    left: 30px;
+.composition_grid svg {
+    transform: rotate(180deg);
 }
 
 .composition_column {
