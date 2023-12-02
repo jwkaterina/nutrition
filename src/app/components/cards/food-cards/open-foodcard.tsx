@@ -70,6 +70,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                 option={selectedOption} 
                 setOption={setSelectedOption} 
                 setMeasure={setMeasureUri} 
+                quantity={quantity}
                 setQuantity={setQuantity}/>
             {content && <DailyValueCard content={content} />}
             {/* <div className={styles.analysis_card}>

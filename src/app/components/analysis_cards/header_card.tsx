@@ -8,10 +8,11 @@ interface HeaderCardProps {
     option: string,
     setOption: (option: string) => void,
     setMeasure: (measure: string) => void,
+    quantity: number,
     setQuantity: (quantity: number) => void
 }
 
-const HeaderCard = ({ food, option, setOption, setMeasure,  setQuantity }: HeaderCardProps): JSX.Element => {
+const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantity }: HeaderCardProps): JSX.Element => {
 
     const [measures, setMeasures] = useState<Measure[]>([]);
     const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
@@ -48,9 +49,9 @@ const HeaderCard = ({ food, option, setOption, setMeasure,  setQuantity }: Heade
         return options;
     }
 
-      // const hangleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setQuantity(parseInt(e.target.value));
-    // }
+    const hangleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuantity(parseInt(e.target.value));
+    }
 
     const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const select = e.target;
@@ -70,15 +71,17 @@ const HeaderCard = ({ food, option, setOption, setMeasure,  setQuantity }: Heade
                 {isImage(image) && <img src={image} alt="" className={styles.img}/>}
                 <h1>{food.food.label}</h1>      
             </div>
-            {/* <input type="number" value={quantity} placeholder='100' onChange={(e) => hangleQuantityChange(e)}/> */}
-            <select 
-                name="measure" 
-                id="measure" 
-                className={styles.select} 
-                value={option} 
-                onChange={(e) => handleOptionChange(e)}>
-                {measuresSelect()}
-            </select>
+            <div className={styles.inputs}>
+                <input className={styles.input} type="number" value={quantity} placeholder='100' onChange={(e) => hangleQuantityChange(e)}/>
+                <select 
+                    name="measure" 
+                    id="measure" 
+                    className={styles.input} 
+                    value={option} 
+                    onChange={(e) => handleOptionChange(e)}>
+                    {measuresSelect()}
+                </select>
+            </div>
     </div>
     )
 }
