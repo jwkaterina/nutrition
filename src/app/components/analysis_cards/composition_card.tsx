@@ -4,48 +4,56 @@ import { useEffect, useState, useRef } from 'react';
 import { findNutrients } from '@/app/services/fetch-data';
 
 interface CompositionCardProps {
-    food: Food;
+    contentPercent: Nutrients | null;
 }
 
-const CompositionCard = ({ food }: CompositionCardProps): JSX.Element => {
+const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element => {
 
-    const [contentPercent, setContentPercent] = useState<Nutrients | null>(null);
-    const [waterPercent, setWaterPercent] = useState<number>(0);
-    const [proteinPercent, setProteinPercent] = useState<number>(0);
-    const [carbsPercent, setCarbsPercent] = useState<number>(0);
-    const [fatPercent, setFatPercent] = useState<number>(0);
+    const [waterPercent, setWaterPercent] = useState<number | null>(null);
+    const [proteinPercent, setProteinPercent] = useState<number | null>(null);
+    const [carbsPercent, setCarbsPercent] = useState<number | null>(null);
+    const [fatPercent, setFatPercent] = useState<number | null>(null);
+
+    const [waterDeg, setWaterDeg] = useState<number>(0);
+    const [proteinDeg, setProteinDeg] = useState<number>(0);
+    const [carbsDeg, setCarbsDeg] = useState<number>(0);
+    const [fatDeg, setFatDeg] = useState<number>(0);
+
     const waterRef = useRef<SVGCircleElement>(null);
     const proteinRef = useRef<SVGCircleElement>(null);
     const carbsRef = useRef<SVGCircleElement>(null);
     const fatRef = useRef<SVGCircleElement>(null);
 
-    const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
-
-    useEffect(() => {
-
-        const fetchNutreintsPercent = async() => {
-            const nutrientsPercent = await findNutrients(food.food.foodId, gramUri, 100);
-            setContentPercent(nutrientsPercent);
-        }
-        fetchNutreintsPercent();
-    }, [])
-
     const radius = 70;
     const circumreference = radius * 2 * Math.PI;
 
     useEffect(() => {
-        if(contentPercent) {
-            if(contentPercent.totalNutrients.WATER) setWaterPercent(contentPercent.totalNutrients.WATER.quantity);
-            if(contentPercent.totalNutrients.PROCNT) setProteinPercent(contentPercent.totalNutrients.PROCNT.quantity);
-            if(contentPercent.totalNutrients.CHOCDF) setCarbsPercent(contentPercent.totalNutrients.CHOCDF.quantity);
+        const composition = contentPercent!.totalNutrients;
+            if(composition.WATER) setWaterPercent(composition.WATER.quantity);
+            if(composition.PROCNT) setProteinPercent(composition.PROCNT.quantity);
+            if(composition.CHOCDF) setCarbsPercent(composition.CHOCDF.quantity);
             if(waterPercent && carbsPercent && proteinPercent) setFatPercent(100 - (waterPercent + carbsPercent + proteinPercent));
-            showComposition(waterPercent, waterRef.current);
-            showComposition(proteinPercent, proteinRef.current);
-            showComposition(carbsPercent, carbsRef.current);
-            showComposition(100 - (waterPercent + carbsPercent + proteinPercent), fatRef.current);
-        }  
-      
-    }, [contentPercent])
+
+            if(waterPercent && proteinPercent && carbsPercent && fatPercent)  {
+                showComposition(waterPercent, waterRef.current);
+                showComposition(proteinPercent, proteinRef.current);
+                showComposition(carbsPercent, carbsRef.current);
+                showComposition(fatPercent, fatRef.current);
+
+                setWaterDeg(0);
+                setProteinDeg(waterPercent / 100 * 360);
+                setCarbsDeg((proteinPercent + waterPercent) / 100 * 360);
+                setFatDeg((carbsPercent + proteinPercent + waterPercent) / 100 * 360);
+            }
+    })
+
+    // useEffect(() => {
+    //     if(waterPercent) showComposition(waterPercent, waterRef.current);
+    //     if(proteinPercent) showComposition(proteinPercent, proteinRef.current);
+    //     if(carbsPercent) showComposition(carbsPercent, carbsRef.current);
+    //     if(fatPercent) showComposition(fatPercent, fatRef.current);
+    // })
+
 
     const showComposition = (percent: number, ref: SVGCircleElement | null) => {
 
@@ -65,16 +73,11 @@ const CompositionCard = ({ food }: CompositionCardProps): JSX.Element => {
         }
     }
 
-    const waterDeg = 0;
-    const proteinDeg = (waterPercent / 100 * 360);
-    const carbsDeg = ((proteinPercent + waterPercent) / 100 * 360);
-    const fatDeg = ((carbsPercent + proteinPercent + waterPercent) / 100 * 360);
-
     const strokeWidth = 20;
     const widthHeight = 2 * radius + 2 * strokeWidth;
     const center = widthHeight / 2;
 
-    if(!contentPercent) return <></>
+    if(!waterPercent || !proteinPercent || !carbsPercent || !fatPercent) return <></>
     return (
         <div className={styles.container}>
                 <div className={styles.composition_grid}>
@@ -95,19 +98,19 @@ const CompositionCard = ({ food }: CompositionCardProps): JSX.Element => {
                     <div className={styles.composition_column} style={{height: widthHeight}}>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.water_circle}`}></div>
-                            {waterPercent && <p>{`${Math.round(waterPercent)} % Water`}</p>}
+                            <p>{`${Math.round(waterPercent)} % Water`}</p>
                         </div>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.prot_circle}`}></div>
-                            {proteinPercent && <p>{`${Math.round(proteinPercent)} % Protein`}</p>}
+                            <p>{`${Math.round(proteinPercent)} % Protein`}</p>
                         </div>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.carbs_circle}`}></div>
-                            {carbsPercent && <p>{`${Math.round(carbsPercent)} % Carbs`}</p>}
+                            <p>{`${Math.round(carbsPercent)} % Carbs`}</p>
                         </div>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.fat_circle}`}></div>
-                            {fatPercent && <p>{`${Math.round(fatPercent)} % Fat`}</p>}
+                            <p>{`${Math.round(fatPercent)} % Fat`}</p>
                         </div>
                     </div>
                 </div>

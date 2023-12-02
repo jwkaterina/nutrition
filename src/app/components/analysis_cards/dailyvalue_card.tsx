@@ -9,43 +9,52 @@ interface DailyValueCardProps {
 
 const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
 
-    if(!content) return <></>
+    const calories = content!.totalNutrients.ENERC_KCAL;
+    const protein = content!.totalNutrients.PROCNT;
+    const carbs = content!.totalNutrients.CHOCDF;
+    const fat = content!.totalNutrients.FAT;
+
+    const dailyCalories = content!.totalDaily.ENERC_KCAL;
+    const dailyProtein = content!.totalDaily.PROCNT;
+    const dailyCarbs = content!.totalDaily.CHOCDF;
+    const dailyFat = content!.totalDaily.FAT;
+
     return (
         <div className={styles.container}>
         <h3 className={styles.title}>Daily Value</h3>
         <div className={styles.daily_grid}>
-            <DailyProgress 
-                nutrientsQuantity={content.totalNutrients.ENERC_KCAL.quantity.toFixed(2)} 
+            {(calories && dailyCalories) &&<DailyProgress 
+                nutrientsQuantity={calories.quantity.toFixed(2)} 
                 nutrientsUnit='' 
-                dailyQuantity={content.totalDaily.ENERC_KCAL.quantity.toFixed(2)} 
-                dailyUnit={content.totalDaily.ENERC_KCAL.unit} 
+                dailyQuantity={dailyCalories.quantity.toFixed(2)} 
+                dailyUnit={dailyCalories.unit} 
                 text = 'Calories'
                 color='#666'
-            />
-            <DailyProgress 
-                nutrientsQuantity={content.totalNutrients.PROCNT.quantity.toFixed(2)} 
-                nutrientsUnit={content.totalNutrients.PROCNT.unit} 
-                dailyQuantity={content.totalDaily.PROCNT.quantity.toFixed(2)} 
-                dailyUnit={content.totalDaily.PROCNT.unit} 
+            />}
+            {(protein && dailyProtein) && <DailyProgress 
+                nutrientsQuantity={protein.quantity.toFixed(2)} 
+                nutrientsUnit={protein.unit} 
+                dailyQuantity={dailyProtein.quantity.toFixed(2)} 
+                dailyUnit={dailyProtein.unit} 
                 text = 'Protein'
                 color='var(--primary-color)'
-            />
-            <DailyProgress 
-                nutrientsQuantity={content.totalNutrients.CHOCDF.quantity.toFixed(2)} 
-                nutrientsUnit={content.totalNutrients.CHOCDF.unit} 
-                dailyQuantity={content.totalDaily.CHOCDF.quantity.toFixed(2)} 
-                dailyUnit={content.totalDaily.CHOCDF.unit} 
+            />}
+            {(carbs && dailyCarbs) && <DailyProgress 
+                nutrientsQuantity={carbs.quantity.toFixed(2)} 
+                nutrientsUnit={carbs.unit} 
+                dailyQuantity={dailyCarbs.quantity.toFixed(2)} 
+                dailyUnit={dailyCarbs.unit} 
                 text = 'Carbs'
                 color='var(--secondary-color)'
-            />
-            <DailyProgress 
-                nutrientsQuantity={content.totalNutrients.FAT.quantity.toFixed(2)} 
-                nutrientsUnit={content.totalNutrients.FAT.unit} 
-                dailyQuantity={content.totalDaily.FAT.quantity.toFixed(2)} 
-                dailyUnit={content.totalDaily.FAT.unit} 
+            />}
+            {(fat && dailyFat) && <DailyProgress 
+                nutrientsQuantity={fat.quantity.toFixed(2)} 
+                nutrientsUnit={fat.unit} 
+                dailyQuantity={dailyFat.quantity.toFixed(2)} 
+                dailyUnit={dailyFat.unit} 
                 text = 'Fat'
-                color='var(--ertiary-color)'
-            />
+                color='var(--tertiary-color)'
+            />}
         </div>
     </div>
     )
@@ -59,6 +68,7 @@ interface DailyProgressProps {
     dailyQuantity: number;
     dailyUnit: string;
     text: string;
+    color: string;
 }
 
 const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyUnit, text, color }: DailyProgressProps): JSX.Element => {
@@ -75,7 +85,7 @@ const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyU
             fill: 'forwards'
         };
 
-        const progressPercent = circumreference - (dailyQuantity / 100 * circumreference) ;
+        const progressPercent = circumreference - (dailyQuantity / 100 * circumreference / 2) ;
 
         const keyframes: Keyframe[] = [
             { strokeDashoffset: circumreference },
