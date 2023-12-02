@@ -29,30 +29,31 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
 
     useEffect(() => {
         const composition = contentPercent!.totalNutrients;
-            if(composition.WATER) setWaterPercent(composition.WATER.quantity);
-            if(composition.PROCNT) setProteinPercent(composition.PROCNT.quantity);
-            if(composition.CHOCDF) setCarbsPercent(composition.CHOCDF.quantity);
-            if(waterPercent && carbsPercent && proteinPercent) setFatPercent(100 - (waterPercent + carbsPercent + proteinPercent));
 
-            if(waterPercent && proteinPercent && carbsPercent && fatPercent)  {
-                showComposition(waterPercent, waterRef.current);
-                showComposition(proteinPercent, proteinRef.current);
-                showComposition(carbsPercent, carbsRef.current);
-                showComposition(fatPercent, fatRef.current);
+        setProteinPercent(composition.PROCNT.quantity);
+        if(composition.PROCNT.quantity === 0) setProteinPercent(0.1);
+        setCarbsPercent(composition.CHOCDF.quantity);
+        if(composition.CHOCDF.quantity === 0) setCarbsPercent(0.1);
+        setFatPercent(composition.FAT.quantity);
+        if(composition.FAT.quantity === 0) setWaterPercent(0.1);
+        setWaterPercent(100 - (composition.PROCNT.quantity + composition.CHOCDF.quantity + composition.FAT.quantity));
+    }, [])
 
-                setWaterDeg(0);
-                setProteinDeg(waterPercent / 100 * 360);
-                setCarbsDeg((proteinPercent + waterPercent) / 100 * 360);
-                setFatDeg((carbsPercent + proteinPercent + waterPercent) / 100 * 360);
-            }
-    })
+    useEffect(() => {
 
-    // useEffect(() => {
-    //     if(waterPercent) showComposition(waterPercent, waterRef.current);
-    //     if(proteinPercent) showComposition(proteinPercent, proteinRef.current);
-    //     if(carbsPercent) showComposition(carbsPercent, carbsRef.current);
-    //     if(fatPercent) showComposition(fatPercent, fatRef.current);
-    // })
+        if(proteinPercent && carbsPercent && fatPercent && waterPercent)  {
+
+            showComposition(waterPercent, waterRef.current);
+            showComposition(proteinPercent, proteinRef.current);
+            showComposition(carbsPercent, carbsRef.current);
+            showComposition(fatPercent, fatRef.current);
+
+            setWaterDeg(0);
+            setProteinDeg(waterPercent / 100 * 360);
+            setCarbsDeg((proteinPercent + waterPercent!) / 100 * 360);
+            setFatDeg((carbsPercent + proteinPercent + waterPercent) / 100 * 360);
+        }
+    }, [waterPercent, proteinPercent, carbsPercent, fatPercent])
 
 
     const showComposition = (percent: number, ref: SVGCircleElement | null) => {
@@ -78,10 +79,11 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
     const center = widthHeight / 2;
 
     if(!waterPercent || !proteinPercent || !carbsPercent || !fatPercent) return <></>
+    
     return (
         <div className={styles.container}>
                 <div className={styles.composition_grid}>
-                    {contentPercent && <div className={styles.composition_donut} style={{width: widthHeight}}>
+                    <div className={styles.composition_donut} style={{width: widthHeight}}>
                         <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${waterDeg}deg)`}}>
                             <circle  style={{strokeDasharray: circumreference}} ref={waterRef} cx={center} cy={center} r={radius} stroke="#ccc" strokeWidth={strokeWidth} fill="none"/>
                         </svg>
@@ -94,7 +96,7 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
                         <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${fatDeg}deg)`}}>
                             <circle style={{strokeDasharray: circumreference}} ref={fatRef} cx={center} cy={center} r={radius} stroke='var(--tertiary-color)' strokeWidth={strokeWidth} fill="none"/>
                         </svg>
-                    </div>}
+                    </div>
                     <div className={styles.composition_column} style={{height: widthHeight}}>
                         <div className={styles.composition_cell}>
                             <div className={`${styles.circle} ${styles.water_circle}`}></div>
