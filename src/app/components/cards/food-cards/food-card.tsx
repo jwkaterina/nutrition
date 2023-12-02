@@ -17,11 +17,12 @@ const FoodCard = ({ food, index, id }: FoodCardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
 
-    return (
-        <Card index={index} id={id}>
-            {cardOpen ? <OpenFoodCard food={food}/> : <ClosedCard food={food}/> }
-        </Card>
-    )
+        if(cardOpen == index) return <Card index={index} id={id}> 
+                <OpenFoodCard food={food}/>
+            </Card>
+        else return <Card index={index} id={id}> 
+                <ClosedCard food={food}/>
+            </Card> 
 }
 
 export default FoodCard
