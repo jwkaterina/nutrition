@@ -24,33 +24,33 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
         <h3 className={styles.title}>Daily Value</h3>
         <div className={styles.daily_grid}>
             {(calories && dailyCalories) &&<DailyProgress 
-                nutrientsQuantity={calories.quantity.toFixed(2)} 
+                nutrientsQuantity={calories.quantity.toFixed(0)} 
                 nutrientsUnit='' 
-                dailyQuantity={dailyCalories.quantity.toFixed(2)} 
+                dailyQuantity={dailyCalories.quantity.toFixed(0)} 
                 dailyUnit={dailyCalories.unit} 
                 text = 'Calories'
                 color='#666'
             />}
             {(protein && dailyProtein) && <DailyProgress 
-                nutrientsQuantity={protein.quantity.toFixed(2)} 
+                nutrientsQuantity={protein.quantity.toFixed(0)} 
                 nutrientsUnit={protein.unit} 
-                dailyQuantity={dailyProtein.quantity.toFixed(2)} 
+                dailyQuantity={dailyProtein.quantity.toFixed(0)} 
                 dailyUnit={dailyProtein.unit} 
                 text = 'Protein'
                 color='var(--primary-color)'
             />}
             {(carbs && dailyCarbs) && <DailyProgress 
-                nutrientsQuantity={carbs.quantity.toFixed(2)} 
+                nutrientsQuantity={carbs.quantity.toFixed(0)} 
                 nutrientsUnit={carbs.unit} 
-                dailyQuantity={dailyCarbs.quantity.toFixed(2)} 
+                dailyQuantity={dailyCarbs.quantity.toFixed(0)} 
                 dailyUnit={dailyCarbs.unit} 
                 text = 'Carbs'
                 color='var(--secondary-color)'
             />}
             {(fat && dailyFat) && <DailyProgress 
-                nutrientsQuantity={fat.quantity.toFixed(2)} 
+                nutrientsQuantity={fat.quantity.toFixed(0)} 
                 nutrientsUnit={fat.unit} 
-                dailyQuantity={dailyFat.quantity.toFixed(2)} 
+                dailyQuantity={dailyFat.quantity.toFixed(0)} 
                 dailyUnit={dailyFat.unit} 
                 text = 'Fat'
                 color='var(--tertiary-color)'
@@ -85,11 +85,15 @@ const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyU
             fill: 'forwards'
         };
 
-        const progressPercent = circumreference - (dailyQuantity / 100 * circumreference / 2) ;
-
+        const progressPercent = () => {
+            let progressPercent: number;
+            if(dailyQuantity <=100 ) progressPercent = circumreference - (dailyQuantity / 100 * circumreference / 2) 
+            else progressPercent = circumreference / 2;
+            return progressPercent;
+        }
         const keyframes: Keyframe[] = [
             { strokeDashoffset: circumreference },
-            { strokeDashoffset: `${progressPercent}` }
+            { strokeDashoffset: `${progressPercent()}` }
         ];
 
         if(arc) {
