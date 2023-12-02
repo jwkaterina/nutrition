@@ -46,9 +46,8 @@ const OpenAnalysisMenu = ({ foodArray }: OpenAnalysisMenuProps): JSX.Element => 
         if(rightText === 'Add To Favorites') {
             addToFavorites();
         } else if(rightText === 'Go To Favorites') {
-            setCardOpen(0);
-            setTimeout(() => {
-            router.push('/')}, 300);
+            setCardOpen(null);
+            router.push('/');
         }
     }
 
