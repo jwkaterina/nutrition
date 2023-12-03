@@ -28,11 +28,12 @@
     border-radius: 0.2rem;
 }
 
-.inputs {
+.form {
     margin-top: 1rem;
+    width: 200px;
 }
 
-.input {
+.form input, .form select {
     font-size: 0.8rem;
     font-weight: 400;
     color: var(--primary-color);
@@ -42,14 +43,22 @@
     padding: 0.6rem;
     cursor: pointer;
     padding: 0.7rem;
-    width: 45%;
 }
 
-.input:first-child {
+.form select {
+    width: 100%;
+}
+
+.form input {
+    width: 45%;
     margin-right: 10%;
 }
 
-.input:focus {
+.short_select {
+    width: 45% !important;
+}
+
+.form input:focus, .form select:focus {
     outline: none;
 }
 

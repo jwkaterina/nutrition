@@ -24,7 +24,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
 
     useEffect(() => {
         const fetchContent = async() => {
-            if(selectedOption === 'Custom weight') {
+            if(selectedOption === 'grams') {
                 const nutrients = await findNutrients(food.food.foodId, gramUri, quantity);
                 setContent(nutrients);
                 return;
