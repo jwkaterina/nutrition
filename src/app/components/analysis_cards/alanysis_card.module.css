@@ -174,3 +174,29 @@
     line-height: 0.3rem;
     grid-gap: 0.8rem;
 }
+
+.sat_circle {
+    background-color: var(--tertiary-darker);
+}
+
+.trans_circle {
+    background-color: var(--tertiary-color);
+}
+
+.monounsat_circle {
+    background-color: var(--tertiary-lighter);
+}
+
+.polyunsat_circle {
+    background-color: var(--tertiary-light);
+}
+
+.rest_circle {
+    background-color: var(--tertiary-lightest);
+}
+
+.fats_grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 1rem;
+}

@@ -6,6 +6,11 @@
   --secondary-lighter-color: #A5D6A7;
   --secondary-light-color: #E8F5E9;
   --tertiary-color: #FFA726;
+
+  --tertiary-lighter: #FFB74D;
+  --tertiary-light: #FFCC80;
+  --tertiary-lightest: #FFE0B2;
+  --tertiary-darker: #FF9800;
 }
 
 * {
