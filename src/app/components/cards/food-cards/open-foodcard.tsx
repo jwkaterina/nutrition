@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import HeaderCard from '../../analysis_cards/header_card'
 import DailyValueCard from '../../analysis_cards/dailyvalue_card'
 import CompositionCard from '../../analysis_cards/composition_card'
+import BigNutrientsCard from '../../analysis_cards/bignutrients_card'
 
 interface OpenFoodCardProps {
     food: Food
@@ -73,14 +74,8 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                 quantity={quantity}
                 setQuantity={setQuantity}/>
             {content && <DailyValueCard content={content} />}
-            {/* <div className={styles.analysis_card}>
-                   <h2>{`${quantity} ${selectedOption}`}</h2>
-                {content && <div style={{overflow: 'auto'}}>
-                    <h2>{`${content.totalWeight} g`}</h2>
-                    <TotalNutrients />
-                </div>}
-            </div> */}
             {contentPercent && <CompositionCard contentPercent={contentPercent} />}
+            {content && <BigNutrientsCard content={content} />}
         </div>
     )
 }
