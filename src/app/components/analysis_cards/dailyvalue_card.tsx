@@ -124,7 +124,7 @@ const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyU
             </svg>
             <div className={styles.percentage}>
                 <p>{`${dailyQuantity} ${dailyUnit}`}</p>
-                <h5>{`${nutrientsQuantity} ${nutrientsUnit} ${text}`}</h5>
+                <h5>{`${nutrientsQuantity} ${nutrientsUnit} `}<span style={{color: color}}>{text}</span></h5>
             </div>
         </div>
     )

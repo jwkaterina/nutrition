@@ -97,7 +97,7 @@
 
 .composition_grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 2fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 3rem;
 }
 
@@ -168,26 +168,9 @@
 
 .nutrient_row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 3fr 2fr 2fr 2fr;
     justify-content: left;
     align-items: center;
     line-height: 0.3rem;
     grid-gap: 0.8rem;
 }
-
-/* .quantity {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.quantity p {
-    margin-right: 1rem;
-} */
-
-/* .quantity svg {
-}
-
-.nutrients_container {
-    width: 100%;
-} */

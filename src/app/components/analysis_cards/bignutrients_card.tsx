@@ -26,31 +26,31 @@ const BigNutrientsCard = ({ content }: BigNutrientsCardProps): JSX.Element => {
                 {(satFat && dailySatFat) && <NutrientRow
                     title='Satuated fat'
                     color='var(--tertiary-color)'
-                    nutrientQuantity={satFat.quantity.toFixed(2)}
+                    nutrientQuantity={satFat.quantity.toFixed(1)}
                     nutrientUnit={satFat.unit}
-                    dailyQuantity={dailySatFat.quantity.toFixed(2)}
+                    dailyQuantity={dailySatFat.quantity.toFixed(1)}
                     dailyUnit={dailySatFat.unit}
                 />}
                 {(cholesterol && dailyCholesterol) && <NutrientRow
                     title='Cholesterol'
                     color='var(--tertiary-color)'
-                    nutrientQuantity={cholesterol.quantity.toFixed(2)}
+                    nutrientQuantity={cholesterol.quantity.toFixed(1)}
                     nutrientUnit={cholesterol.unit}
-                    dailyQuantity={dailyCholesterol.quantity.toFixed(2)}
+                    dailyQuantity={dailyCholesterol.quantity.toFixed(1)}
                     dailyUnit={dailyCholesterol.unit}
                 />}
                 {(fiber && dailyFiber) && <NutrientRow
                     title='Fiber'
                     color='var(--secondary-color)'
-                    nutrientQuantity={fiber.quantity.toFixed(2)}
+                    nutrientQuantity={fiber.quantity.toFixed(1)}
                     nutrientUnit={fiber.unit}
-                    dailyQuantity={dailyFiber.quantity.toFixed(2)}
+                    dailyQuantity={dailyFiber.quantity.toFixed(1)}
                     dailyUnit={dailyFiber.unit}
                 />}
                 {(sugar) && <NutrientRow
                     title='Sugar'
                     color='var(--secondary-color)'
-                    nutrientQuantity={sugar.quantity.toFixed(2)}
+                    nutrientQuantity={sugar.quantity.toFixed(1)}
                     nutrientUnit={sugar.unit}
                     dailyQuantity=''
                     dailyUnit=''
@@ -58,9 +58,9 @@ const BigNutrientsCard = ({ content }: BigNutrientsCardProps): JSX.Element => {
                 {(sodium && dailySodium) && <NutrientRow
                     title='Sodium'
                     color='var(--primary-color)'
-                    nutrientQuantity={sodium.quantity.toFixed(2)}
+                    nutrientQuantity={sodium.quantity.toFixed(1)}
                     nutrientUnit={sodium.unit}
-                    dailyQuantity={dailySodium.quantity.toFixed(2)}
+                    dailyQuantity={dailySodium.quantity.toFixed(1)}
                     dailyUnit={dailySodium.unit}
                 />}
             </div>
@@ -125,16 +125,14 @@ const NutrientRow = ({ title, color, nutrientQuantity, nutrientUnit, dailyQuanti
 
     return (
         <div className={styles.nutrient_row}>
-        <h5>{title}</h5>
-        {/* <div className={styles.quantity}> */}
+            <h5 style={{color: color}}>{title}</h5>
             <p>{`${nutrientQuantity} ${nutrientUnit}`}</p>
             <svg width='90px' height='40px'>
                 <line x1="10" y1="20" x2="80" y2="20" stroke="#ccc" strokeWidth="6" strokeLinecap="round" style={styleLine()}/> 
                 <line x1="10" y1="20" x2="80" y2="20" stroke={color} strokeWidth="6" strokeLinecap="round" style={styleProgress()} ref={lineRef}/> 
             </svg>
             <p>{`${dailyQuantity} ${dailyUnit}`}</p>
-        {/* </div> */}
-    </div>
+        </div>
     )
 }
 
