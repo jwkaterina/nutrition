@@ -2,12 +2,15 @@
 
 import styles from '../card.module.css'
 import { findNutrients } from '@/app/services/fetch-data'
-import { Food, Nutrient, Nutrients } from '@/app/types/types'
+import { Food, Nutrients } from '@/app/types/types'
 import { useEffect, useState } from 'react'
 import HeaderCard from '../../analysis_cards/header_card'
 import DailyValueCard from '../../analysis_cards/dailyvalue_card'
 import CompositionCard from '../../analysis_cards/composition_card'
 import BigNutrientsCard from '../../analysis_cards/bignutrients_card'
+import VitaminsCard from '../../analysis_cards/vitamins_card'
+import MineralsCard from '../../analysis_cards/minerals_card'
+import FatsCard from '../../analysis_cards/fats_card'
 
 interface OpenFoodCardProps {
     food: Food
@@ -52,18 +55,6 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
         fetchNutreintsPercent();
     }, [])
 
-    const TotalNutrients = () => {
-        let nutrientsArr: Nutrient[] = [];
-        const nutrients: any = content!.totalNutrients;
-        for(const key in content!.totalNutrients) {
-            nutrientsArr.push(nutrients[key]);
-            
-        }
-        return nutrientsArr.map((nutrient, index) => {
-            return <p key={index}>{`${nutrient.label}: ${nutrient.quantity} ${nutrient.unit} `}</p>
-        })
-    }
-
     return (
         <div className={styles.card_grid}>
             <HeaderCard 
@@ -76,6 +67,9 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
             {content && <DailyValueCard content={content} />}
             {contentPercent && <CompositionCard contentPercent={contentPercent} />}
             {content && <BigNutrientsCard content={content} />}
+            {content && <VitaminsCard content={content} />}
+            {content && <MineralsCard content={content} />}
+            {content && <FatsCard content={content} />}
         </div>
     )
 }

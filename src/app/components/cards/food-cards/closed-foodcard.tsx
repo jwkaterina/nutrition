@@ -32,15 +32,15 @@ const ClosedCard = ({ food }: CardProps): JSX.Element => {
                  <h5>kcal</h5>
                  <p>{food && food.food.nutrients.ENERC_KCAL}</p>
              </div>
-             <div className={styles.column}>
+             <div className={styles.column} style={{color: 'var(--primary-color)'}}>
                  <h5>prot</h5>
                  <p>{food && food.food.nutrients.PROCNT}</p>
              </div>
-             <div className={styles.column}>
+             <div className={styles.column} style={{color: 'var(--tertiary-color)'}}>
                  <h5>fat</h5>
                  <p>{food && food.food.nutrients.FAT}</p>
              </div>
-             <div className={styles.column}>
+             <div className={styles.column} style={{color: 'var(--secondary-color)'}}>
                  <h5>carb</h5>
                  <p>{food && food.food.nutrients.CHOCDF}</p>
              </div>
