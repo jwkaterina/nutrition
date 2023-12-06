@@ -58,8 +58,8 @@ const FatsCard = ({ content }: FatsCardProps) => {
             showComposition(monounsatPercent, monounsatRef.current);
             showComposition(restPercent!, restRef.current);
 
-            setsatDeg(0);
-            settransDeg(satPercent / 100 * 360);
+            settransDeg(0);
+            setsatDeg(transPercent / 100 * 360);
             setmonounsatDeg((satPercent + transPercent) / 100 * 360);
             setpolyunsatDeg((transPercent + satPercent + monounsatPercent) / 100 * 360);
             setrestDeg((transPercent + satPercent + polyunsatPercent + monounsatPercent) / 100 * 360)
@@ -88,16 +88,18 @@ const FatsCard = ({ content }: FatsCardProps) => {
     const widthHeight = 2 * radius + 2 * strokeWidth;
     const center = widthHeight / 2;
 
+    if(!polyunsatPercent && !satPercent && !transPercent && !monounsatPercent) return <></>
+
     return (
         <div className={styles.container}>
             <h3>Fatty acids</h3>
             <div className={styles.fats_grid}>
                 <div className={styles.composition_donut} style={{width: widthHeight}}>
-                    <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${satDeg}deg)`}}>
-                        <circle  style={{strokeDasharray: circumreference}} ref={satRef} cx={center} cy={center} r={radius} stroke='var(--tertiary-darker)' strokeWidth={strokeWidth} fill="none"/>
-                    </svg>
                     <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${transDeg}deg)`}}>
-                        <circle style={{strokeDasharray: circumreference}} ref={transRef} cx={center} cy={center} r={radius} stroke='var(--tertiary-color)' strokeWidth={strokeWidth} fill="none"/>
+                        <circle style={{strokeDasharray: circumreference}} ref={transRef} cx={center} cy={center} r={radius} stroke='var(--tertiary-darker)' strokeWidth={strokeWidth} fill="none"/>
+                    </svg>
+                    <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${satDeg}deg)`}}>
+                        <circle  style={{strokeDasharray: circumreference}} ref={satRef} cx={center} cy={center} r={radius} stroke='var(--tertiary-color)' strokeWidth={strokeWidth} fill="none"/>
                     </svg>
                     <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${monounsatDeg}deg)`}}>
                         <circle style={{strokeDasharray: circumreference}} ref={monounsatRef} cx={center} cy={center} r={radius} stroke='var(--tertiary-lighter)' strokeWidth={strokeWidth} fill="none"/>
@@ -111,24 +113,24 @@ const FatsCard = ({ content }: FatsCardProps) => {
                 </div>
                 <div className={styles.composition_column} style={{height: widthHeight}}>
                     <div className={styles.composition_cell}>
-                        <div className={`${styles.circle} ${styles.sat_circle}`}></div>
-                        <p>{`${Math.round(satPercent)} % saturated`}</p>
+                        <div className={`${styles.circle} ${styles.trans_circle}`}></div>
+                        <p>{`${Math.round(transPercent!)} % trans`}</p>
                     </div>
                     <div className={styles.composition_cell}>
-                        <div className={`${styles.circle} ${styles.trans_circle}`}></div>
-                        <p>{`${Math.round(transPercent)} % trans`}</p>
+                        <div className={`${styles.circle} ${styles.sat_circle}`}></div>
+                        <p>{`${Math.round(satPercent!)} % saturated`}</p>
                     </div>
                     <div className={styles.composition_cell}>
                         <div className={`${styles.circle} ${styles.monounsat_circle}`}></div>
-                        <p>{`${Math.round(monounsatPercent)} % monounsaturated`}</p>
+                        <p>{`${Math.round(monounsatPercent!)} % monounsaturated`}</p>
                     </div>
                     <div className={styles.composition_cell}>
                         <div className={`${styles.circle} ${styles.polyunsat_circle}`}></div>
-                        <p>{`${Math.round(polyunsatPercent)} % polyunsaturated`}</p>
+                        <p>{`${Math.round(polyunsatPercent!)} % polyunsaturated`}</p>
                     </div>
                     <div className={styles.composition_cell}>
                         <div className={`${styles.circle} ${styles.rest_circle}`}></div>
-                        <p>{`${Math.round(restPercent)} % rest`}</p>
+                        <p>{`${Math.round(restPercent!)} % rest`}</p>
                     </div>
                 </div>
             </div>

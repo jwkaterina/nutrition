@@ -175,11 +175,11 @@
     grid-gap: 0.8rem;
 }
 
-.sat_circle {
+.trans_circle {
     background-color: var(--tertiary-darker);
 }
 
-.trans_circle {
+.sat_circle {
     background-color: var(--tertiary-color);
 }
 
