@@ -86,7 +86,7 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
             <div className={styles.composition_grid}>
                 <div className={styles.composition_donut} style={{width: widthHeight}}>
                     <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${waterDeg}deg)`}}>
-                        <circle  style={{strokeDasharray: circumreference}} ref={waterRef} cx={center} cy={center} r={radius} stroke="#ccc" strokeWidth={strokeWidth} fill="none"/>
+                        <circle  style={{strokeDasharray: circumreference}} ref={waterRef} cx={center} cy={center} r={radius} stroke="var(--gray-lighter)" strokeWidth={strokeWidth} fill="none"/>
                     </svg>
                     <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${proteinDeg}deg)`}}>
                         <circle style={{strokeDasharray: circumreference}} ref={proteinRef} cx={center} cy={center} r={radius} stroke='var(--primary-color)' strokeWidth={strokeWidth} fill="none"/>

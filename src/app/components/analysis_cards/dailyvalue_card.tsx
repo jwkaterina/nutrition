@@ -29,7 +29,8 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                 dailyQuantity={dailyCalories.quantity.toFixed(0)} 
                 dailyUnit={dailyCalories.unit} 
                 text = 'Calories'
-                color='#666'
+                color='var(--gray-darker)'
+                lighter-color='var(--gray-lighter)'
             />}
             {(protein && dailyProtein) && <DailyProgress 
                 nutrientsQuantity={protein.quantity.toFixed(0)} 
@@ -119,7 +120,7 @@ const DailyProgress = ({ nutrientsQuantity, nutrientsUnit, dailyQuantity, dailyU
     return (
         <div className={styles.daily_container}>
             <svg width="100" height="100">
-                <circle  style={styleArc()}  cx="50" cy="50" r={radius} stroke="#ccc" strokeWidth="2" fill="none" strokeLinecap="round"/>
+                <circle  style={styleArc()}  cx="50" cy="50" r={radius} stroke="var(--gray-lighter)" strokeWidth="6" fill="none" strokeLinecap="round"/>
                 <circle className={styles.arc_animation} ref={arcRef} style={styleProgress()}  cx="50" cy="50" r={radius} stroke={color} strokeWidth="6" fill="none" strokeLinecap="round"/>
             </svg>
             <div className={styles.percentage}>

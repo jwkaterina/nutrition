@@ -19,7 +19,7 @@
     position: absolute;
     top: calc(1rem + 40px - 0.6rem);
     left: 50px;
-    color: #666;
+    color: var(--gray-darker);
     font-size: 1.2rem;
     font-weight: 400;
     z-index: 1;
@@ -29,14 +29,14 @@
     position: absolute;
     top: calc(1rem + 40px - 0.6rem);
     right: 50px;
-    color: #666;
+    color: var(--gray-darker);
     font-size: 1.2rem;
     font-weight: 400;
     z-index: 10;
 }
 
 .search::placeholder {
-    color: #ccc;
+    color: var(--gray);
     font-size: 1.2rem;
     font-weight: 400;
 }
@@ -47,7 +47,7 @@
 
 .expanded {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--gray);
 }
 
 .options {
@@ -69,6 +69,6 @@
     padding-left: 80px;
     font-size: 1.2rem;
     font-weight: 400;
-    color: #666;
+    color: var(--gray-darker);
     cursor: pointer;
 }

@@ -2,15 +2,20 @@
   --primary-color: #7E57C2;
   --primary-lighter-color: #B39DDB;
   --primary-light-color: #EDE7F6;
+
   --secondary-color: #66BB6A;
   --secondary-lighter-color: #A5D6A7;
   --secondary-light-color: #E8F5E9;
-  --tertiary-color: #FFA726;
 
+  --tertiary-color: #FFA726;
   --tertiary-lighter: #FFB74D;
   --tertiary-light: #FFCC80;
   --tertiary-lightest: #FFE0B2;
   --tertiary-darker: #FF9800;
+  
+  --gray: #9E9E9E;
+  --gray-darker: #616161;
+  --gray-lighter: #E0E0E0; 
 }
 
 * {
@@ -23,5 +28,5 @@ body {
   font-family: 'Montserrat', sans-serif;
   line-height: 1.6;
   background-color: #f5f5f5;
-  color: #666;
+  color: var(--gray-darker);
 }

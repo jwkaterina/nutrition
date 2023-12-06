@@ -128,7 +128,7 @@ const NutrientRow = ({ title, color, nutrientQuantity, nutrientUnit, dailyQuanti
             <h5 style={{color: color}}>{title}</h5>
             <p>{`${nutrientQuantity} ${nutrientUnit}`}</p>
             <svg width='90px' height='40px'>
-                <line x1="10" y1="20" x2="80" y2="20" stroke="#ccc" strokeWidth="6" strokeLinecap="round" style={styleLine()}/> 
+                <line x1="10" y1="20" x2="80" y2="20" stroke="var(--gray-lighter)" strokeWidth="6" strokeLinecap="round" style={styleLine()}/> 
                 <line x1="10" y1="20" x2="80" y2="20" stroke={color} strokeWidth="6" strokeLinecap="round" style={styleProgress()} ref={lineRef}/> 
             </svg>
             <p>{`${dailyQuantity} ${dailyUnit}`}</p>
