@@ -53,33 +53,33 @@ export type Nutrient = {
     unit: string
 }
 
-type Daily = {
-    CA: Nutrient,
-    CHOCDF: Nutrient,
-    CHOLE: Nutrient,
-    ENERC_KCAL: Nutrient,
-    FASAT: Nutrient,
-    FAT: Nutrient,
-    FE: Nutrient,
-    FIBTG: Nutrient,
-    FOLDFE: Nutrient,
-    K: Nutrient,
-    MG: Nutrient,
-    NA: Nutrient,
-    NIA: Nutrient,
-    P: Nutrient,
-    PROCNT: Nutrient,
-    RIBF: Nutrient,
-    THIA: Nutrient,
-    TOCPHA: Nutrient,
-    VITA_RAE: Nutrient,
-    VITB12: Nutrient,
-    VITB6A: Nutrient,
-    VITC: Nutrient,
-    VITD: Nutrient,
-    VITK1: Nutrient,
-    ZN: Nutrient
-};
+// type Daily = {
+//     CA: Nutrient,
+//     CHOCDF: Nutrient,
+//     CHOLE: Nutrient,
+//     ENERC_KCAL: Nutrient,
+//     FASAT: Nutrient,
+//     FAT: Nutrient,
+//     FE: Nutrient,
+//     FIBTG: Nutrient,
+//     FOLDFE: Nutrient,
+//     K: Nutrient,
+//     MG: Nutrient,
+//     NA: Nutrient,
+//     NIA: Nutrient,
+//     P: Nutrient,
+//     PROCNT: Nutrient,
+//     RIBF: Nutrient,
+//     THIA: Nutrient,
+//     TOCPHA: Nutrient,
+//     VITA_RAE: Nutrient,
+//     VITB12: Nutrient,
+//     VITB6A: Nutrient,
+//     VITC: Nutrient,
+//     VITD: Nutrient,
+//     VITK1: Nutrient,
+//     ZN: Nutrient
+// };
 
 type NutrientsProp = {
     CA: Nutrient,
@@ -120,7 +120,7 @@ type NutrientsProp = {
 export interface Nutrients {
     calories: number,
     totalNutrients: NutrientsProp,
-    totalDaily: Daily,
+    totalDaily: NutrientsProp,
     totalWeight: number
 }
 

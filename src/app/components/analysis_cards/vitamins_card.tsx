@@ -1,24 +1,12 @@
 import styles from './alanysis_card.module.css'
 import { Nutrients, Nutrient } from '@/app/types/types';
+import BarColumn from './utils/bar_column';
 
 interface VitaminsCardProps {
     content: Nutrients | null;
 }
 
-const VitaminsCard = ({ content }: VitaminsCardProps) => {
-
-    // const TotalNutrients = () => {
-    //     let nutrientsArr: Nutrient[] = [];
-    //     const nutrients: any = content!.totalNutrients;
-    //     for(const key in content!.totalNutrients) {
-    //         nutrientsArr.push(nutrients[key]);
-            
-    //     }
-    //     // console.log(nutrientsArr.length)
-    //     return nutrientsArr.map((nutrient, index) => {
-    //         return <p key={index}>{`${nutrient.label}: ${nutrient.quantity} ${nutrient.unit} `}</p>
-    //     })
-    // }
+const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
 
     const vitaminA: Nutrient = content!.totalNutrients.VITA_RAE;
     const vitaminC: Nutrient = content!.totalNutrients.VITC;
@@ -33,23 +21,37 @@ const VitaminsCard = ({ content }: VitaminsCardProps) => {
     const vitaminD: Nutrient = content!.totalNutrients.VITD;
     const vitaminE: Nutrient = content!.totalNutrients.TOCPHA;
     const vitaminK: Nutrient = content!.totalNutrients.VITK1;
- 
+
+    const vitaminAPercent: Nutrient = content!.totalDaily.VITA_RAE;
+    const vitaminCPercent: Nutrient = content!.totalDaily.VITC;
+    const thiaminPercent: Nutrient = content!.totalDaily.THIA;
+    const riboflavinPercent: Nutrient = content!.totalDaily.RIBF;
+    const niacinPercent: Nutrient = content!.totalDaily.NIA;
+    const vitaminB6Percent: Nutrient = content!.totalDaily.VITB6A;
+    const folateDFEPercent: Nutrient = content!.totalDaily.FOLDFE;
+    const folateFoodPercent: Nutrient = content!.totalDaily.FOLFD;
+    const folicAcidPercent: Nutrient = content!.totalDaily.FOLAC;
+    const vitaminB12Percent: Nutrient = content!.totalDaily.VITB12;
+    const vitaminDPercent: Nutrient = content!.totalDaily.VITD;
+    const vitaminEPercent: Nutrient = content!.totalDaily.TOCPHA;
+    const vitaminKPercent: Nutrient = content!.totalDaily.VITK1;
+  
     return <div className={styles.container}>
-        <div style={{overflow: 'auto'}}>
-            {/* <TotalNutrients /> */}
-            <p>{`${vitaminA.label}: ${vitaminA.quantity} ${vitaminA.unit} `}</p>
-            <p>{`${vitaminC.label}: ${vitaminC.quantity} ${vitaminC.unit}`}</p>
-            <p>{`${thiamin.label}: ${thiamin.quantity} ${thiamin.unit}`}</p>
-            <p>{`${riboflavin.label}: ${riboflavin.quantity} ${riboflavin.unit}`}</p>
-            <p>{`${niacin.label}: ${niacin.quantity} ${vitaminC.unit}`}</p>
-            <p>{`${vitaminB6.label}: ${vitaminB6.quantity} ${vitaminB6.unit}`}</p>
-            <p>{`${folateDFE.label}: ${folateDFE.quantity} ${folateDFE.unit}`}</p>
-            <p>{`${folateFood.label}: ${folateFood.quantity} ${folateFood.unit}`}</p>
-            <p>{`${folicAcid.label}: ${folicAcid.quantity} ${folicAcid.unit}`}</p>
-            <p>{`${vitaminB12.label}: ${vitaminB12.quantity} ${vitaminB12.unit}`}</p>
-            <p>{`${vitaminD.label}: ${vitaminD.quantity} ${vitaminD.unit}`}</p>
-            <p>{`${vitaminE.label}: ${vitaminE.quantity} ${vitaminE.unit}`}</p>
-            <p>{`${vitaminK.label}: ${vitaminK.quantity} ${vitaminK.unit}`}</p>
+        <h3>Minerals</h3>
+        <div style={{overflow: 'auto'}} className={styles.bar_chart}>
+            <BarColumn vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'}/>
+            <BarColumn vitamin={vitaminC} vitaminPercent={vitaminCPercent} label={'vitaminC'}/>
+            <BarColumn vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'}/>
+            <BarColumn vitamin={riboflavin} vitaminPercent={riboflavinPercent} label={'riboflavin'}/>
+            <BarColumn vitamin={niacin} vitaminPercent={niacinPercent} label={'niacin'}/>
+            <BarColumn vitamin={vitaminB6} vitaminPercent={vitaminB6Percent} label={'vitaminB6'}/>
+            <BarColumn vitamin={folateDFE} vitaminPercent={folateDFEPercent} label={'folateDFE'}/>
+            <BarColumn vitamin={folateFood} vitaminPercent={folateFoodPercent} label={'folateFood'}/>
+            <BarColumn vitamin={folicAcid} vitaminPercent={folicAcidPercent} label={'folicAcid'}/>
+            <BarColumn vitamin={vitaminB12} vitaminPercent={vitaminB12Percent} label={'vitaminB12'}/>
+            <BarColumn vitamin={vitaminD} vitaminPercent={vitaminDPercent} label={'vitaminD'}/>
+            <BarColumn vitamin={vitaminE} vitaminPercent={vitaminEPercent} label={'vitaminE'}/>
+            <BarColumn vitamin={vitaminK} vitaminPercent={vitaminKPercent} label={'vitaminK'}/>
         </div>
     </div>
 }
