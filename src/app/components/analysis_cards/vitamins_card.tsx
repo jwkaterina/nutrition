@@ -37,21 +37,21 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
     const vitaminKPercent: Nutrient = content!.totalDaily.VITK1;
   
     return <div className={styles.container}>
-        <h3>Minerals</h3>
+        <h3>Vitamins</h3>
         <div style={{overflow: 'auto'}} className={styles.bar_chart}>
-            <BarColumn vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'}/>
-            <BarColumn vitamin={vitaminC} vitaminPercent={vitaminCPercent} label={'vitaminC'}/>
-            <BarColumn vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'}/>
-            <BarColumn vitamin={riboflavin} vitaminPercent={riboflavinPercent} label={'riboflavin'}/>
-            <BarColumn vitamin={niacin} vitaminPercent={niacinPercent} label={'niacin'}/>
-            <BarColumn vitamin={vitaminB6} vitaminPercent={vitaminB6Percent} label={'vitaminB6'}/>
-            <BarColumn vitamin={folateDFE} vitaminPercent={folateDFEPercent} label={'folateDFE'}/>
-            <BarColumn vitamin={folateFood} vitaminPercent={folateFoodPercent} label={'folateFood'}/>
-            <BarColumn vitamin={folicAcid} vitaminPercent={folicAcidPercent} label={'folicAcid'}/>
-            <BarColumn vitamin={vitaminB12} vitaminPercent={vitaminB12Percent} label={'vitaminB12'}/>
-            <BarColumn vitamin={vitaminD} vitaminPercent={vitaminDPercent} label={'vitaminD'}/>
-            <BarColumn vitamin={vitaminE} vitaminPercent={vitaminEPercent} label={'vitaminE'}/>
-            <BarColumn vitamin={vitaminK} vitaminPercent={vitaminKPercent} label={'vitaminK'}/>
+            <BarColumn vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={vitaminC} vitaminPercent={vitaminCPercent} label={'vitaminC'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={riboflavin} vitaminPercent={riboflavinPercent} label={'riboflavin'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={niacin} vitaminPercent={niacinPercent} label={'niacin'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={vitaminB6} vitaminPercent={vitaminB6Percent} label={'vitaminB6'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={folateDFE} vitaminPercent={folateDFEPercent} label={'folateDFE'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={folateFood} vitaminPercent={folateFoodPercent} label={'folateFood'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={folicAcid} vitaminPercent={folicAcidPercent} label={'folicAcid'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={vitaminB12} vitaminPercent={vitaminB12Percent} label={'vitaminB12'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={vitaminD} vitaminPercent={vitaminDPercent} label={'vitaminD'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={vitaminE} vitaminPercent={vitaminEPercent} label={'vitaminE'} color={'var(--secondary-color)'}/>
+            <BarColumn vitamin={vitaminK} vitaminPercent={vitaminKPercent} label={'vitaminK'} color={'var(--secondary-color)'}/>
         </div>
     </div>
 }
