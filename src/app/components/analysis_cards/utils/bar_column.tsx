@@ -5,10 +5,11 @@ interface BarColumnProps {
     vitamin: Nutrient,
     vitaminPercent: Nutrient,
     label: string,
-    color: string
+    color: string,
+    lightColor: string
 }
 
-const BarColumn = ({ vitamin, vitaminPercent, label, color }: BarColumnProps): JSX.Element => {
+const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarColumnProps): JSX.Element => {
 
     const barHeight = 100;
     let percentHeight = 0;
@@ -17,7 +18,7 @@ const BarColumn = ({ vitamin, vitaminPercent, label, color }: BarColumnProps): J
     if(!vitamin) return <></>
 
     return <div className={styles.bar_column}>
-                <div className={styles.bar} style={{height: `${barHeight}px`}}>
+                <div className={styles.bar} style={{height: `${barHeight}px`, backgroundColor: lightColor}}>
                     <div className={styles.percent_bar} style={{height: `${percentHeight}px`, backgroundColor: color}}></div>
                 </div>                
                 <p>{label}</p>

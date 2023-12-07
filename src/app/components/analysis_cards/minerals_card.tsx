@@ -27,13 +27,13 @@ const MineralsCard = ({ content }: MineralsCardProps) => {
     return <div className={styles.container}>
         <h3>Minerals</h3>
         <div style={{overflow: 'auto'}} className={styles.bar_chart}>
-            <BarColumn vitamin={sodium} vitaminPercent={sodiumPercent} label={'sodium'} color={'var(--primary-color)'}/>
-            <BarColumn vitamin={calcium} vitaminPercent={calciumPercent} label={'calcium'} color={'var(--primary-color)'}/>
-            <BarColumn vitamin={magnesium} vitaminPercent={magnesiumPercent} label={'magnesium'} color={'var(--primary-color)'} />
-            <BarColumn vitamin={potassium} vitaminPercent={potassiumPercent} label={'potassium'} color={'var(--primary-color)'} />
-            <BarColumn vitamin={iron} vitaminPercent={ironPercent} label={'iron'} color={'var(--primary-color)'} />
-            <BarColumn vitamin={zinc} vitaminPercent={zincPercent} label={'zinc'} color={'var(--primary-color)'} />
-            <BarColumn vitamin={phosphorus} vitaminPercent={phosphorusPercent} label={'phosphorus'} color={'var(--primary-color)'} />
+            <BarColumn vitamin={sodium} vitaminPercent={sodiumPercent} label={'sodium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
+            <BarColumn vitamin={calcium} vitaminPercent={calciumPercent} label={'calcium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
+            <BarColumn vitamin={magnesium} vitaminPercent={magnesiumPercent} label={'magnesium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)' />
+            <BarColumn vitamin={potassium} vitaminPercent={potassiumPercent} label={'potassium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)' />
+            <BarColumn vitamin={iron} vitaminPercent={ironPercent} label={'iron'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)' />
+            <BarColumn vitamin={zinc} vitaminPercent={zincPercent} label={'zinc'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)' />
+            <BarColumn vitamin={phosphorus} vitaminPercent={phosphorusPercent} label={'phosphorus'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)' />
         </div>
     </div>
 }

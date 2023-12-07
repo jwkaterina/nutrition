@@ -226,7 +226,6 @@
 .bar {
     position: relative;
     width: 10px;
-    background-color: var(--primary-light-color);
     border-radius: 0.2rem;
     z-index: 0;
 }
