@@ -28,48 +28,55 @@ const MineralsCard = ({ content }: MineralsCardProps) => {
     return <div className={styles.container}>
         <h3>Minerals</h3>
         <div style={{overflow: 'auto'}} className={styles.bar_chart}>
-            <div className={styles.bar_column}>
+            {(sodium && sodiumPercent) && <div className={styles.bar_column}>
                 <div className={styles.bar} style={{height: `${barHeight}px`}}>
                     <div className={styles.percent_bar} style={{height: `${sodiumPercent * barHeight}px`}}></div>
                 </div>
                 <p>sodium</p>
-            </div>
-            <div className={styles.bar_column}>
+                <p>{`${sodium.quantity} ${sodium.unit}`}</p>
+            </div>}
+            {(calcium && calciumPercent) && <div className={styles.bar_column}>
                 <div className={styles.bar} style={{height: `${barHeight}px`}}>
                     <div className={styles.percent_bar} style={{height: `${calciumPercent * barHeight}px`}}></div>
                 </div>                
                 <p>calcium</p>
-            </div>
-            <div className={styles.bar_column}>
+                <p>{`${calcium.quantity} ${calcium.unit}`}</p>
+            </div>}
+            {(magnesium && magnesiumPercent) && <div className={styles.bar_column}>
                 <div className={styles.bar} style={{height: `${barHeight}px`}}>
                     <div className={styles.percent_bar} style={{height: `${magnesiumPercent * barHeight}px`}}></div>
                 </div>                
                 <p>magnesium</p>
-            </div>
-            <div className={styles.bar_column}>
+                <p>{`${magnesium.quantity} ${magnesium.unit}`}</p>
+            </div>}
+            {(potassium && potassiumPercent) && <div className={styles.bar_column}>
                 <div className={styles.bar} style={{height: `${barHeight}px`}}>
                     <div className={styles.percent_bar} style={{height: `${potassiumPercent * barHeight}px`}}></div>
                 </div>                
                 <p>potassium</p>
-            </div>
-            <div className={styles.bar_column}>
+                <p>{`${potassium.quantity} ${potassium.unit}`}</p>
+            </div>}
+            {(iron && ironPercent) && <div className={styles.bar_column}>
                 <div className={styles.bar} style={{height: `${barHeight}px`}}>
                     <div className={styles.percent_bar} style={{height: `${ironPercent * barHeight}px`}}></div>
                 </div>                
                 <p>iron</p>
-            </div>
-            <div className={styles.bar_column}>
+                <p>{`${iron.quantity} ${iron.unit}`}</p>
+            </div>}
+            {(zinc && zincPercent) && <div className={styles.bar_column}>
                 <div className={styles.bar} style={{height: `${barHeight}px`}}>
                     <div className={styles.percent_bar} style={{height: `${zincPercent * barHeight}px`}}></div>
                 </div>                
                 <p>zinc</p>
-            </div>
-            <div className={styles.bar_column}>
+                <p>{`${zinc.quantity} ${zinc.unit}`}</p>
+            </div>}
+            {(phosphorus && phosphorusPercent) && <div className={styles.bar_column}>
                 <div className={styles.bar} style={{height: `${barHeight}px`}}>
                     <div className={styles.percent_bar} style={{height: `${phosphorusPercent * barHeight}px`}}></div>
                 </div>                
                 <p>phosphorus</p>
-            </div>
+                <p>{`${phosphorus.quantity} ${phosphorus.unit}`}</p>
+            </div>}
         </div>
     </div>
 }
