@@ -135,7 +135,7 @@
 }
 
 .water_circle {
-    background-color: var(--gray);
+    background-color: var(--gray-lighter);
 }
 
 .prot_circle {

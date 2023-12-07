@@ -11,11 +11,13 @@
   --tertiary-lighter: #FFB74D;
   --tertiary-light: #FFCC80;
   --tertiary-lightest: #FFE0B2;
+  --tertiary-lightest-plus: #FFF3E0;
   --tertiary-darker: #FF9800;
   
   --gray: #9E9E9E;
   --gray-darker: #616161;
   --gray-lighter: #E0E0E0; 
+  --gray-light: #F5F5F5;
 }
 
 * {
