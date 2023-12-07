@@ -26,12 +26,15 @@ const HalfCircle
         };
 
         const progressPercent = () => {
-            let progressPercent: number;
-            if(!daily || daily.quantity == 0) return progressPercent = circumreference;
-            if(daily.quantity <=100 ) progressPercent = circumreference - (daily.quantity / 100 * circumreference / 2) 
-            else progressPercent = circumreference / 2;
-            return progressPercent;
+            if(!daily || daily.quantity == 0) {
+                return circumreference
+            } else if(daily.quantity <=100 ) {
+                return circumreference - (daily.quantity / 100 * circumreference / 2) 
+            } else {
+                return circumreference / 2
+            }
         }
+
         const keyframes: Keyframe[] = [
             { strokeDashoffset: circumreference },
             { strokeDashoffset: `${progressPercent()}` }
