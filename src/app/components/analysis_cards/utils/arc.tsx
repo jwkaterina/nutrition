@@ -3,10 +3,12 @@ import React, { useEffect, useRef } from 'react';
 interface ArcProps {
     degree: number | null,
     percent: number,
-    color: string
+    color: string,
+    radius: number,
+    strokeWidth: number
 }
 
-const Arc = ({ degree, percent, color }: ArcProps): JSX.Element => {
+const Arc = ({ degree, percent, color, radius, strokeWidth }: ArcProps): JSX.Element => {
 
     const arcRef = useRef<SVGCircleElement>(null);
 
@@ -28,10 +30,7 @@ const Arc = ({ degree, percent, color }: ArcProps): JSX.Element => {
         }
     })
 
-    const radius = 70;
     const circumreference = radius * 2 * Math.PI;
-
-    const strokeWidth = 20;
     const widthHeight = 2 * radius + 2 * strokeWidth;
     const center = widthHeight / 2;
 
