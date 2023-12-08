@@ -13,6 +13,10 @@ interface HalfCircleProps {
 const HalfCircle
  = ({ nutrient, daily, text, color, lighterColor }: HalfCircleProps): JSX.Element => {
 
+    let unit;
+    if(nutrient) unit = nutrient.unit;
+    if(text === 'Calories') unit = '';
+
     const arcRef = useRef<SVGCircleElement>(null);
     const radius = 44;
     const circumreference = radius * 2 * Math.PI;
@@ -70,7 +74,7 @@ const HalfCircle
             </svg>
             <div className={styles.percentage}>
                 {daily && <p>{`${daily.quantity.toFixed(0)} ${daily.unit}`}</p>}
-                <h5>{`${nutrient.quantity.toFixed(0)} ${nutrient.unit} `}<span style={{color: color}}>{text}</span></h5>
+                <h5>{`${nutrient.quantity.toFixed(0)} ${unit} ${text}`}</h5>
             </div>
         </div>
     )

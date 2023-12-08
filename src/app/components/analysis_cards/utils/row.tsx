@@ -61,8 +61,8 @@ const NutrientRow = ({ title, color, nutrient, daily }: NutrientRowProps): JSX.E
 
     return (
         <div className={styles.nutrient_row}>
-            <h5 style={{color: color}}>{title}</h5>
-            {nutrient && <p>{`${nutrient.quantity.toFixed(0)} ${nutrient.unit}`}</p>}
+            <h5>{title}</h5>
+            <p>{`${nutrient.quantity.toFixed(0)} ${nutrient.unit}`}</p>
             <svg width='90px' height='40px'>
                 <line x1="10" y1="20" x2="80" y2="20" stroke="var(--gray-lighter)" strokeWidth="6" strokeLinecap="round" style={styleLine()}/> 
                 <line x1="10" y1="20" x2="80" y2="20" stroke={color} strokeWidth="6" strokeLinecap="round" style={styleProgress()} ref={lineRef}/> 

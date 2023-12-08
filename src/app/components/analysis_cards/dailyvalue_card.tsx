@@ -28,7 +28,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     daily={dailyCalories} 
                     text = 'Calories'
                     color='var(--gray-darker)'
-                    lighterColor='var(--gray-light)'
+                    lighterColor='var(--gray-lighter)'
                 />
                 <HalfCircle 
                     nutrient={protein} 

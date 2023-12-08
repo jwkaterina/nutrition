@@ -68,15 +68,24 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 1rem;
-    grid-template-areas: 'header dailyValue composition'
-                        'bigNutrients vitamins vitamins'
-                        'minerals minerals fats';
+    grid-template-areas: 
+        'header dailyValue composition'
+        'bigNutrients vitamins vitamins'
+        'minerals minerals fats';
 
 }
 
 @media (max-width: 500px) {
     .card_grid {
         grid-template-columns: repeat(1, 1fr);
+        grid-template-areas: 
+        'header' 
+        'dailyValue' 
+        'composition'
+        'bigNutrients'
+        'vitamins'
+        'minerals' 
+        'fats';
     }
     
 }

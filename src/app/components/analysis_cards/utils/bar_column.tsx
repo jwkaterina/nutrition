@@ -14,7 +14,8 @@ const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarCol
 
     const barHeight = 100;
     let percentHeight = 0;
-    if(vitaminPercent) percentHeight = vitaminPercent.quantity / 100 * barHeight;
+    if(vitaminPercent && vitaminPercent.quantity < 100) percentHeight = vitaminPercent.quantity / 100 * barHeight;
+    if(vitaminPercent && vitaminPercent.quantity >= 100) percentHeight = barHeight;
 
     const barRef = useRef<HTMLDivElement>(null);
 
@@ -38,14 +39,13 @@ const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarCol
     if(!vitamin) return <></>
 
     return <div className={styles.bar_column}>
-                <div>
                 <div className={styles.bar} style={{height: `${barHeight}px`, backgroundColor: lightColor}}>
                     <div className={styles.percent_bar} ref={barRef} style={{backgroundColor: color}}></div>
-                </div>  
-                </div>
-                            
-                <p>{label}</p>
-                <p>{`${vitamin.quantity.toFixed(1)} ${vitamin.unit}`}</p>
+                </div>        
+                <div className={styles.bar_label}>
+                    <p>{label}</p>
+                    <p>{`${vitamin.quantity.toFixed(1)} ${vitamin.unit}`}</p>
+                </div>                      
             </div>
 }
 

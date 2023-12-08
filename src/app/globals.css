@@ -2,22 +2,24 @@
   --primary-color: #7E57C2;
   --primary-lighter-color: #B39DDB;
   --primary-light-color: #EDE7F6;
+  --primary-darker-color: #5E35B1;
 
   --secondary-color: #66BB6A;
   --secondary-lighter-color: #A5D6A7;
   --secondary-light-color: #E8F5E9;
+  --secondary-darker-color: #43A047;
 
   --tertiary-color: #FFA726;
   --tertiary-lighter: #FFB74D;
   --tertiary-light: #FFCC80;
   --tertiary-lightest: #FFE0B2;
   --tertiary-lightest-plus: #FFF3E0;
-  --tertiary-darker: #FF9800;
+  --tertiary-darker: #FB8C00;
   
-  --gray: #9E9E9E;
-  --gray-darker: #616161;
-  --gray-lighter: #E0E0E0; 
-  --gray-light: #F5F5F5;
+  --gray: ##BDBDBD;
+  --gray-darker: #757575;
+  --gray-lighter: #EEEEEE; 
+  --gray-light: #FAFAFA;
 }
 
 * {

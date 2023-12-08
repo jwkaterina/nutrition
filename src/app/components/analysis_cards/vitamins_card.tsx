@@ -38,7 +38,7 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
   
     return <div className={styles.container} style={{gridArea: 'vitamins'}}>
         <h3>Vitamins</h3>
-        <div style={{overflow: 'auto'}} className={styles.bar_chart}>
+        <div className={styles.bar_chart}>
             <BarColumn vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
             <BarColumn vitamin={vitaminC} vitaminPercent={vitaminCPercent} label={'vitaminC'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
             <BarColumn vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
