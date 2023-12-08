@@ -60,6 +60,8 @@ const HalfCircle
         }
     }
 
+    if(!nutrient) return <></>
+    
     return (
         <div className={styles.daily_container}>
             <svg width="100" height="100">
@@ -68,7 +70,7 @@ const HalfCircle
             </svg>
             <div className={styles.percentage}>
                 {daily && <p>{`${daily.quantity.toFixed(0)} ${daily.unit}`}</p>}
-                {nutrient && <h5>{`${nutrient.quantity.toFixed(0)} ${nutrient.unit} `}<span style={{color: color}}>{text}</span></h5>}
+                <h5>{`${nutrient.quantity.toFixed(0)} ${nutrient.unit} `}<span style={{color: color}}>{text}</span></h5>
             </div>
         </div>
     )

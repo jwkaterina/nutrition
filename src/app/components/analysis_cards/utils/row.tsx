@@ -31,6 +31,7 @@ const NutrientRow = ({ title, color, nutrient, daily }: NutrientRowProps): JSX.E
                 return 0
             }
         }
+
         const keyframes: Keyframe[] = [
             { strokeDashoffset: length },
             { strokeDashoffset: `${progressPercent()}` }
@@ -56,6 +57,8 @@ const NutrientRow = ({ title, color, nutrient, daily }: NutrientRowProps): JSX.E
         }
     }
 
+    if(!nutrient) return <></>
+    
     return (
         <div className={styles.nutrient_row}>
             <h5 style={{color: color}}>{title}</h5>
