@@ -1,4 +1,4 @@
-import styles from '../alanysis_card.module.css'
+import styles from './utils.module.css'
 import { Nutrient } from '@/app/types/types'
 import { useEffect, useRef } from 'react'
 
@@ -38,11 +38,14 @@ const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarCol
     if(!vitamin) return <></>
 
     return <div className={styles.bar_column}>
+                <div>
                 <div className={styles.bar} style={{height: `${barHeight}px`, backgroundColor: lightColor}}>
                     <div className={styles.percent_bar} ref={barRef} style={{backgroundColor: color}}></div>
-                </div>                
+                </div>  
+                </div>
+                            
                 <p>{label}</p>
-                <p>{`${vitamin.quantity} ${vitamin.unit}`}</p>
+                <p>{`${vitamin.quantity.toFixed(1)} ${vitamin.unit}`}</p>
             </div>
 }
 

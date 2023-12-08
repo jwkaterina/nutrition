@@ -37,7 +37,7 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
     if(!waterPercent || !proteinPercent || !carbsPercent || !fatPercent) return <></>
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={{gridArea: 'composition'}}>
             <h3>Composition</h3>
             <div className={styles.composition_grid}>
                 <div className={styles.composition_donut} style={{width: widthHeight}}>

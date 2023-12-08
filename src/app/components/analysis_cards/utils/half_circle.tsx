@@ -1,5 +1,5 @@
 import { Nutrient } from '@/app/types/types';
-import styles from '../alanysis_card.module.css'
+import styles from './utils.module.css'
 import { useEffect, useRef } from 'react'
 
 interface HalfCircleProps {
@@ -61,12 +61,12 @@ const HalfCircle
     }
 
     if(!nutrient) return <></>
-    
+
     return (
         <div className={styles.daily_container}>
             <svg width="100" height="100">
                 <circle  style={styleArc()}  cx="50" cy="50" r={radius} stroke={lighterColor} strokeWidth="6" fill="none" strokeLinecap="round"/>
-                <circle className={styles.arc_animation} ref={arcRef} style={styleProgress()}  cx="50" cy="50" r={radius} stroke={color} strokeWidth="6" fill="none" strokeLinecap="round"/>
+                <circle ref={arcRef} style={styleProgress()}  cx="50" cy="50" r={radius} stroke={color} strokeWidth="6" fill="none" strokeLinecap="round"/>
             </svg>
             <div className={styles.percentage}>
                 {daily && <p>{`${daily.quantity.toFixed(0)} ${daily.unit}`}</p>}

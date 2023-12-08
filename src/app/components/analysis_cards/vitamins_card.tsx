@@ -36,12 +36,12 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
     const vitaminEPercent: Nutrient = content!.totalDaily.TOCPHA;
     const vitaminKPercent: Nutrient = content!.totalDaily.VITK1;
   
-    return <div className={styles.container}>
+    return <div className={styles.container} style={{gridArea: 'vitamins'}}>
         <h3>Vitamins</h3>
         <div style={{overflow: 'auto'}} className={styles.bar_chart}>
             <BarColumn vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
             <BarColumn vitamin={vitaminC} vitaminPercent={vitaminCPercent} label={'vitaminC'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--primary-light-color)'/>
+            <BarColumn vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
             <BarColumn vitamin={riboflavin} vitaminPercent={riboflavinPercent} label={'riboflavin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
             <BarColumn vitamin={niacin} vitaminPercent={niacinPercent} label={'niacin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
             <BarColumn vitamin={vitaminB6} vitaminPercent={vitaminB6Percent} label={'vitaminB6'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>

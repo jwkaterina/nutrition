@@ -35,21 +35,9 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
             })
 
             setMeasures(measures);
-            // console.log(measures);
         }
         fetchMeasuresWeight();
     }, [])
-
-    // const measuresSelect = () => {
-    //     const options = [<option key={0} value='100 grams' id={gramUri}>100 grams</option>];
-    //         measures.forEach((measure, index) => {
-    //             if(measure.uri !== servingUri && measure.uri !== ounseUri && measure.uri !== poundUri && measure.uri !== kilogramUri) {
-    //                 options.push(<option key={index + 1} value={measure.label} id={measure.uri}>{`1 ${measure.label} - ${measure.weight} g`}</option>)
-    //             }
-    //         });
-        
-    //     return options;
-    // }
 
     const measuresSelect = () => {
         let options: JSX.Element[] = [];
@@ -99,7 +87,7 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
     }
 
     return(
-        <div className={styles.container}>
+        <div className={styles.container} style={{gridArea: 'header'}}>
             <div className={styles.header}>
                 {isImage(image) && <img src={image} alt="" className={styles.img}/>}
                 <h1>{food.food.label}</h1>      

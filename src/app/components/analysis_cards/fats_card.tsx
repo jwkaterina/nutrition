@@ -42,7 +42,7 @@ const FatsCard = ({ content }: FatsCardProps) => {
     if(!polyunsatfatPercent || !satfatPercent || !transfatPercent || !monounsatfatPercent || !restPercent) return <></>
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={{gridArea: 'fats'}}>
             <h3>Fatty acids</h3>
             <div className={styles.fats_grid}>
                 <div className={styles.composition_donut} style={{width: widthHeight}}>

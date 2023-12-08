@@ -1,4 +1,4 @@
-import styles from '../alanysis_card.module.css'
+import styles from './utils.module.css'
 
 interface SmallCircleProps {
     percent: number,

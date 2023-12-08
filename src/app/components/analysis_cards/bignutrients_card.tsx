@@ -21,7 +21,7 @@ const BigNutrientsCard = ({ content }: BigNutrientsCardProps): JSX.Element => {
     const dailySodium: Nutrient = content!.totalDaily.NA;
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={{gridArea: 'bigNutrients'}}>
             <h3>Big Nutrients</h3>
             <div className={styles.nutrients_container}>
                 <NutrientRow

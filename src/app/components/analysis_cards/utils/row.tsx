@@ -1,4 +1,4 @@
-import styles from '../alanysis_card.module.css';
+import styles from './utils.module.css';
 import { Nutrient } from '@/app/types/types';
 import { useEffect, useRef } from 'react';
 
@@ -58,7 +58,7 @@ const NutrientRow = ({ title, color, nutrient, daily }: NutrientRowProps): JSX.E
     }
 
     if(!nutrient) return <></>
-    
+
     return (
         <div className={styles.nutrient_row}>
             <h5 style={{color: color}}>{title}</h5>

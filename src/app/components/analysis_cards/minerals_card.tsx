@@ -24,7 +24,7 @@ const MineralsCard = ({ content }: MineralsCardProps) => {
    const zincPercent: Nutrient = content!.totalDaily.ZN;
    const phosphorusPercent: Nutrient = content!.totalDaily.P;
  
-    return <div className={styles.container}>
+    return <div className={styles.container} style={{gridArea: 'minerals'}}>
         <h3>Minerals</h3>
         <div style={{overflow: 'auto'}} className={styles.bar_chart}>
             <BarColumn vitamin={sodium} vitaminPercent={sodiumPercent} label={'sodium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
