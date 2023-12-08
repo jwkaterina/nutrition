@@ -134,22 +134,6 @@
     background-color: var(--gray);
 }
 
-.water_circle {
-    background-color: var(--gray-lighter);
-}
-
-.prot_circle {
-    background-color: var(--primary-color);
-}
-
-.carbs_circle {
-    background-color: var(--secondary-color);
-}
-
-.fat_circle {
-    background-color: var(--tertiary-color);
-}
-
 .container h1 {
     font-size: 1.5rem;
     font-weight: 400;
