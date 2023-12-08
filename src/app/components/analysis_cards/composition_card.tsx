@@ -41,10 +41,10 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
             <h3>Composition</h3>
             <div className={styles.composition_grid}>
                 <div className={styles.composition_donut} style={{width: widthHeight}}>
-                    <Arc degree={waterDeg} percent={waterPercent} color='var(--gray-lighter)'/>
-                    <Arc degree={proteinDeg} percent={proteinPercent} color='var(--primary-color)'/>
-                    <Arc degree={carbsDeg} percent={carbsPercent} color='var(--secondary-color)'/>
-                    <Arc degree={fatDeg} percent={fatPercent} color='var(--tertiary-color)'/>
+                    <Arc degree={waterDeg} percent={waterPercent} color='var(--gray-lighter)' radius={70} strokeWidth={20} />
+                    <Arc degree={proteinDeg} percent={proteinPercent} color='var(--primary-color)' radius={70} strokeWidth={20} />
+                    <Arc degree={carbsDeg} percent={carbsPercent} color='var(--secondary-color)' radius={70} strokeWidth={20} />
+                    <Arc degree={fatDeg} percent={fatPercent} color='var(--tertiary-color)' radius={70} strokeWidth={20} />
                 </div>
                 <div className={styles.composition_column} style={{height: widthHeight}}>
                     <SmallCircle percent={waterPercent} color='var(--gray-lighter)' text='Water'/>
