@@ -17,13 +17,13 @@ const FatsCard = ({ content }: FatsCardProps) => {
 
     let  transfatPercent = null, satfatPercent = null, monounsatfatPercent = null, polyunsatfatPercent = null, restPercent = null;
     if(totalFat && transFat) transfatPercent = transFat.quantity * 100 / totalFat.quantity;
-    if(transFat.quantity == 0) transfatPercent = 0.1;
+    if(transFat && transFat.quantity == 0) transfatPercent = 0.1;
     if(totalFat && satFat) satfatPercent = satFat.quantity * 100 / totalFat.quantity;
-    if(satFat.quantity == 0) satfatPercent = 0.1;
+    if(satFat && satFat.quantity == 0) satfatPercent = 0.1;
     if(totalFat && monounsatFat) monounsatfatPercent = monounsatFat.quantity * 100 / totalFat.quantity;
-    if(monounsatFat.quantity == 0) monounsatfatPercent = 0.1;
+    if(monounsatFat && monounsatFat.quantity == 0) monounsatfatPercent = 0.1;
     if(totalFat && polyunsatFat) polyunsatfatPercent = polyunsatFat.quantity * 100 / totalFat.quantity;
-    if(polyunsatFat.quantity == 0) polyunsatfatPercent = 0.1;
+    if(polyunsatFat && polyunsatFat.quantity == 0) polyunsatfatPercent = 0.1;
     if(totalFat && satFat && transFat && monounsatFat && polyunsatFat) restPercent = 100 - (satFat.quantity + transFat.quantity + monounsatFat.quantity + polyunsatFat.quantity) * 100 / totalFat.quantity;
 
     let transDeg = null, satDeg = null, monounsatDeg = null, polyunsatDeg = null, restDeg = null;

@@ -17,11 +17,11 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
 
     let proteinPercent = null, carbsPercent = null, fatPercent = null, waterPercent = null;
     if(protein) proteinPercent = protein.quantity;
-    if(protein.quantity == 0) proteinPercent = 0.1;
+    if(protein && protein.quantity == 0) proteinPercent = 0.1;
     if(carbs) carbsPercent = carbs.quantity;
-    if(carbs.quantity == 0) carbsPercent = 0.1;
+    if(carbs && carbs.quantity == 0) carbsPercent = 0.1;
     if(fat) fatPercent = fat.quantity;
-    if(fat.quantity == 0) fatPercent = 0.1;
+    if(fat && fat.quantity == 0) fatPercent = 0.1;
     if(protein && carbs && fat) waterPercent = 100 - (protein.quantity + carbs.quantity + fat.quantity);
 
     let waterDeg = null, proteinDeg = null, carbsDeg = null, fatDeg = null;
