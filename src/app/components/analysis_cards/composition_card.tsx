@@ -38,7 +38,7 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
 
     return (
         <div className={styles.container} style={{gridArea: 'composition'}}>
-            <h3>Composition</h3>
+            <h3 className={styles.title}>Composition</h3>
             <div className={styles.composition_grid}>
                 <div className={styles.composition_donut} style={{width: widthHeight}}>
                     <Arc degree={waterDeg} percent={waterPercent} color='var(--gray-lighter)' radius={70} strokeWidth={20} />

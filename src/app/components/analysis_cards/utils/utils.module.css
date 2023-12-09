@@ -6,13 +6,18 @@
     transform: rotate(180deg);
 }
 
-.percentage {
+.daily_container .percentage {
     position: absolute;
     width: 100%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+}
+
+.daily_container .percentage h5, .daily_container .percentage p {
+    font-size: 0.9rem;
+    font-weight: 400;
 }
 
 .composition_cell {
@@ -32,7 +37,7 @@
 
 .nutrient_row {
     display: grid;
-    grid-template-columns: 3fr 2fr 2fr 2fr;
+    grid-template-columns: 5fr 2fr 2fr 2fr;
     justify-content: left;
     align-items: center;
     line-height: 0.3rem;

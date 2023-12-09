@@ -29,6 +29,10 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     text = 'Calories'
                     color='var(--gray-darker)'
                     lighterColor='var(--gray-lighter)'
+                    radius={44}
+                    strokeWidth={6}
+                    centerX={50}
+                    centerY={50}
                 />
                 <HalfCircle 
                     nutrient={protein} 
@@ -36,6 +40,10 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     text = 'Protein'
                     color='var(--primary-color)'
                     lighterColor='var(--primary-light-color)'
+                    radius={35}
+                    strokeWidth={5}
+                    centerX={40}
+                    centerY={30}
                 />
                 <HalfCircle 
                     nutrient={carbs} 
@@ -43,6 +51,10 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     text = 'Carbs'
                     color='var(--secondary-color)'
                     lighterColor='var(--secondary-light-color)'
+                    radius={35}
+                    strokeWidth={5}
+                    centerX={40}
+                    centerY={30}
                 />
                 <HalfCircle 
                     nutrient={fat} 
@@ -50,6 +62,10 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     text = 'Fat'
                     color='var(--tertiary-color)'
                     lighterColor='var(--tertiary-lightest-plus)'
+                    radius={35}
+                    strokeWidth={5}
+                    centerX={40}
+                    centerY={30}
                 />
             </div>
     </div>

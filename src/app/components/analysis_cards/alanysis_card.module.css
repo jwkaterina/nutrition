@@ -63,12 +63,13 @@
 
 .title {
     margin-bottom: 1rem;
+    color: var(--gray-dark);
 }
 
 .daily_grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1rem;
+    grid-gap: 0.5rem;
 }
 
 .container p {

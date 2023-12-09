@@ -22,7 +22,7 @@ const BigNutrientsCard = ({ content }: BigNutrientsCardProps): JSX.Element => {
 
     return (
         <div className={styles.container} style={{gridArea: 'bigNutrients'}}>
-            <h3>Big Nutrients</h3>
+            <h3 className={styles.title}>Big Nutrients</h3>
             <div className={styles.nutrients_container}>
                 <NutrientRow
                     title='Satuated fat'

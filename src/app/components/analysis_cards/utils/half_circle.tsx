@@ -7,18 +7,22 @@ interface HalfCircleProps {
     daily: Nutrient;
     text: string;
     color: string;
-    lighterColor: string
+    lighterColor: string,
+    radius: number;
+    strokeWidth: number;
+    centerX: number;
+    centerY: number;
 }
 
 const HalfCircle
- = ({ nutrient, daily, text, color, lighterColor }: HalfCircleProps): JSX.Element => {
+ = ({ nutrient, daily, text, color, lighterColor, radius, strokeWidth, centerX, centerY }: HalfCircleProps): JSX.Element => {
 
     let unit;
     if(nutrient) unit = nutrient.unit;
     if(text === 'Calories') unit = '';
 
     const arcRef = useRef<SVGCircleElement>(null);
-    const radius = 44;
+    // const radius = 44;
     const circumreference = radius * 2 * Math.PI;
 
     useEffect(() => {
@@ -66,11 +70,15 @@ const HalfCircle
 
     if(!nutrient) return <></>
 
+    const widthHeight = radius * 2 + strokeWidth * 2;
+    // const centerX = widthHeight / 2;
+    // const centerY = widthHeight / 2;
+
     return (
         <div className={styles.daily_container}>
-            <svg width="100" height="100">
-                <circle  style={styleArc()}  cx="50" cy="50" r={radius} stroke={lighterColor} strokeWidth="6" fill="none" strokeLinecap="round"/>
-                <circle ref={arcRef} style={styleProgress()}  cx="50" cy="50" r={radius} stroke={color} strokeWidth="6" fill="none" strokeLinecap="round"/>
+            <svg width={widthHeight} height={widthHeight}>
+                <circle  style={styleArc()}  cx={centerX} cy={centerY} r={radius} stroke={lighterColor} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
+                <circle ref={arcRef} style={styleProgress()}  cx={centerX} cy={centerY} r={radius} stroke={color} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
             </svg>
             <div className={styles.percentage}>
                 {daily && <p>{`${daily.quantity.toFixed(0)} ${daily.unit}`}</p>}

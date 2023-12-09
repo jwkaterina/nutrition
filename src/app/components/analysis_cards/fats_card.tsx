@@ -37,13 +37,11 @@ const FatsCard = ({ content }: FatsCardProps) => {
     const strokeWidth = 15;
     const widthHeight = 2 * radius + 2 * strokeWidth;
 
-    console.log(transfatPercent, satfatPercent, monounsatfatPercent, polyunsatfatPercent, restPercent, totalFat.quantity);
-
     if(!polyunsatfatPercent || !satfatPercent || !transfatPercent || !monounsatfatPercent || !restPercent) return <></>
 
     return (
         <div className={styles.container} style={{gridArea: 'fats'}}>
-            <h3>Fatty acids</h3>
+            <h3  className={styles.title}>Fatty acids</h3>
             <div className={styles.fats_grid}>
                 <div className={styles.composition_donut} style={{width: widthHeight}}>
                     <Arc degree={transDeg} percent={transfatPercent} color='var(--tertiary-darker)' radius={50} strokeWidth={15} />
