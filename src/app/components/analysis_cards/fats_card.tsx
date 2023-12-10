@@ -33,7 +33,7 @@ const FatsCard = ({ content }: FatsCardProps) => {
     if(satfatPercent && monounsatfatPercent && transfatPercent) polyunsatDeg = (monounsatfatPercent + satfatPercent + transfatPercent) / 100 * 360;
     if(satfatPercent && monounsatfatPercent && polyunsatfatPercent && transfatPercent) restDeg = (monounsatfatPercent + satfatPercent + transfatPercent + polyunsatfatPercent) / 100 * 360;
 
-    const radius = 40;
+    const radius = 50;
     const strokeWidth = 15;
     const widthHeight = 2 * radius + 2 * strokeWidth;
 

@@ -16,7 +16,7 @@
 }
 
 .daily_container .percentage h5, .daily_container .percentage p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 400;
 }
 
@@ -66,15 +66,16 @@
 }
 
 .bar_column p {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     line-height: 1rem;
     margin: 0;
     text-align: center;
+    color: var(--gray-dark);
 }
 
 .bar {
     position: relative;
-    width: 10px;
+    width: 20px;
     border-radius: 0.3rem;
     z-index: 0;
     margin-top: 0.5rem;
@@ -84,7 +85,7 @@
     position: absolute;
     bottom : 0;
     left: 0;
-    width: 10px;
+    width: 100%;
     border-radius: 0.3rem;
     z-index: 1;
 }

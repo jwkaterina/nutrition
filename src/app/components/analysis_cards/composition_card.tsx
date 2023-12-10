@@ -30,7 +30,7 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
     if(proteinPercent && waterPercent) carbsDeg = (proteinPercent + waterPercent!) / 100 * 360;
     if(proteinPercent && carbsPercent && waterPercent) fatDeg = (carbsPercent + proteinPercent + waterPercent) / 100 * 360;
 
-    const radius = 50;
+    const radius = 60;
     const strokeWidth = 20;
     const widthHeight = 2 * radius + 2 * strokeWidth;
     

@@ -71,8 +71,6 @@ const HalfCircle
     if(!nutrient) return <></>
 
     const widthHeight = radius * 2 + strokeWidth * 2;
-    // const centerX = widthHeight / 2;
-    // const centerY = widthHeight / 2;
 
     return (
         <div className={styles.daily_container}>

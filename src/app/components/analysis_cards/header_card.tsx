@@ -88,20 +88,22 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
 
     return(
         <div className={styles.container} style={{gridArea: 'header'}}>
-            <div className={styles.header}>
-                {isImage(image) && <img src={image} alt="" className={styles.img}/>}
-                <h1>{food.food.label}</h1>      
-            </div>
-            <div className={styles.form}>
-                {customWeight && <input type="number" value={quantity} placeholder='100' onChange={(e) => hangleQuantityChange(e)}/>}
-                <select 
-                    name="measure" 
-                    id="measure" 
-                    className={customWeight ? styles.short_select : ''} 
-                    value={option} 
-                    onChange={(e) => handleOptionChange(e)}>
-                    {measuresSelect()}
-                </select>
+            <div style={{padding: '2rem'}}>
+                <div className={styles.header}>
+                    {isImage(image) && <img src={image} alt="" className={styles.img}/>}
+                    <h1>{food.food.label}</h1>      
+                </div>
+                <div className={styles.form}>
+                    {customWeight && <input type="number" value={quantity} placeholder='100' onChange={(e) => hangleQuantityChange(e)}/>}
+                    <select 
+                        name="measure" 
+                        id="measure" 
+                        className={customWeight ? styles.short_select : ''} 
+                        value={option} 
+                        onChange={(e) => handleOptionChange(e)}>
+                        {measuresSelect()}
+                    </select>
+                </div>
             </div>
     </div>
     )

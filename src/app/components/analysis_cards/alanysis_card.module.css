@@ -10,7 +10,7 @@
     background-color: white;
     cursor: pointer;
     position: relative;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .header {
@@ -19,7 +19,8 @@
     justify-content: left;
     align-items: center;
     grid-gap: 1rem;
-    color: var(--gray-dark)
+    color: var(--gray-dark);
+    width: 100%;
 }
 
 .img {
@@ -31,7 +32,7 @@
 
 .form {
     margin-top: 1rem;
-    width: 200px;
+    width: 100%;
 }
 
 .form input, .form select {
@@ -69,7 +70,7 @@
 
 .daily_grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 3fr 2fr 2fr 2fr;
     grid-gap: 0.5rem;
 }
 
@@ -136,5 +137,11 @@
 @media (max-width: 1100px) {
     .fats_grid {
         justify-items: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .fats_grid {
+        justify-items: normal;
     }
 }
