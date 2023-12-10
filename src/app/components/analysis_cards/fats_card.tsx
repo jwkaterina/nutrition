@@ -33,7 +33,7 @@ const FatsCard = ({ content }: FatsCardProps) => {
     if(satfatPercent && monounsatfatPercent && transfatPercent) polyunsatDeg = (monounsatfatPercent + satfatPercent + transfatPercent) / 100 * 360;
     if(satfatPercent && monounsatfatPercent && polyunsatfatPercent && transfatPercent) restDeg = (monounsatfatPercent + satfatPercent + transfatPercent + polyunsatfatPercent) / 100 * 360;
 
-    const radius = 50;
+    const radius = 40;
     const strokeWidth = 15;
     const widthHeight = 2 * radius + 2 * strokeWidth;
 
@@ -43,19 +43,19 @@ const FatsCard = ({ content }: FatsCardProps) => {
         <div className={styles.container} style={{gridArea: 'fats'}}>
             <h3  className={styles.title}>Fatty acids</h3>
             <div className={styles.fats_grid}>
-                <div className={styles.composition_donut} style={{width: widthHeight}}>
-                    <Arc degree={transDeg} percent={transfatPercent} color='var(--tertiary-darker)' radius={50} strokeWidth={15} />
-                    <Arc degree={satDeg} percent={satfatPercent} color='var(--tertiary-color)' radius={50} strokeWidth={15} />
-                    <Arc degree={monounsatDeg} percent={monounsatfatPercent} color='var(--tertiary-lighter)' radius={50} strokeWidth={15} />
-                    <Arc degree={polyunsatDeg} percent={polyunsatfatPercent} color='var(--tertiary-light)' radius={50} strokeWidth={15} />
-                    <Arc degree={restDeg} percent={restPercent} color='var(--tertiary-lightest)' radius={50} strokeWidth={15} />
+                <div className={styles.composition_donut}>
+                    <Arc degree={transDeg} percent={transfatPercent} color='var(--tertiary-darker)' radius={radius} strokeWidth={strokeWidth} />
+                    <Arc degree={satDeg} percent={satfatPercent} color='var(--tertiary-color)' radius={radius} strokeWidth={strokeWidth} />
+                    <Arc degree={monounsatDeg} percent={monounsatfatPercent} color='var(--tertiary-lighter)' radius={radius} strokeWidth={strokeWidth} />
+                    <Arc degree={polyunsatDeg} percent={polyunsatfatPercent} color='var(--tertiary-light)' radius={radius} strokeWidth={strokeWidth} />
+                    <Arc degree={restDeg} percent={restPercent} color='var(--tertiary-lightest)' radius={radius} strokeWidth={strokeWidth} />
                 </div>
                 <div className={styles.composition_column} style={{height: widthHeight}}>
-                    <SmallCircle percent={transfatPercent} color='var(--tertiary-darker)' text='trans'/>
-                    <SmallCircle percent={satfatPercent} color='var(--tertiary-color)' text='saturated'/>
-                    <SmallCircle percent={monounsatfatPercent} color='var(--tertiary-lighter)' text='monounsaturated'/>
-                    <SmallCircle percent={polyunsatfatPercent} color='var(--tertiary-light)' text='polyunsaturated'/>
-                    <SmallCircle percent={restPercent} color='var(--tertiary-lightest)' text='rest'/>
+                    <SmallCircle percent={transfatPercent} color='var(--tertiary-darker)' text='trans' heightWidth={15}/>
+                    <SmallCircle percent={satfatPercent} color='var(--tertiary-color)' text='saturated' heightWidth={15}/>
+                    <SmallCircle percent={monounsatfatPercent} color='var(--tertiary-lighter)' text='monounsaturated' heightWidth={15}/>
+                    <SmallCircle percent={polyunsatfatPercent} color='var(--tertiary-light)' text='polyunsaturated' heightWidth={15}/>
+                    <SmallCircle percent={restPercent} color='var(--tertiary-lightest)' text='rest' heightWidth={15}/>
                 </div>
             </div>
         </div>

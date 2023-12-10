@@ -30,7 +30,7 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
     if(proteinPercent && waterPercent) carbsDeg = (proteinPercent + waterPercent!) / 100 * 360;
     if(proteinPercent && carbsPercent && waterPercent) fatDeg = (carbsPercent + proteinPercent + waterPercent) / 100 * 360;
 
-    const radius = 70;
+    const radius = 50;
     const strokeWidth = 20;
     const widthHeight = 2 * radius + 2 * strokeWidth;
     
@@ -41,16 +41,16 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
             <h3 className={styles.title}>Composition</h3>
             <div className={styles.composition_grid}>
                 <div className={styles.composition_donut} style={{width: widthHeight}}>
-                    <Arc degree={waterDeg} percent={waterPercent} color='var(--gray-lighter)' radius={70} strokeWidth={20} />
-                    <Arc degree={proteinDeg} percent={proteinPercent} color='var(--primary-color)' radius={70} strokeWidth={20} />
-                    <Arc degree={carbsDeg} percent={carbsPercent} color='var(--secondary-color)' radius={70} strokeWidth={20} />
-                    <Arc degree={fatDeg} percent={fatPercent} color='var(--tertiary-color)' radius={70} strokeWidth={20} />
+                    <Arc degree={waterDeg} percent={waterPercent} color='var(--gray-lighter)' radius={radius} strokeWidth={strokeWidth} />
+                    <Arc degree={proteinDeg} percent={proteinPercent} color='var(--primary-color)' radius={radius} strokeWidth={strokeWidth} />
+                    <Arc degree={carbsDeg} percent={carbsPercent} color='var(--secondary-color)' radius={radius} strokeWidth={strokeWidth} />
+                    <Arc degree={fatDeg} percent={fatPercent} color='var(--tertiary-color)' radius={radius} strokeWidth={strokeWidth} />
                 </div>
                 <div className={styles.composition_column} style={{height: widthHeight}}>
-                    <SmallCircle percent={waterPercent} color='var(--gray-lighter)' text='Water'/>
-                    <SmallCircle percent={proteinPercent} color='var(--primary-color)' text='Protein'/>
-                    <SmallCircle percent={carbsPercent} color='var(--secondary-color)' text='Carbs'/>
-                    <SmallCircle percent={fatPercent} color='var(--tertiary-color)' text='Fat'/>
+                    <SmallCircle percent={waterPercent} color='var(--gray-lighter)' text='Water' heightWidth={20}/>
+                    <SmallCircle percent={proteinPercent} color='var(--primary-color)' text='Protein' heightWidth={20}/>
+                    <SmallCircle percent={carbsPercent} color='var(--secondary-color)' text='Carbs' heightWidth={20}/>
+                    <SmallCircle percent={fatPercent} color='var(--tertiary-color)' text='Fat' heightWidth={20}/>
                 </div>
             </div>
         </div>
