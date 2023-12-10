@@ -43,7 +43,7 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
     }
 
     return (
-        <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} style={cardOpen && cardOpen != 0 ? {overflow: 'hidden'} : {overflow: 'auto'}}>
+        <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} style={cardOpen ? {overflow: 'hidden'} : {overflow: 'auto'}}>
             <Food/>
             <Recipe/>
             <Menu/>

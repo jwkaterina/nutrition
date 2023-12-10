@@ -107,7 +107,7 @@ export const FoodSearch = (): JSX.Element => {
 			<AnalysisMenu title="Food" onHeaderClick={handleHeaderClick}/>
 			}
 		</NavBar>
-		<div style={(cardOpen && cardOpen != 0) ? {overflow: 'hidden', height: '100vh'} : {overflow: 'auto'}}>
+		<div style={(cardOpen) ? {overflow: 'hidden', height: '100vh'} : {overflow: 'auto'}}>
 			{!cardOpen && <div className={styles.input_container}>
 				<input 
 					type="text" 
