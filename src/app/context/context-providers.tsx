@@ -1,7 +1,7 @@
 import { FoodProvider, CurrentFoodProvider } from './food-context'
 import { RecipeProvider } from './recipe-context'
 import { MenuProvider } from './menu-context'
-import { CardOpenProvider } from './card-context'
+import { CardOpenProvider, ScrollProvider } from './card-context'
 
 export default function ContextProviders({ children }: any) {
 
@@ -11,7 +11,9 @@ export default function ContextProviders({ children }: any) {
             <MenuProvider>
                 <CardOpenProvider>
                   <CurrentFoodProvider>
-                    {children}
+                    <ScrollProvider>
+                      {children} 
+                    </ScrollProvider> 
                   </CurrentFoodProvider>
                 </CardOpenProvider>
             </MenuProvider>

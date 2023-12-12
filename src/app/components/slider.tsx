@@ -6,7 +6,7 @@ import Recipe from '@/app/components/slides/recipe';
 import Menu from '@/app/components/slides/menu';
 import { useEffect, useRef, useContext } from 'react';
 import { SlideType } from '@/app/types/types';
-import { CardOpenContext } from '@/app/context/card-context';
+import { CardOpenContext, ScrollContext, SetScrollContext } from '@/app/context/card-context';
 
 interface SliderProps {
     slide: SlideType,
@@ -18,8 +18,11 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
 
     const slidesRef = useRef(null);
     const cardOpen = useContext(CardOpenContext);
+	const scroll = useContext(ScrollContext);
+	const setScroll = useContext(SetScrollContext);
 
     useEffect(() => {
+		scrollTo(0, 0);
         if(!slidesRef.current) return;
         (slidesRef.current as HTMLElement).scrollTo({
           top: 0,
@@ -27,6 +30,19 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
           behavior: "smooth",
         });
       }, [slide]);
+
+	useEffect(() => {
+		if(!slidesRef.current) return;
+		if(cardOpen) {
+			scrollTo(0, 0);
+			slidesRef.current.scrollTo(0, 0);
+			setTimeout(() => {
+				setScroll(true);
+			}, 1000)
+		} else {
+			setScroll(false);
+		}
+	}, [cardOpen])
 
     const handleScroll = () => {
       if(blockScrollHandler || !slidesRef.current) return;
@@ -43,7 +59,7 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
     }
 
     return (
-        <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} style={cardOpen ? {overflow: 'hidden'} : {overflow: 'auto'}}>
+        <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} style={scroll && cardOpen ? {overflow: 'hidden'} : {overflow: 'auto'}}>
             <Food/>
             <Recipe/>
             <Menu/>

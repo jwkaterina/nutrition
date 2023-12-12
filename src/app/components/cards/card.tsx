@@ -2,7 +2,7 @@
 
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
-import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
+import { CardOpenContext, SetCardOpenContext, ScrollContext } from '@/app/context/card-context'
 import { SetCurrentFoodContext } from '@/app/context/food-context'
 
 
@@ -16,6 +16,7 @@ const Card = ({ index, children, id }: CardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
+    const scroll = useContext(ScrollContext);
     const setCurrentFood = useContext(SetCurrentFoodContext);
     const cardRef = useRef<HTMLDivElement>(null);
 
@@ -57,7 +58,7 @@ const Card = ({ index, children, id }: CardProps): JSX.Element => {
         fill: 'forwards'
     };
 
-    if(cardRef.current && cardOpen === index) {
+    if(cardRef.current && cardOpen === index && scroll) {
         cardRef.current.animate(keyframes, options);
     } 
 
@@ -67,8 +68,13 @@ const Card = ({ index, children, id }: CardProps): JSX.Element => {
         }
     }, [cardOpen])
 
+    const handleCardClick = () => {
+        setCardOpen(index); 
+        setCurrentFood(id);
+    }
+
     return (
-        <div className={cardOpen != index ? styles.card : `${styles.card} ${styles.card_open}`} onClick={() => {setCardOpen(index); setCurrentFood(id)}} ref={cardRef}>
+        <div className={cardOpen != index ? styles.card : `${styles.card} ${styles.card_open}`} onClick={handleCardClick} ref={cardRef}>
             {children}
         </div>
     )
