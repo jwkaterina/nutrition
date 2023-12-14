@@ -14,15 +14,13 @@ interface HalfCircleProps {
     centerY: number;
 }
 
-const HalfCircle
- = ({ nutrient, daily, text, color, lighterColor, radius, strokeWidth, centerX, centerY }: HalfCircleProps): JSX.Element => {
+const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, strokeWidth, centerX, centerY }: HalfCircleProps): JSX.Element => {
 
     let unit;
     if(nutrient) unit = nutrient.unit;
     if(text === 'Calories') unit = '';
 
     const arcRef = useRef<SVGCircleElement>(null);
-    // const radius = 44;
     const circumreference = radius * 2 * Math.PI;
 
     useEffect(() => {

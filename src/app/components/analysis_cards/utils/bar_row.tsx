@@ -2,14 +2,14 @@ import styles from './utils.module.css';
 import { Nutrient } from '@/app/types/types';
 import { useEffect, useRef } from 'react';
 
-interface NutrientRowProps {
+interface BarRowProps {
     nutrient: Nutrient;
     daily: Nutrient;
     title: string;
     color: string;
 }
 
-const NutrientRow = ({ title, color, nutrient, daily }: NutrientRowProps): JSX.Element => {
+const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => {
 
     const lineRef = useRef<SVGLineElement>(null);
     const length = 70;
@@ -60,7 +60,7 @@ const NutrientRow = ({ title, color, nutrient, daily }: NutrientRowProps): JSX.E
     if(!nutrient) return <></>
 
     return (
-        <div className={styles.nutrient_row}>
+        <div className={styles.bar_row}>
             <p>{title}</p>
             <span>{`${nutrient.quantity.toFixed(0)}${nutrient.unit}`}</span>
             <svg width='90px' height='40px'>
@@ -72,4 +72,4 @@ const NutrientRow = ({ title, color, nutrient, daily }: NutrientRowProps): JSX.E
     )
 }
 
-export default NutrientRow
+export default BarRow

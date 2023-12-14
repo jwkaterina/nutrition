@@ -1,6 +1,6 @@
 import styles from './alanysis_card.module.css';
 import { Nutrient, Nutrients } from '@/app/types/types';
-import NutrientRow from './utils/row';
+import BarRow from './utils/bar_row';
 
 interface BigNutrientsCardProps {
     content: Nutrients | null;
@@ -23,32 +23,32 @@ const BigNutrientsCard = ({ content }: BigNutrientsCardProps): JSX.Element => {
     return (
         <div className={styles.container} style={{gridArea: 'bigNutrients'}}>
             <h3 className={styles.title}>Big Nutrients</h3>
-            <div className={styles.nutrients_container}>
-                <NutrientRow
+            <div>
+                <BarRow
                     title='Satuated fat'
                     color='var(--tertiary-color)'
                     nutrient={satFat}
                     daily={dailySatFat}
                 />
-                <NutrientRow
+                <BarRow
                     title='Cholesterol'
                     color='var(--tertiary-color)'
                     nutrient={cholesterol}
                     daily={dailyCholesterol}
                 />
-                <NutrientRow
+                <BarRow
                     title='Fiber'
                     color='var(--secondary-color)'
                     nutrient={fiber}
                     daily={dailyFiber}
                 />
-                <NutrientRow
+                <BarRow
                     title='Sugar'
                     color='var(--secondary-color)'
                     nutrient={sugar}
                     daily={dailySugar}
                 />
-                <NutrientRow
+                <BarRow
                     title='Sodium'
                     color='var(--primary-color)'
                     nutrient={sodium}

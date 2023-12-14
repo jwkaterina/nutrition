@@ -34,13 +34,23 @@
     margin-right: 1rem;
 }
 
-.nutrient_row {
+.bar_row {
     display: grid;
     grid-template-columns: 5fr 2fr 2fr 2fr;
     justify-content: left;
     align-items: center;
     line-height: 0.3rem;
     grid-gap: 0.8rem;
+    margin-left: 1rem;
+}
+
+.circle_row {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    justify-content: left;
+    align-items: center;
+    line-height: 3rem;
+    grid-gap: 1.5rem;
     margin-left: 1rem;
 }
 
