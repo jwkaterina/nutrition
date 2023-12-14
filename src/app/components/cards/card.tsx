@@ -2,7 +2,7 @@
 
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
-import { CardOpenContext, SetCardOpenContext, ScrollContext } from '@/app/context/card-context'
+import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
 import { SetCurrentFoodContext } from '@/app/context/food-context'
 
 
@@ -16,7 +16,6 @@ const Card = ({ index, children, id }: CardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
-    const scroll = useContext(ScrollContext);
     const setCurrentFood = useContext(SetCurrentFoodContext);
     const cardRef = useRef<HTMLDivElement>(null);
 
@@ -58,7 +57,7 @@ const Card = ({ index, children, id }: CardProps): JSX.Element => {
         fill: 'forwards'
     };
 
-    if(cardRef.current && cardOpen === index && scroll) {
+    if(cardRef.current && cardOpen === index) {
         cardRef.current.animate(keyframes, options);
     } 
 

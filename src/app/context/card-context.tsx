@@ -15,19 +15,3 @@ export const CardOpenProvider = ({ children }: any) => {
         </CardOpenContext.Provider>
     )
 }
-
-export const ScrollContext = createContext<boolean>(false);
-export const SetScrollContext = createContext((() => {}) as React.SetStateAction<any>);
-
-export const ScrollProvider = ({ children }: any) => {
-
-    const [scroll, setScroll] = useState(false);
-
-    return (
-        <ScrollContext.Provider value={scroll}>
-            <SetScrollContext.Provider value={setScroll}>
-                {children}
-            </SetScrollContext.Provider>
-        </ScrollContext.Provider>
-    )
-}
