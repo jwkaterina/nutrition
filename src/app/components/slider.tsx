@@ -36,7 +36,7 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
 			(slidesRef.current as HTMLElement).scrollTo({
                 top: 0,
                 left: 0,
-                behavior: "instant",
+                behavior: "auto",
             });
 		}
 	}, [cardOpen])
