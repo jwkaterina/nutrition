@@ -19,16 +19,20 @@ const Card = ({ index, children, id }: CardProps): JSX.Element => {
     const setCurrentFood = useContext(SetCurrentFoodContext);
     const cardRef = useRef<HTMLDivElement>(null);
 
-    const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 600px)');
+    const mediaQuery600: MediaQueryList = window.matchMedia('(max-width: 600px)');
+    const mediaQuery1000: MediaQueryList = window.matchMedia('(max-width: 1000px)');
 
     const gridGap: number = 1;
     const cardHeight: number = 150;
     const cardWidth: number = cardRef.current ? cardRef.current.clientWidth : 0;
 
     let column: number, row: number;
-    if(mediaQuery.matches) {
+    if(mediaQuery600.matches) {
         column = 1;
         row = Math.ceil(index);
+    } else if(mediaQuery1000.matches) {
+        column = index % 2 === 0 ? 2 : 1;
+        row = Math.ceil(index / 2);
     } else {
         column = index % 4 === 0 ? 4 : index % 4;
         row = Math.ceil(index / 4);
