@@ -19,7 +19,7 @@ const Card = ({ index, children, id }: CardProps): JSX.Element => {
     const setCurrentFood = useContext(SetCurrentFoodContext);
     const cardRef = useRef<HTMLDivElement>(null);
 
-    const mediaQuery600: MediaQueryList = window.matchMedia('(max-width: 600px)');
+    const mediaQuery600: MediaQueryList = window.matchMedia('(max-width: 500px)');
     const mediaQuery1000: MediaQueryList = window.matchMedia('(max-width: 1000px)');
 
     const gridGap: number = 1;

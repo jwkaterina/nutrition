@@ -93,3 +93,9 @@
 .bar_label {
     margin-top: 1rem;
 }
+
+@media (max-width: 500px) {
+    .bar_column p {
+        font-size: 0.4rem;
+    }
+}

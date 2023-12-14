@@ -10,7 +10,7 @@ interface MainNavProps {
 }
 
 const MainNav = ({ slide, setSlide, setBlockScrollHandler }: MainNavProps): JSX.Element => {
-    const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 600px)');
+    const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 500px)');
 
     let linkWidth: string;
     if(mediaQuery.matches) {
