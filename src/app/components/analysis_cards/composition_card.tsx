@@ -41,13 +41,13 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
             <h3 className={styles.title}>Composition</h3>
             <div className={styles.composition_grid}>
                 <div className={styles.composition_donut} style={{width: widthHeight}}>
-                    <Arc degree={waterDeg} percent={waterPercent} color='var(--gray-lighter)' radius={radius} strokeWidth={strokeWidth} />
+                    <Arc degree={waterDeg} percent={waterPercent} color='var(--gray-light)' radius={radius} strokeWidth={strokeWidth} />
                     <Arc degree={proteinDeg} percent={proteinPercent} color='var(--primary-color)' radius={radius} strokeWidth={strokeWidth} />
                     <Arc degree={carbsDeg} percent={carbsPercent} color='var(--secondary-color)' radius={radius} strokeWidth={strokeWidth} />
                     <Arc degree={fatDeg} percent={fatPercent} color='var(--tertiary-color)' radius={radius} strokeWidth={strokeWidth} />
                 </div>
                 <div className={styles.composition_column} style={{height: widthHeight}}>
-                    <SmallCircle percent={waterPercent} color='var(--gray-lighter)' text='Water' heightWidth={20}/>
+                    <SmallCircle percent={waterPercent} color='var(--gray-light)' text='Water' heightWidth={20}/>
                     <SmallCircle percent={proteinPercent} color='var(--primary-color)' text='Protein' heightWidth={20}/>
                     <SmallCircle percent={carbsPercent} color='var(--secondary-color)' text='Carbs' heightWidth={20}/>
                     <SmallCircle percent={fatPercent} color='var(--tertiary-color)' text='Fat' heightWidth={20}/>

@@ -44,7 +44,7 @@ const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarCol
                 </div>        
                 <div className={styles.bar_label}>
                     <p>{label}</p>
-                    <p>{`${vitamin.quantity.toFixed(1)} ${vitamin.unit}`}</p>
+                    <span>{`${vitamin.quantity.toFixed(1)}${vitamin.unit}`}</span>
                 </div>                      
             </div>
 }

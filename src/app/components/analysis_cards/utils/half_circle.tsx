@@ -79,8 +79,11 @@ const HalfCircle
                 <circle ref={arcRef} style={styleProgress()}  cx={centerX} cy={centerY} r={radius} stroke={color} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
             </svg>
             <div className={styles.percentage}>
-                {daily && <p>{`${daily.quantity.toFixed(0)} ${daily.unit}`}</p>}
-                <h5>{`${nutrient.quantity.toFixed(0)} ${unit} ${text}`}</h5>
+                {daily && <span>{`${daily.quantity.toFixed(0)}${daily.unit}`}</span>}
+                <p>
+                    <span>{`${nutrient.quantity.toFixed(0)}${unit} `}</span>
+                    {text}
+                </p>
             </div>
         </div>
     )

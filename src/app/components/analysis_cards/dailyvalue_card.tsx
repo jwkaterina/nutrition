@@ -28,7 +28,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     daily={dailyCalories} 
                     text = 'Calories'
                     color='var(--gray-darker)'
-                    lighterColor='var(--gray-lighter)'
+                    lighterColor='var(--gray-light)'
                     radius={44}
                     strokeWidth={6}
                     centerX={50}
