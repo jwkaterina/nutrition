@@ -98,4 +98,8 @@
     .bar_column p {
         font-size: 0.4rem;
     }
+
+    .composition_cell p, .nutrient_row h5 {
+        font-size: 0.9rem;
+    }
 }
