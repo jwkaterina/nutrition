@@ -66,6 +66,18 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
         }
     }
 
+    const styleText = () => {
+        if(text === 'Calories') {
+            return {
+                fontSize: '1rem',
+            } 
+        } else {
+            return {
+                fontSize: '0.8rem',
+            }
+        }
+    }
+
     if(!nutrient) return <></>
 
     const widthHeight = radius * 2 + strokeWidth * 2;
@@ -78,8 +90,8 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
             </svg>
             <div className={styles.percentage}>
                 {daily && <span>{`${daily.quantity.toFixed(0)}${daily.unit}`}</span>}
-                <p>
-                    <span>{`${nutrient.quantity.toFixed(0)}${unit} `}</span>
+                <p style={styleText()}>
+                    <span style={styleText()}>{`${nutrient.quantity.toFixed(0)}${unit} `}</span>
                     {text}
                 </p>
             </div>
