@@ -32,6 +32,7 @@ const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Eleme
 	useEffect(() => {
 		if(!slidesRef.current) return;
 		if(cardOpen) {
+            scrollTo(0, 0);
 			(slidesRef.current as HTMLElement).scrollTo({
                 top: 0,
                 left: 0,
