@@ -7,17 +7,18 @@ import Menu from '@/app/components/slides/menu';
 import { useEffect, useRef, useContext } from 'react';
 import { SlideType } from '@/app/types/types';
 import { CardOpenContext } from '@/app/context/card-context';
+import { SlideContext, SetslideContext, BlockScrollContext } from '../context/slide-context';
 
 interface SliderProps {
-    slide: SlideType,
-    setSlide: (slide: SlideType) => void,
-    blockScrollHandler: boolean,
 }
 
-const Slider = ({ slide, setSlide, blockScrollHandler }: SliderProps): JSX.Element => {
+const Slider = ({ }: SliderProps): JSX.Element => {
 
     const slidesRef = useRef(null);
     const cardOpen = useContext(CardOpenContext);
+    const slide = useContext(SlideContext);
+    const setSlide = useContext(SetslideContext);
+    const blockScrollHandler = useContext(BlockScrollContext);
 
     useEffect(() => {
 		scrollTo(0, 0);

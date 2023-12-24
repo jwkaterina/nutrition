@@ -6,14 +6,15 @@ import { SetCardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext, useFoodDispatch } from '@/app/context/food-context'
 import { useRecipeDispatch } from '@/app/context/recipe-context'
 import { useMenuDispatch } from '@/app/context/menu-context'
+import { SlideContext } from '@/app/context/slide-context';
 import Menu from "./menu"
 
 interface OpenCardMenuProps {
-    slide: SlideType,
 }
 
-const OpenCardMenu = ({ slide }: OpenCardMenuProps): JSX.Element => {
+const OpenCardMenu = ({ }: OpenCardMenuProps): JSX.Element => {
 
+    const slide = useContext(SlideContext);
     const cardOpen = useContext(SetCardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
     const currentFood = useContext(CurrentFoodContext);

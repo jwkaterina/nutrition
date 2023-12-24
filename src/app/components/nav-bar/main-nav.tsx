@@ -1,15 +1,17 @@
 'use client'
-
+import { useContext } from 'react'
 import styles from './nav-bar.module.css'
 import { SlideType } from "@/app/types/types"
+import { SlideContext, SetslideContext, SetblockScrollContext } from '@/app/context/slide-context';
 
 interface MainNavProps {
-    slide: SlideType,
-    setSlide: (slide: SlideType) => void,
-    setBlockScrollHandler: (blockScrollHandler: boolean) => void,
 }
 
-const MainNav = ({ slide, setSlide, setBlockScrollHandler }: MainNavProps): JSX.Element => {
+const MainNav = ({ }: MainNavProps): JSX.Element => {
+
+    const slide = useContext(SlideContext);
+    const setSlide = useContext(SetslideContext);
+    const setBlockScrollHandler = useContext(SetblockScrollContext);
     const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 500px)');
 
     let linkWidth: string;
