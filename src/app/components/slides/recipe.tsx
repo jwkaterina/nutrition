@@ -3,7 +3,7 @@
 import Card from '../cards/card'
 import { useRecipe } from '@/app/context/recipe-context'
 import Slide from './slide'
-import Button from '@/app/components/button'
+import Button from '@/app/components/slider/button'
 
 const Recipe = () => {
 

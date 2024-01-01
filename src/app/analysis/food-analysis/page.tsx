@@ -6,7 +6,7 @@ import { useState, useContext, useEffect, FormEvent, KeyboardEvent } from 'react
 import NavBar from '@/app/components/nav-bar/nav-bar';
 import OpenAnalysisMenu from '@/app/components/nav-bar/menus/openanalysis-menu';
 import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
-import PageGrid from '@/app/components/page-grid';
+import PageGrid from '@/app/components/slider/page-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context';

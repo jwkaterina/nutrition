@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './slide.module.css'
-import PageGrid from "../page-grid"
+import PageGrid from "../slider/page-grid"
 
 interface SlideProps {
     children: React.ReactNode

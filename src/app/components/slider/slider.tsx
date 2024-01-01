@@ -7,7 +7,7 @@ import Menu from '@/app/components/slides/menu';
 import { useEffect, useRef, useContext } from 'react';
 import { SlideType } from '@/app/types/types';
 import { CardOpenContext } from '@/app/context/card-context';
-import { SlideContext, SetSlideContext, BlockScrollContext } from '../context/slide-context';
+import { SlideContext, SetSlideContext, BlockScrollContext } from '../../context/slide-context';
 
 interface SliderProps {
 }
