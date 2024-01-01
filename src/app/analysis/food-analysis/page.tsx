@@ -12,6 +12,7 @@ import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context';
 import { Food } from '@/app/types/types';
 import FoodCard from '@/app/components/cards/food-cards/food-card';
+import Footer from '@/app/components/navigation/footer';
 
 export const FoodSearch = (): JSX.Element => {
 
@@ -22,6 +23,8 @@ export const FoodSearch = (): JSX.Element => {
 	const [showOptions, setShowOptions] = useState(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
 	const [input, setInput] = useState('');
+
+	const secondaryColor = "var(--secondary-color)";
 
 	const handleInput = async(e: FormEvent) => {
 		const inputValue = (e.target as HTMLInputElement).value;
@@ -101,13 +104,13 @@ export const FoodSearch = (): JSX.Element => {
 	})
 
 	return (<>
-		<NavBar color={'var(--secondary-color)'}>
+		<NavBar color={secondaryColor}>
 			{cardOpen ? 
 			<OpenAnalysisMenu foodArray={foodArr}/> : 
 			<AnalysisMenu title="Food" onHeaderClick={handleHeaderClick}/>
 			}
 		</NavBar>
-		<div style={(cardOpen) ? {overflow: 'hidden', height: '100vh'} : {overflow: 'auto'}}>
+		<div style={(cardOpen) ? {overflow: 'hidden', height: '100vh'} : {overflow: 'auto', height: '100vh'}}>
 			{!cardOpen && <div className={styles.input_container}>
 				<input 
 					type="text" 
@@ -128,11 +131,12 @@ export const FoodSearch = (): JSX.Element => {
 					className={styles.deleteIcon} 
 					onClick={emptyInput}/>}
 			</div>}
-				{showOptions && <Options 
-					queryOptions={queryOptions} 
-					onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}/>}
+			{showOptions && <Options 
+				queryOptions={queryOptions} 
+				onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}/>}
 			{foodArr.length > 0 && <PageGrid>{foodList}</PageGrid>}
 		</div>
+		{!cardOpen && <Footer color={secondaryColor} />}
 	</>)
 }
 

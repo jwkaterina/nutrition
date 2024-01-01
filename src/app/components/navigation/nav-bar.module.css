@@ -3,9 +3,21 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 80px;
+    height: 60px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     position: relative;
+    z-index: 3;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    bottom: 0;
     z-index: 3;
 }
 
@@ -15,6 +27,15 @@
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
+}
+
+.footer_links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    padding: 0 40px;
 }
 
 .links {
