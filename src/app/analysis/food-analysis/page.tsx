@@ -3,9 +3,9 @@
 import styles from './page.module.css'
 import { parseQuery, autocomplete } from '@/app/services/fetch-data'
 import { useState, useContext, useEffect, FormEvent, KeyboardEvent } from 'react' 
-import NavBar from '@/app/components/nav-bar/nav-bar';
-import OpenAnalysisMenu from '@/app/components/nav-bar/menus/openanalysis-menu';
-import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
+import NavBar from '@/app/components/navigation/nav-bar';
+import OpenAnalysisMenu from '@/app/components/navigation/menus/openanalysis-menu';
+import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
 import PageGrid from '@/app/components/slider/page-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'

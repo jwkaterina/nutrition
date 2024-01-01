@@ -3,8 +3,8 @@
 // import styles from './page.module.css'
 // import { fetchNutritionAnalysisAPI } from '@/app/services/fetch-data'
 // import { useState } from 'react' 
-import NavBar from '@/app/components/nav-bar/nav-bar';
-import AnalysisMenu from '@/app/components/nav-bar/menus/analysis-menu';
+import NavBar from '@/app/components/navigation/nav-bar';
+import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
 
 export const MenuSearch = (): JSX.Element => {
 
