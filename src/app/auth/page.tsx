@@ -3,12 +3,15 @@
 import styles from './page.module.css';
 import NavBar from '@/app/components/navigation/nav-bar';
 import AuthMenu from '@/app/components/navigation/menus/auth-menu';
-import { useState } from 'react';
+import { AuthContext, SetAuthContext } from '@/app/context/auth-context';
+import { useState, useContext } from 'react';
 
 const Auth = (): JSX.Element => {
 
     const tertiaryColor = "var(--tertiary-color)";
 
+    const isLoggedIn = useContext(AuthContext);
+    const setIsLoggedIn = useContext(SetAuthContext);
     const [loginMode, setLoginMode] = useState(true);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,6 +39,7 @@ const Auth = (): JSX.Element => {
         
                 const responseData = await response.json();
                 console.log(responseData);
+                setIsLoggedIn(true);
               } catch (err) {
                 console.log(err);
               }

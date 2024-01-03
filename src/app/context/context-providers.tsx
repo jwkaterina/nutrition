@@ -3,6 +3,7 @@ import { RecipeProvider } from './recipe-context'
 import { MenuProvider } from './menu-context'
 import { CardOpenProvider } from './card-context'
 import { SlideProvider } from './slide-context'
+import { AuthProvider } from './auth-context'
 
 export default function ContextProviders({ children }: any) {
 
@@ -13,7 +14,9 @@ export default function ContextProviders({ children }: any) {
                 <CardOpenProvider>
                   <CurrentFoodProvider>
                     <SlideProvider>
-                      {children} 
+                      <AuthProvider>
+                        {children} 
+                      </AuthProvider>
                     </SlideProvider>
                   </CurrentFoodProvider>
                 </CardOpenProvider>
