@@ -5,6 +5,7 @@ import NavBar from '@/app/components/navigation/nav-bar';
 import AuthMenu from '@/app/components/navigation/menus/auth-menu';
 import { AuthContext, SetAuthContext } from '@/app/context/auth-context';
 import { useState, useContext } from 'react';
+import LoadingSpinner from '@/app/components/loading/loading-spinner';
 
 const Auth = (): JSX.Element => {
 
@@ -13,6 +14,8 @@ const Auth = (): JSX.Element => {
     const isLoggedIn = useContext(AuthContext);
     const setIsLoggedIn = useContext(SetAuthContext);
     const [loginMode, setLoginMode] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null); 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -23,8 +26,8 @@ const Auth = (): JSX.Element => {
             console.log(email, password)
         } else {
             const name = form.name.value;
-            // console.log(name, email, password);
             try {
+                setIsLoading(true);
                 const response = await fetch('http://localhost:5001/auth/signup', {
                   method: 'POST',
                   headers: {
@@ -38,10 +41,15 @@ const Auth = (): JSX.Element => {
                 });
         
                 const responseData = await response.json();
-                console.log(responseData);
-                setIsLoggedIn(true);
+                if (!response.ok) {
+                    throw new Error(responseData.message);
+                  }
+                  console.log(responseData);
+                  setIsLoading(false);
+                  setIsLoggedIn(true);
               } catch (err) {
-                console.log(err);
+                setIsLoading(false);
+                setError(err.message || 'Something went wrong, please try again.');
               }
         }
     }
@@ -50,7 +58,9 @@ const Auth = (): JSX.Element => {
         <NavBar color={tertiaryColor}>
             <AuthMenu />
         </NavBar>
+        {/* <ErrorModal error={error} onClear={() => setError(null)} /> */}
         <div className={styles.container}>
+            {isLoading && <LoadingSpinner />}
             <form className={styles.form} onSubmit={handleSubmit}>
                 {!loginMode && <div className={styles.form_group}>
                     <label htmlFor="name">Name</label>
