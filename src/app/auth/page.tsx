@@ -11,7 +11,7 @@ const Auth = (): JSX.Element => {
 
     const [loginMode, setLoginMode] = useState(true);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const form = e.currentTarget;
         const email = form.email.value;
@@ -20,7 +20,25 @@ const Auth = (): JSX.Element => {
             console.log(email, password)
         } else {
             const name = form.name.value;
-            console.log(name, email, password)
+            // console.log(name, email, password);
+            try {
+                const response = await fetch('http://localhost:5001/auth/signup', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: password
+                  })
+                });
+        
+                const responseData = await response.json();
+                console.log(responseData);
+              } catch (err) {
+                console.log(err);
+              }
         }
     }
 

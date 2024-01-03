@@ -10,8 +10,19 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
+  next();
+});
+
 app.use('/api/food', foodRoutes);
-app.use('/api/users', usersRoutes);
+app.use('/auth', usersRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);
@@ -29,7 +40,7 @@ app.use((error, req, res, next) => {
 mongoose
   .connect('mongodb+srv://jwkaterina:S86zrzZ0d4g78hCT@cluster0.ajgjgkk.mongodb.net/?retryWrites=true&w=majority')
   .then(() => {
-    app.listen(3000);
+    app.listen(5001);
   })
   .catch(err => {
     console.log(err);
