@@ -11,23 +11,36 @@ const Auth = (): JSX.Element => {
 
     const [loginMode, setLoginMode] = useState(true);
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const email = form.email.value;
+        const password = form.password.value;
+        if (loginMode) {
+            console.log(email, password)
+        } else {
+            const name = form.name.value;
+            console.log(name, email, password)
+        }
+    }
+
     return (<>
         <NavBar color={tertiaryColor}>
             <AuthMenu />
         </NavBar>
         <div className={styles.container}>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
                 {!loginMode && <div className={styles.form_group}>
                     <label htmlFor="name">Name</label>
-                    <input id="name" type="text" />
+                    <input id="name" type="text" required />
                 </div>}
                 <div className={styles.form_group}>
                     <label htmlFor="email">Email</label>
-                    <input id="email" type="email" />
+                    <input id="email" type="email" required/>
                 </div>
                 <div className={styles.form_group}>
                     <label htmlFor="password">Password</label>
-                    <input id="password" type="password" />
+                    <input id="password" type="password" minLength={5} required/>
                 </div>
                 <div className={styles.form_group}>
                     <button type="submit">{loginMode ? 'Login' : 'Signup'}</button>
