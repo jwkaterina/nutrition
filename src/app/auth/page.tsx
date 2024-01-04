@@ -48,7 +48,7 @@ const Auth = (): JSX.Element => {
                   }
                   setIsLoading(false);
                   setIsLoggedIn(true);
-                  router.back();
+                  goBack();
             } catch (err) {
                 setIsLoading(false);
                 setError(err.message || 'Something went wrong, please try again.');
@@ -74,7 +74,7 @@ const Auth = (): JSX.Element => {
                   }
                   setIsLoading(false);
                   setIsLoggedIn(true);
-                  router.back();
+                  goBack();
             } catch (err) {
                 setIsLoading(false);
                 setError(err.message || 'Something went wrong, please try again.');
