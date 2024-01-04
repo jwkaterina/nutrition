@@ -1,9 +1,9 @@
 'use client'
 
 import styles from './slider.module.css'
-import Food from '@/app/components/slides/food';
-import Recipe from '@/app/components/slides/recipe';
-import Menu from '@/app/components/slides/menu';
+import Food from '@/app/components/slider/slides/food';
+import Recipe from '@/app/components/slider/slides/recipe';
+import Menu from '@/app/components/slider/slides/menu';
 import { useEffect, useRef, useContext } from 'react';
 import { SlideType } from '@/app/types/types';
 import { CardOpenContext } from '@/app/context/card-context';

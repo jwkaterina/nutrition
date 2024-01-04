@@ -1,6 +1,6 @@
 'use client'
 
-import Card from "../cards/card"
+import Card from "../../cards/card"
 import { useMenu } from '@/app/context/menu-context'
 import Slide from './slide'
 import Button from '@/app/components/slider/button'

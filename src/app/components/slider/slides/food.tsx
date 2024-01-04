@@ -4,7 +4,7 @@ import { useFood } from '@/app/context/food-context'
 import Slide from './slide'
 import Button from '@/app/components/slider/button'
 import { Food } from '@/app/types/types'
-import FoodCard from '../cards/food-cards/food-card'
+import FoodCard from '../../cards/food-cards/food-card'
 
 const Food = () => {
 
