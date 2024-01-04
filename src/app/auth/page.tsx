@@ -79,7 +79,7 @@ const Auth = (): JSX.Element => {
                     <button type="submit">{loginMode ? 'Login' : 'Signup'}</button>
                 </div>
             </form>
-            <button className={styles.button} onClick={() => setLoginMode(!loginMode)}>{`Switch to ${loginMode ? 'Signup' : 'Login'}`}</button>
+            <button className={styles.switch_button} onClick={() => setLoginMode(!loginMode)}>{`Switch to ${loginMode ? 'Signup' : 'Login'}`}</button>
         </div>
     </>
     )
