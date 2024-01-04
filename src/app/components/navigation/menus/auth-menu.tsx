@@ -12,13 +12,13 @@ interface AuthMenuProps {
 const AuthMenu = ({ }: AuthMenuProps): JSX.Element => {
 
 	const router = useRouter();
-    const setBlockScrollHandler = useContext(SetBlockScrollContext);
+    const setBlockScroll = useContext(SetBlockScrollContext);
 
     const backHandler = () => {
-        setBlockScrollHandler(true);
+        setBlockScroll(true);
 		router.back();
 		setTimeout(() => {
-			setBlockScrollHandler(false);
+			setBlockScroll(false);
 		}, 500);
     }
 

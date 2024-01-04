@@ -11,7 +11,7 @@ const MainNav = ({ }: MainNavProps): JSX.Element => {
 
     const slide = useContext(SlideContext);
     const setSlide = useContext(SetSlideContext);
-    const setBlockScrollHandler = useContext(SetBlockScrollContext);
+    const setBlockScroll = useContext(SetBlockScrollContext);
     const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 500px)');
 
     let linkWidth: string;
@@ -52,10 +52,10 @@ const MainNav = ({ }: MainNavProps): JSX.Element => {
     }
     
     const handleClick = (slide: SlideType): void => {
-        setBlockScrollHandler(true);
+        setBlockScroll(true);
         setSlide(slide);
         setTimeout(() => {
-            setBlockScrollHandler(false);
+            setBlockScroll(false);
         }, 500)
     }
 
