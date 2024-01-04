@@ -6,6 +6,7 @@ import AuthMenu from '@/app/components/navigation/menus/auth-menu';
 import { AuthContext, SetAuthContext } from '@/app/context/auth-context';
 import { useState, useContext } from 'react';
 import LoadingSpinner from '@/app/components/loading/loading-spinner';
+import ErrorModal from '../components/error-modal/error-modal';
 
 const Auth = (): JSX.Element => {
 
@@ -58,7 +59,7 @@ const Auth = (): JSX.Element => {
         <NavBar color={tertiaryColor}>
             <AuthMenu />
         </NavBar>
-        {/* <ErrorModal error={error} onClear={() => setError(null)} /> */}
+        {error && <ErrorModal error={error} onClose={() => setError(null)} />}
         <div className={styles.container}>
             {isLoading && <LoadingSpinner />}
             <form className={styles.form} onSubmit={handleSubmit}>
