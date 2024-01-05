@@ -3,7 +3,7 @@
 import styles from './page.module.css';
 import NavBar from '@/app/components/navigation/nav-bar';
 import AuthMenu from '@/app/components/navigation/menus/auth-menu';
-import { SetAuthContext } from '@/app/context/auth-context';
+import { AuthContext } from '@/app/context/auth-context';
 import { useState, useContext } from 'react';
 import LoadingSpinner from '@/app/components/loading/loading-spinner';
 import ErrorModal from '../components/error-modal/error-modal';
@@ -16,7 +16,7 @@ const Auth = (): JSX.Element => {
     const tertiaryColor = "var(--tertiary-color)";
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const setBlockScroll = useContext(SetBlockScrollContext);
-    const setIsLoggedIn = useContext(SetAuthContext);
+    const { setIsLoggedIn, setUser } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState(true);
 
     const router = useRouter();
@@ -29,7 +29,7 @@ const Auth = (): JSX.Element => {
         
         if (loginMode) {
             try {
-                await sendRequest(
+                const responseData = await sendRequest(
                     'http://localhost:5001/auth/login',
                     'POST',
                     JSON.stringify({
@@ -41,12 +41,13 @@ const Auth = (): JSX.Element => {
                     }
                 );
                 setIsLoggedIn(true);
+                setUser(responseData.user.id);
                 goBack();
             } catch (err) {}
         } else {
             const name = form.name.value;
             try {
-                await sendRequest(
+                const responseData = await sendRequest(
                   'http://localhost:5001/auth/signup',
                   'POST',
                   JSON.stringify({
@@ -60,6 +61,7 @@ const Auth = (): JSX.Element => {
                 );
 
                 setIsLoggedIn(true);
+                setUser(responseData.user.id);
                 goBack();
               } catch (err) {}
         }

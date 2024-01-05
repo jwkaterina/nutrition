@@ -12,7 +12,7 @@ interface FooterProps {
 const Footer = ({ color }: FooterProps): JSX.Element => {
 
     const router = useRouter();
-    const isLoggedIn = useContext(AuthContext);
+    const { isLoggedIn } = useContext(AuthContext);
 
     const handleAuthClick = () => {
         if (isLoggedIn) {
