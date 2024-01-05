@@ -87,6 +87,26 @@ const createFood = async (req, res, next) => {
     return next(error);
   }
 
+  let existingFood
+  try {
+    existingFood = await Food.findOne({ "food.food.label": food.food.label })
+  } catch (err) {
+    const error = new HttpError(
+      'Creating food failed, please try again later.',
+      500
+    );
+    return next(error);
+  }
+  
+  if (existingFood) {
+    const error = new HttpError(
+      'Food exists already.',
+      422
+    );
+    console.log('Food exists already.')
+    return next(error);
+  }
+
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();

@@ -7,6 +7,7 @@ import Menu from './menu'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { AuthContext } from "@/app/context/auth-context"
+import ErrorModal from "@/app/components/error-modal/error-modal"
 
 interface OpenAnalysisMenuProps {
     
@@ -73,12 +74,15 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
         }
     }
 
-    return <Menu 
-        leftText='Back' 
-        rightText={rightText} 
-        onLeftclick={() => setCardOpen(0)} 
-        onRightclick={handleRightClick}
-    />
+    return (<>
+        {error && <ErrorModal error={error} onClose={clearError} />}
+        <Menu 
+            leftText='Back' 
+            rightText={rightText} 
+            onLeftclick={() => setCardOpen(0)} 
+            onRightclick={handleRightClick}
+        />
+    </>)
 }
 
 export default OpenAnalysisMenu
