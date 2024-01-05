@@ -65,13 +65,12 @@ const createFood = async (req, res, next) => {
     );
   }
 
-  const { title, calories, creator } = req.body;
+  const { food, creator } = req.body;
 
   const createdFood = new Food({
-    title,
-    calories,
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg',
+    food,
+    // image:
+    //   'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg',
     creator
   });
 
@@ -87,8 +86,6 @@ const createFood = async (req, res, next) => {
     const error = new HttpError('Could not find user for provided id', 404);
     return next(error);
   }
-
-  console.log(user);
 
   try {
     const sess = await mongoose.startSession();

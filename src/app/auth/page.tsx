@@ -30,7 +30,7 @@ const Auth = (): JSX.Element => {
         if (loginMode) {
             try {
                 const responseData = await sendRequest(
-                    'http://localhost:5001/auth/login',
+                    'http://localhost:5001/users/login',
                     'POST',
                     JSON.stringify({
                         email,
@@ -48,7 +48,7 @@ const Auth = (): JSX.Element => {
             const name = form.name.value;
             try {
                 const responseData = await sendRequest(
-                  'http://localhost:5001/auth/signup',
+                  'http://localhost:5001/users/signup',
                   'POST',
                   JSON.stringify({
                     name,

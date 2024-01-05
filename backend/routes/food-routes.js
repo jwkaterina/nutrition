@@ -12,10 +12,7 @@ router.get('/user/:uid', foodControllers.getFoodByUserId);
 router.post(
   '/',
   [
-    check('title')
-      .not()
-      .isEmpty(),
-    check('calories')
+    check('food')
       .not()
       .isEmpty()
   ],
@@ -25,7 +22,7 @@ router.post(
 router.patch(
   '/:pid',
   [
-    check('title')
+    check('food')
       .not()
       .isEmpty(),
     check('calories')

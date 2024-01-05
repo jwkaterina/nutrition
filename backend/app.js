@@ -21,8 +21,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/food', foodRoutes);
-app.use('/auth', usersRoutes);
+app.use('/foods', foodRoutes);
+app.use('/users', usersRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);
