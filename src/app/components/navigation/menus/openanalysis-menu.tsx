@@ -2,41 +2,39 @@
 
 import { useContext, useState } from "react"
 import { CardOpenContext, SetCardOpenContext } from "@/app/context/card-context"
-import { useFoodDispatch } from "@/app/context/food-context"
+import { useFoodDispatch, CurrentFoodContext } from "@/app/context/food-context"
 import Menu from './menu'
-import { Food } from "@/app/types/types"
 import { useRouter } from 'next/navigation'
 
 interface OpenAnalysisMenuProps {
-    foodArray: Food[]
+    
 }
 
-const OpenAnalysisMenu = ({ foodArray }: OpenAnalysisMenuProps): JSX.Element => {
+const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
 
     const [rightText, setRightText] = useState('Add To Favorites');
     const router = useRouter();
 
     const cardOpen = useContext(CardOpenContext);
+    const currentFood = useContext(CurrentFoodContext);
     const setCardOpen = useContext(SetCardOpenContext);
     const foodDispatch = useFoodDispatch();
 
     const addToFavorites = (): void => {
-        const index = cardOpen;
-        const cardFood = foodArray[index! - 1];
         const Food = {
             food: {
-                foodId: cardFood.food.foodId,
-                label: cardFood.food.label,
-                image: cardFood.food.image,
+                foodId: currentFood.food.foodId,
+                label: currentFood.food.label,
+                image: currentFood.food.image,
                 nutrients: {
-                    ENERC_KCAL: cardFood.food.nutrients.ENERC_KCAL,
-                    PROCNT: cardFood.food.nutrients.PROCNT,
-                    FAT: cardFood.food.nutrients.FAT,
-                    CHOCDF: cardFood.food.nutrients.CHOCDF,
-                    FIBTG: cardFood.food.nutrients.FIBTG
+                    ENERC_KCAL: currentFood.food.nutrients.ENERC_KCAL,
+                    PROCNT: currentFood.food.nutrients.PROCNT,
+                    FAT: currentFood.food.nutrients.FAT,
+                    CHOCDF: currentFood.food.nutrients.CHOCDF,
+                    FIBTG: currentFood.food.nutrients.FIBTG
                 },
             },
-            measures: cardFood.measures
+            measures: currentFood.measures
         };
         foodDispatch({type: 'add', item: Food});
         setRightText('Go To Favorites');

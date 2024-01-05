@@ -99,14 +99,14 @@ export const FoodSearch = (): JSX.Element => {
 	const foodList = foodArr.map((hint, index) => {
 		// console.log(hint.food);
 		return (
-			<FoodCard food={hint} index={index + 1} key={hint.food.foodId} id={hint.food.foodId}/>
+			<FoodCard food={hint} index={index + 1} key={index + 1}/>
 		)
 	})
 
 	return (<>
 		<NavBar color={secondaryColor}>
 			{cardOpen ? 
-			<OpenAnalysisMenu foodArray={foodArr}/> : 
+			<OpenAnalysisMenu /> : 
 			<AnalysisMenu title="Food" onHeaderClick={handleHeaderClick}/>
 			}
 		</NavBar>

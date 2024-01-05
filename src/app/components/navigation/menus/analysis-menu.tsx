@@ -15,15 +15,15 @@ const AnalysisMenu = ({ title, onHeaderClick }: AnalysisMenuProps): JSX.Element 
 
 	const setCardOpen = useContext(SetCardOpenContext);
 	const router = useRouter();
-	const setBlockScrollHandler = useContext(SetBlockScrollContext);
+	const setBlockScroll = useContext(SetBlockScrollContext);
 
 	const onBackClick = (): void => {
 		console.log('back');
 		setCardOpen(null);
-		setBlockScrollHandler(true);
+		setBlockScroll(true);
 		router.push('/');
 		setTimeout(() => {
-			setBlockScrollHandler(false);
+			setBlockScroll(false);
 		}, 500);
 	}
 

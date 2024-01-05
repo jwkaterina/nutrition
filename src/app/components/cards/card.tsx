@@ -4,15 +4,15 @@ import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
 import { SetCurrentFoodContext } from '@/app/context/food-context'
-
+import { Food } from '@/app/types/types'
 
 interface CardProps {
     index: number,
-    id: string,
+    food: Food,
     children: React.ReactNode
 }
 
-const Card = ({ index, children, id }: CardProps): JSX.Element => {
+const Card = ({ index, children, food }: CardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
@@ -73,7 +73,8 @@ const Card = ({ index, children, id }: CardProps): JSX.Element => {
 
     const handleCardClick = () => {
         setCardOpen(index); 
-        setCurrentFood(id);
+        setCurrentFood(food);
+        console.log(food);
     }
 
     return (

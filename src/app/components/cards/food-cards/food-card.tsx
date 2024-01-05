@@ -13,14 +13,14 @@ interface FoodCardProps {
     id: string
 }
 
-const FoodCard = ({ food, index, id }: FoodCardProps): JSX.Element => {
+const FoodCard = ({ food, index }: FoodCardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
 
-        if(cardOpen == index) return <Card index={index} id={id}> 
+        if(cardOpen == index) return <Card index={index} food={food}> 
                 <OpenFoodCard food={food}/>
             </Card>
-        else return <Card index={index} id={id}> 
+        else return <Card index={index} food={food}> 
                 <ClosedCard food={food}/>
             </Card> 
 }

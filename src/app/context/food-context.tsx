@@ -36,12 +36,12 @@ export const  useFoodDispatch = () => {
   return useContext(FoodDispatchContext);
 }
 
-export const CurrentFoodContext = createContext<string| null>(null);
+export const CurrentFoodContext = createContext<Food | null>(null);
 
 export const SetCurrentFoodContext = createContext((() => {}) as React.Dispatch<any>);
 
 export const CurrentFoodProvider = ({ children }: any) => {
-  const [currentFood, setCurrentFood] = useState<string | null>(null);
+  const [currentFood, setCurrentFood] = useState<Food | null>(null);
 
   return (
     <CurrentFoodContext.Provider value={currentFood}>
