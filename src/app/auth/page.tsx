@@ -3,23 +3,21 @@
 import styles from './page.module.css';
 import NavBar from '@/app/components/navigation/nav-bar';
 import AuthMenu from '@/app/components/navigation/menus/auth-menu';
-import { AuthContext, SetAuthContext } from '@/app/context/auth-context';
+import { SetAuthContext } from '@/app/context/auth-context';
 import { useState, useContext } from 'react';
 import LoadingSpinner from '@/app/components/loading/loading-spinner';
 import ErrorModal from '../components/error-modal/error-modal';
 import { useRouter} from 'next/navigation';
 import { SetBlockScrollContext } from '@/app/context/slide-context';
+import { useHttpClient } from '@/app/hooks/http-hook';
 
 const Auth = (): JSX.Element => {
 
     const tertiaryColor = "var(--tertiary-color)";
-
-    const isLoggedIn = useContext(AuthContext);
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const setBlockScroll = useContext(SetBlockScrollContext);
     const setIsLoggedIn = useContext(SetAuthContext);
     const [loginMode, setLoginMode] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null); 
 
     const router = useRouter();
 
@@ -28,57 +26,42 @@ const Auth = (): JSX.Element => {
         const form = e.currentTarget;
         const email = form.email.value;
         const password = form.password.value;
-        setIsLoading(true);
+        
         if (loginMode) {
             try {
-                const response = await fetch('http://localhost:5001/auth/login', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    email: email,
-                    password: password
-                  })
-                });
-        
-                const responseData = await response.json();
-                if (!response.ok) {
-                    throw new Error(responseData.message);
-                  }
-                  setIsLoading(false);
-                  setIsLoggedIn(true);
-                  goBack();
-            } catch (err) {
-                setIsLoading(false);
-                setError(err.message || 'Something went wrong, please try again.');
-            }
+                await sendRequest(
+                    'http://localhost:5001/auth/login',
+                    'POST',
+                    JSON.stringify({
+                        email,
+                        password
+                    }),
+                    {
+                        'Content-Type': 'application/json'
+                    }
+                );
+                setIsLoggedIn(true);
+                goBack();
+            } catch (err) {}
         } else {
             const name = form.name.value;
             try {
-                const response = await fetch('http://localhost:5001/auth/signup', {
-                  method: 'POST',
-                  headers: {
+                await sendRequest(
+                  'http://localhost:5001/auth/signup',
+                  'POST',
+                  JSON.stringify({
+                    name,
+                    email,
+                    password
+                  }),
+                  {
                     'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    password: password
-                  })
-                });
-        
-                const responseData = await response.json();
-                if (!response.ok) {
-                    throw new Error(responseData.message);
                   }
-                  setIsLoading(false);
-                  setIsLoggedIn(true);
-                  goBack();
-            } catch (err) {
-                setIsLoading(false);
-                setError(err.message || 'Something went wrong, please try again.');
-            }
+                );
+
+                setIsLoggedIn(true);
+                goBack();
+              } catch (err) {}
         }
     }
 
@@ -94,7 +77,7 @@ const Auth = (): JSX.Element => {
         <NavBar color={tertiaryColor}>
             <AuthMenu />
         </NavBar>
-        {error && <ErrorModal error={error} onClose={() => setError(null)} />}
+        {error && <ErrorModal error={error} onClose={clearError} />}
         <div className={styles.container}>
             {isLoading && <LoadingSpinner />}
             <form className={styles.form} onSubmit={handleSubmit}>
