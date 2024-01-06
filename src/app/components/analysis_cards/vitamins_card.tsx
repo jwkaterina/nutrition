@@ -12,7 +12,7 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
 
     let mediaQuery: MediaQueryList | null = null;
 
-    if(window) {
+    if(typeof window !== 'undefined') {
         mediaQuery = window.matchMedia('(max-width: 500px)');
     }
 

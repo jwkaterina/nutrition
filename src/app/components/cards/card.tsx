@@ -22,7 +22,7 @@ const Card = ({ index, children, food }: CardProps): JSX.Element => {
     let mediaQuery600: MediaQueryList | null = null;
     let mediaQuery1000: MediaQueryList | null = null;
     let height = 0;
-    if(window) {
+    if(typeof window !== 'undefined') {
         height = window.innerHeight;
         mediaQuery600 = window.matchMedia('(max-width: 500px)');
         mediaQuery1000 = window.matchMedia('(max-width: 1000px)');
