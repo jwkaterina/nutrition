@@ -4,8 +4,6 @@ const foodControllers = require('../controllers/food-controllers');
 
 const router = express.Router();
 
-router.get('/:pid', foodControllers.getFoodById);
-
 router.get('/user/:uid', foodControllers.getFoodByUserId);
 
 router.post(
