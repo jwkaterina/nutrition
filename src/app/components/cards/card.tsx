@@ -19,18 +19,25 @@ const Card = ({ index, children, food }: CardProps): JSX.Element => {
     const setCurrentFood = useContext(SetCurrentFoodContext);
     const cardRef = useRef<HTMLDivElement>(null);
 
-    const mediaQuery600: MediaQueryList = window.matchMedia('(max-width: 500px)');
-    const mediaQuery1000: MediaQueryList = window.matchMedia('(max-width: 1000px)');
+    let mediaQuery600: MediaQueryList | null = null;
+    let mediaQuery1000: MediaQueryList | null = null;
+    let height = 0;
+
+    useEffect(() => {
+        mediaQuery600 = window.matchMedia('(max-width: 500px)');
+        mediaQuery1000 = window.matchMedia('(max-width: 1000px)');
+        height = window.innerHeight;
+    }, []);
 
     const gridGap: number = 1;
     const cardHeight: number = 150;
     const cardWidth: number = cardRef.current ? cardRef.current.clientWidth : 0;
 
     let column: number, row: number;
-    if(mediaQuery600.matches) {
+    if(mediaQuery600 && (mediaQuery600 as MediaQueryList).matches) {
         column = 1;
         row = Math.ceil(index);
-    } else if(mediaQuery1000.matches) {
+    } else if(mediaQuery1000 && (mediaQuery1000 as MediaQueryList).matches) {
         column = index % 2 === 0 ? 2 : 1;
         row = Math.ceil(index / 2);
     } else {
@@ -38,7 +45,6 @@ const Card = ({ index, children, food }: CardProps): JSX.Element => {
         row = Math.ceil(index / 4);
     }
 
-    const height = window.innerHeight;
     const translateX = (1 - column) * cardWidth;
     const translateY: number = (1 - row) * cardHeight;
     const top: number = - gridGap * row;

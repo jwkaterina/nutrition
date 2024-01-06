@@ -1,4 +1,5 @@
 import { MenuProp } from "@/app/types/types";
+import { setToLocalStorage } from "../services/local-storage";
 
 type ACTIONTYPE = { 
     type: 'delete',
@@ -19,5 +20,5 @@ export const  MenuReducer = (menus: MenuProp[], action: ACTIONTYPE) => {
 }
 
 const saveRecipe = (menus: MenuProp[]) => {
-    localStorage.setItem('menus', JSON.stringify(menus));
+    setToLocalStorage('menus', menus);
 }

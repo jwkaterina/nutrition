@@ -29,23 +29,25 @@ const Auth = (): JSX.Element => {
         
         if (loginMode) {
             try {
+                const body: string = JSON.stringify({
+                    email,
+                    password
+                })
                 const responseData = await sendRequest(
                     'http://localhost:5001/users/login',
                     'POST',
-                    JSON.stringify({
-                        email,
-                        password
-                    }),
+                    body,
                     {
                         'Content-Type': 'application/json'
                     }
                 );
                 setIsLoggedIn(true);
                 setUser(responseData.user.id);
-                goBack();
+                // goBack();
             } catch (err) {}
         } else {
-            const name = form.name.value;
+            const formName = form.name as unknown as HTMLInputElement;
+            const name = formName.value;
             try {
                 const responseData = await sendRequest(
                     'http://localhost:5001/users/signup',
@@ -62,7 +64,7 @@ const Auth = (): JSX.Element => {
 
                 setIsLoggedIn(true);
                 setUser(responseData.user.id);
-                goBack();
+                // goBack();
               } catch (err) {}
         }
     }

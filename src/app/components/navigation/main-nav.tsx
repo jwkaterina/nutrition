@@ -1,5 +1,5 @@
 'use client'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import styles from './nav-bar.module.css'
 import { SlideType } from "@/app/types/types"
 import { SlideContext, SetSlideContext, SetBlockScrollContext } from '@/app/context/slide-context';
@@ -12,10 +12,14 @@ const MainNav = ({ }: MainNavProps): JSX.Element => {
     const slide = useContext(SlideContext);
     const setSlide = useContext(SetSlideContext);
     const setBlockScroll = useContext(SetBlockScrollContext);
-    const mediaQuery: MediaQueryList = window.matchMedia('(max-width: 500px)');
+    let mediaQuery: MediaQueryList | null = null;
+
+    useEffect(() => {
+        mediaQuery = window.matchMedia('(max-width: 500px)');
+    }, []);
 
     let linkWidth: string;
-    if(mediaQuery.matches) {
+    if(mediaQuery && (mediaQuery as MediaQueryList).matches) {
         linkWidth = '100px';
     } else {
         linkWidth = '200px';

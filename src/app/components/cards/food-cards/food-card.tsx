@@ -9,8 +9,7 @@ import ClosedCard from './closed-foodcard'
 
 interface FoodCardProps {
     food: Food,
-    index: number,
-    id: string
+    index: number
 }
 
 const FoodCard = ({ food, index }: FoodCardProps): JSX.Element => {

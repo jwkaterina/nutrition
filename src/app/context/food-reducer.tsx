@@ -1,4 +1,5 @@
 import { Food } from "@/app/types/types";
+import { setToLocalStorage } from "../services/local-storage";
 
 type ACTIONTYPE = { 
     type: 'delete' | 'add',
@@ -28,5 +29,5 @@ export const  FoodReducer = (food: Food[], action: ACTIONTYPE) => {
 }
 
 const saveFood = (food: Food[]) => {
-    localStorage.setItem('food', JSON.stringify(food));
+    setToLocalStorage('food', food);
 }

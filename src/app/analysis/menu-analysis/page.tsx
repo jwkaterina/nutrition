@@ -6,7 +6,7 @@
 import NavBar from '@/app/components/navigation/nav-bar';
 import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
 
-export const MenuSearch = (): JSX.Element => {
+const MenuSearch = (): JSX.Element => {
 
   // const [data, setData] = useState({calories: 0});
 

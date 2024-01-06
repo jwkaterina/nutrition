@@ -1,13 +1,13 @@
 'use client'
 
 import Card from "../../cards/card"
-import { useMenu } from '@/app/context/menu-context'
+// import { useMenu } from '@/app/context/menu-context'
 import Slide from './slide'
 import Button from '@/app/components/slider/button'
 
 const Menu = () => {
 
-    const menus = useMenu();
+    // const menus = useMenu();
 
     // const menuList = menus.map((menu, index) => {
     //     return (

@@ -14,7 +14,7 @@ import { Food } from '@/app/types/types';
 import FoodCard from '@/app/components/cards/food-cards/food-card';
 import Footer from '@/app/components/navigation/footer';
 
-export const FoodSearch = (): JSX.Element => {
+const FoodSearch = (): JSX.Element => {
 
 	const cardOpen = useContext(CardOpenContext);
 	const setCardOpen = useContext(SetCardOpenContext);

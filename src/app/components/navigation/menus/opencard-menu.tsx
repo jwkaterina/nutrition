@@ -5,7 +5,7 @@ import { useContext } from "react"
 import { SetCardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext, useFoodDispatch } from '@/app/context/food-context'
 import { useRecipeDispatch } from '@/app/context/recipe-context'
-import { useMenuDispatch } from '@/app/context/menu-context'
+// import { useMenuDispatch } from '@/app/context/menu-context'
 import { SlideContext } from '@/app/context/slide-context';
 import Menu from "./menu"
 
@@ -18,36 +18,36 @@ const OpenCardMenu = ({ }: OpenCardMenuProps): JSX.Element => {
     const cardOpen = useContext(SetCardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
     const currentFood = useContext(CurrentFoodContext);
-    const foodDispatch = useFoodDispatch();
-    const recipeDispatch = useRecipeDispatch();
-    const menuDispatch = useMenuDispatch();
+    // const foodDispatch = useFoodDispatch();
+    // const recipeDispatch = useRecipeDispatch();
+    // const menuDispatch = useMenuDispatch();
 
     const deleteCard = (index: number | null): void => {
         setCardOpen(0);
         switch(slide) {
             case SlideType.FOOD:
-                deleteFood(index);
+                // deleteFood(index);
                 break;
             case SlideType.RECIPE:
-                deleteRecipe(index);
+                // deleteRecipe(index);
                 break;
             case SlideType.MENU:
-                deleteMenu(index);
+                // deleteMenu(index);
                 break;
         }
     }
 
-    const deleteFood = (index: number | null): void => {
-        foodDispatch({type: 'delete', id: currentFood});
-    }
+    // const deleteFood = (index: number | null): void => {
+    //     foodDispatch({type: 'delete', id: currentFood});
+    // }
 
-    const deleteRecipe = (index: number | null): void => {
-        recipeDispatch({type: 'delete', index: index! - 1});
-    }
+    // const deleteRecipe = (index: number | null): void => {
+    //     recipeDispatch({type: 'delete', index: index! - 1});
+    // }
 
-    const deleteMenu = (index: number | null): void => {
-        menuDispatch({type: 'delete', index: index! - 1})
-    }
+    // const deleteMenu = (index: number | null): void => {
+    //     menuDispatch({type: 'delete', index: index! - 1})
+    // }
 
     return <Menu 
         leftText="Back" 

@@ -5,7 +5,7 @@
 import NavBar from '@/app/components/navigation/nav-bar';
 import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
 
-export const RecipeSearch = (): JSX.Element => {
+const RecipeSearch = (): JSX.Element => {
 
   // const [data, setData] = useState({calories: 0});
 

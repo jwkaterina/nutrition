@@ -1,4 +1,5 @@
-import styles from './alanysis_card.module.css'
+import React, { useEffect } from 'react';
+import styles from './alanysis_card.module.css';
 import { Nutrients, Nutrient } from '@/app/types/types';
 import BarColumn from './utils/bar_column';
 import CircleRow from './utils/circle_row';
@@ -9,7 +10,11 @@ interface VitaminsCardProps {
 
 const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
 
-    const mediaQuery = window.matchMedia('(max-width: 500px)');
+    let mediaQuery: MediaQueryList | null = null;
+
+    useEffect(() => {
+        mediaQuery = window.matchMedia('(max-width: 500px)');
+    }, []);
 
     const vitaminA: Nutrient = content!.totalNutrients.VITA_RAE;
     const vitaminC: Nutrient = content!.totalNutrients.VITC;
@@ -39,7 +44,7 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
     const vitaminEPercent: Nutrient = content!.totalDaily.TOCPHA;
     const vitaminKPercent: Nutrient = content!.totalDaily.VITK1;
   
-    if(mediaQuery.matches) return <div className={styles.container} style={{gridArea: 'vitamins', height: '100%'}}>
+    if(mediaQuery && (mediaQuery as MediaQueryList).matches) return <div className={styles.container} style={{gridArea: 'vitamins', height: '100%'}}>
         <h3 className={styles.title}>Vitamins</h3>
         <div>
             <CircleRow vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>

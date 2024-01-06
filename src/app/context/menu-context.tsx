@@ -4,13 +4,15 @@ import { createContext, useReducer, useContext} from 'react';
 import { MenuProp } from '@/app/types/types';
 import MenuList from '@/app/data-base/menu-list';
 import { MenuReducer } from './menu-reducer';
+import { getItemFromLocalStorage, setToLocalStorage } from '../services/local-storage';
 
 let initialMenu: MenuProp[];
-if(localStorage.getItem('menus')) {
-  initialMenu = JSON.parse(localStorage.getItem('menus')!)
+const item = getItemFromLocalStorage('menus');
+if(item) {
+  initialMenu = item;
 } else {
     initialMenu = MenuList;
-    localStorage.setItem('menus', JSON.stringify(initialMenu))
+    setToLocalStorage('menus', initialMenu);
 }
 
 const MenuContext = createContext<MenuProp[]>(initialMenu);

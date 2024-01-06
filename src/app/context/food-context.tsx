@@ -3,13 +3,16 @@
 import { createContext, useReducer, useContext, useState } from 'react';
 import { Food } from '@/app/types/types';
 import { FoodReducer } from './food-reducer';
+import { getItemFromLocalStorage, setToLocalStorage } from '../services/local-storage';
 
 let initialFood: Food[];
-if(localStorage.getItem('food')) {
-  initialFood = JSON.parse(localStorage.getItem('food')!)
+
+const item = getItemFromLocalStorage('food');
+if(item) {
+  initialFood = item;
 } else {
     initialFood = [];
-    localStorage.setItem('food', JSON.stringify(initialFood))
+    setToLocalStorage('food', initialFood);
 }
 
 const FoodContext = createContext<Food[]>(initialFood);

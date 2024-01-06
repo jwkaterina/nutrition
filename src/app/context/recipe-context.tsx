@@ -4,13 +4,15 @@ import { createContext, useReducer, useContext} from 'react';
 import { RecipeProp } from '@/app/types/types';
 import RecipeList from '@/app/data-base/recipe-list';
 import { RecipeReducer } from './recipe-reducer';
+import { getItemFromLocalStorage, setToLocalStorage } from '../services/local-storage';
 
 let initialRecipes: RecipeProp[];
-if(localStorage.getItem('recipes')) {
-  initialRecipes = JSON.parse(localStorage.getItem('recipes')!)
+const item = getItemFromLocalStorage('recipes');
+if(item) {
+  initialRecipes = item;
 } else {
     initialRecipes = RecipeList;
-    localStorage.setItem('recipes', JSON.stringify(initialRecipes))
+    setToLocalStorage('recipes', initialRecipes);
 }
 
 const RecipeContext = createContext<RecipeProp[]>(initialRecipes);

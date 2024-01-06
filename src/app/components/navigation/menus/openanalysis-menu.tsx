@@ -24,7 +24,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { user } = useContext(AuthContext);
  
-    const addToFavorites = async (): void => {
+    const addToFavorites = async () => {
         const measures = currentFood!.measures.map(measure => {
             return {
                 uri: measure.uri,

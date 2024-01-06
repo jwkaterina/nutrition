@@ -1,13 +1,13 @@
 'use client'
 
 import Card from '../../cards/card'
-import { useRecipe } from '@/app/context/recipe-context'
+// import { useRecipe } from '@/app/context/recipe-context'
 import Slide from './slide'
 import Button from '@/app/components/slider/button'
 
 const Recipe = () => {
 
-    const recipes = useRecipe();
+    // const recipes = useRecipe();
 
     // const recipeList = recipes.map((recipe, index) => {
     //     return (
