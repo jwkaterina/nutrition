@@ -43,7 +43,7 @@ const Auth = (): JSX.Element => {
                 );
                 setIsLoggedIn(true);
                 setUser(responseData.user.id);
-                // goBack();
+                goBack();
             } catch (err) {}
         } else {
             const formName = form.name as unknown as HTMLInputElement;
@@ -64,7 +64,7 @@ const Auth = (): JSX.Element => {
 
                 setIsLoggedIn(true);
                 setUser(responseData.user.id);
-                // goBack();
+                goBack();
               } catch (err) {}
         }
     }

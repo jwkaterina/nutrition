@@ -9,22 +9,22 @@ export const useHttpClient = () => {
   const sendRequest = useCallback(
     async (url: string, method = 'GET', body: null | string = null, headers = {}) => {
       setIsLoading(true);
-      const httpAbortCtrl = new AbortController();
-      activeHttpRequests.current.push(httpAbortCtrl);
+      // const httpAbortCtrl = new AbortController();
+      // activeHttpRequests.current.push(httpAbortCtrl);
 
       try {
         const response = await fetch(url, {
           method,
           body,
           headers,
-          signal: httpAbortCtrl.signal
+          // signal: httpAbortCtrl.signal
         });
 
         const responseData = await response.json();
 
-        activeHttpRequests.current = activeHttpRequests.current.filter(
-          reqCtrl => reqCtrl !== httpAbortCtrl
-        );
+        // activeHttpRequests.current = activeHttpRequests.current.filter(
+        //   reqCtrl => reqCtrl !== httpAbortCtrl
+        // );
 
         if (!response.ok) {
           throw new Error(responseData.message);
@@ -33,7 +33,6 @@ export const useHttpClient = () => {
         setIsLoading(false);
         return responseData;
       } catch (err) {
-        console.error(err);
         const message = (err as Error).message;
         setError(message);
         setIsLoading(false);
@@ -47,12 +46,12 @@ export const useHttpClient = () => {
     setError(null);
   };
 
-  useEffect(() => {
-    return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //     activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
+  //   };
+  // }, []);
 
   return { isLoading, error, sendRequest, clearError };
 };
