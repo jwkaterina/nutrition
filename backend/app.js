@@ -38,7 +38,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect('mongodb+srv://jwkaterina:S86zrzZ0d4g78hCT@cluster0.ajgjgkk.mongodb.net/?retryWrites=true&w=majority')
+  .connect('mongodb+srv://jwkaterina:jw0507015599@cluster0.ajgjgkk.mongodb.net/nutrition?retryWrites=true&w=majority')
   .then(() => {
     app.listen(5001);
   })
