@@ -2,6 +2,7 @@
     display: inline-block;
     width: 64px;
     height: 64px;
+    z-index: 3;
   }
   
   .spinner:after {
@@ -11,21 +12,9 @@
     height: 46px;
     margin: 1px;
     border-radius: 50%;
-    border: 5px solid #510077;
-    border-color: #510077 transparent #510077 transparent;
+    border: 5px solid var(--primary-color);
+    border-color: var(--primary-color) transparent var(--primary-color) transparent;
     animation: spinner 1.2s linear infinite;
-  }
-  
-  .container {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
   
   @keyframes spinner {

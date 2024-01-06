@@ -5,8 +5,8 @@ import NavBar from '@/app/components/navigation/nav-bar';
 import AuthMenu from '@/app/components/navigation/menus/auth-menu';
 import { AuthContext } from '@/app/context/auth-context';
 import { useState, useContext } from 'react';
-import LoadingSpinner from '@/app/components/loading/loading-spinner';
-import ErrorModal from '../components/error-modal/error-modal';
+import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
+import ErrorModal from '../components/overlays/error-modal/error-modal';
 import { useRouter} from 'next/navigation';
 import { SetBlockScrollContext } from '@/app/context/slide-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
@@ -48,17 +48,17 @@ const Auth = (): JSX.Element => {
             const name = form.name.value;
             try {
                 const responseData = await sendRequest(
-                  'http://localhost:5001/users/signup',
-                  'POST',
-                  JSON.stringify({
-                    name,
-                    email,
-                    password
-                  }),
-                  {
-                    'Content-Type': 'application/json'
-                  }
-                );
+                    'http://localhost:5001/users/signup',
+                    'POST',
+                    JSON.stringify({
+                        name,
+                        email,
+                        password
+                    }),
+                    {
+                        'Content-Type': 'application/json'
+                    }
+                    );
 
                 setIsLoggedIn(true);
                 setUser(responseData.user.id);
@@ -80,8 +80,8 @@ const Auth = (): JSX.Element => {
             <AuthMenu />
         </NavBar>
         {error && <ErrorModal error={error} onClose={clearError} />}
+        {isLoading && <LoadingSpinner />}
         <div className={styles.container}>
-            {isLoading && <LoadingSpinner />}
             <form className={styles.form} onSubmit={handleSubmit}>
                 {!loginMode && <div className={styles.form_group}>
                     <label htmlFor="name">Name</label>

@@ -7,7 +7,8 @@ import Menu from './menu'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { AuthContext } from "@/app/context/auth-context"
-import ErrorModal from "@/app/components/error-modal/error-modal"
+import ErrorModal from "@/app/components/overlays/error-modal/error-modal"
+import LoadingSpinner from "@/app/components/overlays/loading/loading-spinner"
 
 interface OpenAnalysisMenuProps {
     
@@ -76,6 +77,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
 
     return (<>
         {error && <ErrorModal error={error} onClose={clearError} />}
+        {isLoading && <LoadingSpinner/>}
         <Menu 
             leftText='Back' 
             rightText={rightText} 
