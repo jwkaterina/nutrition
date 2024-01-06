@@ -29,7 +29,12 @@ export type MeasureProp = {
 export interface Food {
     food: FoodProp
     measures: MeasureProp[]
-  }
+}
+
+export type LoadedFood = {
+    creator: string,
+    food: Food
+}
 
 export type MenuProp = {
     id: number,

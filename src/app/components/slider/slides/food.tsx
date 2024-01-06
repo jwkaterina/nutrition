@@ -2,7 +2,7 @@
 
 import Slide from './slide'
 import Button from '@/app/components/slider/button'
-import { Food } from '@/app/types/types'
+import { Food, LoadedFood } from '@/app/types/types'
 import FoodCard from '../../cards/food-cards/food-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
@@ -13,7 +13,7 @@ import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
 const Food = () => {
 
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const [food, setFood] = useState<Food[]>([]);
+    const [foodList, setFoodList] = useState<any[]>([]);
 
     const { user } = useContext(AuthContext);
 
@@ -26,27 +26,20 @@ const Food = () => {
                 const responseData = await sendRequest(
                     `http://localhost:5001/foods/user/${user}`
                 );
-                setFood(responseData.foods);
+                const loadedFood = responseData.foods.map((food: LoadedFood) => {
+                    return food.food;
+                });
+                const foodList = loadedFood.map((food: Food, index: number) => {
+                    return (
+                        <FoodCard food={food} index={index + 1} key={index + 1} />
+                    )
+                })
+                // setFood(loadedFood);
+                setFoodList(foodList);
             } catch (err) {}
         };
         fetchFood();
     }, []);
-
-    // if(food.length > 0) {
-    //     console.log(food);
-    // }
-
-    let foodList: any[] = [];
-    useEffect(() => {
-        if (food.length > 0) {
-            console.log(food);
-            foodList = food.map((food, index) => {
-                return (
-                    <FoodCard food={food} index={index + 1} key={food.food.foodId} />
-                )
-            })
-        }
-    }, [food])
 
     return (<>
         {error && <ErrorModal error={error} onClose={clearError} />}
