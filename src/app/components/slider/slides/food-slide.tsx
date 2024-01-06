@@ -2,7 +2,7 @@
 
 import Slide from './slide'
 import Button from '@/app/components/slider/button'
-import { Food, LoadedFood } from '@/app/types/types'
+import { LoadedFood } from '@/app/types/types'
 import FoodCard from '../../cards/food-cards/food-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
@@ -10,7 +10,7 @@ import { AuthContext } from '@/app/context/auth-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
 import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
 
-const Food = () => {
+const FoodSlide = () => {
 
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [foodList, setFoodList] = useState<any[]>([]);
@@ -26,15 +26,12 @@ const Food = () => {
                 const responseData = await sendRequest(
                     `http://localhost:5001/foods/user/${user}`
                 );
-                const loadedFood = responseData.foods.map((food: LoadedFood) => {
-                    return food.food;
-                });
-                const foodList = loadedFood.map((food: Food, index: number) => {
+                console.log(responseData.foods);
+                const foodList = responseData.foods.map((food: LoadedFood, index: number) => {
                     return (
-                        <FoodCard food={food} index={index + 1} key={index + 1} />
+                        <FoodCard food={food.food} index={index + 1} key={index + 1} id={food.id}/>
                     )
                 })
-                // setFood(loadedFood);
                 setFoodList(foodList);
             } catch (err) {}
         };
@@ -51,4 +48,4 @@ const Food = () => {
     </>)
 }
 
-export default Food
+export default FoodSlide

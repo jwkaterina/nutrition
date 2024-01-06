@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './slider.module.css'
-import Food from '@/app/components/slider/slides/food';
+import FoodSlide from '@/app/components/slider/slides/food-slide';
 import Recipe from '@/app/components/slider/slides/recipe';
 import Menu from '@/app/components/slider/slides/menu';
 import { useEffect, useRef, useContext } from 'react';
@@ -58,7 +58,7 @@ const Slider = ({ }: SliderProps): JSX.Element => {
 
     return (
         <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} style={cardOpen ? {overflow: 'hidden'} : {overflow: 'auto'}}>
-            <Food/>
+            <FoodSlide/>
             <Recipe/>
             <Menu/>
       </div>
