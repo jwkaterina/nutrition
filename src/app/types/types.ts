@@ -33,7 +33,8 @@ export interface Food {
 
 export type LoadedFood = {
     creator: string,
-    food: Food
+    food: Food,
+    id: string
 }
 
 export type MenuProp = {

@@ -38,19 +38,35 @@ export const useFood = () => {
 export const  useFoodDispatch = () => {
   return useContext(FoodDispatchContext);
 }
+interface CurrentFood  {
+  food: Food | null,
+  id: string | null
+}
+interface CurrentFoodContextProps {
+  currentFood: CurrentFood,
+  setCurrentFood: React.SetStateAction<any>
+}
 
-export const CurrentFoodContext = createContext<Food | null>(null);
-
-export const SetCurrentFoodContext = createContext((() => {}) as React.Dispatch<any>);
+export const CurrentFoodContext = createContext<CurrentFoodContextProps>({
+  currentFood: {
+    food: null,
+    id: null
+  },
+  setCurrentFood: () => {}
+});
 
 export const CurrentFoodProvider = ({ children }: any) => {
-  const [currentFood, setCurrentFood] = useState<Food | null>(null);
+  const [currentFood, setCurrentFood] = useState<CurrentFood>({
+    food: null,
+    id: null
+  });
 
   return (
-    <CurrentFoodContext.Provider value={currentFood}>
-      <SetCurrentFoodContext.Provider value={setCurrentFood}>
+    <CurrentFoodContext.Provider value={{
+      currentFood,
+      setCurrentFood
+    }}>
         {children}
-      </SetCurrentFoodContext.Provider>
     </CurrentFoodContext.Provider>
   );
 }

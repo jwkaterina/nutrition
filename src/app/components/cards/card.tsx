@@ -3,20 +3,21 @@
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
-import { SetCurrentFoodContext } from '@/app/context/food-context'
+import { CurrentFoodContext } from '@/app/context/food-context'
 import { Food } from '@/app/types/types'
 
 interface CardProps {
     index: number,
     food: Food,
-    children: React.ReactNode
+    children: React.ReactNode,
+    id?: string | null
 }
 
-const Card = ({ index, children, food }: CardProps): JSX.Element => {
+const Card = ({ index, children, food, id }: CardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
     const setCardOpen = useContext(SetCardOpenContext);
-    const setCurrentFood = useContext(SetCurrentFoodContext);
+    const { setCurrentFood } = useContext(CurrentFoodContext);
     const cardRef = useRef<HTMLDivElement>(null);
 
     let mediaQuery600: MediaQueryList | null = null;
@@ -77,8 +78,11 @@ const Card = ({ index, children, food }: CardProps): JSX.Element => {
 
     const handleCardClick = () => {
         setCardOpen(index); 
-        setCurrentFood(food);
-        console.log(food);
+        setCurrentFood({
+            food: food,
+            id: id ? id : null
+        });
+        console.log({food, id});
     }
 
     return (

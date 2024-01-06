@@ -9,17 +9,18 @@ import ClosedCard from './closed-foodcard'
 
 interface FoodCardProps {
     food: Food,
-    index: number
+    index: number,
+    id?: string | null
 }
 
-const FoodCard = ({ food, index }: FoodCardProps): JSX.Element => {
+const FoodCard = ({ food, index, id }: FoodCardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
 
-        if(cardOpen == index) return <Card index={index} food={food}> 
+        if(cardOpen == index) return <Card index={index} food={food} id={id}> 
                 <OpenFoodCard food={food}/>
             </Card>
-        else return <Card index={index} food={food}> 
+        else return <Card index={index} food={food} id={id}> 
                 <ClosedCard food={food}/>
             </Card> 
 }

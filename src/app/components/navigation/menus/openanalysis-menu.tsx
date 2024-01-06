@@ -19,13 +19,14 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     const [rightText, setRightText] = useState('Add To Favorites');
     const router = useRouter();
 
-    const currentFood = useContext(CurrentFoodContext);
+    const { currentFood } = useContext(CurrentFoodContext);
     const setCardOpen = useContext(SetCardOpenContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { user } = useContext(AuthContext);
  
     const addToFavorites = async () => {
-        const measures = currentFood!.measures.map(measure => {
+        const food = currentFood!.food;
+        const measures = food!.measures.map(measure => {
             return {
                 uri: measure.uri,
                 label: measure.label,
@@ -34,18 +35,18 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
         });
         const Food = {
             food: {
-                category: currentFood!.food.category,
-                categoryLabel: currentFood!.food.categoryLabel,
-                foodId: currentFood!.food.foodId,
-                // image: currentFood!.food.image,
-                knownAs: currentFood!.food.knownAs,
-                label: currentFood!.food.label,
+                category: food!.food.category,
+                categoryLabel: food!.food.categoryLabel,
+                foodId: food!.food.foodId,
+                // image: food!.food.image,
+                knownAs: food!.food.knownAs,
+                label: food!.food.label,
                 nutrients: {
-                    ENERC_KCAL: currentFood!.food.nutrients.ENERC_KCAL,
-                    PROCNT: currentFood!.food.nutrients.PROCNT,
-                    FAT: currentFood!.food.nutrients.FAT,
-                    CHOCDF: currentFood!.food.nutrients.CHOCDF,
-                    FIBTG: currentFood!.food.nutrients.FIBTG
+                    ENERC_KCAL: food!.food.nutrients.ENERC_KCAL,
+                    PROCNT: food!.food.nutrients.PROCNT,
+                    FAT: food!.food.nutrients.FAT,
+                    CHOCDF: food!.food.nutrients.CHOCDF,
+                    FIBTG: food!.food.nutrients.FIBTG
                 },
             },
             measures: measures
