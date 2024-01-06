@@ -1,4 +1,3 @@
-const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 
 const HttpError = require('../models/http-error');
@@ -58,12 +57,6 @@ const getFoodByUserId = async (req, res, next) => {
 };
 
 const createFood = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(
-      new HttpError('Invalid inputs passed, please check your data.', 422)
-    );
-  }
 
   const { food, creator } = req.body;
 
@@ -103,7 +96,6 @@ const createFood = async (req, res, next) => {
       'Food exists already.',
       422
     );
-    console.log('Food exists already.')
     return next(error);
   }
 

@@ -1,5 +1,3 @@
-const { validationResult } = require('express-validator');
-
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
 
@@ -18,12 +16,7 @@ const getUsers = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(
-      new HttpError('Invalid inputs passed, please check your data.', 422)
-    );
-  }
+
   const { name, email, password } = req.body;
 
   let existingUser
