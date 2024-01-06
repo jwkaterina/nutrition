@@ -43,7 +43,7 @@ const getFoodByUserId = async (req, res, next) => {
     return next(error);
   }
 
-  if (!userWithFood || userWithFood.foods.length === 0) {
+  if (!userWithFood) {
     return next(
       new HttpError('Could not find food for the provided user id.', 404)
     );
