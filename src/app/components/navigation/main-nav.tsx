@@ -14,9 +14,9 @@ const MainNav = ({ }: MainNavProps): JSX.Element => {
     const setBlockScroll = useContext(SetBlockScrollContext);
     let mediaQuery: MediaQueryList | null = null;
 
-    useEffect(() => {
+    if(window) {
         mediaQuery = window.matchMedia('(max-width: 500px)');
-    }, []);
+    }
 
     let linkWidth: string;
     if(mediaQuery && (mediaQuery as MediaQueryList).matches) {

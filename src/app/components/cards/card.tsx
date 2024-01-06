@@ -22,12 +22,11 @@ const Card = ({ index, children, food }: CardProps): JSX.Element => {
     let mediaQuery600: MediaQueryList | null = null;
     let mediaQuery1000: MediaQueryList | null = null;
     let height = 0;
-
-    useEffect(() => {
+    if(window) {
+        height = window.innerHeight;
         mediaQuery600 = window.matchMedia('(max-width: 500px)');
         mediaQuery1000 = window.matchMedia('(max-width: 1000px)');
-        height = window.innerHeight;
-    }, []);
+    }
 
     const gridGap: number = 1;
     const cardHeight: number = 150;
@@ -49,7 +48,6 @@ const Card = ({ index, children, food }: CardProps): JSX.Element => {
     const translateY: number = (1 - row) * cardHeight;
     const top: number = - gridGap * row;
     const left: number = - gridGap * column;
-
 
     const keyframes: Keyframe[] = [
         { top: 0, left: 0, width: '100%', height: `${cardHeight}px`, zIndex: 1 },

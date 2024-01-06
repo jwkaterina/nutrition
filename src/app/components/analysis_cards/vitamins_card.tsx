@@ -12,9 +12,9 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
 
     let mediaQuery: MediaQueryList | null = null;
 
-    useEffect(() => {
+    if(window) {
         mediaQuery = window.matchMedia('(max-width: 500px)');
-    }, []);
+    }
 
     const vitaminA: Nutrient = content!.totalNutrients.VITA_RAE;
     const vitaminC: Nutrient = content!.totalNutrients.VITC;
