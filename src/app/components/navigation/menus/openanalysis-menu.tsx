@@ -62,7 +62,6 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
               { 'Content-Type': 'application/json' }
             );
           } catch (err) {
-            console.log(err);
           }
         setRightText('Go To Favorites');
     }

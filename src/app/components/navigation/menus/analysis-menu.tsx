@@ -18,7 +18,6 @@ const AnalysisMenu = ({ title, onHeaderClick }: AnalysisMenuProps): JSX.Element 
 	const setBlockScroll = useContext(SetBlockScrollContext);
 
 	const onBackClick = (): void => {
-		console.log('back');
 		setCardOpen(null);
 		setBlockScroll(true);
 		router.push('/');

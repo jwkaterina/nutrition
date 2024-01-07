@@ -82,7 +82,6 @@ const Card = ({ index, children, food, id }: CardProps): JSX.Element => {
             food: food,
             id: id ? id : null
         });
-        console.log({food, id});
     }
 
     return (

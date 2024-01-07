@@ -22,9 +22,6 @@ const OpenCardMenu = ({ }: OpenCardMenuProps): JSX.Element => {
     const setCardOpen = useContext(SetCardOpenContext);
     const { currentFood } = useContext(CurrentFoodContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    // const foodDispatch = useFoodDispatch();
-    // const recipeDispatch = useRecipeDispatch();
-    // const menuDispatch = useMenuDispatch();
 
     const deleteCard = (index: number | null): void => {
         switch(slide) {
@@ -41,7 +38,6 @@ const OpenCardMenu = ({ }: OpenCardMenuProps): JSX.Element => {
     }
 
     const deleteFood = async (id: string | null) => {
-        console.log(id);
         try {
             await sendRequest(
                 `http://localhost:5001/foods/${id}`,
