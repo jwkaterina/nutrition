@@ -6,9 +6,6 @@ export const AuthContext = createContext({
     user: null,
     setUser: (value: any) => { }
 });
-// export const SetAuthContext = createContext((() => {}) as React.SetStateAction<any>);
-// export const UserContext = createContext({});
-// export const SetUserContext = createContext((() => {}) as React.SetStateAction<any>);
 
 export const AuthProvider = ({ children }: any) => {
 
