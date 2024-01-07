@@ -1,3 +1,7 @@
+.container {
+    height: 100vh;
+}
+
 .search {
     background-color: white;
     width: calc(100% - 2rem);

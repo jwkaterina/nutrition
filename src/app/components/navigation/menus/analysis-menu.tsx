@@ -7,11 +7,10 @@ import { SetCardOpenContext } from '@/app/context/card-context'
 import { SetBlockScrollContext } from '@/app/context/slide-context'
 
 interface AnalysisMenuProps {
-    title: string,
-	onHeaderClick: () => void,
+    title: string
 }
 
-const AnalysisMenu = ({ title, onHeaderClick }: AnalysisMenuProps): JSX.Element => {
+const AnalysisMenu = ({ title }: AnalysisMenuProps): JSX.Element => {
 
 	const setCardOpen = useContext(SetCardOpenContext);
 	const router = useRouter();
@@ -31,7 +30,7 @@ const AnalysisMenu = ({ title, onHeaderClick }: AnalysisMenuProps): JSX.Element 
 		   leftText="Back To Favorites" 
 		   rightText= {`${title} Analysis`}
 		   onLeftclick={onBackClick} 
-		   onRightclick={onHeaderClick}  
+		   onRightclick={() => {}}
 		/>
 	)
 }

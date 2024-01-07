@@ -58,8 +58,21 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
         }
     }
 
+    const style = () => {
+        if(cardOpen) {
+            return {overflow: 'hidden'}
+        } else {
+            return {overflow: 'auto'}
+        }
+    }
+
     return (
-        <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} style={cardOpen ? {overflow: 'hidden'} : {overflow: 'auto'}}>
+        <div 
+            className={styles.slides} 
+            ref={slidesRef} 
+            onScroll={handleScroll} 
+            style={style()}
+        >
             <FoodSlide foodDeleted={foodDeleted}/>
             <RecipeSlide recipeDeleted={recipeDeleted}/>
             <MenuSlide menuDeleted={menuDeleted}/>
