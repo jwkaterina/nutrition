@@ -10,7 +10,11 @@ import { AuthContext } from '@/app/context/auth-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
 import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
 
-const FoodSlide = () => {
+interface FoodSlideProps {
+    foodDeleted: boolean
+}
+
+const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
 
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [foodList, setFoodList] = useState<any[]>([]);
@@ -35,7 +39,7 @@ const FoodSlide = () => {
             } catch (err) {}
         };
         fetchFood();
-    }, []);
+    }, [foodDeleted]);
 
     return (<>
         {error && <ErrorModal error={error} onClose={clearError} />}

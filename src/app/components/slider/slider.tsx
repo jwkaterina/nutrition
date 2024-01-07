@@ -2,17 +2,20 @@
 
 import styles from './slider.module.css'
 import FoodSlide from '@/app/components/slider/slides/food-slide';
-import Recipe from '@/app/components/slider/slides/recipe';
-import Menu from '@/app/components/slider/slides/menu';
+import RecipeSlide from '@/app/components/slider/slides/recipe-slide';
+import MenuSlide from '@/app/components/slider/slides/menu-slide';
 import { useEffect, useRef, useContext } from 'react';
 import { SlideType } from '@/app/types/types';
 import { CardOpenContext } from '@/app/context/card-context';
 import { SlideContext, SetSlideContext, BlockScrollContext } from '../../context/slide-context';
 
 interface SliderProps {
+    foodDeleted: boolean,
+    recipeDeleted: boolean,
+    menuDeleted: boolean
 }
 
-const Slider = ({ }: SliderProps): JSX.Element => {
+const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.Element => {
 
     const slidesRef = useRef(null);
     const cardOpen = useContext(CardOpenContext);
@@ -51,16 +54,15 @@ const Slider = ({ }: SliderProps): JSX.Element => {
         } else if(scrollLeft + 5 >= width && scrollLeft - 5 <= width  && slide != SlideType.RECIPE) {
             setSlide(SlideType.RECIPE)
         } else if(scrollLeft + 5 >= 2 * width && slide != SlideType.MENU) {
-            // setTimeout(() => {
             setSlide(SlideType.MENU)
         }
     }
 
     return (
         <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} style={cardOpen ? {overflow: 'hidden'} : {overflow: 'auto'}}>
-            <FoodSlide/>
-            <Recipe/>
-            <Menu/>
+            <FoodSlide foodDeleted={foodDeleted}/>
+            <RecipeSlide recipeDeleted={recipeDeleted}/>
+            <MenuSlide menuDeleted={menuDeleted}/>
       </div>
     )
 }

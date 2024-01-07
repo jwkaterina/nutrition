@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext } from 'react' 
+import { useContext, useState } from 'react' 
 import NavBar from '@/app/components/navigation/nav-bar';
 import Slider from '@/app/components/slider/slider';
 import MainNav from '@/app/components/navigation/main-nav';
@@ -11,6 +11,9 @@ import Footer from './components/navigation/footer';
 export default function Home(): JSX.Element {
 
   const cardOpen = useContext(CardOpenContext);
+  const [deletedFood, setDeletedFood] = useState<boolean>(false);
+  const [deletedRecipe, setDeletedRecipe] = useState<boolean>(false);
+  const [deletedMenu, setDeletedMenu] = useState<boolean>(false);
 
   const primaryColor = "var(--primary-color)";
 
@@ -19,10 +22,17 @@ export default function Home(): JSX.Element {
       <NavBar color={primaryColor}>
         {cardOpen ? 
           <OpenCardMenu 
+            onFoodDelete={() => setDeletedFood(true)}
+            onRecipeDelete={() => setDeletedRecipe(true)}
+            onMenuDelete={() => setDeletedMenu(true)}
           /> : 
           <MainNav/>}
       </NavBar>
-      <Slider />
+      <Slider 
+        foodDeleted={deletedFood} 
+        recipeDeleted={deletedRecipe}
+        menuDeleted={deletedMenu}
+      />
       {!cardOpen && <Footer color={primaryColor} />}
     </>
   )

@@ -4,8 +4,6 @@ import { SlideType } from "@/app/types/types"
 import { useContext } from "react"
 import { SetCardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from '@/app/context/food-context'
-// import { useRecipeDispatch } from '@/app/context/recipe-context'
-// import { useMenuDispatch } from '@/app/context/menu-context'
 import { SlideContext } from '@/app/context/slide-context';
 import { useHttpClient } from "@/app/hooks/http-hook"
 import Menu from "./menu"
@@ -13,9 +11,12 @@ import ErrorModal from "@/app/components/overlays/error-modal/error-modal"
 import LoadingSpinner from "@/app/components/overlays/loading/loading-spinner"
 
 interface OpenCardMenuProps {
+    onFoodDelete: () => void,
+    onRecipeDelete: () => void,
+    onMenuDelete: () => void,
 }
 
-const OpenCardMenu = ({ }: OpenCardMenuProps): JSX.Element => {
+const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMenuProps): JSX.Element => {
 
     const slide = useContext(SlideContext);
     const cardOpen = useContext(SetCardOpenContext);
@@ -43,6 +44,7 @@ const OpenCardMenu = ({ }: OpenCardMenuProps): JSX.Element => {
                 `http://localhost:5001/foods/${id}`,
                 'DELETE'
             );
+            onFoodDelete();
             setCardOpen(0);
         } catch (err) {}
     }
