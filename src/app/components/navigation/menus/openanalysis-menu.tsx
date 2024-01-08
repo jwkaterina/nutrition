@@ -38,7 +38,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 category: food!.food.category,
                 categoryLabel: food!.food.categoryLabel,
                 foodId: food!.food.foodId,
-                // image: food!.food.image,
+                image: food!.food.image,
                 knownAs: food!.food.knownAs,
                 label: food!.food.label,
                 nutrients: {

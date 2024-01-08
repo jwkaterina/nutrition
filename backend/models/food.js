@@ -9,7 +9,7 @@ const foodSchema = new Schema({
             category: { type: String, required: true },
             categoryLabel: { type: String, required: true },
             foodId: { type: String, required: true },
-            // image: { type: String, required: true },
+            image: { type: String, required: true },
             knownAs: { type: String, required: true },
             label: { type: String, required: true },
             nutrients: {
