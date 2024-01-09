@@ -5,8 +5,9 @@ import { Food } from '@/app/types/types';
 
 interface CurrentFood  {
   food: Food | null,
-  id: string | null
+  id?: string | null
 }
+
 interface CurrentFoodContextProps {
   currentFood: CurrentFood,
   setCurrentFood: React.SetStateAction<any>

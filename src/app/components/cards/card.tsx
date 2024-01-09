@@ -77,6 +77,9 @@ const Card = ({ index, children, food, id }: CardProps): JSX.Element => {
     }, [cardOpen])
 
     const handleCardClick = () => {
+        if(cardOpen === index) {
+            return 
+        }
         setCardOpen(index); 
         setCurrentFood({
             food: food,
