@@ -10,7 +10,7 @@ interface CardProps {
     index: number,
     food: Food,
     children: React.ReactNode,
-    id?: string | null
+    id: string | null
 }
 
 const Card = ({ index, children, food, id }: CardProps): JSX.Element => {
@@ -85,6 +85,7 @@ const Card = ({ index, children, food, id }: CardProps): JSX.Element => {
             food: food,
             id: id ? id : null
         });
+        console.log(id)
     }
 
     return (

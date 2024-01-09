@@ -83,7 +83,7 @@ const FoodSearch = () => {
 
     const foodList = foodArr.map((hint, index) => {
 		return (
-			<FoodCard food={hint} index={index + 1} key={index + 1}/>
+			<FoodCard food={hint} index={index + 1} key={index + 1} id={null}/>
 		)
 	})
 
