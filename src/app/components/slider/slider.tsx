@@ -7,7 +7,7 @@ import MenuSlide from '@/app/components/slider/slides/menu-slide';
 import { useEffect, useRef, useContext } from 'react';
 import { SlideType } from '@/app/types/types';
 import { CardOpenContext } from '@/app/context/card-context';
-import { SlideContext, SetSlideContext, BlockScrollContext } from '../../context/slide-context';
+import { SlideContext, SetSlideContext, BlockScrollContext, ScrollBehaviorContext } from '../../context/slide-context';
 
 interface SliderProps {
     foodDeleted: boolean,
@@ -22,6 +22,7 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
     const slide = useContext(SlideContext);
     const setSlide = useContext(SetSlideContext);
     const blockScrollHandler = useContext(BlockScrollContext);
+    const scrollBehavior = useContext(ScrollBehaviorContext);
 
     useEffect(() => {
 		scrollTo(0, 0);
@@ -29,7 +30,7 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
         (slidesRef.current as HTMLElement).scrollTo({
           top: 0,
           left: (slidesRef.current as HTMLElement).clientWidth * slide,
-          behavior: "smooth",
+          behavior: scrollBehavior,
         });
       }, [slide]);
 

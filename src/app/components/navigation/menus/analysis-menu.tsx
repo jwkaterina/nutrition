@@ -4,7 +4,7 @@ import Menu from './menu'
 import { useRouter } from 'next/navigation'
 import { useContext } from 'react'
 import { SetCardOpenContext } from '@/app/context/card-context'
-import { SetBlockScrollContext } from '@/app/context/slide-context'
+import { SetScrollBehaviorContext} from '@/app/context/slide-context'
 
 interface AnalysisMenuProps {
     title: string
@@ -14,14 +14,14 @@ const AnalysisMenu = ({ title }: AnalysisMenuProps): JSX.Element => {
 
 	const setCardOpen = useContext(SetCardOpenContext);
 	const router = useRouter();
-	const setBlockScroll = useContext(SetBlockScrollContext);
+	const setScrollBehavior = useContext(SetScrollBehaviorContext);
 
 	const onBackClick = (): void => {
 		setCardOpen(null);
-		setBlockScroll(true);
+		setScrollBehavior('auto');
 		router.push('/');
 		setTimeout(() => {
-			setBlockScroll(false);
+			setScrollBehavior('smooth');
 		}, 500);
 	}
 

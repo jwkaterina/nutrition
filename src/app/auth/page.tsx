@@ -8,14 +8,14 @@ import { useState, useContext } from 'react';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
 import ErrorModal from '../components/overlays/error-modal/error-modal';
 import { useRouter} from 'next/navigation';
-import { SetBlockScrollContext } from '@/app/context/slide-context';
+import { SetScrollBehaviorContext } from '@/app/context/slide-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
 
 const Auth = (): JSX.Element => {
 
     const tertiaryColor = "var(--tertiary-color)";
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const setBlockScroll = useContext(SetBlockScrollContext);
+    const setScrollBehavior = useContext(SetScrollBehaviorContext);
     const { setIsLoggedIn, setUser } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState(true);
 
@@ -70,11 +70,11 @@ const Auth = (): JSX.Element => {
     }
 
     const goBack = () => {
-        setBlockScroll(true);
+        setScrollBehavior('auto');
         router.back();
         setTimeout(() => {
-            setBlockScroll(false);
-        }, 500)
+            setScrollBehavior('smooth');
+        }, 500);
     }
 
     return (<>
