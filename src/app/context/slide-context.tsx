@@ -1,18 +1,20 @@
 import { createContext, useState } from "react";
 import { SlideType } from '@/app/types/types';
 
+type ScrollBehavior = 'auto' | 'smooth';
+
 export const SlideContext = createContext<SlideType>(SlideType.FOOD);
 export const SetSlideContext = createContext((() => {}) as React.SetStateAction<any>);
 export const BlockScrollContext = createContext<boolean>(false);
 export const SetBlockScrollContext = createContext((() => {}) as React.SetStateAction<any>);
-export const ScrollBehaviorContext = createContext<string | undefined>('smooth');
+export const ScrollBehaviorContext = createContext<ScrollBehavior | undefined>('smooth');
 export const SetScrollBehaviorContext = createContext((() => {}) as React.SetStateAction<any>);
 
 export const SlideProvider = ({ children }: any) => {
 
     const [slide, setSlide] = useState(SlideType.FOOD);
     const [blockScroll, setBlockScroll] = useState(false);
-    const [scrollBehavior, setScrollBehavior] = useState('smooth');
+    const [scrollBehavior, setScrollBehavior] = useState<ScrollBehavior>('smooth');
 
     return (
         <SlideContext.Provider value={slide}>

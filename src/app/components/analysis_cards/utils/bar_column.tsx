@@ -33,7 +33,7 @@ const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarCol
         if(barRef.current) {
             barRef.current.animate(keyframes, options);
         }
-    })
+    }, [percentHeight])
     
 
     if(!vitamin) return <></>

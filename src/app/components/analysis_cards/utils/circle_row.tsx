@@ -42,7 +42,7 @@ const CircleRow = ({ vitamin, vitaminPercent, label, color, lightColor }: Circle
         if(arc) {
             arcRef.current.animate(keyframes, options);
         }
-    })
+    }, [vitaminPercent])
 
     const styleProgress = () => {
 

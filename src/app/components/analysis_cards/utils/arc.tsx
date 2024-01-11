@@ -28,7 +28,7 @@ const Arc = ({ degree, percent, color, radius, strokeWidth }: ArcProps): JSX.Ele
         if(arcRef.current) {
             arcRef.current.animate(keyframes, options);
         }
-    })
+    }, [])
 
     const circumreference = radius * 2 * Math.PI;
     const widthHeight = 2 * radius + 2 * strokeWidth;

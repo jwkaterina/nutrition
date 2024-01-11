@@ -49,7 +49,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
         if(arc) {
             arcRef.current.animate(keyframes, options);
         }
-    })
+    }, [daily])
 
     const styleProgress = () => {
 

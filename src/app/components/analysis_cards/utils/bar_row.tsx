@@ -40,7 +40,7 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
         if(line) {
             lineRef.current.animate(keyframes, options);
         }
-    })
+    }, [daily])
 
     const styleProgress = () => {
 
