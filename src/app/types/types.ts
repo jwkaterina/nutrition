@@ -4,6 +4,12 @@ export enum SlideType {
     MENU
 }
 
+export enum CardState { 
+    OPEN,
+    CLOSING,
+    CLOSED
+}
+
 export type FoodProp = {
     foodId: string,
     label: string,

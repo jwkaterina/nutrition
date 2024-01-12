@@ -10,6 +10,7 @@ import { useHttpClient } from '@/app/hooks/http-hook';
 import { AuthContext } from "@/app/context/auth-context"
 import ErrorModal from "@/app/components/overlays/error-modal/error-modal"
 import LoadingSpinner from "@/app/components/overlays/loading/loading-spinner"
+import { CardState } from "@/app/types/types"
 
 interface OpenAnalysisMenuProps {
     
@@ -72,7 +73,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
         if(rightText === 'Add To Favorites') {
             addToFavorites();
         } else if(rightText === 'Go To Favorites') {
-            setCardOpen(null);
+            setCardOpen(CardState.CLOSED);
             setScrollBehavior('auto');
             router.push('/');
             setTimeout(() => {
@@ -87,7 +88,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
         <Menu 
             leftText='Back' 
             rightText={rightText} 
-            onLeftclick={() => setCardOpen(0)} 
+            onLeftclick={() => setCardOpen(CardState.CLOSING)} 
             onRightclick={handleRightClick}
         />
     </>)

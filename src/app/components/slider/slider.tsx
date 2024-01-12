@@ -5,7 +5,7 @@ import FoodSlide from '@/app/components/slider/slides/food-slide';
 import RecipeSlide from '@/app/components/slider/slides/recipe-slide';
 import MenuSlide from '@/app/components/slider/slides/menu-slide';
 import { useEffect, useRef, useContext } from 'react';
-import { SlideType } from '@/app/types/types';
+import { SlideType, CardState } from '@/app/types/types';
 import { CardOpenContext } from '@/app/context/card-context';
 import { SlideContext, SetSlideContext, BlockScrollContext, ScrollBehaviorContext } from '../../context/slide-context';
 
@@ -36,7 +36,7 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
 
 	useEffect(() => {
 		if(!slidesRef.current) return;
-		if(cardOpen) {
+		if(cardOpen == CardState.OPEN) {
             scrollTo(0, 0);
 			(slidesRef.current as HTMLElement).scrollTo({
                 top: 0,
@@ -60,7 +60,7 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
     }
 
     const style = () => {
-        if(cardOpen) {
+        if(cardOpen == CardState.OPEN) {
             return {overflow: 'hidden'}
         } else {
             return {overflow: 'auto'}

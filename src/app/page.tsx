@@ -7,6 +7,7 @@ import MainNav from '@/app/components/navigation/main-nav';
 import OpenCardMenu from '@/app/components/navigation/menus/opencard-menu';
 import { CardOpenContext } from './context/card-context';
 import Footer from './components/navigation/footer';
+import { CardState } from './types/types';
 
 export default function Home(): JSX.Element {
 
@@ -20,7 +21,7 @@ export default function Home(): JSX.Element {
   return (
     <>
       <NavBar color={primaryColor}>
-        {cardOpen ? 
+        {cardOpen == CardState.OPEN ? 
           <OpenCardMenu 
             onFoodDelete={() => setDeletedFood(true)}
             onRecipeDelete={() => setDeletedRecipe(true)}
@@ -33,7 +34,7 @@ export default function Home(): JSX.Element {
         recipeDeleted={deletedRecipe}
         menuDeleted={deletedMenu}
       />
-      {!cardOpen && <Footer color={primaryColor} />}
+      {cardOpen == CardState.CLOSED && <Footer color={primaryColor} />}
     </>
   )
 }

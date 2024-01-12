@@ -1,13 +1,14 @@
 import { useContext } from 'react'
 import styles from './page.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
+import { CardState } from '@/app/types/types';
 
 const RecipeForm = () => {
 
     const cardOpen = useContext(CardOpenContext);
 
     const style = () => {
-        if(cardOpen) {
+        if(cardOpen == CardState.OPEN) {
             return {overflow: 'hidden'}
         } else {
             return {overflow: 'auto'}

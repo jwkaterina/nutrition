@@ -1,6 +1,6 @@
 'use client'
 
-import { SlideType } from "@/app/types/types"
+import { SlideType, CardState } from "@/app/types/types"
 import { useContext } from "react"
 import { SetCardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from '@/app/context/food-context'
@@ -24,7 +24,7 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
     const { currentFood } = useContext(CurrentFoodContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-    const deleteCard = (index: number | null): void => {
+    const deleteCard = (): void => {
         switch(slide) {
             case SlideType.FOOD:
                 deleteFood(currentFood.id);
@@ -45,7 +45,7 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
                 'DELETE'
             );
             onFoodDelete();
-            setCardOpen(0);
+            setCardOpen(CardState.CLOSING);
         } catch (err) {}
     }
 
@@ -63,8 +63,8 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
         <Menu 
             leftText="Back" 
             rightText="Delete" 
-            onLeftclick={() => setCardOpen(0)} 
-            onRightclick={() => deleteCard(cardOpen)} 
+        onLeftclick={() => setCardOpen(CardState.CLOSING)} 
+            onRightclick={() => deleteCard()} 
         />
     </>)
 }

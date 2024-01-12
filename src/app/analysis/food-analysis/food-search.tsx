@@ -7,7 +7,7 @@ import PageGrid from '@/app/components/slider/page-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context';
-import { Food } from '@/app/types/types';
+import { Food, CardState} from '@/app/types/types';
 import FoodCard from '@/app/components/cards/food-cards/food-card';
 
 const FoodSearch = () => {
@@ -32,7 +32,7 @@ const FoodSearch = () => {
 
 		setShowOptions(false);
 		setQueryOptions(null);
-		setCardOpen(null);
+		setCardOpen(CardState.CLOSED);
 		setInput(option.innerText);
 
 		const result = await parseQuery(option.innerText);
@@ -42,7 +42,7 @@ const FoodSearch = () => {
 	const handleEnterKey = async(e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			setShowOptions(false);
-			setCardOpen(null);
+			setCardOpen(CardState.CLOSED);
 			const result = await parseQuery(input);
 			if(result) addHintsToArray(result.hints);    
 		}
@@ -72,13 +72,13 @@ const FoodSearch = () => {
 	}
 
 	useEffect(() => {
-		if(cardOpen) {
+		if(cardOpen == CardState.OPEN) {
 			setShowOptions(false);
 		}
 	}, [cardOpen])
 
 	useEffect(() => {
-		setCardOpen(null);
+		setCardOpen(CardState.CLOSED);
 	}, [])
 
     const foodList = foodArr.map((hint, index) => {
@@ -88,7 +88,7 @@ const FoodSearch = () => {
 	})
 
     const style = () => {
-        if(cardOpen) {
+        if(cardOpen == CardState.OPEN) {
             return {overflow: 'hidden'}
         } else {
             return {overflow: 'auto'}
@@ -97,7 +97,7 @@ const FoodSearch = () => {
 
     return (
         <div className={styles.container} style={style()}>
-            {!cardOpen && <div className={styles.input_container}>
+            {cardOpen == CardState.CLOSED && <div className={styles.input_container}>
                 <input 
                     type="text" 
                     className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search } placeholder='search food' 

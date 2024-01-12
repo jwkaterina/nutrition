@@ -7,6 +7,7 @@ import Footer from '@/app/components/navigation/footer';
 import { CardOpenContext } from '@/app/context/card-context';
 import { useContext } from 'react';
 import RecipeForm from './recipe-form';
+import { CardState } from '@/app/types/types';
 
 const RecipeAnalysis = (): JSX.Element => {
 
@@ -16,13 +17,13 @@ const RecipeAnalysis = (): JSX.Element => {
 
   return (<>
   		<NavBar color={secondaryColor}>
-			{cardOpen ? 
+			{cardOpen == CardState.OPEN ? 
 			<OpenAnalysisMenu /> : 
 			<AnalysisMenu title="Recipe"/>
 			}
 		</NavBar>
 		<RecipeForm />
-		{!cardOpen && <Footer color={secondaryColor} />}
+		{cardOpen == CardState.CLOSED && <Footer color={secondaryColor} />}
     </>  )
 }
 

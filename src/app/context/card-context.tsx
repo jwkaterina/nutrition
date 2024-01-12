@@ -1,11 +1,12 @@
 import { createContext, useState } from "react";
+import { CardState } from "../types/types";
 
-export const CardOpenContext = createContext<number | null>(null);
+export const CardOpenContext = createContext<CardState>(CardState.CLOSED);
 export const SetCardOpenContext = createContext((() => {}) as React.SetStateAction<any>);
 
 export const CardOpenProvider = ({ children }: any) => {
 
-    const [cardOpen, setCardOpen] = useState(null);
+    const [cardOpen, setCardOpen] = useState(CardState.CLOSED);
 
     return (
         <CardOpenContext.Provider value={cardOpen}>

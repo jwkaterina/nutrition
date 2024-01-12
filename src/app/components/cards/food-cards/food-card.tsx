@@ -1,6 +1,6 @@
 'use client'
 
-import { Food } from '@/app/types/types'
+import { Food, CardState } from '@/app/types/types'
 import Card from '../card'
 import { useContext, useState } from 'react'
 import { SetCardOpenContext } from '@/app/context/card-context'
@@ -24,7 +24,7 @@ const FoodCard = ({ food, index, id }: FoodCardProps): JSX.Element => {
         if(isOpen) {
             return 
         }
-        setCardOpen(1);
+        setCardOpen(CardState.OPEN);
         setIsOpen(true); 
 
         setCurrentFood({

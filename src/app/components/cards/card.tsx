@@ -3,6 +3,7 @@
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'
+import { CardState } from '@/app/types/types'
 
 interface CardProps {
     index: number,
@@ -68,7 +69,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
     } 
 
     useEffect(() => {
-        if(cardOpen === 0 && isOpen) {
+        if(cardOpen == CardState.CLOSING && isOpen) {
             cardRef.current?.animate(keyframesReverse, options);
             setIsOpen(false);
         }

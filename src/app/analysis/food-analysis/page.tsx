@@ -7,6 +7,7 @@ import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
 import { CardOpenContext } from '@/app/context/card-context';
 import Footer from '@/app/components/navigation/footer';
 import FoodSearch from './food-search';
+import { CardState } from '@/app/types/types';
 
 interface FoodAnalysisProps {
 
@@ -20,13 +21,13 @@ const FoodAnalysis = ({ }: FoodAnalysisProps): JSX.Element => {
 
 	return (<>
 		<NavBar color={secondaryColor}>
-			{cardOpen ? 
+			{cardOpen == CardState.OPEN ? 
 			<OpenAnalysisMenu /> : 
 			<AnalysisMenu title="Food"/>
 			}
 		</NavBar>
 		<FoodSearch />
-		{!cardOpen && <Footer color={secondaryColor} />}
+		{cardOpen == CardState.CLOSED && <Footer color={secondaryColor} />}
 	</>)
 }
 
