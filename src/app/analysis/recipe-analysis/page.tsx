@@ -23,7 +23,7 @@ const RecipeAnalysis = (): JSX.Element => {
 			}
 		</NavBar>
 		<RecipeForm />
-		{cardOpen == CardState.CLOSED && <Footer color={secondaryColor} />}
+		{cardOpen != CardState.OPEN && <Footer color={secondaryColor} />}
     </>  )
 }
 

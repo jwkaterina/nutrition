@@ -34,7 +34,7 @@ export default function Home(): JSX.Element {
         recipeDeleted={deletedRecipe}
         menuDeleted={deletedMenu}
       />
-      {cardOpen == CardState.CLOSED && <Footer color={primaryColor} />}
+      {cardOpen != CardState.OPEN && <Footer color={primaryColor} />}
     </>
   )
 }

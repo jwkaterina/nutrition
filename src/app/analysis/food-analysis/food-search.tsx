@@ -96,7 +96,7 @@ const FoodSearch = () => {
 
     return (
         <div className={styles.container} style={style()}>
-            {cardOpen == CardState.CLOSED && <div className={styles.input_container}>
+            {cardOpen != CardState.OPEN && <div className={styles.input_container}>
                 <input 
                     type="text" 
                     className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search } placeholder='search food' 
