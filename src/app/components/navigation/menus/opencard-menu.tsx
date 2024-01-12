@@ -2,7 +2,7 @@
 
 import { SlideType, CardState } from "@/app/types/types"
 import { useContext } from "react"
-import { SetCardOpenContext } from "@/app/context/card-context"
+import { CardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from '@/app/context/food-context'
 import { SlideContext } from '@/app/context/slide-context';
 import { useHttpClient } from "@/app/hooks/http-hook"
@@ -19,7 +19,7 @@ interface OpenCardMenuProps {
 const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMenuProps): JSX.Element => {
 
     const { slide } = useContext(SlideContext);
-    const setCardOpen = useContext(SetCardOpenContext);
+    const { setCardOpen } = useContext(CardOpenContext);
     const { currentFood } = useContext(CurrentFoodContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 

@@ -11,7 +11,7 @@ import { CardState } from './types/types';
 
 export default function Home(): JSX.Element {
 
-  const cardOpen = useContext(CardOpenContext);
+  const { cardOpen } = useContext(CardOpenContext);
   const [deletedFood, setDeletedFood] = useState<boolean>(false);
   const [deletedRecipe, setDeletedRecipe] = useState<boolean>(false);
   const [deletedMenu, setDeletedMenu] = useState<boolean>(false);

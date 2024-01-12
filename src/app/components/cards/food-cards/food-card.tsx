@@ -3,7 +3,7 @@
 import { Food, CardState } from '@/app/types/types'
 import Card from '../card'
 import { useContext, useState } from 'react'
-import { SetCardOpenContext } from '@/app/context/card-context'
+import { CardOpenContext } from '@/app/context/card-context'
 import { CurrentFoodContext } from '@/app/context/food-context'
 import OpenFoodCard from './open-foodcard'
 import ClosedCard from './closed-foodcard'
@@ -17,7 +17,7 @@ interface FoodCardProps {
 const FoodCard = ({ food, index, id }: FoodCardProps): JSX.Element => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const setCardOpen = useContext(SetCardOpenContext);
+    const { setCardOpen } = useContext(CardOpenContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
 
     const handleCardClick = () => {

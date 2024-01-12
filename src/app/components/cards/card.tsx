@@ -15,7 +15,7 @@ interface CardProps {
 
 const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): JSX.Element => {
 
-    const cardOpen = useContext(CardOpenContext);
+    const { cardOpen } = useContext(CardOpenContext);
     const cardRef = useRef<HTMLDivElement>(null);
 
     let mediaQuery600: MediaQueryList | null = null;

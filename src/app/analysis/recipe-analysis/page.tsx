@@ -11,7 +11,7 @@ import { CardState } from '@/app/types/types';
 
 const RecipeAnalysis = (): JSX.Element => {
 
-  const cardOpen = useContext(CardOpenContext);
+  const { cardOpen } = useContext(CardOpenContext);
 
   const secondaryColor = "var(--secondary-color)";
 

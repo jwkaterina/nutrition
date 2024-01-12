@@ -1,7 +1,7 @@
 'use client'
 
 import { useContext, useState } from "react"
-import { SetCardOpenContext } from "@/app/context/card-context"
+import { CardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from "@/app/context/food-context"
 import { SlideContext } from "@/app/context/slide-context"
 import Menu from './menu'
@@ -22,7 +22,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     const router = useRouter();
 
     const { currentFood } = useContext(CurrentFoodContext);
-    const setCardOpen = useContext(SetCardOpenContext);
+    const { setCardOpen } = useContext(CardOpenContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { user } = useContext(AuthContext);
     const { setScrollBehavior } = useContext(SlideContext);

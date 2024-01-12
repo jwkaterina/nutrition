@@ -18,7 +18,7 @@ interface SliderProps {
 const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.Element => {
 
     const slidesRef = useRef(null);
-    const cardOpen = useContext(CardOpenContext);
+    const { cardOpen } = useContext(CardOpenContext);
     const { slide, setSlide, blockScroll, scrollBehavior } = useContext(SlideContext);
 
     useEffect(() => {

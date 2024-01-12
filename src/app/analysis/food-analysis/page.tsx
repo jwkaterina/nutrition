@@ -15,7 +15,7 @@ interface FoodAnalysisProps {
 
 const FoodAnalysis = ({ }: FoodAnalysisProps): JSX.Element => {
 
-	const cardOpen = useContext(CardOpenContext);
+	const { cardOpen } = useContext(CardOpenContext);
 	
 	const secondaryColor = "var(--secondary-color)";
 

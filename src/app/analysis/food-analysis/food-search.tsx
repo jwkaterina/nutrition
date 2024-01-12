@@ -6,14 +6,13 @@ import { useState, useContext, useEffect, FormEvent, KeyboardEvent } from 'react
 import PageGrid from '@/app/components/slider/page-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context';
+import { CardOpenContext } from '@/app/context/card-context';
 import { Food, CardState} from '@/app/types/types';
 import FoodCard from '@/app/components/cards/food-cards/food-card';
 
 const FoodSearch = () => {
 
-    const cardOpen = useContext(CardOpenContext);
-    const setCardOpen = useContext(SetCardOpenContext);
+    const { cardOpen, setCardOpen } = useContext(CardOpenContext);
 	const [foodArr, setFoodArr] = useState<Food[]>([]);
 	const [showOptions, setShowOptions] = useState(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);

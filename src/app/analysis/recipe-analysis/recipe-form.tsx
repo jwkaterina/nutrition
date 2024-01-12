@@ -5,7 +5,7 @@ import { CardState } from '@/app/types/types';
 
 const RecipeForm = () => {
 
-    const cardOpen = useContext(CardOpenContext);
+    const { cardOpen } = useContext(CardOpenContext);
 
     const style = () => {
         if(cardOpen == CardState.OPEN) {
