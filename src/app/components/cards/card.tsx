@@ -2,22 +2,19 @@
 
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
-import { CardOpenContext, SetCardOpenContext } from '@/app/context/card-context'
-import { CurrentFoodContext } from '@/app/context/food-context'
-import { Food } from '@/app/types/types'
+import { CardOpenContext } from '@/app/context/card-context'
 
 interface CardProps {
     index: number,
-    food: Food,
     children: React.ReactNode,
-    id: string | null
+    onCardClick: () => void,
+    setIsOpen: (isOpen: boolean) => void,
+    isOpen: boolean
 }
 
-const Card = ({ index, children, food, id }: CardProps): JSX.Element => {
+const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): JSX.Element => {
 
     const cardOpen = useContext(CardOpenContext);
-    const setCardOpen = useContext(SetCardOpenContext);
-    const { setCurrentFood } = useContext(CurrentFoodContext);
     const cardRef = useRef<HTMLDivElement>(null);
 
     let mediaQuery600: MediaQueryList | null = null;
@@ -66,30 +63,19 @@ const Card = ({ index, children, food, id }: CardProps): JSX.Element => {
         fill: 'forwards'
     };
 
-    if(cardRef.current && cardOpen === index) {
+    if(cardRef.current && isOpen) {
         cardRef.current.animate(keyframes, options);
     } 
 
     useEffect(() => {
-        if(cardOpen === 0) {
+        if(cardOpen === 0 && isOpen) {
             cardRef.current?.animate(keyframesReverse, options);
+            setIsOpen(false);
         }
     }, [cardOpen])
 
-    const handleCardClick = () => {
-        if(cardOpen === index) {
-            return 
-        }
-        setCardOpen(index); 
-        setCurrentFood({
-            food: food,
-            id: id ? id : null
-        });
-        console.log(id)
-    }
-
     return (
-        <div className={cardOpen != index ? styles.card : `${styles.card} ${styles.card_open}`} onClick={handleCardClick} ref={cardRef}>
+        <div className={styles.card} onClick={onCardClick} ref={cardRef}>
             {children}
         </div>
     )
