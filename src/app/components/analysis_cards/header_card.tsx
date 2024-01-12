@@ -39,7 +39,7 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
         fetchMeasuresWeight();
     }, [])
 
-    const measuresSelect = () => {
+    const calculateOptions = () => {
         let options: JSX.Element[] = [];
         if(customWeight) {
             options = [<option key={0} value='grams' id={gramUri}>grams</option>];
@@ -58,7 +58,6 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
         }
 
         return options;
-        
     }
 
     const hangleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +100,7 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
                         className={customWeight ? styles.short_select : ''} 
                         value={option} 
                         onChange={(e) => handleOptionChange(e)}>
-                        {measuresSelect()}
+                        {calculateOptions()}
                     </select>
                 </div>
             </div>
