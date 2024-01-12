@@ -2,16 +2,14 @@
 import { useContext, useEffect } from 'react'
 import styles from './nav-bar.module.css'
 import { SlideType } from "@/app/types/types"
-import { SlideContext, SetSlideContext, SetBlockScrollContext } from '@/app/context/slide-context';
+import { SlideContext } from '@/app/context/slide-context';
 
 interface MainNavProps {
 }
 
 const MainNav = ({ }: MainNavProps): JSX.Element => {
 
-    const slide = useContext(SlideContext);
-    const setSlide = useContext(SetSlideContext);
-    const setBlockScroll = useContext(SetBlockScrollContext);
+    const { slide, setSlide, setBlockScroll } = useContext(SlideContext);
     let mediaQuery: MediaQueryList | null = null;
 
     if(typeof window !== 'undefined') {

@@ -18,8 +18,7 @@ interface OpenCardMenuProps {
 
 const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMenuProps): JSX.Element => {
 
-    const slide = useContext(SlideContext);
-    const cardOpen = useContext(SetCardOpenContext);
+    const { slide } = useContext(SlideContext);
     const setCardOpen = useContext(SetCardOpenContext);
     const { currentFood } = useContext(CurrentFoodContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();

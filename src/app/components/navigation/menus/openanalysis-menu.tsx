@@ -3,7 +3,7 @@
 import { useContext, useState } from "react"
 import { SetCardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from "@/app/context/food-context"
-import { SetScrollBehaviorContext } from "@/app/context/slide-context"
+import { SlideContext } from "@/app/context/slide-context"
 import Menu from './menu'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/app/hooks/http-hook';
@@ -25,7 +25,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     const setCardOpen = useContext(SetCardOpenContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { user } = useContext(AuthContext);
-    const setScrollBehavior = useContext(SetScrollBehaviorContext);
+    const { setScrollBehavior } = useContext(SlideContext);
  
     const addToFavorites = async () => {
         const food = currentFood!.food;

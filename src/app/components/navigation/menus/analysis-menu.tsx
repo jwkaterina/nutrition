@@ -4,7 +4,7 @@ import Menu from './menu'
 import { useRouter } from 'next/navigation'
 import { useContext } from 'react'
 import { SetCardOpenContext } from '@/app/context/card-context'
-import { SetScrollBehaviorContext} from '@/app/context/slide-context'
+import { SlideContext} from '@/app/context/slide-context'
 import { CardState } from '@/app/types/types'
 
 interface AnalysisMenuProps {
@@ -15,7 +15,7 @@ const AnalysisMenu = ({ title }: AnalysisMenuProps): JSX.Element => {
 
 	const setCardOpen = useContext(SetCardOpenContext);
 	const router = useRouter();
-	const setScrollBehavior = useContext(SetScrollBehaviorContext);
+	const { setScrollBehavior } = useContext(SlideContext);
 
 	const onBackClick = (): void => {
 		setCardOpen(CardState.CLOSED);

@@ -3,7 +3,7 @@
 import Menu from './menu'
 import { useRouter } from 'next/navigation'
 import { useContext } from 'react'
-import { SetBlockScrollContext } from '@/app/context/slide-context'
+import { SlideContext } from '@/app/context/slide-context'
 
 interface AuthMenuProps {
 
@@ -12,7 +12,7 @@ interface AuthMenuProps {
 const AuthMenu = ({ }: AuthMenuProps): JSX.Element => {
 
 	const router = useRouter();
-    const setBlockScroll = useContext(SetBlockScrollContext);
+    const { setBlockScroll } = useContext(SlideContext);
 
     const backHandler = () => {
         setBlockScroll(true);

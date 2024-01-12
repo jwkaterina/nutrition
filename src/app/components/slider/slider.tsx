@@ -7,7 +7,7 @@ import MenuSlide from '@/app/components/slider/slides/menu-slide';
 import { useEffect, useRef, useContext } from 'react';
 import { SlideType, CardState } from '@/app/types/types';
 import { CardOpenContext } from '@/app/context/card-context';
-import { SlideContext, SetSlideContext, BlockScrollContext, ScrollBehaviorContext } from '../../context/slide-context';
+import { SlideContext } from '../../context/slide-context';
 
 interface SliderProps {
     foodDeleted: boolean,
@@ -19,10 +19,7 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
 
     const slidesRef = useRef(null);
     const cardOpen = useContext(CardOpenContext);
-    const slide = useContext(SlideContext);
-    const setSlide = useContext(SetSlideContext);
-    const blockScrollHandler = useContext(BlockScrollContext);
-    const scrollBehavior = useContext(ScrollBehaviorContext);
+    const { slide, setSlide, blockScroll, scrollBehavior } = useContext(SlideContext);
 
     useEffect(() => {
 		scrollTo(0, 0);
@@ -47,7 +44,7 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
 	}, [cardOpen])
 
     const handleScroll = () => {
-      if(blockScrollHandler || !slidesRef.current) return;
+      if(blockScroll || !slidesRef.current) return;
         const scrollLeft = (slidesRef.current as HTMLElement).scrollLeft;
         const width = (slidesRef.current as HTMLElement).clientWidth;
         if(scrollLeft - 5 <= 0 && slide != SlideType.FOOD) {
