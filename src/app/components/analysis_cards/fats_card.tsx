@@ -15,7 +15,11 @@ const FatsCard = ({ content }: FatsCardProps) => {
     const monounsatFat: Nutrient = content!.totalNutrients.FAMS;
     const polyunsatFat: Nutrient = content!.totalNutrients.FAPU;
 
-    let  transfatPercent = null, satfatPercent = null, monounsatfatPercent = null, polyunsatfatPercent = null, restPercent = null;
+    let  transfatPercent: number | null = null, 
+    satfatPercent: number | null = null, 
+    monounsatfatPercent: number | null = null, 
+    polyunsatfatPercent: number | null = null, 
+    restPercent: number | null = null;
     if(totalFat && transFat) transfatPercent = transFat.quantity * 100 / totalFat.quantity;
     if(transFat && transFat.quantity == 0) transfatPercent = 0.1;
     if(totalFat && satFat) satfatPercent = satFat.quantity * 100 / totalFat.quantity;
@@ -26,16 +30,20 @@ const FatsCard = ({ content }: FatsCardProps) => {
     if(polyunsatFat && polyunsatFat.quantity == 0) polyunsatfatPercent = 0.1;
     if(totalFat && satFat && transFat && monounsatFat && polyunsatFat) restPercent = 100 - (satFat.quantity + transFat.quantity + monounsatFat.quantity + polyunsatFat.quantity) * 100 / totalFat.quantity;
 
-    let transDeg = null, satDeg = null, monounsatDeg = null, polyunsatDeg = null, restDeg = null;
+    let transDeg: number | null = null, 
+    satDeg: number | null = null, 
+    monounsatDeg: number | null = null, 
+    polyunsatDeg: number | null = null, 
+    restDeg: number | null = null;
     transDeg = 0;
     if(transfatPercent ) satDeg = transfatPercent / 100 * 360;
     if(satfatPercent && transfatPercent) monounsatDeg = (satfatPercent + transfatPercent!) / 100 * 360;
     if(satfatPercent && monounsatfatPercent && transfatPercent) polyunsatDeg = (monounsatfatPercent + satfatPercent + transfatPercent) / 100 * 360;
     if(satfatPercent && monounsatfatPercent && polyunsatfatPercent && transfatPercent) restDeg = (monounsatfatPercent + satfatPercent + transfatPercent + polyunsatfatPercent) / 100 * 360;
 
-    const radius = 50;
-    const strokeWidth = 15;
-    const widthHeight = 2 * radius + 2 * strokeWidth;
+    const radius: number = 50;
+    const strokeWidth: number = 15;
+    const widthHeight: number = 2 * radius + 2 * strokeWidth;
 
     if(!polyunsatfatPercent || !satfatPercent || !transfatPercent || !monounsatfatPercent || !restPercent) return <></>
 

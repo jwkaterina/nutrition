@@ -18,7 +18,7 @@ interface OpenFoodCardProps {
 
 const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
 
-    const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
+    const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
 
     const [content, setContent] = useState<Nutrients | null>(null);
     const [contentPercent, setContentPercent] = useState<Nutrients | null>(null);

@@ -10,7 +10,7 @@ import { useHttpClient } from '@/app/hooks/http-hook';
 import { AuthContext } from "@/app/context/auth-context"
 import ErrorModal from "@/app/components/overlays/error-modal/error-modal"
 import LoadingSpinner from "@/app/components/overlays/loading/loading-spinner"
-import { CardState } from "@/app/types/types"
+import { CardState, Food, MeasureProp } from "@/app/types/types"
 
 interface OpenAnalysisMenuProps {
     
@@ -18,7 +18,7 @@ interface OpenAnalysisMenuProps {
 
 const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
 
-    const [rightText, setRightText] = useState('Add To Favorites');
+    const [rightText, setRightText] = useState<string>('Add To Favorites');
     const router = useRouter();
 
     const { currentFood } = useContext(CurrentFoodContext);
@@ -28,15 +28,16 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     const { setScrollBehavior } = useContext(SlideContext);
  
     const addToFavorites = async () => {
-        const food = currentFood!.food;
-        const measures = food!.measures.map(measure => {
+        const food: Food | null = currentFood!.food;
+        const measures: MeasureProp[] = food!.measures.map(measure => {
             return {
                 uri: measure.uri,
                 label: measure.label,
                 weight: measure.weight
                 };
         });
-        const Food = {
+
+        const Food: Food = {
             food: {
                 category: food!.food.category,
                 categoryLabel: food!.food.categoryLabel,

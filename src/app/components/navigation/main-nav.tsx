@@ -22,7 +22,7 @@ const MainNav = ({ }: MainNavProps): JSX.Element => {
     } else {
         linkWidth = '200px';
     }
-    const scrollBarWidth = '20vw';
+    const scrollBarWidth: string = '20vw';
 
     type ScrollBarPosition = {
         left: string,

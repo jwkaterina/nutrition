@@ -11,21 +11,24 @@ import { useRouter} from 'next/navigation';
 import { SlideContext } from '@/app/context/slide-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
 
-const Auth = (): JSX.Element => {
+interface AuthProps {
+}
 
-    const tertiaryColor = "var(--tertiary-color)";
+const Auth = ({ }: AuthProps): JSX.Element => {
+
+    const tertiaryColor: string = "var(--tertiary-color)";
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
     const { setIsLoggedIn, setUser } = useContext(AuthContext);
-    const [loginMode, setLoginMode] = useState(true);
+    const [loginMode, setLoginMode] = useState<boolean>(true);
 
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const form = e.currentTarget;
-        const email = form.email.value;
-        const password = form.password.value;
+        const form: HTMLFormElement = e.currentTarget;
+        const email: string = form.email.value;
+        const password: string = form.password.value;
         
         if (loginMode) {
             try {
@@ -47,7 +50,7 @@ const Auth = (): JSX.Element => {
             } catch (err) {}
         } else {
             const formName = form.name as unknown as HTMLInputElement;
-            const name = formName.value;
+            const name: string = formName.value;
             try {
                 const responseData = await sendRequest(
                     'http://localhost:5001/users/signup',

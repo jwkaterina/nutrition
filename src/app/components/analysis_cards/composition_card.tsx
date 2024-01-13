@@ -1,5 +1,5 @@
 import styles from './alanysis_card.module.css';
-import { Nutrients } from '@/app/types/types';
+import { Nutrients, NutrientsProp, Nutrient } from '@/app/types/types';
 import Arc from './utils/arc';
 import SmallCircle from './utils/small_circle';
 
@@ -9,13 +9,16 @@ interface CompositionCardProps {
 
 const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element => {
 
-    const composition = contentPercent!.totalNutrients;
+    const composition: NutrientsProp = contentPercent!.totalNutrients;
 
-    const protein = composition.PROCNT;
-    const carbs = composition.CHOCDF;
-    const fat = composition.FAT;
+    const protein: Nutrient = composition.PROCNT;
+    const carbs: Nutrient = composition.CHOCDF;
+    const fat: Nutrient = composition.FAT;
 
-    let proteinPercent = null, carbsPercent = null, fatPercent = null, waterPercent = null;
+    let proteinPercent: number | null = null, 
+    carbsPercent: number | null = null, 
+    fatPercent: number | null = null, 
+    waterPercent: number | null = null;
     if(protein) proteinPercent = protein.quantity;
     if(protein && protein.quantity == 0) proteinPercent = 0.1;
     if(carbs) carbsPercent = carbs.quantity;
@@ -24,15 +27,18 @@ const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element 
     if(fat && fat.quantity == 0) fatPercent = 0.1;
     if(protein && carbs && fat) waterPercent = 100 - (protein.quantity + carbs.quantity + fat.quantity);
 
-    let waterDeg = null, proteinDeg = null, carbsDeg = null, fatDeg = null;
+    let waterDeg: number | null = null, 
+    proteinDeg: number | null = null, 
+    carbsDeg: number | null = null, 
+    fatDeg: number | null = null;
     waterDeg = 0;
     if(waterPercent ) proteinDeg = waterPercent / 100 * 360;
     if(proteinPercent && waterPercent) carbsDeg = (proteinPercent + waterPercent!) / 100 * 360;
     if(proteinPercent && carbsPercent && waterPercent) fatDeg = (carbsPercent + proteinPercent + waterPercent) / 100 * 360;
 
-    const radius = 60;
-    const strokeWidth = 20;
-    const widthHeight = 2 * radius + 2 * strokeWidth;
+    const radius: number = 60;
+    const strokeWidth: number = 20;
+    const widthHeight: number = 2 * radius + 2 * strokeWidth;
     
     if(!waterPercent || !proteinPercent || !carbsPercent || !fatPercent) return <></>
 

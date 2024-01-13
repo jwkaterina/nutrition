@@ -9,13 +9,8 @@ interface CardProps {
 
 const ClosedCard = ({ food }: CardProps): JSX.Element => {
     const { label, image } = food.food;
-    // const { ENERC_KCAL, PROCNT, FAT, CHOCDF } = food.food.nutrients;
-    // const kcal = ENERC_KCAL;
-    // const prot = PROCNT;
-    // const fat = FAT;
-    // const carb = CHOCDF;
 
-    let title = label;
+    let title: string = label;
      if(title.length >30) title = title.substring(0,30) + '...';
 
      const isImage = (url: string) => {

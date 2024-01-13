@@ -16,7 +16,7 @@ interface FoodCardProps {
 
 const FoodCard = ({ food, index, id }: FoodCardProps): JSX.Element => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const { setCardOpen } = useContext(CardOpenContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
 

@@ -25,9 +25,9 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
 		scrollTo(0, 0);
         if(!slidesRef.current) return;
         (slidesRef.current as HTMLElement).scrollTo({
-          top: 0,
-          left: (slidesRef.current as HTMLElement).clientWidth * slide,
-          behavior: scrollBehavior,
+            top: 0,
+            left: (slidesRef.current as HTMLElement).clientWidth * slide,
+            behavior: scrollBehavior,
         });
       }, [slide]);
 

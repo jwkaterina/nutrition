@@ -17,7 +17,7 @@ interface FoodSlideProps {
 const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
 
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const [foodList, setFoodList] = useState<any[]>([]);
+    const [foodList, setFoodList] = useState<JSX.Element[]>([]);
 
     const { user } = useContext(AuthContext);
 

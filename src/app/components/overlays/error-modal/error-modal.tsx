@@ -7,6 +7,7 @@ interface ErrorModalProps {
 }
 
 const ErrorModal = ({ error, onClose }: ErrorModalProps): JSX.Element => {
+    
     return (
         <Overlay>
             <div className={styles.container}>

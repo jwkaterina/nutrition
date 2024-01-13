@@ -12,8 +12,8 @@ interface BarColumnProps {
 
 const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarColumnProps): JSX.Element => {
 
-    const barHeight = 100;
-    let percentHeight = 0;
+    const barHeight: number = 100;
+    let percentHeight: number = 0;
     if(vitaminPercent && vitaminPercent.quantity < 100) percentHeight = vitaminPercent.quantity / 100 * barHeight;
     if(vitaminPercent && vitaminPercent.quantity >= 100) percentHeight = barHeight;
 

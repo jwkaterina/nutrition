@@ -9,6 +9,7 @@ interface ButtonProps {
 }
 
 export const Button = ({ search }: ButtonProps): JSX.Element => {
+    
     return (
         <div className={cardStyles.card}>
             <Link href={`/${search}`} className={styles.link}>

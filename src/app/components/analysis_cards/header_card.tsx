@@ -16,11 +16,11 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
 
     const [measures, setMeasures] = useState<Measure[]>([]);
     const [customWeight, setCustomWeight] = useState<boolean>(false);
-    const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
-    const ounseUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce";
-    const poundUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_pound";
-    const kilogramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_kilogram";
-    const servingUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_serving";
+    const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
+    const ounseUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce";
+    const poundUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_pound";
+    const kilogramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_kilogram";
+    const servingUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_serving";
 
     useEffect(() => {
         let measureNutrients: Nutrients[] = [];
@@ -39,7 +39,7 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
         fetchMeasuresWeight();
     }, [])
 
-    const calculateOptions = () => {
+    const calculateOptions = (): JSX.Element[] => {
         let options: JSX.Element[] = [];
         if(customWeight) {
             options = [<option key={0} value='grams' id={gramUri}>grams</option>];

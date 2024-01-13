@@ -12,9 +12,9 @@ interface CircleRowProps {
 
 const CircleRow = ({ vitamin, vitaminPercent, label, color, lightColor }: CircleRowProps): JSX.Element => {
 
-    const radius = 15;
+    const radius: number = 15;
     const arcRef = useRef<SVGCircleElement>(null);
-    const circumreference = radius * 2 * Math.PI;
+    const circumreference: number = radius * 2 * Math.PI;
 
     useEffect(() => {
         const arc = arcRef.current;
@@ -24,7 +24,7 @@ const CircleRow = ({ vitamin, vitaminPercent, label, color, lightColor }: Circle
             fill: 'forwards'
         };
 
-        const progressPercent = () => {
+        const progressPercent = (): number => {
             if(!vitaminPercent || vitaminPercent.quantity == 0) {
                 return circumreference
             } else if(vitaminPercent && vitaminPercent.quantity <=100 ) {

@@ -16,12 +16,12 @@ interface HalfCircleProps {
 
 const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, strokeWidth, centerX, centerY }: HalfCircleProps): JSX.Element => {
 
-    let unit;
+    let unit: string = '';
     if(nutrient) unit = nutrient.unit;
     if(text === 'Calories') unit = '';
 
     const arcRef = useRef<SVGCircleElement>(null);
-    const circumreference = radius * 2 * Math.PI;
+    const circumreference: number = radius * 2 * Math.PI;
 
     useEffect(() => {
         const arc = arcRef.current;
@@ -31,7 +31,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
             fill: 'forwards'
         };
 
-        const progressPercent = () => {
+        const progressPercent = (): number => {
             if(!daily || daily.quantity == 0) {
                 return circumreference
             } else if(daily.quantity <=100 ) {

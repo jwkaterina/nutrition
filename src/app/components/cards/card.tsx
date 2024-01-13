@@ -20,7 +20,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
 
     let mediaQuery600: MediaQueryList | null = null;
     let mediaQuery1000: MediaQueryList | null = null;
-    let height = 0;
+    let height: number = 0;
     if(typeof window !== 'undefined') {
         height = window.innerHeight;
         mediaQuery600 = window.matchMedia('(max-width: 500px)');
@@ -43,7 +43,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
         row = Math.ceil(index / 4);
     }
 
-    const translateX = (1 - column) * cardWidth;
+    const translateX: number = (1 - column) * cardWidth;
     const translateY: number = (1 - row) * cardHeight;
     const top: number = - gridGap * row;
     const left: number = - gridGap * column;

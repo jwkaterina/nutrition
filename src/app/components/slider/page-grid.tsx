@@ -9,9 +9,9 @@ interface PageGridProps {
 const PageGrid = ( { children }: PageGridProps): JSX.Element => {
 
     return (
-            <div className={styles.grid}>
-                {children}
-            </div>
+        <div className={styles.grid}>
+            {children}
+        </div>
     )
 }
 

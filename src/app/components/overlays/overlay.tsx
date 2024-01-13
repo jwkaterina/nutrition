@@ -5,6 +5,7 @@ interface OverlayProps {
 }
 
 const Overlay = ({ children }: OverlayProps): JSX.Element => {
+    
     return (
         <div className={styles.container}>
             {children}

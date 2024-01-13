@@ -17,7 +17,7 @@ const FoodAnalysis = ({ }: FoodAnalysisProps): JSX.Element => {
 
 	const { cardOpen } = useContext(CardOpenContext);
 	
-	const secondaryColor = "var(--secondary-color)";
+	const secondaryColor: string = "var(--secondary-color)";
 
 	return (<>
 		<NavBar color={secondaryColor}>

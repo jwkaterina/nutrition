@@ -9,11 +9,15 @@ import { useContext } from 'react';
 import RecipeForm from './recipe-form';
 import { CardState } from '@/app/types/types';
 
-const RecipeAnalysis = (): JSX.Element => {
+interface RecipeAnalysisProps {
+
+}
+
+const RecipeAnalysis = ({ }: RecipeAnalysisProps): JSX.Element => {
 
   const { cardOpen } = useContext(CardOpenContext);
 
-  const secondaryColor = "var(--secondary-color)";
+  const secondaryColor: string = "var(--secondary-color)";
 
   return (<>
   		<NavBar color={secondaryColor}>

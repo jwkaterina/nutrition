@@ -1,6 +1,6 @@
 import styles from './alanysis_card.module.css';
 
-import { Nutrients } from '@/app/types/types';
+import { Nutrients, Nutrient } from '@/app/types/types';
 import HalfCircle from './utils/half_circle';
 
 interface DailyValueCardProps {
@@ -9,15 +9,15 @@ interface DailyValueCardProps {
 
 const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
 
-    const calories = content!.totalNutrients.ENERC_KCAL;
-    const protein = content!.totalNutrients.PROCNT;
-    const carbs = content!.totalNutrients.CHOCDF;
-    const fat = content!.totalNutrients.FAT;
+    const calories: Nutrient = content!.totalNutrients.ENERC_KCAL;
+    const protein: Nutrient = content!.totalNutrients.PROCNT;
+    const carbs: Nutrient = content!.totalNutrients.CHOCDF;
+    const fat: Nutrient = content!.totalNutrients.FAT;
 
-    const dailyCalories = content!.totalDaily.ENERC_KCAL;
-    const dailyProtein = content!.totalDaily.PROCNT;
-    const dailyCarbs = content!.totalDaily.CHOCDF;
-    const dailyFat = content!.totalDaily.FAT;
+    const dailyCalories: Nutrient = content!.totalDaily.ENERC_KCAL;
+    const dailyProtein: Nutrient = content!.totalDaily.PROCNT;
+    const dailyCarbs: Nutrient = content!.totalDaily.CHOCDF;
+    const dailyFat: Nutrient = content!.totalDaily.FAT;
 
     return (
         <div className={styles.container} style={{gridArea: 'dailyValue'}}>

@@ -30,9 +30,9 @@ const Arc = ({ degree, percent, color, radius, strokeWidth }: ArcProps): JSX.Ele
         }
     }, [])
 
-    const circumreference = radius * 2 * Math.PI;
-    const widthHeight = 2 * radius + 2 * strokeWidth;
-    const center = widthHeight / 2;
+    const circumreference: number = radius * 2 * Math.PI;
+    const widthHeight: number = 2 * radius + 2 * strokeWidth;
+    const center: number = widthHeight / 2;
 
     return  (
         <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${degree}deg)`}}>

@@ -10,11 +10,14 @@ import { CardOpenContext } from '@/app/context/card-context';
 import { Food, CardState} from '@/app/types/types';
 import FoodCard from '@/app/components/cards/food-cards/food-card';
 
-const FoodSearch = () => {
+interface FoodSearchProps {
+}
+
+const FoodSearch = ({}: FoodSearchProps): JSX.Element => {
 
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
 	const [foodArr, setFoodArr] = useState<Food[]>([]);
-	const [showOptions, setShowOptions] = useState(false);
+	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
 	const [input, setInput] = useState('');
 
@@ -80,7 +83,7 @@ const FoodSearch = () => {
 		setCardOpen(CardState.CLOSED);
 	}, [])
 
-    const foodList = foodArr.map((hint, index) => {
+    const foodList: JSX.Element[] = foodArr.map((hint, index) => {
 		return (
 			<FoodCard food={hint} index={index + 1} key={index + 1} id={null}/>
 		)

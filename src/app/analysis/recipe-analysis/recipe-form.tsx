@@ -3,7 +3,10 @@ import styles from './page.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
 import { CardState } from '@/app/types/types';
 
-const RecipeForm = () => {
+interface RecipeFormProps {
+}
+
+const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
 
     const { cardOpen } = useContext(CardOpenContext);
 

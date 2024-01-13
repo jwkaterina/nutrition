@@ -12,7 +12,7 @@ interface BarRowProps {
 const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => {
 
     const lineRef = useRef<SVGLineElement>(null);
-    const length = 70;
+    const length: number = 70;
 
     useEffect(() => {
         const line = lineRef.current;

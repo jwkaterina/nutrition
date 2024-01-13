@@ -8,11 +8,12 @@ interface SlideProps {
 }
 
 const Slide = ({ children }: SlideProps): JSX.Element => {
+
     return (
         <div className={styles.container}>
-        <PageGrid>
-            {children}
-        </PageGrid>
+            <PageGrid>
+                {children}
+            </PageGrid>
         </div>
     )
 }
