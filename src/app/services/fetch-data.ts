@@ -1,5 +1,3 @@
-'use client'
-
 // export const fetchNutritionAnalysisAPI = async() => {
 
 //     const appId= "8db7e817";

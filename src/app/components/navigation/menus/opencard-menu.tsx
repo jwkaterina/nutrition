@@ -1,5 +1,3 @@
-'use client'
-
 import { SlideType, CardState } from "@/app/types/types"
 import { useContext } from "react"
 import { CardOpenContext } from "@/app/context/card-context"

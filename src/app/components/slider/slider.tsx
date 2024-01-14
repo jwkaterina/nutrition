@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './slider.module.css'
 import FoodSlide from '@/app/components/slider/slides/food-slide';
 import RecipeSlide from '@/app/components/slider/slides/recipe-slide';

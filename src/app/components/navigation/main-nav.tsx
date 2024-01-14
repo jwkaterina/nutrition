@@ -1,5 +1,4 @@
-'use client'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import styles from './nav-bar.module.css'
 import { SlideType } from "@/app/types/types"
 import { SlideContext } from '@/app/context/slide-context';

@@ -1,5 +1,3 @@
-'use client'
-
 import Slide from './slide'
 import Button from '@/app/components/slider/button'
 

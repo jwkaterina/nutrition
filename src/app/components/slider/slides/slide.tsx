@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './slide.module.css'
 import PageGrid from "../page-grid"
 

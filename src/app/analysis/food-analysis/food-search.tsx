@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './page.module.css'
 import { parseQuery, autocomplete } from '@/app/services/fetch-data'
 import { useState, useContext, useEffect, FormEvent, KeyboardEvent } from 'react' 

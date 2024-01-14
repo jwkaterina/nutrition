@@ -1,5 +1,3 @@
-'use client'
-
 import { useContext, useState } from "react"
 import { CardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from "@/app/context/food-context"

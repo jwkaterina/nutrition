@@ -1,6 +1,6 @@
 import styles from './alanysis_card.module.css';
 import { useState, useEffect } from 'react';
-import { Food, Measure, Nutrients } from '@/app/types/types';
+import { Food, MeasureProp, Nutrients } from '@/app/types/types';
 import { findNutrients } from '@/app/services/fetch-data'
 
 interface HeaderCardProps {
@@ -14,7 +14,7 @@ interface HeaderCardProps {
 
 const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantity }: HeaderCardProps): JSX.Element => {
 
-    const [measures, setMeasures] = useState<Measure[]>([]);
+    const [measures, setMeasures] = useState<MeasureProp[]>([]);
     const [customWeight, setCustomWeight] = useState<boolean>(false);
     const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
     const ounseUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce";
@@ -30,7 +30,7 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
                 const nutrients: Nutrients = await findNutrients(food.food.foodId, food.measures[i].uri, 1);
                 measureNutrients.push(nutrients);
             }
-            const measures: Measure[] = measureNutrients.map((measure: any, i) => {
+            const measures: MeasureProp[] = measureNutrients.map((measure: any, i) => {
                 return {label: food.measures[i].label, uri: food.measures[i].uri, weight: measure.totalWeight};
             })
 

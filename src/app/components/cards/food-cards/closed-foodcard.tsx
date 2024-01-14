@@ -1,5 +1,3 @@
-'use client'
-
 import styles from '../card.module.css'
 import { Food } from '@/app/types/types'
 

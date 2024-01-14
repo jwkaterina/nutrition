@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './card.module.css'
 import { useRef, useContext, useEffect } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'

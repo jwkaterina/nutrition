@@ -1,5 +1,3 @@
-// "use client"
-
 // import { createContext, useReducer, useContext} from 'react';
 // import { MenuProp } from '@/app/types/types';
 // import MenuList from '@/app/data-base/menu-list';

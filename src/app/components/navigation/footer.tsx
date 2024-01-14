@@ -1,5 +1,3 @@
-'use client'
-
 import styles from "./nav-bar.module.css"
 import { useRouter } from 'next/navigation'
 import { useContext } from "react";
@@ -27,7 +25,7 @@ const Footer = ({ color }: FooterProps): JSX.Element => {
             <div className={styles.footer_links}>
 				<a className={styles.link} onClick={() => console.log('settings')}>Settings</a>
 				<a className={styles.link} onClick={handleAuthClick}>{isLoggedIn ? 'Logout' : 'Login'}</a>
-		</div>
+		    </div>
         </nav>
     )
 }

@@ -1,5 +1,3 @@
-'use client'
-
 import { Food, CardState } from '@/app/types/types'
 import Card from '../card'
 import { useContext, useState } from 'react'

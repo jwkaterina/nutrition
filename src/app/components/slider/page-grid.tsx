@@ -1,5 +1,3 @@
-'use client'
-
 import styles from './page-grid.module.css'
 
 interface PageGridProps {

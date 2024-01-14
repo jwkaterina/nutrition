@@ -1,5 +1,3 @@
-'use client'
-
 import Menu from './menu'
 import { useRouter } from 'next/navigation'
 import { useContext } from 'react'

@@ -1,5 +1,3 @@
-// "use client"
-
 // import { createContext, useReducer, useContext} from 'react';
 // import { RecipeProp } from '@/app/types/types';
 // import RecipeList from '@/app/data-base/recipe-list';

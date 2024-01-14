@@ -1,5 +1,3 @@
-'use client'
-
 import styles from '../nav-bar.module.css'
 
 interface MenuProps {

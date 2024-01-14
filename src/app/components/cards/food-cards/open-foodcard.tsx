@@ -1,5 +1,3 @@
-'use client'
-
 import styles from '../card.module.css'
 import { findNutrients } from '@/app/services/fetch-data'
 import { Food, Nutrients } from '@/app/types/types'

@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import styles from './button.module.css'
 import cardStyles from '@/app/components/cards/card.module.css'
