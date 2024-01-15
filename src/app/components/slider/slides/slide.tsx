@@ -1,4 +1,4 @@
-import styles from './slide.module.css'
+import styles from '../slider.module.css'
 import PageGrid from "../page-grid"
 
 interface SlideProps {
@@ -8,7 +8,7 @@ interface SlideProps {
 const Slide = ({ children }: SlideProps): JSX.Element => {
 
     return (
-        <div className={styles.container}>
+        <div className={styles.slide}>
             <PageGrid>
                 {children}
             </PageGrid>

@@ -1,4 +1,4 @@
-import styles from './page-grid.module.css'
+import styles from './slider.module.css'
 
 interface PageGridProps {
     children: React.ReactNode

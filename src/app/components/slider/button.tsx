@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from './button.module.css'
+import styles from './slider.module.css'
 import cardStyles from '@/app/components/cards/card.module.css'
 
 interface ButtonProps {

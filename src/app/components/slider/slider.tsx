@@ -64,7 +64,7 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
 
     return (
         <div 
-            className={styles.slides} 
+            className={styles.container} 
             ref={slidesRef} 
             onScroll={handleScroll} 
             style={style()}

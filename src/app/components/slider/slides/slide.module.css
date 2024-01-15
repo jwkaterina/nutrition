@@ -1,8 +1,0 @@
-.container {
-    width: 100vw;
-    flex-shrink: 0;
-    scroll-snap-align: start;
-    border-left: 1px solid var(--primary-color);
-    border-right: 1px solid var(--primary-color);
-    position: relative;
-}
