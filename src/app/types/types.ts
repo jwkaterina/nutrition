@@ -10,6 +10,11 @@ export enum CardState {
     CLOSED
 }
 
+export interface Food {
+    food: FoodProp
+    measures: MeasureProp[]
+}
+
 export type FoodProp = {
     foodId: string,
     label: string,
@@ -32,33 +37,10 @@ export type MeasureProp = {
     weight: number
 }
 
-export interface Food {
-    food: FoodProp
-    measures: MeasureProp[]
-}
-
 export type LoadedFood = {
     creator: string,
     food: Food,
     id: string
-}
-
-export type MenuProp = {
-    id: number,
-    name: string,
-}
-
-export type RecipeProp =     {
-    id: number,
-    name: string,
-    description: string,
-    imagePath: string,
-    ingredients: Ingredient[]
-}
-
-type Ingredient = {
-    name: string,
-    amount: number
 }
 
 export type Nutrient = {

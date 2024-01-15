@@ -1,7 +1,8 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import styles from './page.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState } from '@/app/types/types';
+import { CardState, Nutrients } from '@/app/types/types';
+import { analyseRecipe } from '@/app/services/fetch-data';
 
 interface RecipeFormProps {
 }
@@ -9,6 +10,18 @@ interface RecipeFormProps {
 const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
 
     const { cardOpen } = useContext(CardOpenContext);
+    const [data, setData] = useState<Nutrients | null>(null);
+
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const form = e.target as HTMLFormElement;
+        const ingredients = form['recipe-ingredients'].value.split('\n');
+
+        const result = await analyseRecipe(ingredients);
+        setData(result);
+        console.log(result);
+    }
 
     const style = () => {
         if(cardOpen == CardState.OPEN) {
@@ -20,7 +33,7 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
 
     return (
         <div className={styles.container} style={style()}>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.form_group}>
                         <label htmlFor="recipe-name">Recipe Name</label>
                         <input type="text" id="recipe-name" name="recipe-name"/>
@@ -33,7 +46,7 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
                             <span>(Enter each ingredient on a new line)</span>
                         </label>
                         <textarea id="recipe-ingredients" name="recipe-ingredients"
-                        placeholder={'1 cup rice,' + '\n' + '10 oz chickpeas,' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'}/>
+                        placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'}/>
                     </div>
                     <div className={styles.form_group}>
                         <label htmlFor="recipe-servings">Number of Servings</label>

@@ -1,57 +1,58 @@
-// export const fetchNutritionAnalysisAPI = async() => {
+    export const analyseRecipe = async(ingredients: string[]) => {
 
-//     const appId= "8db7e817";
-//     const appKey= "198f749fbaa82a2129cf6aba6d0b93f0";
-    
-    // //Full Recipe Analysis
+        const appId= "8db7e817";
+        const appKey= "198f749fbaa82a2129cf6aba6d0b93f0";
+        
+        // //Full Recipe Analysis
 
-    // const url = `https://api.edamam.com/api/nutrition-details?app_id=${appId}&app_key=${appKey}`;
-    // const options = {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json'
-    // },
-    //     body: JSON.stringify({
-    //         "title": "Fresh Ham Roasted With Rye Bread and Dried Fruit Stuffing",
-    //         "ingr": [
-    //             "1 cup rice",
-    //             "1 oz almonds",
-    //         ]
-    //     })
-    // };
-    // try {
-    //     const response = await fetch(url, options);
-    //     const result = await response.json();
-    //     console.log(result);
-    //     return result;
-    // } catch (error) {
-    //     console.error(error);
-    // }
+        const url = `https://api.edamam.com/api/nutrition-details?app_id=${appId}&app_key=${appKey}`;
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+        },
+            body: JSON.stringify({
+                "title": "Fresh Ham Roasted With Rye Bread and Dried Fruit Stuffing",
+                "ingr": ingredients
+            })
+        };
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            // console.log(result);
+            return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     // *********************************** */
 
+    // export const fetchNutritionAnalysisAPI = async() => {
+
+
     // //Individual Text Line Analysis
     
-    // const type = 'cooking';
-    // const ingr = '1%20cup%20rice';
-    // const url = `https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${appKey}&nutrition-type=${type}&ingr=${ingr}`;
-    // const options = {
-    //     method: 'GET',
-    //     headers: {
-    //         'Accept': 'application/json'
-    //     },
-    // };
-    // try {
-    //     const response = await fetch(url, options);
-    //     const result = await response.json();
-    //     console.log(result);
-    // } catch (error) {
-    //     console.error(error);
+        // const type = 'cooking';
+        // const ingr = '1%20cup%20rice';
+        // const url = `https://api.edamam.com/api/nutrition-data?app_id=${appId}&app_key=${appKey}&nutrition-type=${type}&ingr=${ingr}`;
+        // const options = {
+        //     method: 'GET',
+        //     headers: {
+        //         'Accept': 'application/json'
+        //     },
+        // };
+        // try {
+        //     const response = await fetch(url, options);
+        //     const result = await response.json();
+        //     console.log(result);
+        // } catch (error) {
+        //     console.error(error);
+        // }
     // }
-// }
 
-export const parseQuery = async (ingr: string) => {
+    export const parseQuery = async (ingr: string) => {
 
     const appId= "1ed9471e";
     const appKey= "d596751a2948e390e2bcbd335e0564fa";
