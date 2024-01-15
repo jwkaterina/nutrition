@@ -1,38 +1,36 @@
-// import { createContext, useReducer, useContext} from 'react';
-// import { RecipeProp } from '@/app/types/types';
-// import RecipeList from '@/app/data-base/recipe-list';
-// import { RecipeReducer } from './recipe-reducer';
-// import { getItemFromLocalStorage, setToLocalStorage } from '../services/local-storage';
+import { createContext, useState } from 'react';
+import { Nutrients } from '@/app/types/types';
 
-// let initialRecipes: RecipeProp[];
-// const item = getItemFromLocalStorage('recipes');
-// if(item) {
-//   initialRecipes = item;
-// } else {
-//     initialRecipes = RecipeList;
-//     setToLocalStorage('recipes', initialRecipes);
-// }
+interface CurrentRecipe  {
+  recipe: Nutrients | null,
+  id: string | null
+}
 
-// const RecipeContext = createContext<RecipeProp[]>(initialRecipes);
+interface CurrentRecipeContextProps {
+  currentRecipe: CurrentRecipe,
+  setCurrentRecipe: React.SetStateAction<any>
+}
 
-// const RecipeDispatchContext = createContext((() => {}) as React.Dispatch<any>);
+export const CurrentRecipeContext = createContext<CurrentRecipeContextProps>({
+  currentRecipe: {
+    recipe: null,
+    id: null
+  },
+  setCurrentRecipe: () => {}
+});
 
-// export const RecipeProvider = ({ children }: any) => {
-//   const [recipes, dispatch] = useReducer(RecipeReducer, initialRecipes);
+export const CurrentRecipeProvider = ({ children }: any) => {
+  const [currentRecipe, setCurrentRecipe] = useState<CurrentRecipe>({
+    recipe: null,
+    id: null
+  });
 
-//   return (
-//     <RecipeContext.Provider value={recipes}>
-//       <RecipeDispatchContext.Provider value={dispatch}>
-//         {children}
-//       </RecipeDispatchContext.Provider>
-//     </RecipeContext.Provider>
-//   );
-// }
-
-// export const useRecipe = () => {
-//   return useContext(RecipeContext);
-// }
-  
-// export const  useRecipeDispatch = () => {
-//   return useContext(RecipeDispatchContext);
-// }
+  return (
+    <CurrentRecipeContext.Provider value={{
+      currentRecipe,
+      setCurrentRecipe
+    }}>
+        {children}
+    </CurrentRecipeContext.Provider>
+  );
+}
