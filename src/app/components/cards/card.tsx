@@ -18,13 +18,12 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
 
     let mediaQuery600: MediaQueryList | null = null;
     let mediaQuery1000: MediaQueryList | null = null;
-    let height: number = 0;
     if(typeof window !== 'undefined') {
-        height = window.innerHeight;
         mediaQuery600 = window.matchMedia('(max-width: 500px)');
         mediaQuery1000 = window.matchMedia('(max-width: 1000px)');
     }
 
+    const headerHeight: number = 60;
     const gridGap: number = 1;
     const cardHeight: number = 150;
     const cardWidth: number = cardRef.current ? cardRef.current.clientWidth : 0;
@@ -48,11 +47,11 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
 
     const keyframes: Keyframe[] = [
         { top: 0, left: 0, width: '100%', height: `${cardHeight}px`, zIndex: 1 },
-        { top: `${top}rem`, left: `${left}rem`, width: '100vw', height: `${height}px`, zIndex: 2, transform: `translate(${translateX}px, ${translateY}px)`},
+        { top: `${top}rem`, left: `${left}rem`, width: '100vw', height: `calc(100vh - ${headerHeight}px)`, zIndex: 2, transform: `translate(${translateX}px, ${translateY}px)`},
     ];
 
     const keyframesReverse: Keyframe[] = [
-        { top: `${top}rem`, left: `${left}rem`, width: '100vw', height: `${height}px`, zIndex: 2, transform: `translate(${translateX}px, ${translateY}px)`},
+        { top: `${top}rem`, left: `${left}rem`, width: '100vw', height: `calc(100vh - ${headerHeight}px)`, zIndex: 2, transform: `translate(${translateX}px, ${translateY}px)`},
         { top: 0, left: 0, width: '100%', height: `${cardHeight}px`, zIndex: 1, transform: `translate(0px, 0px)` }
     ];
 

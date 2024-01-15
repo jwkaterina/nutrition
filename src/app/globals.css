@@ -22,6 +22,8 @@
   --gray-light: #E0E0E0;
   --gray-dark: #616161;
   --blue-gray: #ECEFF1;
+
+  --header-height: 60px;
 }
 
 * {
