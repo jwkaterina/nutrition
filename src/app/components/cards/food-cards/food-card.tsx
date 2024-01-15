@@ -4,7 +4,7 @@ import { useContext, useState } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'
 import { CurrentFoodContext } from '@/app/context/food-context'
 import OpenFoodCard from './open-foodcard'
-import ClosedCard from './closed-foodcard'
+import ClosedFoodCard from './closed-foodcard'
 
 interface FoodCardProps {
     food: Food,
@@ -32,7 +32,7 @@ const FoodCard = ({ food, index, id }: FoodCardProps): JSX.Element => {
     }
 
     return <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
-            {isOpen ? <OpenFoodCard food={food}/> : <ClosedCard food={food}/>}
+            {isOpen ? <OpenFoodCard food={food}/> : <ClosedFoodCard food={food}/>}
         </Card>
 }
 

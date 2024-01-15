@@ -1,11 +1,11 @@
 import styles from '../card.module.css'
 import { Food } from '@/app/types/types'
 
-interface CardProps {
+interface ClosedFoodCardProps {
     food: Food,
 }
 
-const ClosedCard = ({ food }: CardProps): JSX.Element => {
+const ClosedFoodCard = ({ food }: ClosedFoodCardProps): JSX.Element => {
     const { label, image } = food.food;
 
     let title: string = label;
@@ -41,4 +41,4 @@ const ClosedCard = ({ food }: CardProps): JSX.Element => {
     </>)
 }
 
-export default ClosedCard
+export default ClosedFoodCard
