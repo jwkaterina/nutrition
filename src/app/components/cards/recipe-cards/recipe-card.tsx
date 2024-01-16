@@ -4,7 +4,7 @@ import { useContext, useState } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'
 import { CurrentRecipeContext } from '@/app/context/recipe-context'
 import OpenRecipeCard from './open-recipecard'
-import ClosedRecipeCard from './closed-recipecard'
+import ClosedCard from '../closed-card'
 
 interface RecipeCardProps {
     recipe: Recipe,
@@ -33,7 +33,15 @@ const RecipeCard = ({ recipe, index, id, open }: RecipeCardProps): JSX.Element =
     }
 
     return <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
-            {isOpen ? <OpenRecipeCard recipe={recipe}/> : <ClosedRecipeCard recipe={recipe}/>}
+            {isOpen ? <OpenRecipeCard recipe={recipe}/> : 
+            <ClosedCard 
+                title={recipe.name}
+                image={recipe.image}
+                calories={recipe.nutrients.calories}
+                protein={recipe.nutrients.totalNutrients.PROCNT.quantity}
+                fat={recipe.nutrients.totalNutrients.FAT.quantity}
+                carbs={recipe.nutrients.totalNutrients.CHOCDF.quantity}
+            />}
         </Card>
 }
 

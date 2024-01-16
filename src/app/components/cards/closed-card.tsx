@@ -1,18 +1,20 @@
-import styles from '../card.module.css'
-import { Food } from '@/app/types/types'
+import styles from './card.module.css'
 
-interface ClosedFoodCardProps {
-    food: Food,
+interface ClosedCardProps {
+    title: string,
+    image: string,
+    calories: number,
+    protein: number,
+    fat: number,
+    carbs: number
 }
 
-const ClosedFoodCard = ({ food }: ClosedFoodCardProps): JSX.Element => {
-    const { label, image } = food.food;
+const ClosedCard = ({ title, image, calories, protein, fat, carbs }: ClosedCardProps): JSX.Element => {
 
-    let title: string = label;
      if(title.length >30) title = title.substring(0,30) + '...';
 
-     const isImage = (url: string) => {
-        return /\.(jpg|jpeg)$/.test(url);
+     const isImage = (image: string) => {
+        return /\.(jpg|jpeg)$/.test(image);
       }
 
     return (<>
@@ -23,22 +25,22 @@ const ClosedFoodCard = ({ food }: ClosedFoodCardProps): JSX.Element => {
              <div className={styles.nutrients}>
              <div className={styles.column}>
                  <h5>kcal</h5>
-                 <p>{food && food.food.nutrients.ENERC_KCAL}</p>
+                 <p>{calories}</p>
              </div>
              <div className={styles.column} style={{color: 'var(--primary-color)'}}>
                  <h5>prot</h5>
-                 <p>{food && food.food.nutrients.PROCNT}</p>
+                 <p>{protein.toFixed(0)}</p>
              </div>
              <div className={styles.column} style={{color: 'var(--tertiary-color)'}}>
                  <h5>fat</h5>
-                 <p>{food && food.food.nutrients.FAT}</p>
+                 <p>{fat.toFixed(0)}</p>
              </div>
              <div className={styles.column} style={{color: 'var(--secondary-color)'}}>
                  <h5>carb</h5>
-                 <p>{food && food.food.nutrients.CHOCDF}</p>
+                 <p>{carbs.toFixed(0)}</p>
              </div>
          </div> 
     </>)
 }
 
-export default ClosedFoodCard
+export default ClosedCard
