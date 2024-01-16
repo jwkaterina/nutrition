@@ -19,6 +19,13 @@ const RecipeCard = ({ recipe, index, id, open }: RecipeCardProps): JSX.Element =
     const { setCardOpen } = useContext(CardOpenContext);
     const { setCurrentRecipe } = useContext(CurrentRecipeContext);
 
+    if(isOpen) {
+        setCurrentRecipe({
+            recipe: recipe,
+            id: id ? id : null
+        });
+    }
+
     const handleCardClick = () => {
         if(isOpen) {
             return 

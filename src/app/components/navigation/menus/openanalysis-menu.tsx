@@ -24,6 +24,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { user } = useContext(AuthContext);
     const { setScrollBehavior } = useContext(SlideContext);
+    const { slide } = useContext(SlideContext);
  
     const addToFavorites = async () => {
         const food: Food | null = currentFood!.food;
@@ -85,7 +86,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
         {error && <ErrorModal error={error} onClose={clearError} />}
         {isLoading && <LoadingSpinner/>}
         <Menu 
-            leftText='Back' 
+            leftText='Back to Analysis' 
             rightText={rightText} 
             onLeftclick={() => setCardOpen(CardState.CLOSING)} 
             onRightclick={handleRightClick}

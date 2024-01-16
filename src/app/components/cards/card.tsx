@@ -74,7 +74,10 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
 
     const style = () => {
         if(isOpen) {
-            return {height: '100vh'}
+            return {
+                height: '100vh',
+                width: '100vw'
+            }
         }
     }
 
