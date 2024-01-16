@@ -13,7 +13,7 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
 
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const [recipe, setRecipe] = useState<Recipe | null>(null);
-    const { setCurrentRecipe } = useContext(CurrentRecipeContext);
+    const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,17 +25,18 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
         const ingredients = form['recipe-ingredients'].value.split('\n');
 
         const nutrients = await analyseRecipe(ingredients);
-        setRecipe({
+        const newRecipe = {
             name,
             image,
             servings,
-            nutrients
-        });
-
+            nutrients,
+            ingredients
+        };
+        setRecipe(newRecipe);
         // console.log({name, servings, nutrients});
         setCardOpen(CardState.OPEN);
         setCurrentRecipe({
-            recipe: recipe,
+            recipe: newRecipe,
             id: null
         });
     }
@@ -57,7 +58,7 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
             <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.form_group}>
                         <label htmlFor="recipe-name">Recipe Name</label>
-                        <input type="text" id="recipe-name" name="recipe-name"/>
+                        <input type="text" id="recipe-name" name="recipe-name" placeholder='My Recipe' defaultValue={currentRecipe && currentRecipe.recipe?.name}/>
                     </div>
                     <div className={styles.form_group}>
                         <button type="button" className={styles.add_button}>Add Image</button>
@@ -67,11 +68,11 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
                             <span>(Enter each ingredient on a new line)</span>
                         </label>
                         <textarea id="recipe-ingredients" name="recipe-ingredients"
-                        placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'}/>
+                        placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} defaultValue={currentRecipe && currentRecipe.recipe?.ingredients.join('\n')}/>
                     </div>
                     <div className={styles.form_group}>
                         <label htmlFor="recipe-servings">Number of Servings</label>
-                        <input type="number" id="recipe-servings" name="recipe-servings"/>
+                        <input type="number" id="recipe-servings" name="recipe-servings" defaultValue={currentRecipe.recipe ? currentRecipe.recipe?.servings : 1}/>
                     </div>
                     <div className={styles.form_group}>
                         <button type="submit">Analyze</button>
