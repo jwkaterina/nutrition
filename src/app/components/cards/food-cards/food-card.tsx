@@ -31,11 +31,15 @@ const FoodCard = ({ food, index, id }: FoodCardProps): JSX.Element => {
         });
     }
 
+    const isImage = () => {
+        return /\.(jpg|jpeg)$/.test(food.food.image);
+      }
+
     return <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
             {isOpen ? <OpenFoodCard food={food}/> : 
             <ClosedCard 
                 title={food.food.label}
-                image={food.food.image}
+                image={isImage() ? food.food.image : ''}
                 calories={food.food.nutrients.ENERC_KCAL}
                 protein={food.food.nutrients.PROCNT}
                 fat={food.food.nutrients.FAT}
