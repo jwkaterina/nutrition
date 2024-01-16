@@ -1,6 +1,6 @@
 import styles from '../card.module.css'
 import { findNutrients } from '@/app/services/fetch-data'
-import { Food, Nutrients } from '@/app/types/types'
+import { Food, Nutrients, NutrientsProp } from '@/app/types/types'
 import { useEffect, useState } from 'react'
 import HeaderCard from '../../analysis_cards/header_card'
 import DailyValueCard from '../../analysis_cards/dailyvalue_card'
@@ -19,7 +19,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
     const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
 
     const [content, setContent] = useState<Nutrients | null>(null);
-    const [contentPercent, setContentPercent] = useState<Nutrients | null>(null);
+    const [contentPercent, setContentPercent] = useState<NutrientsProp | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedOption, setSelectedOption] = useState<string>('Value pre 100g');
     const [measureUri, setMeasureUri] = useState<string>(food.measures[0].uri);
@@ -48,7 +48,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
 
         const fetchNutreintsPercent = async() => {
             const nutrientsPercent = await findNutrients(food.food.foodId, gramUri, 100);
-            setContentPercent(nutrientsPercent);
+            setContentPercent(nutrientsPercent.totalNutrients);
         }
         fetchNutreintsPercent();
     }, [])
@@ -63,7 +63,11 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                 quantity={quantity}
                 setQuantity={setQuantity}/>
             {content && <DailyValueCard content={content} />}
-            {contentPercent && <CompositionCard contentPercent={contentPercent} />}
+            {contentPercent && <CompositionCard 
+                protein={contentPercent.PROCNT.quantity}
+                carbs={contentPercent.CHOCDF.quantity}
+                fat={contentPercent.FAT.quantity} 
+            />}
             {content && <BigNutrientsCard content={content} />}
             {content && <VitaminsCard content={content} />}
             {content && <MineralsCard content={content} />}

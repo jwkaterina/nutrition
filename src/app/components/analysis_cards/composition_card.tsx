@@ -4,28 +4,24 @@ import Arc from './utils/arc';
 import SmallCircle from './utils/small_circle';
 
 interface CompositionCardProps {
-    contentPercent: Nutrients | null;
+    protein: number | null;
+    carbs: number | null;
+    fat: number | null;
 }
 
-const CompositionCard = ({ contentPercent }: CompositionCardProps): JSX.Element => {
-
-    const composition: NutrientsProp = contentPercent!.totalNutrients;
-
-    const protein: Nutrient = composition.PROCNT;
-    const carbs: Nutrient = composition.CHOCDF;
-    const fat: Nutrient = composition.FAT;
+const CompositionCard = ({ protein, carbs, fat }: CompositionCardProps): JSX.Element => {
 
     let proteinPercent: number | null = null, 
     carbsPercent: number | null = null, 
     fatPercent: number | null = null, 
     waterPercent: number | null = null;
-    if(protein) proteinPercent = protein.quantity;
-    if(protein && protein.quantity == 0) proteinPercent = 0.1;
-    if(carbs) carbsPercent = carbs.quantity;
-    if(carbs && carbs.quantity == 0) carbsPercent = 0.1;
-    if(fat) fatPercent = fat.quantity;
-    if(fat && fat.quantity == 0) fatPercent = 0.1;
-    if(protein && carbs && fat) waterPercent = 100 - (protein.quantity + carbs.quantity + fat.quantity);
+    if(protein) proteinPercent = protein;
+    if(protein && protein == 0) proteinPercent = 0.1;
+    if(carbs) carbsPercent = carbs;
+    if(carbs && carbs == 0) carbsPercent = 0.1;
+    if(fat) fatPercent = fat;
+    if(fat && fat == 0) fatPercent = 0.1;
+    if(protein && carbs && fat) waterPercent = 100 - (protein + carbs + fat);
 
     let waterDeg: number | null = null, 
     proteinDeg: number | null = null, 

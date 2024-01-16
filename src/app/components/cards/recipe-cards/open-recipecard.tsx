@@ -16,6 +16,13 @@ interface OpenRecipeCardProps {
 
 const OpenRecipeCard  = ({ recipe }: OpenRecipeCardProps): JSX.Element => {
 
+    const weight: number = recipe.nutrients.totalWeight;
+    const devideBy: number = weight / 100;
+
+    const proteinPer100gram: number = recipe.nutrients.totalNutrients.PROCNT.quantity / devideBy;
+    const carbsPer100gram: number = recipe.nutrients.totalNutrients.CHOCDF.quantity / devideBy;
+    const fatPer100gram: number = recipe.nutrients.totalNutrients.FAT.quantity / devideBy;
+
     // const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
 
     // const [content, setContent] = useState<Nutrients | null>(null);
@@ -63,7 +70,11 @@ const OpenRecipeCard  = ({ recipe }: OpenRecipeCardProps): JSX.Element => {
                 quantity={quantity}
                 setQuantity={setQuantity}/> */}
             {recipe && <DailyValueCard content={recipe.nutrients} />}
-            {/* {contentPercent && <CompositionCard contentPercent={contentPercent} />} */}
+            <CompositionCard 
+                protein={proteinPer100gram}
+                carbs={carbsPer100gram}
+                fat={fatPer100gram}
+            />
             {recipe && <BigNutrientsCard content={recipe.nutrients} />}
             {recipe && <VitaminsCard content={recipe.nutrients} />}
             {recipe && <MineralsCard content={recipe.nutrients} />}

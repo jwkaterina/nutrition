@@ -33,7 +33,7 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
             ingredients
         };
         setRecipe(newRecipe);
-        // console.log({name, servings, nutrients});
+        console.log(nutrients);
         setCardOpen(CardState.OPEN);
         setCurrentRecipe({
             recipe: newRecipe,
