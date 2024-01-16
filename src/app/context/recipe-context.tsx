@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react';
-import { Nutrients } from '@/app/types/types';
+import { Recipe } from '@/app/types/types';
 
 interface CurrentRecipe  {
-  recipe: Nutrients | null,
+  recipe: Recipe | null,
   id: string | null
 }
 

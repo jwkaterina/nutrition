@@ -4,7 +4,7 @@ import { CardOpenContext } from '@/app/context/card-context';
 import { CardState, Recipe } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
-import PageGrid from '@/app/components/slider/page-grid';
+import { CurrentRecipeContext } from '@/app/context/recipe-context';
 
 interface RecipeFormProps {
 }
@@ -13,6 +13,7 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
 
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const [recipe, setRecipe] = useState<Recipe | null>(null);
+    const { setCurrentRecipe } = useContext(CurrentRecipeContext);
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -33,6 +34,10 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
 
         // console.log({name, servings, nutrients});
         setCardOpen(CardState.OPEN);
+        setCurrentRecipe({
+            recipe: recipe,
+            id: null
+        });
     }
 
     const style = () => {
