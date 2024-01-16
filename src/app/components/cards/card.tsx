@@ -72,8 +72,14 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
         }
     }, [cardOpen])
 
+    const style = () => {
+        if(isOpen) {
+            return {height: '100vh'}
+        }
+    }
+
     return (
-        <div className={styles.card} onClick={onCardClick} ref={cardRef}>
+        <div className={styles.card} onClick={onCardClick} ref={cardRef} style={style()}>
             {children}
         </div>
     )

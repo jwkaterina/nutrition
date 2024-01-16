@@ -1,4 +1,4 @@
-import { Nutrients, CardState } from '@/app/types/types'
+import { Recipe, CardState } from '@/app/types/types'
 import Card from '../card'
 import { useContext, useState } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'
@@ -7,14 +7,15 @@ import OpenRecipeCard from './open-recipecard'
 import ClosedRecipeCard from './closed-recipecard'
 
 interface RecipeCardProps {
-    recipe: Nutrients,
+    recipe: Recipe,
     index: number,
-    id: string | null
+    id: string | null,
+    open: boolean
 }
 
-const RecipeCard = ({ recipe, index, id }: RecipeCardProps): JSX.Element => {
+const RecipeCard = ({ recipe, index, id, open }: RecipeCardProps): JSX.Element => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(open);
     const { setCardOpen } = useContext(CardOpenContext);
     const { setCurrentRecipe } = useContext(CurrentRecipeContext);
 

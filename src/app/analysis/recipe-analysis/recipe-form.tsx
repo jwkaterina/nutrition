@@ -1,8 +1,9 @@
 import { useContext, useState } from 'react'
 import styles from './page.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, Nutrients } from '@/app/types/types';
+import { CardState, Recipe } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
+import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 
 interface RecipeFormProps {
 }
@@ -10,17 +11,26 @@ interface RecipeFormProps {
 const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
 
     const { cardOpen } = useContext(CardOpenContext);
-    const [data, setData] = useState<Nutrients | null>(null);
+    const [recipe, setRecipe] = useState<Recipe | null>(null);
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const form = e.target as HTMLFormElement;
+        const name = form['recipe-name'].value;
+        const servings = form['recipe-servings'].value;
+        const image = '';
         const ingredients = form['recipe-ingredients'].value.split('\n');
 
-        const result = await analyseRecipe(ingredients);
-        setData(result);
-        console.log(result);
+        const nutrients = await analyseRecipe(ingredients);
+        setRecipe({
+            name,
+            image,
+            servings,
+            nutrients
+        });
+
+        console.log({name, servings, nutrients});
     }
 
     const style = () => {
@@ -30,6 +40,12 @@ const RecipeForm = ({ }: RecipeFormProps): JSX.Element => {
             return {overflow: 'auto'}
         }
     }
+
+    if(recipe) return (
+        // <div  style={{overflow: 'hidden', height: '100vh'}}>
+            <RecipeCard recipe={recipe} index={0} id={null} open={true}/>
+        // </div>
+    )
 
     return (
         <div className={styles.container} style={style()}>
