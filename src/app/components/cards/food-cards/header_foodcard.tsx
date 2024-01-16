@@ -1,9 +1,9 @@
-import styles from './alanysis_card.module.css';
+import styles from '../../analysis_cards/alanysis_card.module.css';
 import { useState, useEffect } from 'react';
 import { Food, MeasureProp, Nutrients } from '@/app/types/types';
 import { findNutrients } from '@/app/services/fetch-data'
 
-interface HeaderCardProps {
+interface FoodHeaderCardProps {
     food: Food,
     option: string,
     setOption: (option: string) => void,
@@ -12,7 +12,7 @@ interface HeaderCardProps {
     setQuantity: (quantity: number) => void
 }
 
-const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantity }: HeaderCardProps): JSX.Element => {
+const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantity }: FoodHeaderCardProps): JSX.Element => {
 
     const [measures, setMeasures] = useState<MeasureProp[]>([]);
     const [customWeight, setCustomWeight] = useState<boolean>(false);
@@ -108,4 +108,4 @@ const HeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantit
     )
 }
 
-export default HeaderCard;
+export default FoodHeaderCard;

@@ -2,7 +2,7 @@ import styles from '../card.module.css'
 import { findNutrients } from '@/app/services/fetch-data'
 import { Food, Nutrients, NutrientsProp } from '@/app/types/types'
 import { useEffect, useState } from 'react'
-import HeaderCard from '../../analysis_cards/header_card'
+import FoodHeaderCard from './header_foodcard'
 import DailyValueCard from '../../analysis_cards/dailyvalue_card'
 import CompositionCard from '../../analysis_cards/composition_card'
 import BigNutrientsCard from '../../analysis_cards/bignutrients_card'
@@ -55,13 +55,14 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
 
     return (
         <div className={styles.card_grid}>
-            <HeaderCard 
+            <FoodHeaderCard 
                 food={food} 
                 option={selectedOption} 
                 setOption={setSelectedOption} 
                 setMeasure={setMeasureUri} 
                 quantity={quantity}
-                setQuantity={setQuantity}/>
+                setQuantity={setQuantity}
+            />
             {content && <DailyValueCard content={content} />}
             {contentPercent && <CompositionCard 
                 protein={contentPercent.PROCNT.quantity}
