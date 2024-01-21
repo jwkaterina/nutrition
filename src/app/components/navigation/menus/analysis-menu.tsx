@@ -8,10 +8,10 @@ import { CurrentRecipeContext } from '@/app/context/recipe-context'
 import { CardState } from '@/app/types/types'
 
 interface AnalysisMenuProps {
-    title: string
+	onClear: () => void
 }
 
-const AnalysisMenu = ({ title }: AnalysisMenuProps): JSX.Element => {
+const AnalysisMenu = ({ onClear }: AnalysisMenuProps): JSX.Element => {
 
 	const { setCardOpen } = useContext(CardOpenContext);
 	const router = useRouter();
@@ -33,9 +33,9 @@ const AnalysisMenu = ({ title }: AnalysisMenuProps): JSX.Element => {
 	return (
 		<Menu 
 		   leftText="Back To Favorites" 
-		   rightText= {`${title} Analysis`}
+		   rightText= {`Clear Search`}
 		   onLeftclick={onBackClick} 
-		   onRightclick={() => {}}
+		   onRightclick={() => onClear()}
 		/>
 	)
 }
