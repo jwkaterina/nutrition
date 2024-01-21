@@ -19,7 +19,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     const [rightText, setRightText] = useState<string>('Add To Favorites');
     const router = useRouter();
 
-    const { currentFood } = useContext(CurrentFoodContext);
+    const { currentFood, setCurrentFood } = useContext(CurrentFoodContext);
     const { setCardOpen } = useContext(CardOpenContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { user } = useContext(AuthContext);
@@ -82,13 +82,18 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
         }
     }
 
+    const handleBackClick = (): void => {
+        setCardOpen(CardState.CLOSING);
+        setCurrentFood({id: null, food: null});
+    }
+
     return (<>
         {error && <ErrorModal error={error} onClose={clearError} />}
         {isLoading && <LoadingSpinner/>}
         <Menu 
             leftText='Back to Analysis' 
             rightText={rightText} 
-            onLeftclick={() => setCardOpen(CardState.CLOSING)} 
+            onLeftclick={handleBackClick} 
             onRightclick={handleRightClick}
         />
     </>)

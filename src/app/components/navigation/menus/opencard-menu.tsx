@@ -2,6 +2,8 @@ import { SlideType, CardState } from "@/app/types/types"
 import { useContext } from "react"
 import { CardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from '@/app/context/food-context'
+import { CurrentRecipeContext } from '@/app/context/recipe-context'
+// import { CurrentMenuContext } from '@/app/context/menu-context'
 import { SlideContext } from '@/app/context/slide-context';
 import { useHttpClient } from "@/app/hooks/http-hook"
 import Menu from "./menu"
@@ -18,7 +20,9 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
 
     const { slide } = useContext(SlideContext);
     const { setCardOpen } = useContext(CardOpenContext);
-    const { currentFood } = useContext(CurrentFoodContext);
+    const { currentFood, setCurrentFood } = useContext(CurrentFoodContext);
+    const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
+    // const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
     const deleteCard = (): void => {
@@ -54,13 +58,20 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
     //     menuDispatch({type: 'delete', index: index! - 1})
     // }
 
+    const handleBackClick = (): void => {
+        setCardOpen(CardState.CLOSING);
+        setCurrentFood({id: null, food: null});
+        setCurrentRecipe({id: null, recipe: null});
+        // setCurrentMenu({id: null, recipe: null});
+    }
+
     return (<>
         {error && <ErrorModal error={error} onClose={clearError} />}
         {isLoading && <LoadingSpinner />}
         <Menu 
-            leftText="Back" 
+            leftText="Back to Favorites" 
             rightText="Delete" 
-        onLeftclick={() => setCardOpen(CardState.CLOSING)} 
+            onLeftclick={handleBackClick} 
             onRightclick={() => deleteCard()} 
         />
     </>)
