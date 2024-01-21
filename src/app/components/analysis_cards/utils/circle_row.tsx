@@ -79,7 +79,7 @@ const CircleRow = ({ vitamin, vitaminPercent, label, color, lightColor }: Circle
                     <circle  style={styleArc()}  cx={centerX} cy={centerY} r={radius} stroke={lightColor} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
                     <circle ref={arcRef} style={styleProgress()}  cx={centerX} cy={centerY} r={radius} stroke={color} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
                 </svg>     
-                {vitaminPercent && <span>{`${(vitaminPercent.quantity / servings).toFixed(0)}${vitaminPercent.unit}`}</span>}                
+                {vitaminPercent ? <span>{`${(vitaminPercent.quantity / servings).toFixed(0)}${vitaminPercent.unit}`}</span> : <span>0%</span>}                
             </div>
 }
 

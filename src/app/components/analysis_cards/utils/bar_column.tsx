@@ -11,7 +11,7 @@ interface BarColumnProps {
     lightColor: string
 }
 
-const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarColumnProps): JSX.Element => {
+const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarColumnProps): JSX.Element => {    
 
     const currentRecipe = useContext(CurrentRecipeContext);
     const recipe = currentRecipe.currentRecipe.recipe;
@@ -45,6 +45,9 @@ const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarCol
     if(!vitamin) return <></>
 
     return <div className={styles.bar_column}>
+                <div className={styles.bar_label}>
+                    {vitaminPercent ? <span>{`${(vitaminPercent.quantity / servings).toFixed(1)}${vitaminPercent.unit}`}</span> : <span>0%</span>}
+                </div>   
                 <div className={styles.bar} style={{height: `${barHeight}px`, backgroundColor: lightColor}}>
                     <div className={styles.percent_bar} ref={barRef} style={{backgroundColor: color}}></div>
                 </div>        
