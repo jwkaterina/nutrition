@@ -2,10 +2,11 @@ import styles from '../../analysis_cards/alanysis_card.module.css';
 import { Recipe } from '@/app/types/types';
 
 interface RecipeHeaderCardProps {
-    recipe: Recipe,
-}
+    recipe: Recipe }
 
 const RecipeHeaderCard = ({ recipe }: RecipeHeaderCardProps): JSX.Element => {
+
+    const servings: number = recipe.servings;
 
     return(
         <div className={styles.container} style={{gridArea: 'header'}}>
@@ -16,7 +17,7 @@ const RecipeHeaderCard = ({ recipe }: RecipeHeaderCardProps): JSX.Element => {
                 </div>
                 <div className={styles.form}>
                     <select name="measure" id="measure">
-                        <option>1 serving - {recipe.nutrients.totalWeight.toFixed(0)}g</option>
+                        <option>1 serving - {(recipe.nutrients.totalWeight / servings).toFixed(0)}g</option>
                     </select>
                 </div>
             </div>
