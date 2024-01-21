@@ -9,15 +9,31 @@ import { Food, CardState} from '@/app/types/types';
 import FoodCard from '@/app/components/cards/food-cards/food-card';
 
 interface FoodSearchProps {
+	searchCleared: boolean,
+	setClearSearch: (clearSearch: boolean) => void
 }
 
-const FoodSearch = ({}: FoodSearchProps): JSX.Element => {
+const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Element => {
 
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
 	const [foodArr, setFoodArr] = useState<Food[]>([]);
 	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
 	const [input, setInput] = useState('');
+
+	useEffect(() => {
+		setCardOpen(CardState.CLOSED);
+	}, [])
+
+	useEffect(() => {
+		if(searchCleared) {
+			setFoodArr([]);
+			setInput('');
+			setShowOptions(false);
+			setQueryOptions(null);
+			setClearSearch(false);
+		}
+	}, [searchCleared])
 
 	const handleInput = async(e: FormEvent) => {
 		const inputValue = (e.target as HTMLInputElement).value;
@@ -76,10 +92,6 @@ const FoodSearch = ({}: FoodSearchProps): JSX.Element => {
 			setShowOptions(false);
 		}
 	}, [cardOpen])
-
-	useEffect(() => {
-		setCardOpen(CardState.CLOSED);
-	}, [])
 
     const foodList: JSX.Element[] = foodArr.map((hint, index) => {
 		return (

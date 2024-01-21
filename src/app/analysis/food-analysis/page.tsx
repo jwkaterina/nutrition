@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext } from 'react' 
+import { useContext, useState } from 'react' 
 import NavBar from '@/app/components/navigation/nav-bar';
 import OpenAnalysisMenu from '@/app/components/navigation/menus/openanalysis-menu';
 import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
@@ -16,6 +16,7 @@ interface FoodAnalysisProps {
 const FoodAnalysis = ({ }: FoodAnalysisProps): JSX.Element => {
 
 	const { cardOpen } = useContext(CardOpenContext);
+	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	
 	const secondaryColor: string = "var(--secondary-color)";
 
@@ -23,10 +24,10 @@ const FoodAnalysis = ({ }: FoodAnalysisProps): JSX.Element => {
 		<NavBar color={secondaryColor}>
 			{cardOpen == CardState.OPEN ? 
 			<OpenAnalysisMenu /> : 
-			<AnalysisMenu title="Food"/>
+			<AnalysisMenu onClear={() => setClearSearch(true)}/>
 			}
 		</NavBar>
-		<FoodSearch />
+		<FoodSearch searchCleared={clearSearch} setClearSearch={setClearSearch}/>
 		{cardOpen != CardState.OPEN && <Footer color={secondaryColor} />}
 	</>)
 }
