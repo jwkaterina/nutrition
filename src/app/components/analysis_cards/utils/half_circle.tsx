@@ -1,6 +1,7 @@
-import { Nutrient } from '@/app/types/types';
+import { Nutrient, SlideType } from '@/app/types/types';
 import styles from './utils.module.css'
-import { useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
+import { CurrentRecipeContext } from '@/app/context/recipe-context';
 
 interface HalfCircleProps {
     nutrient: Nutrient;
@@ -15,6 +16,11 @@ interface HalfCircleProps {
 }
 
 const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, strokeWidth, centerX, centerY }: HalfCircleProps): JSX.Element => {
+
+    const currentRecipe = useContext(CurrentRecipeContext);
+    const recipe = currentRecipe.currentRecipe.recipe;
+    let servings: number = 1;
+    if(recipe) servings = recipe.servings;
 
     let unit: string = '';
     if(nutrient) unit = nutrient.unit;
@@ -35,7 +41,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
             if(!daily || daily.quantity == 0) {
                 return circumreference
             } else if(daily.quantity <=100 ) {
-                return circumreference - (daily.quantity / 100 * circumreference / 2) 
+                return circumreference - ((daily.quantity / servings) / 100 * circumreference / 2) 
             } else {
                 return circumreference / 2
             }
@@ -91,7 +97,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
             <div className={styles.percentage}>
                 {daily && <span>{`${daily.quantity.toFixed(0)}${daily.unit}`}</span>}
                 <p style={styleText()}>
-                    <span style={styleText()}>{`${nutrient.quantity.toFixed(0)}${unit} `}</span>
+                    <span style={styleText()}>{`${(nutrient.quantity / servings).toFixed(0)}${unit} `}</span>
                     {text}
                 </p>
             </div>
