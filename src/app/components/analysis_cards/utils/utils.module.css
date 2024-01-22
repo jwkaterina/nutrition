@@ -9,14 +9,24 @@
 .daily_container .percentage {
     position: absolute;
     width: 100%;
-    top: 65%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
 
-.daily_container .percentage p {
-    margin: 1rem 0;
+.daily_container .text {
+    position: absolute;
+    width: 100%;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: center;
+    line-height: 1rem;
+    display: flex;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
 }
 
 .composition_cell {

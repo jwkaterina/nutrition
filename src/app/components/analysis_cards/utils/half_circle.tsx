@@ -1,4 +1,4 @@
-import { Nutrient, SlideType } from '@/app/types/types';
+import { Nutrient } from '@/app/types/types';
 import styles from './utils.module.css'
 import { useContext, useEffect, useRef } from 'react'
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
@@ -96,6 +96,8 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
             </svg>
             <div className={styles.percentage}>
                 {daily && <span>{`${daily.quantity.toFixed(0)}${daily.unit}`}</span>}
+            </div>
+            <div className={styles.text}>
                 <p style={styleText()}>
                     <span style={styleText()}>{`${(nutrient.quantity / servings).toFixed(0)}${unit} `}</span>
                     {text}
