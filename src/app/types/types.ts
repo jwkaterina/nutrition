@@ -43,6 +43,18 @@ export type LoadedFood = {
     id: string
 }
 
+export type LoadedRecipe = {
+    creator: string,
+    recipe: Recipe,
+    id: string
+}
+
+// export type LoadedMenu = {
+//     creator: string,
+//     menu: Menu,
+//     id: string
+// }
+
 export type Nutrient = {
     label: string,
     quantity: number,
