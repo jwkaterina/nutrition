@@ -28,10 +28,10 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
     const deleteCard = (): void => {
         switch(slide) {
             case SlideType.FOOD:
-                deleteFood(currentFood.id);
+                deleteFood();
                 break;
             case SlideType.RECIPE:
-                // deleteRecipe(index);
+                deleteRecipe();
                 break;
             case SlideType.MENU:
                 // deleteMenu(index);
@@ -39,20 +39,29 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
         }
     }
 
-    const deleteFood = async (id: string | null) => {
+    const deleteFood = async () => {
         try {
             await sendRequest(
-                `http://localhost:5001/foods/${id}`,
+                `http://localhost:5001/foods/${currentFood.id}`,
                 'DELETE'
             );
             onFoodDelete();
             setCardOpen(CardState.CLOSING);
+            setCurrentFood({id: null, food: null});
         } catch (err) {}
     }
 
-    // const deleteRecipe = (index: number | null): void => {
-    //     recipeDispatch({type: 'delete', index: index! - 1});
-    // }
+    const deleteRecipe = async () => {
+        try {
+            await sendRequest(
+                `http://localhost:5001/recipes/${currentRecipe.id}`,
+                'DELETE'
+            );
+            onRecipeDelete();
+            setCardOpen(CardState.CLOSING);
+            setCurrentRecipe({id: null, recipe: null});
+        } catch (err) {}
+    }
 
     // const deleteMenu = (index: number | null): void => {
     //     menuDispatch({type: 'delete', index: index! - 1})

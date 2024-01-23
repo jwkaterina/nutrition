@@ -76,6 +76,9 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
             addToFavorites();
         } else if(rightText === 'Go To Favorites') {
             setCardOpen(CardState.CLOSED);
+            setCurrentFood({id: null, food: null});
+            setCurrentRecipe({id: null, recipe: null});
+            // setCurrentMenu({id: null, menu: null});
             setScrollBehavior('auto');
             router.push('/');
             setTimeout(() => {
