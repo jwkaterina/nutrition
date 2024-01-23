@@ -37,8 +37,6 @@ const createFood = async (req, res, next) => {
 
   const createdFood = new Food({
     food,
-    // image:
-    //   'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg',
     creator
   });
 
