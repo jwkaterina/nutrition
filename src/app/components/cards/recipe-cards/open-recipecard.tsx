@@ -1,6 +1,6 @@
 import styles from '../card.module.css'
 import { Recipe } from '@/app/types/types'
-import RecipeHeaderCard from '../recipe-cards/header_recipecard'
+import RecipeHeaderCard from './header-recipecard'
 import DailyValueCard from '../../analysis_cards/dailyvalue_card'
 import CompositionCard from '../../analysis_cards/composition_card'
 import BigNutrientsCard from '../../analysis_cards/bignutrients_card'
