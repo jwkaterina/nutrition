@@ -71,3 +71,11 @@
     border: var(--tertiary-color) 1px solid;
     color: var(--tertiary-color);
 }
+
+@media screen and (max-width: 500px) {
+    .container {
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+    }
+}
