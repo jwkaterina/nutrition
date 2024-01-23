@@ -8,18 +8,18 @@ import { AuthProvider } from './auth-context'
 export default function ContextProviders({ children }: any) {
 
     return (
-      <CurrentRecipeProvider>
-          {/* // <MenuProvider> */}
-              <CardOpenProvider>
-                <CurrentFoodProvider>
-                  <SlideProvider>
-                    <AuthProvider>
-                      {children} 
-                    </AuthProvider>
-                  </SlideProvider>
-                </CurrentFoodProvider>
-              </CardOpenProvider>
-          {/* // </MenuProvider> */}
-      </CurrentRecipeProvider>
+        <CurrentRecipeProvider>
+            {/* // <MenuProvider> */}
+                <CardOpenProvider>
+                    <CurrentFoodProvider>
+                    <SlideProvider>
+                        <AuthProvider>
+                        {children} 
+                        </AuthProvider>
+                    </SlideProvider>
+                    </CurrentFoodProvider>
+                </CardOpenProvider>
+            {/* // </MenuProvider> */}
+        </CurrentRecipeProvider>
     );
   }
