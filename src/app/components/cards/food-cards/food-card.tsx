@@ -9,12 +9,13 @@ import ClosedCard from '../closed-card'
 interface FoodCardProps {
     food: Food,
     index: number,
-    id: string | null
+    id: string | null,
+    open: boolean
 }
 
-const FoodCard = ({ food, index, id }: FoodCardProps): JSX.Element => {
+const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(open);
     const { setCardOpen } = useContext(CardOpenContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
 

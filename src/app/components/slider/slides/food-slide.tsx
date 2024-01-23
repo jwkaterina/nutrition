@@ -30,7 +30,7 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
                 );
                 const foodList = responseData.foods.map((food: LoadedFood, index: number) => {
                     return (
-                        <FoodCard food={food.food} index={index + 1} key={index + 1} id={food.id}/>
+                        <FoodCard food={food.food} index={index + 1} key={index + 1} id={food.id} open={false}/>
                     )
                 })
                 setFoodList(foodList);

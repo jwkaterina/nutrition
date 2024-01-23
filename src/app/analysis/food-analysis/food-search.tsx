@@ -95,7 +95,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 
     const foodList: JSX.Element[] = foodArr.map((hint, index) => {
 		return (
-			<FoodCard food={hint} index={index + 1} key={index + 1} id={null}/>
+			<FoodCard food={hint} index={index + 1} key={index + 1} id={null} open={false}/>
 		)
 	})
 
