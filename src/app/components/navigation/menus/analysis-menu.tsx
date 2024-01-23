@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'
 import { SlideContext} from '@/app/context/slide-context'
 import { CurrentRecipeContext } from '@/app/context/recipe-context'
-// import { CurrentMenuContext } from '@/app/context/menu-context'
+import { CurrentMenuContext } from '@/app/context/menu-context'
 import { CardState } from '@/app/types/types'
 
 interface AnalysisMenuProps {
@@ -17,7 +17,7 @@ const AnalysisMenu = ({ onClear }: AnalysisMenuProps): JSX.Element => {
 	const router = useRouter();
 	const { setScrollBehavior } = useContext(SlideContext);
 	const { setCurrentRecipe} = useContext(CurrentRecipeContext);
-	// const { setCurrentMenu } = useContext(CurrentMenuContext);
+	const { setCurrentMenu } = useContext(CurrentMenuContext);
 
 	const onBackClick = (): void => {
 		setCardOpen(CardState.CLOSED);
@@ -27,7 +27,7 @@ const AnalysisMenu = ({ onClear }: AnalysisMenuProps): JSX.Element => {
 			setScrollBehavior('smooth');
 		}, 500);
 		setCurrentRecipe({id: null, recipe: null});
-		// setCurrentMenu({id: null, menu: null});
+		setCurrentMenu({id: null, menu: null});
 	}
 
 	return (

@@ -1,10 +1,9 @@
-import { SlideType, CardState } from "@/app/types/types"
+import { CardState } from "@/app/types/types"
 import { useContext } from "react"
 import { CardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from '@/app/context/food-context'
 import { CurrentRecipeContext } from '@/app/context/recipe-context'
-// import { CurrentMenuContext } from '@/app/context/menu-context'
-import { SlideContext } from '@/app/context/slide-context';
+import { CurrentMenuContext } from '@/app/context/menu-context'
 import { useHttpClient } from "@/app/hooks/http-hook"
 import Menu from "./menu"
 import ErrorModal from "@/app/components/overlays/error-modal/error-modal"
@@ -18,25 +17,17 @@ interface OpenCardMenuProps {
 
 const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMenuProps): JSX.Element => {
 
-    const { slide } = useContext(SlideContext);
+
     const { setCardOpen } = useContext(CardOpenContext);
     const { currentFood, setCurrentFood } = useContext(CurrentFoodContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
-    // const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
+    const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
     const deleteCard = (): void => {
-        switch(slide) {
-            case SlideType.FOOD:
-                deleteFood();
-                break;
-            case SlideType.RECIPE:
-                deleteRecipe();
-                break;
-            case SlideType.MENU:
-                // deleteMenu(index);
-                break;
-        }
+        if(currentFood.food) deleteFood();
+        if(currentRecipe.recipe) deleteRecipe();
+        if(currentMenu.menu) deleteMenu();
     }
 
     const deleteFood = async () => {
@@ -63,15 +54,23 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
         } catch (err) {}
     }
 
-    // const deleteMenu = (index: number | null): void => {
-    //     menuDispatch({type: 'delete', index: index! - 1})
-    // }
+    const deleteMenu = async () => {
+        try {
+            await sendRequest(
+                `http://localhost:5001/menus/${currentMenu.id}`,
+                'DELETE'
+            );
+            onMenuDelete();
+            setCardOpen(CardState.CLOSING);
+            setCurrentMenu({id: null, menu: null});
+        } catch (err) {}
+    }
 
     const handleBackClick = (): void => {
         setCardOpen(CardState.CLOSING);
         setCurrentFood({id: null, food: null});
         setCurrentRecipe({id: null, recipe: null});
-        // setCurrentMenu({id: null, recipe: null});
+        setCurrentMenu({id: null, recipe: null});
     }
 
     return (<>

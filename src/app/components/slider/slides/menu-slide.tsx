@@ -1,5 +1,12 @@
 import Slide from './slide'
 import Button from '@/app/components/slider/button'
+import { LoadedMenu } from '@/app/types/types'
+import MenuCard from '../../cards/menu-cards/menu-card'
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { useEffect, useState, useContext } from 'react'
+import { AuthContext } from '@/app/context/auth-context';
+import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
+import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
 
 interface MenuSlideProps {
     menuDeleted: boolean
@@ -7,12 +14,40 @@ interface MenuSlideProps {
 
 const MenuSlide = ({ menuDeleted }: MenuSlideProps): JSX.Element => {
 
-    return (
-        <Slide>
-            {/* {menuList} */}
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const [menuList, setMenuList] = useState<JSX.Element[]>([]);
+
+    const { user } = useContext(AuthContext);
+
+    useEffect(() => {
+        if(!user) {
+            return;
+        }
+        const fetchMenus = async () => {
+            try {
+                const responseData = await sendRequest(
+                    `http://localhost:5001/menus/user/${user}`
+                );
+                console.log(responseData);
+                const menuList = responseData.menus.map((menu: LoadedMenu, index: number) => {
+                    return (
+                        <MenuCard menu={menu.menu} index={index + 1} key={index + 1} id={menu.id} open={false}/>
+                    )
+                })
+                setMenuList(menuList);
+            } catch (err) {}
+        };
+        fetchMenus();
+    }, [menuDeleted]);
+
+    return (<>
+        {error && <ErrorModal error={error} onClose={clearError} />}
+        {isLoading && <LoadingSpinner />}
+         <Slide>
+            {menuList.length > 0 && menuList}
             <Button search={'analysis/menu-analysis'}/>
-        </Slide>    
-    )
+        </Slide>  
+    </>)
 }
 
 export default MenuSlide
