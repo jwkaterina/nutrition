@@ -49,11 +49,11 @@ export type LoadedRecipe = {
     id: string
 }
 
-// export type LoadedMenu = {
-//     creator: string,
-//     menu: Menu,
-//     id: string
-// }
+export type LoadedMenu = {
+    creator: string,
+    menu: Menu,
+    id: string
+}
 
 export type Nutrient = {
     label: string,
@@ -107,6 +107,12 @@ export interface Recipe {
     name: string,
     image: string,
     servings: number,
+    ingredients: string[],
+    nutrients: Nutrients,
+}
+
+export interface Menu {
+    name: string,
     ingredients: string[],
     nutrients: Nutrients,
 }

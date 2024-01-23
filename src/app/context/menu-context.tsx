@@ -1,38 +1,38 @@
-// import { createContext, useReducer, useContext} from 'react';
-// import { MenuProp } from '@/app/types/types';
-// import MenuList from '@/app/data-base/menu-list';
-// import { MenuReducer } from './menu-reducer';
-// import { getItemFromLocalStorage, setToLocalStorage } from '../services/local-storage';
+import { createContext, useState, useMemo } from 'react';
+import { Menu } from '@/app/types/types';
 
-// let initialMenu: MenuProp[];
-// const item = getItemFromLocalStorage('menus');
-// if(item) {
-//   initialMenu = item;
-// } else {
-//     initialMenu = MenuList;
-//     setToLocalStorage('menus', initialMenu);
-// }
+interface CurrentMenu  {
+    menu: Menu | null,
+    id: string | null
+}
 
-// const MenuContext = createContext<MenuProp[]>(initialMenu);
+interface CurrentMenuContextProps {
+    currentMenu: CurrentMenu,
+    setCurrentMenu: React.SetStateAction<any>
+}
 
-// const MenuDispatchContext = createContext((() => {}) as React.Dispatch<any>);
+export const CurrentMenuContext = createContext<CurrentMenuContextProps>({
+    currentMenu: {
+        menu: null,
+        id: null
+    },
+    setCurrentMenu: () => {}
+});
 
-// export const MenuProvider = ({ children }: any) => {
-//   const [menu, dispatch] = useReducer(MenuReducer, initialMenu);
+export const CurrentMenuProvider = ({ children }: any) => {
+    const [currentMenu, setCurrentMenu] = useState<CurrentMenu>({
+        menu: null,
+        id: null
+    });
 
-//   return (
-//     <MenuContext.Provider value={menu}>
-//       <MenuDispatchContext.Provider value={dispatch}>
-//         {children}
-//       </MenuDispatchContext.Provider>
-//     </MenuContext.Provider>
-//   );
-// }
+    const contextValue = useMemo(() => ({
+        currentMenu,
+        setCurrentMenu
+    }), [currentMenu, setCurrentMenu]);
 
-// export const useMenu = () => {
-//   return useContext(MenuContext);
-// }
-  
-// export const  useMenuDispatch = () => {
-//   return useContext(MenuDispatchContext);
-// }
+  return (
+    <CurrentMenuContext.Provider value={contextValue}>
+        {children}
+    </CurrentMenuContext.Provider>
+  );
+}
