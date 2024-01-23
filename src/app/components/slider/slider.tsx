@@ -35,7 +35,7 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
             scrollTo(0, 0);
 			(slidesRef.current as HTMLElement).scrollTo({
                 top: 0,
-                left: 0,
+                left: (slidesRef.current as HTMLElement).clientWidth * slide,
                 behavior: "auto",
             });
 		}
