@@ -1,8 +1,8 @@
 import { createContext, useState, useMemo } from 'react';
-import { Menu } from '@/app/types/types';
+import { MenuProp } from '@/app/types/types';
 
 interface CurrentMenu  {
-    menu: Menu | null,
+    menu: MenuProp | null,
     id: string | null
 }
 

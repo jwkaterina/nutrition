@@ -111,7 +111,7 @@ export interface Recipe {
     nutrients: Nutrients,
 }
 
-export interface Menu {
+export interface MenuProp {
     name: string,
     ingredients: string[],
     nutrients: Nutrients,
