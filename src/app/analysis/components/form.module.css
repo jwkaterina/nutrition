@@ -8,20 +8,35 @@
     padding: 0;
 }
 
-.form_group {
+.form .short_inputs_group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.form .short_inputs_group .select_group {
+    width: 60%;
+}
+
+.form .short_inputs_group .number_group {
+    width: 30%;
+}
+
+.form_group, .select_group, .number_group {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin-bottom: 1rem;
 }
 
-.form_group label {
+.form_group label, .select_group label, .number_group label{
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
-.form_group input, .form_group button {
+.form_group input, .form_group button, .select_group select, .number_group input {
     height: 2.5rem;
     padding: 0.5rem;
     border-radius: 0.2rem;
@@ -29,12 +44,12 @@
     font-weight: 400;
 }
 
-.form_group input {
+.form_group input, .select_group select, .number_group input{
     width: 100%;
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.form_group input:focus, .form_group textarea:focus {
+.form_group input:focus, .form_group textarea:focus, .select_group select:focus, .number_group input:focus{
     outline: none;
     border: 1px solid var(--secondary-color);
 }

@@ -28,7 +28,6 @@ const MenuSlide = ({ menuDeleted }: MenuSlideProps): JSX.Element => {
                 const responseData = await sendRequest(
                     `http://localhost:5001/menus/user/${user}`
                 );
-                console.log(responseData);
                 const menuList = responseData.menus.map((menu: LoadedMenu, index: number) => {
                     return (
                         <MenuCard menu={menu.menu} index={index + 1} key={index + 1} id={menu.id} open={false}/>

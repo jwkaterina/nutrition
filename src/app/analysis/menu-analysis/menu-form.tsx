@@ -2,12 +2,14 @@ import { useContext, useEffect, useState } from 'react'
 import styles from './page.module.css'
 import form from '../components/form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState } from '@/app/types/types';
+import { CardState, LoadedRecipe } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
+import { AuthContext } from '@/app/context/auth-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
 import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
+import { useHttpClient } from '@/app/hooks/http-hook';
 
 interface MenuFormProps {
     searchCleared: boolean,
@@ -18,10 +20,34 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
+    const [recipeList, setRecipeList] = useState<JSX.Element[]>([]);
     const [name, setName] = useState<string>('');
     const [ingredients, setIngredients] = useState<string>('');
+    const [recipes, setRecipes] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>();
+    const { user } = useContext(AuthContext);
+    const { sendRequest } = useHttpClient();
+
+    useEffect(() => {
+        if(!user) {
+            return;
+        }
+        const fetchRecipes = async () => {
+            try {
+                const responseData = await sendRequest(
+                    `http://localhost:5001/recipes/user/${user}`
+                );
+                const recipeList = responseData.recipe.map((recipe: LoadedRecipe, index: number) => {
+                    return (
+                        <option key={index} value={recipe.recipe.name} id={recipe.recipe.name}>{recipe.recipe.name}</option>
+                    )
+                })
+                setRecipeList(recipeList);
+            } catch (err) {}
+        };
+        fetchRecipes();
+    }, []);
 
     useEffect(() => {
         if(searchCleared) {
@@ -83,6 +109,10 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         setIngredients(e.currentTarget.value);
     }
 
+    const handleRecipesInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+        setRecipes(e.currentTarget.value);
+    }
+
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
         <MenuCard menu={currentMenu.menu} index={0} id={null} open={true}/>
     )
@@ -103,6 +133,10 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             <textarea id="menu-ingredients" name="menu-ingredients" required
                             placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
                         </div>
+                        <RecipeSelect recipes={recipeList}/>
+                        <div className={form.form_group}>
+                            <button type="button" className={form.add_button}>Add Recipe</button>
+                        </div>
                         <div className={form.form_group}>
                             <button type="submit">Analyze</button>
                         </div>
@@ -113,3 +147,33 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 }
 
 export default MenuForm
+
+interface RecipeSelectProps {
+    recipes: JSX.Element[]
+}
+
+const RecipeSelect = ({ recipes }: RecipeSelectProps) => {
+    return (<>
+        <div className={form.short_inputs_group}>
+            <div className={form.select_group}>
+                <label htmlFor="recipes">Recipes</label>
+                <select 
+                    name="recipe" 
+                    id="recipe" 
+                    // value={recipeList[0]} 
+                    // onChange={(e) => handleOptionChange(e)}
+                >
+                    {recipes}
+                </select>
+            </div>
+            <div className={form.number_group}>
+                <label htmlFor="servings">Servings</label>
+                <input type="number" id="servings" name="servings" required min={1}
+                // value={1} 
+                //  onInput={e => handleServings(e)}
+                />
+            </div>
+        </div>
+    </>)
+}
+
