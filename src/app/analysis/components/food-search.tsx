@@ -1,4 +1,4 @@
-import styles from './page.module.css'
+import styles from './search.module.css'
 import { parseQuery, autocomplete } from '@/app/services/fetch-data'
 import { useState, useContext, useEffect, FormEvent, KeyboardEvent } from 'react' 
 import PageGrid from '@/app/components/slider/page-grid';

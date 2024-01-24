@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import styles from './page.module.css'
-import form from '../components/form.module.css'
+import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
 import { CardState } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
@@ -72,14 +71,6 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
             throw error;        }
     }
 
-    const style = () => {
-        if(cardOpen == CardState.OPEN) {
-            return {overflow: 'hidden'}
-        } else {
-            return {overflow: 'auto'}
-        }
-    }
-
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
     }
@@ -93,36 +84,40 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
     }
 
     if(currentRecipe.recipe && cardOpen == CardState.OPEN) return (
-        <RecipeCard recipe={currentRecipe.recipe} index={0} id={null} open={true}/>
+        <div style={{height: 'calc(100vh - var(--header-height))', overflow: 'hidden'}}>
+            <RecipeCard recipe={currentRecipe.recipe} index={0} id={null} open={true}/>
+        </div> 
     )
 
     return (<>
             {error && <ErrorModal error={error} onClose={() => setError(null)} />}
             {isLoading && <LoadingSpinner />}
-            <div className={styles.container} style={style()}>
-                <form className={form.form} onSubmit={handleSubmit}>
-                        <div className={form.form_group}>
+            <div className={styles.container}>
+                <div className={styles.form_container}>
+                    <form className={styles.form} onSubmit={handleSubmit}>
+                        <div className={styles.form_group}>
                             <label htmlFor="recipe-name">Recipe Name</label>
                             <input type="text" id="recipe-name" name="recipe-name" required value={name} onInput={e => handleNameInput(e)}/>
                         </div>
-                        <div className={form.form_group}>
-                            <button type="button" className={form.add_button}>Add Image</button>
+                        <div className={styles.form_group}>
+                            <button type="button" className={styles.add_button}>Add Image</button>
                         </div>
-                        <div className={form.form_group}>
+                        <div className={styles.form_group}>
                             <label htmlFor="recipe-ingredients">Ingredients
                                 <span>(Enter each ingredient on a new line)</span>
                             </label>
                             <textarea id="recipe-ingredients" name="recipe-ingredients" required
                             placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
                         </div>
-                        <div className={form.form_group}>
+                        <div className={styles.form_group}>
                             <label htmlFor="recipe-servings">Number of Servings</label>
                             <input type="number" id="recipe-servings" name="recipe-servings" required min='1' value={servings} onInput={e => handleServingsInput(e)}/>
                         </div>
-                        <div className={form.form_group}>
+                        <div className={styles.form_group}>
                             <button type="submit">Analyze</button>
                         </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </>
     )

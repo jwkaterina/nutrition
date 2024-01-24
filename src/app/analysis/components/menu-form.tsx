@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import styles from './page.module.css'
-import form from '../components/form.module.css'
+import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
 import { CardState, LoadedRecipe } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
@@ -93,14 +92,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             throw error;        }
     }
 
-    const style = () => {
-        if(cardOpen == CardState.OPEN) {
-            return {overflow: 'hidden'}
-        } else {
-            return {overflow: 'auto'}
-        }
-    }
-
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
     }
@@ -114,19 +105,22 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
-        <MenuCard menu={currentMenu.menu} index={0} id={null} open={true}/>
+        <div style={{height: 'calc(100vh - var(--header-height))', overflow: 'hidden'}}>
+            <MenuCard menu={currentMenu.menu} index={0} id={null} open={true}/>
+        </div>
     )
 
     return (<>
             {error && <ErrorModal error={error} onClose={() => setError(null)} />}
             {isLoading && <LoadingSpinner />}
-            <div className={styles.container} style={style()}>
-                <form className={form.form} onSubmit={handleSubmit}>
-                        <div className={form.form_group}>
+            <div className={styles.container}>
+                <div className={styles.form_container}>
+                    <form className={styles.form} onSubmit={handleSubmit}>
+                        <div className={styles.form_group}>
                             <label htmlFor="menu-name">Menu Name</label>
                             <input type="text" id="menu-name" name="menu-name" required value={name} onInput={e => handleNameInput(e)}/>
                         </div>
-                        <div className={form.form_group}>
+                        <div className={styles.form_group}>
                             <label htmlFor="menu-ingredients">Ingredients
                                 <span>(Enter each ingredient on a new line)</span>
                             </label>
@@ -134,13 +128,14 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
                         </div>
                         <RecipeSelect recipes={recipeList}/>
-                        <div className={form.form_group}>
-                            <button type="button" className={form.add_button}>Add Recipe</button>
+                        <div className={styles.form_group}>
+                            <button type="button" className={styles.add_button}>Add Recipe</button>
                         </div>
-                        <div className={form.form_group}>
+                        <div className={styles.form_group}>
                             <button type="submit">Analyze</button>
                         </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </>
     )
@@ -154,8 +149,8 @@ interface RecipeSelectProps {
 
 const RecipeSelect = ({ recipes }: RecipeSelectProps) => {
     return (<>
-        <div className={form.short_inputs_group}>
-            <div className={form.select_group}>
+        <div className={styles.short_inputs_group}>
+            <div className={styles.select_group}>
                 <label htmlFor="recipes">Recipes</label>
                 <select 
                     name="recipe" 
@@ -165,9 +160,93 @@ const RecipeSelect = ({ recipes }: RecipeSelectProps) => {
                 >
                     {recipes}
                 </select>
+                <select 
+                    name="recipe" 
+                    id="recipe" 
+                    // value={recipeList[0]} 
+                    // onChange={(e) => handleOptionChange(e)}
+                >
+                    {recipes}
+                </select>
+                <select 
+                    name="recipe" 
+                    id="recipe" 
+                    // value={recipeList[0]} 
+                    // onChange={(e) => handleOptionChange(e)}
+                >
+                    {recipes}
+                </select>
+                <select 
+                    name="recipe" 
+                    id="recipe" 
+                    // value={recipeList[0]} 
+                    // onChange={(e) => handleOptionChange(e)}
+                >
+                    {recipes}
+                </select>
+                <select 
+                    name="recipe" 
+                    id="recipe" 
+                    // value={recipeList[0]} 
+                    // onChange={(e) => handleOptionChange(e)}
+                >
+                    {recipes}
+                </select>
+                <select 
+                    name="recipe" 
+                    id="recipe" 
+                    // value={recipeList[0]} 
+                    // onChange={(e) => handleOptionChange(e)}
+                >
+                    {recipes}
+                </select>
+                <select 
+                    name="recipe" 
+                    id="recipe" 
+                    // value={recipeList[0]} 
+                    // onChange={(e) => handleOptionChange(e)}
+                >
+                    {recipes}
+                </select>
+                <select 
+                    name="recipe" 
+                    id="recipe" 
+                    // value={recipeList[0]} 
+                    // onChange={(e) => handleOptionChange(e)}
+                >
+                    {recipes}
+                </select>
             </div>
-            <div className={form.number_group}>
+            <div className={styles.number_group}>
                 <label htmlFor="servings">Servings</label>
+                <input type="number" id="servings" name="servings" required min={1}
+                // value={1} 
+                //  onInput={e => handleServings(e)}
+                />
+                <input type="number" id="servings" name="servings" required min={1}
+                // value={1} 
+                //  onInput={e => handleServings(e)}
+                />
+                <input type="number" id="servings" name="servings" required min={1}
+                // value={1} 
+                //  onInput={e => handleServings(e)}
+                />
+                <input type="number" id="servings" name="servings" required min={1}
+                // value={1} 
+                //  onInput={e => handleServings(e)}
+                />
+                <input type="number" id="servings" name="servings" required min={1}
+                // value={1} 
+                //  onInput={e => handleServings(e)}
+                />
+                <input type="number" id="servings" name="servings" required min={1}
+                // value={1} 
+                //  onInput={e => handleServings(e)}
+                />
+                <input type="number" id="servings" name="servings" required min={1}
+                // value={1} 
+                //  onInput={e => handleServings(e)}
+                />
                 <input type="number" id="servings" name="servings" required min={1}
                 // value={1} 
                 //  onInput={e => handleServings(e)}

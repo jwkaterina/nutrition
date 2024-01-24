@@ -1,3 +1,17 @@
+.container {
+    height: calc(100vh - 2 * var(--header-height));
+    overflow: auto;
+}
+
+.form_container {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .form {
     display: flex;
     flex-direction: column;
@@ -54,6 +68,10 @@
     border: 1px solid var(--secondary-color);
 }
 
+.select_group select, .number_group input {
+    margin-bottom: 1rem;
+}
+
 .form_group button {
     width: 100%;
     border: none;
@@ -71,7 +89,7 @@
 }
 
 .form_group textarea {
-    height: 15rem;
+    height: 10rem;
     padding: 1rem;
     text-align: left;
     width: 100%;
