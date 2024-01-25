@@ -6,7 +6,7 @@ import OpenAnalysisMenu from '@/app/components/navigation/menus/openanalysis-men
 import Footer from '@/app/components/navigation/footer';
 import { CardOpenContext } from '@/app/context/card-context';
 import { useContext, useState } from 'react';
-import MenuForm from '../components/menu-form';
+import MenuForm from '../components/form/menu-form';
 import { CardState } from '@/app/types/types';
 
 const MenuSearch = (): JSX.Element => {

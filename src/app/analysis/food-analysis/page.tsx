@@ -6,7 +6,7 @@ import OpenAnalysisMenu from '@/app/components/navigation/menus/openanalysis-men
 import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
 import { CardOpenContext } from '@/app/context/card-context';
 import Footer from '@/app/components/navigation/footer';
-import FoodSearch from '../components/food-search';
+import FoodSearch from '../components/serach/food-search';
 import { CardState } from '@/app/types/types';
 
 interface FoodAnalysisProps {
