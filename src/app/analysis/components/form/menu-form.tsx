@@ -27,6 +27,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const [error, setError] = useState<string | null>();
     const { user } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
+    const [inputsnumber, setInputsnumber] = useState<number>(0);
 
     useEffect(() => {
         if(!user) {
@@ -127,9 +128,9 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             <textarea id="menu-ingredients" name="menu-ingredients" required
                             placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
                         </div>
-                        <RecipeSelect recipes={recipeList}/>
+                        <RecipeSelect recipes={recipeList} inputs={inputsnumber}/>
                         <div className={styles.form_group}>
-                            <button type="button" className={styles.add_button}>Add Recipe</button>
+                            <button type="button" className={styles.add_button} onClick={() => setInputsnumber(inputsnumber + 1)}>Add Recipe</button>
                         </div>
                         <div className={styles.form_group}>
                             <button type="submit">Analyze</button>
@@ -144,113 +145,38 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 export default MenuForm
 
 interface RecipeSelectProps {
-    recipes: JSX.Element[]
+    recipes: JSX.Element[],
+    inputs: number
 }
 
-const RecipeSelect = ({ recipes }: RecipeSelectProps) => {
+const RecipeSelect = ({ recipes, inputs }: RecipeSelectProps) => {
+
+    const SelectInputs = () => {
+        let selectInputs = [];
+        for(let i = 0; i < inputs; i++) {
+            selectInputs.push(<select name="recipe" 
+            id="recipe" key={i}>{recipes}</select>)
+        }
+        return selectInputs;
+    }
+
+    const NumberInputs = () => {
+        let numberInputs = [];
+        for(let i = 0; i < inputs; i++) {
+            numberInputs.push( <input type="number" id="servings" name="servings" required min={1} key={i}/>)
+        }
+        return numberInputs;
+    }
+
     return (<>
         <div className={styles.short_inputs_group}>
             <div className={styles.select_group}>
                 <label htmlFor="recipes">Recipes</label>
-                <select 
-                    name="recipe" 
-                    id="recipe" 
-                    // value={recipeList[0]} 
-                    // onChange={(e) => handleOptionChange(e)}
-                >
-                    {recipes}
-                </select>
-                <select 
-                    name="recipe" 
-                    id="recipe" 
-                    // value={recipeList[0]} 
-                    // onChange={(e) => handleOptionChange(e)}
-                >
-                    {recipes}
-                </select>
-                <select 
-                    name="recipe" 
-                    id="recipe" 
-                    // value={recipeList[0]} 
-                    // onChange={(e) => handleOptionChange(e)}
-                >
-                    {recipes}
-                </select>
-                <select 
-                    name="recipe" 
-                    id="recipe" 
-                    // value={recipeList[0]} 
-                    // onChange={(e) => handleOptionChange(e)}
-                >
-                    {recipes}
-                </select>
-                <select 
-                    name="recipe" 
-                    id="recipe" 
-                    // value={recipeList[0]} 
-                    // onChange={(e) => handleOptionChange(e)}
-                >
-                    {recipes}
-                </select>
-                <select 
-                    name="recipe" 
-                    id="recipe" 
-                    // value={recipeList[0]} 
-                    // onChange={(e) => handleOptionChange(e)}
-                >
-                    {recipes}
-                </select>
-                <select 
-                    name="recipe" 
-                    id="recipe" 
-                    // value={recipeList[0]} 
-                    // onChange={(e) => handleOptionChange(e)}
-                >
-                    {recipes}
-                </select>
-                <select 
-                    name="recipe" 
-                    id="recipe" 
-                    // value={recipeList[0]} 
-                    // onChange={(e) => handleOptionChange(e)}
-                >
-                    {recipes}
-                </select>
+                {SelectInputs()}
             </div>
             <div className={styles.number_group}>
                 <label htmlFor="servings">Servings</label>
-                <input type="number" id="servings" name="servings" required min={1}
-                // value={1} 
-                //  onInput={e => handleServings(e)}
-                />
-                <input type="number" id="servings" name="servings" required min={1}
-                // value={1} 
-                //  onInput={e => handleServings(e)}
-                />
-                <input type="number" id="servings" name="servings" required min={1}
-                // value={1} 
-                //  onInput={e => handleServings(e)}
-                />
-                <input type="number" id="servings" name="servings" required min={1}
-                // value={1} 
-                //  onInput={e => handleServings(e)}
-                />
-                <input type="number" id="servings" name="servings" required min={1}
-                // value={1} 
-                //  onInput={e => handleServings(e)}
-                />
-                <input type="number" id="servings" name="servings" required min={1}
-                // value={1} 
-                //  onInput={e => handleServings(e)}
-                />
-                <input type="number" id="servings" name="servings" required min={1}
-                // value={1} 
-                //  onInput={e => handleServings(e)}
-                />
-                <input type="number" id="servings" name="servings" required min={1}
-                // value={1} 
-                //  onInput={e => handleServings(e)}
-                />
+                {NumberInputs()}
             </div>
         </div>
     </>)
