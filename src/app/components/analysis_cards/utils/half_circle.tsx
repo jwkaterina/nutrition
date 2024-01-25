@@ -1,7 +1,6 @@
 import { Nutrient } from '@/app/types/types';
 import styles from './utils.module.css'
-import { useContext, useEffect, useRef } from 'react'
-import { CurrentRecipeContext } from '@/app/context/recipe-context';
+import { useEffect, useRef } from 'react'
 
 interface HalfCircleProps {
     nutrient: Nutrient;
@@ -16,11 +15,6 @@ interface HalfCircleProps {
 }
 
 const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, strokeWidth, centerX, centerY }: HalfCircleProps): JSX.Element => {
-
-    const currentRecipe = useContext(CurrentRecipeContext);
-    const recipe = currentRecipe.currentRecipe.recipe;
-    let servings: number = 1;
-    if(recipe) servings = recipe.servings;
 
     let unit: string = '';
     if(nutrient) unit = nutrient.unit;
@@ -41,7 +35,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
             if(!daily || daily.quantity == 0) {
                 return circumreference
             } else if(daily.quantity <=100 ) {
-                return circumreference - ((daily.quantity / servings) / 100 * circumreference / 2) 
+                return circumreference - (daily.quantity / 100 * circumreference / 2) 
             } else {
                 return circumreference / 2
             }
@@ -99,7 +93,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
             </div>
             <div className={styles.text}>
                 <p style={styleText()}>
-                    <span style={styleText()}>{`${(nutrient.quantity / servings).toFixed(0)}${unit} `}</span>
+                    <span style={styleText()}>{`${nutrient.quantity.toFixed(0)}${unit} `}</span>
                     {text}
                 </p>
             </div>

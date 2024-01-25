@@ -1,5 +1,6 @@
 import styles from '../card.module.css'
-import { Recipe } from '@/app/types/types'
+import { useEffect, useState } from 'react'
+import { Nutrients, NutrientsProp, Recipe } from '@/app/types/types'
 import RecipeHeaderCard from './header-recipecard'
 import DailyValueCard from '../../analysis_cards/dailyvalue_card'
 import CompositionCard from '../../analysis_cards/composition_card'
@@ -14,6 +15,8 @@ interface OpenRecipeCardProps {
 
 const OpenRecipeCard  = ({ recipe }: OpenRecipeCardProps): JSX.Element => {
 
+    const [content, setContent] = useState<Nutrients | null>(null);
+
     const weight: number = recipe.nutrients.totalWeight;
     const devideBy: number = weight / 100;
 
@@ -21,19 +24,54 @@ const OpenRecipeCard  = ({ recipe }: OpenRecipeCardProps): JSX.Element => {
     const carbsPer100gram: number = recipe.nutrients.totalNutrients.CHOCDF.quantity / devideBy;
     const fatPer100gram: number = recipe.nutrients.totalNutrients.FAT.quantity / devideBy;
 
+    useEffect(() => {
+        const calories: number = recipe.nutrients.calories;
+        const totalNutrients: NutrientsProp = recipe.nutrients.totalNutrients;
+        const totalDaily: NutrientsProp = recipe.nutrients.totalDaily;
+        const totalWeight: number = recipe.nutrients.totalWeight;
+        const servings: number = recipe.servings;
+
+        const newCalories: number = calories / servings;
+        const newTotalNutrients: NutrientsProp = Object.fromEntries(
+              Object.entries(totalNutrients).map(([key, value]) => [key, {
+                label: value.label,
+                quantity: value.quantity / servings,
+                unit: value.unit
+            }])
+        );
+        
+        const newTotalDaily: NutrientsProp = Object.fromEntries(
+            Object.entries(totalDaily).map(([key, value]) => [key, {
+                label: value.label,
+                quantity: value.quantity / servings,
+                unit: value.unit
+            }])
+        );
+        
+        const newTotalWeight: number = totalWeight / servings;
+
+        setContent({
+            calories: newCalories,
+            totalNutrients: newTotalNutrients,
+            totalDaily: newTotalDaily,
+            totalWeight: newTotalWeight
+        });  
+    }, [])
+
+        
     return (
         <div className={styles.card_grid}>
             <RecipeHeaderCard recipe={recipe} />
-            {recipe && <DailyValueCard content={recipe.nutrients} />}
+            {content && <DailyValueCard content={content} />}
             <CompositionCard 
                 protein={proteinPer100gram}
                 carbs={carbsPer100gram}
                 fat={fatPer100gram}
             />
-            {recipe && <BigNutrientsCard content={recipe.nutrients} />}
-            {recipe && <VitaminsCard content={recipe.nutrients} />}
-            {recipe && <MineralsCard content={recipe.nutrients} />}
-            {recipe && <FatsCard content={recipe.nutrients} />}
+            {content && <BigNutrientsCard content={content} />}
+            {content && <VitaminsCard content={content} />}
+            {content && <MineralsCard content={content} />}
+            {content && <FatsCard content={content} />}
         </div>
     )
 }

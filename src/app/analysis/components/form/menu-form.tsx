@@ -22,7 +22,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const [recipeList, setRecipeList] = useState<JSX.Element[]>([]);
     const [name, setName] = useState<string>('');
     const [ingredients, setIngredients] = useState<string>('');
-    const [recipes, setRecipes] = useState<string>('');
+    // const [recipes, setRecipes] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>();
     const { user } = useContext(AuthContext);
@@ -101,9 +101,9 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         setIngredients(e.currentTarget.value);
     }
 
-    const handleRecipesInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
-        setRecipes(e.currentTarget.value);
-    }
+    // const handleRecipesInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+    //     setRecipes(e.currentTarget.value);
+    // }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
         <div className={styles.card_container}>

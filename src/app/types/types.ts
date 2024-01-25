@@ -51,7 +51,7 @@ export type LoadedRecipe = {
 
 export type LoadedMenu = {
     creator: string,
-    menu: Menu,
+    menu: MenuProp,
     id: string
 }
 
@@ -61,39 +61,43 @@ export type Nutrient = {
     unit: string
 }
 
-export type NutrientsProp = {
-    CA: Nutrient,
-    CHOCDF: Nutrient,
-    CHOLE: Nutrient,
-    ENERC_KCAL: Nutrient,
-    FAMS: Nutrient,
-    FAPU: Nutrient,
-    FASAT: Nutrient,
-    FAT: Nutrient,
-    FATRN: Nutrient,
-    FE: Nutrient,
-    FIBTG: Nutrient,
-    FOLAC: Nutrient,
-    FOLDFE: Nutrient,
-    FOLFD: Nutrient,
-    K: Nutrient,
-    MG: Nutrient,
-    NA: Nutrient,
-    NIA: Nutrient,
-    P: Nutrient,
-    PROCNT: Nutrient,
-    RIBF: Nutrient,
-    SUGAR: Nutrient,
-    THIA: Nutrient,
-    TOCPHA: Nutrient,
-    VITA_RAE: Nutrient,
-    VITB12: Nutrient,
-    VITB6A: Nutrient,
-    VITC: Nutrient,
-    VITD: Nutrient,
-    VITK1: Nutrient,
-    WATER: Nutrient,
-    ZN: Nutrient
+// export type NutrientsProp = {
+//     CA: Nutrient,
+//     CHOCDF: Nutrient,
+//     CHOLE: Nutrient,
+//     ENERC_KCAL: Nutrient,
+//     FAMS: Nutrient,
+//     FAPU: Nutrient,
+//     FASAT: Nutrient,
+//     FAT: Nutrient,
+//     FATRN: Nutrient,
+//     FE: Nutrient,
+//     FIBTG: Nutrient,
+//     FOLAC: Nutrient,
+//     FOLDFE: Nutrient,
+//     FOLFD: Nutrient,
+//     K: Nutrient,
+//     MG: Nutrient,
+//     NA: Nutrient,
+//     NIA: Nutrient,
+//     P: Nutrient,
+//     PROCNT: Nutrient,
+//     RIBF: Nutrient,
+//     SUGAR: Nutrient,
+//     THIA: Nutrient,
+//     TOCPHA: Nutrient,
+//     VITA_RAE: Nutrient,
+//     VITB12: Nutrient,
+//     VITB6A: Nutrient,
+//     VITC: Nutrient,
+//     VITD: Nutrient,
+//     VITK1: Nutrient,
+//     WATER: Nutrient,
+//     ZN: Nutrient
+// }
+
+export interface NutrientsProp {
+    [key: string]: Nutrient
 }
 
 export interface Nutrients {

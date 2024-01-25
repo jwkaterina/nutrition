@@ -1,7 +1,6 @@
 import styles from './utils.module.css';
 import { Nutrient } from '@/app/types/types';
-import { useEffect, useRef, useContext } from 'react';
-import { CurrentRecipeContext } from '@/app/context/recipe-context';
+import { useEffect, useRef } from 'react';
 
 interface BarRowProps {
     nutrient: Nutrient;
@@ -11,11 +10,6 @@ interface BarRowProps {
 }
 
 const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => {
-
-    const currentRecipe = useContext(CurrentRecipeContext);
-    const recipe = currentRecipe.currentRecipe.recipe;
-    let servings: number = 1;
-    if(recipe) servings = recipe.servings;
 
     const lineRef = useRef<SVGLineElement>(null);
     const length: number = 70;
@@ -32,7 +26,7 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
             if(!daily || daily.quantity == 0) {
                 return length
             } else if(daily.quantity <=100 ) {
-                return length - (daily.quantity/ servings / 100 * length) 
+                return length - (daily.quantity / 100 * length) 
             } else {
                 return 0
             }
@@ -68,12 +62,12 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
     return (
         <div className={styles.bar_row}>
             <p>{title}</p>
-            <span>{`${(nutrient.quantity / servings).toFixed(0)}${nutrient.unit}`}</span>
+            <span>{`${nutrient.quantity.toFixed(0)}${nutrient.unit}`}</span>
             <svg width='90px' height='40px'>
                 <line x1="10" y1="20" x2="80" y2="20" stroke="var(--gray-light)" strokeWidth="6" strokeLinecap="round" style={styleLine()}/> 
                 <line x1="10" y1="20" x2="80" y2="20" stroke={color} strokeWidth="6" strokeLinecap="round" style={styleProgress()} ref={lineRef}/> 
             </svg>
-            {daily && <span>{`${(daily.quantity / servings).toFixed(0)}${daily.unit}`}</span>}
+            {daily && <span>{`${daily.quantity.toFixed(0)}${daily.unit}`}</span>}
         </div>
     )
 }
