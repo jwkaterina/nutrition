@@ -105,7 +105,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
-        <div style={{height: 'calc(100vh - var(--header-height))', overflow: 'hidden'}}>
+        <div style={{height: 'var(--container-height)', overflow: 'hidden'}}>
             <MenuCard menu={currentMenu.menu} index={0} id={null} open={true}/>
         </div>
     )

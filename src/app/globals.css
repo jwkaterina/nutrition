@@ -24,6 +24,7 @@
   --blue-gray: #ECEFF1;
 
   --header-height: 60px;
+  --container-height: calc(100vh - 2 * var(--header-height));
 }
 
 * {

@@ -24,7 +24,7 @@ const MenuSearch = (): JSX.Element => {
 				}
 			</NavBar>
 			<MenuForm searchCleared={clearSearch} setClearSearch={setClearSearch}/>
-			{cardOpen != CardState.OPEN && <Footer color={secondaryColor} />}
+			<Footer color={secondaryColor} />
 		</>  )
 }
 

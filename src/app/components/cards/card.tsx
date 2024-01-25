@@ -47,7 +47,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
 
     const keyframes: Keyframe[] = [
         { top: 0, left: 0, width: '100%', height: `${cardHeight}px`, zIndex: 1 },
-        { top: `${top}rem`, left: `${left}rem`, width: '100vw', height: `calc(100vh - ${headerHeight}px)`, zIndex: 2, transform: `translate(${translateX}px, ${translateY}px)`},
+        { top: `${top}rem`, left: `${left}rem`, width: '100vw', height: `calc(100vh - 2 * ${headerHeight}px)`, zIndex: 2, transform: `translate(${translateX}px, ${translateY}px)`},
     ];
 
     const keyframesReverse: Keyframe[] = [
@@ -75,7 +75,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
     const style = () => {
         if(isOpen) {
             return {
-                height: '100vh',
+                height: '100%',
                 width: '100vw'
             }
         }

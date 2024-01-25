@@ -28,7 +28,7 @@ const RecipeAnalysis = ({ }: RecipeAnalysisProps): JSX.Element => {
 				}
 			</NavBar>
 			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch}/>
-			{cardOpen != CardState.OPEN && <Footer color={secondaryColor} />}
+			<Footer color={secondaryColor} />
 		</>  )
 }
 

@@ -28,7 +28,7 @@ const FoodAnalysis = ({ }: FoodAnalysisProps): JSX.Element => {
 			}
 		</NavBar>
 		<FoodSearch searchCleared={clearSearch} setClearSearch={setClearSearch}/>
-		{cardOpen != CardState.OPEN && <Footer color={secondaryColor} />}
+		<Footer color={secondaryColor} />
 	</>)
 }
 

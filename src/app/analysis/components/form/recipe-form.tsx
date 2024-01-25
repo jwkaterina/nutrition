@@ -84,7 +84,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
     }
 
     if(currentRecipe.recipe && cardOpen == CardState.OPEN) return (
-        <div style={{height: 'calc(100vh - var(--header-height))', overflow: 'hidden'}}>
+        <div style={{height: 'var(--container-height)', overflow: 'hidden'}}>
             <RecipeCard recipe={currentRecipe.recipe} index={0} id={null} open={true}/>
         </div> 
     )
