@@ -3,6 +3,11 @@
     overflow: auto;
 }
 
+.card_container {
+    height: var(--container-height);
+    overflow: hidden;
+}
+
 .form_container {
     margin-top: 2rem;
     display: flex;
