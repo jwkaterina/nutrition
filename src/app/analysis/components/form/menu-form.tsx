@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, useRef } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, LoadedRecipe, Recipe } from '@/app/types/types';
+import { CardState, LoadedRecipe, RecipeWithServings } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
@@ -17,10 +17,6 @@ interface MenuFormProps {
 
 const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element => {
 
-    interface RecipeWithServings {
-        selectedRecipe: Recipe,
-        selectedServings: number
-    }
 
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
@@ -34,10 +30,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const { user } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [inputsnumber, setInputsnumber] = useState<number>(0);
-
-
-    const [submitted, setSubmitted] = useState<boolean>(false);
-
 
     useEffect(() => {
         if(!user) {
@@ -70,22 +62,20 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         setName('');
         setIngredients('');
         setClearSearch(false);
+        setInputsnumber(0);
     }, [searchCleared]);
 
     useEffect(() => {
         if(currentMenu.menu) {
             setName(currentMenu.menu.name);
             setIngredients(currentMenu.menu.ingredients.join('\n'));
+            // setInputsnumber(currentMenu.menu.recipes.length);
+            // setRecipes(currentMenu.menu.recipes);
         }
     }, [currentMenu]);
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        setSubmitted(true);
-        if(!recipesReady) {
-            return;
-        }
 
         setIsLoading(true);
         try {
@@ -143,7 +133,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             <textarea id="menu-ingredients" name="menu-ingredients" required
                             placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
                         </div>
-                        <RecipeSelect recipeSelect={recipeSelect} inputs={inputsnumber} loadedRecipes={loadedRecipes} submitted={submitted} setRecipes={setRecipes}/>
+                        <RecipeSelect recipeSelect={recipeSelect} inputs={inputsnumber} loadedRecipes={loadedRecipes} setRecipes={setRecipes}/>
                         <div className={styles.form_group}>
                             <button type="button" className={styles.add_button} onClick={() => setInputsnumber(inputsnumber + 1)}>Add Recipe</button>
                         </div>
@@ -163,20 +153,17 @@ interface RecipeSelectProps {
     recipeSelect: JSX.Element[],
     inputs: number,
     loadedRecipes: LoadedRecipe[],
-    submitted: boolean,
     setRecipes: (recipes: RecipeWithServings[]) => void
 }
 
-const RecipeSelect = ({ recipeSelect, inputs, loadedRecipes, submitted, setRecipes }: RecipeSelectProps) => {
+const RecipeSelect = ({ recipeSelect, inputs, loadedRecipes, setRecipes }: RecipeSelectProps) => {
 
     let servings: HTMLInputElement[] = [];
     let selects: HTMLSelectElement[] = [];
+    const [inputChanged, setInputChanged] = useState<boolean>(false);
 
 
     useEffect(() => {
-        if(!submitted) {
-            return;
-        }
         const selectedRecipes: any[] = [];
         
         selects.forEach((select) => {
@@ -192,13 +179,14 @@ const RecipeSelect = ({ recipeSelect, inputs, loadedRecipes, submitted, setRecip
             selectedRecipes[index].selectedServings = parseInt((serving as HTMLInputElement).value);
         });
         setRecipes(selectedRecipes);
-    }, [submitted ]);
+        setInputChanged(false);
+    }, [inputChanged, inputs]);
 
     const SelectInputs = () => {
         let selectInputs = [];
         for(let i = 0; i < inputs; i++) {
             selectInputs.push(<select name="recipe" 
-            id="recipe" key={i} ref={(element) => selects.push(element!)}>{recipeSelect}</select>)
+            id="recipe" key={i} ref={(element) => selects.push(element!)} onChange={() => setInputChanged(true)}>{recipeSelect}</select>)
         }
         return selectInputs;
     }
@@ -206,7 +194,7 @@ const RecipeSelect = ({ recipeSelect, inputs, loadedRecipes, submitted, setRecip
     const NumberInputs = () => {
         let numberInputs = [];
         for(let i = 0; i < inputs; i++) {
-            numberInputs.push( <input type="number" id="servings" name="servings" required min={1} key={i} ref={(element) => servings.push(element!)}/>)
+            numberInputs.push( <input type="number" id="servings" name="servings" required min={1} key={i} ref={(element) => servings.push(element!)} onChange={() => setInputChanged(true)}/>)
         }
         return numberInputs;
     }

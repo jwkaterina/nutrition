@@ -119,4 +119,10 @@ export interface MenuProp {
     name: string,
     ingredients: string[],
     nutrients: Nutrients,
+    recipes: RecipeWithServings[]
+}
+
+export interface RecipeWithServings {
+    selectedRecipe: Recipe,
+    selectedServings: number
 }
