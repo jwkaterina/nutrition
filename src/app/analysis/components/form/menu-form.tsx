@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useRef } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, LoadedRecipe } from '@/app/types/types';
+import { CardState, LoadedRecipe, Recipe } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
@@ -17,17 +17,27 @@ interface MenuFormProps {
 
 const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element => {
 
+    interface RecipeWithServings {
+        selectedRecipe: Recipe,
+        selectedServings: number
+    }
+
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
-    const [recipeList, setRecipeList] = useState<JSX.Element[]>([]);
+    const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
+    const [recipeSelect, setRecipeSelect] = useState<JSX.Element[]>([]);
     const [name, setName] = useState<string>('');
     const [ingredients, setIngredients] = useState<string>('');
-    // const [recipes, setRecipes] = useState<string>('');
+    const [recipes, setRecipes] = useState<RecipeWithServings[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>();
     const { user } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [inputsnumber, setInputsnumber] = useState<number>(0);
+
+
+    const [submitted, setSubmitted] = useState<boolean>(false);
+
 
     useEffect(() => {
         if(!user) {
@@ -38,12 +48,13 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                 const responseData = await sendRequest(
                     `http://localhost:5001/recipes/user/${user}`
                 );
-                const recipeList = responseData.recipe.map((recipe: LoadedRecipe, index: number) => {
+                const loadedRecipes = responseData.recipe.map((recipe: LoadedRecipe, index: number) => {
                     return (
-                        <option key={index} value={recipe.recipe.name} id={recipe.recipe.name}>{recipe.recipe.name}</option>
+                        <option key={index} value={recipe.recipe.name} id={recipe.id}>{recipe.recipe.name}</option>
                     )
                 })
-                setRecipeList(recipeList);
+                setRecipeSelect(loadedRecipes);
+                setLoadedRecipes(responseData.recipe);
             } catch (err) {}
         };
         fetchRecipes();
@@ -71,6 +82,11 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        setSubmitted(true);
+        if(!recipesReady) {
+            return;
+        }
+
         setIsLoading(true);
         try {
             const nutrients = await analyseRecipe(ingredients.split('\n'));
@@ -79,8 +95,10 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             const newMenu = {
                 name,
                 nutrients,
-                ingredients: ingredients.split('\n')
+                ingredients: ingredients.split('\n'),
+                recipes: recipes!
             };
+            console.log(newMenu);
             setCardOpen(CardState.OPEN);
             setCurrentMenu({
                 menu: newMenu,
@@ -90,7 +108,8 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         catch(error) {
             setError('Could not analyse menu. Ensure that all ingredients are spelled correctly and try again.');
             setIsLoading(false);
-            throw error;        }
+            throw error;        
+        }
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -100,10 +119,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const handleIngredientsInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
         setIngredients(e.currentTarget.value);
     }
-
-    // const handleRecipesInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    //     setRecipes(e.currentTarget.value);
-    // }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
         <div className={styles.card_container}>
@@ -128,7 +143,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             <textarea id="menu-ingredients" name="menu-ingredients" required
                             placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
                         </div>
-                        <RecipeSelect recipes={recipeList} inputs={inputsnumber}/>
+                        <RecipeSelect recipeSelect={recipeSelect} inputs={inputsnumber} loadedRecipes={loadedRecipes} submitted={submitted} setRecipes={setRecipes}/>
                         <div className={styles.form_group}>
                             <button type="button" className={styles.add_button} onClick={() => setInputsnumber(inputsnumber + 1)}>Add Recipe</button>
                         </div>
@@ -145,17 +160,45 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 export default MenuForm
 
 interface RecipeSelectProps {
-    recipes: JSX.Element[],
-    inputs: number
+    recipeSelect: JSX.Element[],
+    inputs: number,
+    loadedRecipes: LoadedRecipe[],
+    submitted: boolean,
+    setRecipes: (recipes: RecipeWithServings[]) => void
 }
 
-const RecipeSelect = ({ recipes, inputs }: RecipeSelectProps) => {
+const RecipeSelect = ({ recipeSelect, inputs, loadedRecipes, submitted, setRecipes }: RecipeSelectProps) => {
+
+    let servings: HTMLInputElement[] = [];
+    let selects: HTMLSelectElement[] = [];
+
+
+    useEffect(() => {
+        if(!submitted) {
+            return;
+        }
+        const selectedRecipes: any[] = [];
+        
+        selects.forEach((select) => {
+            const id = select.children[select.selectedIndex].id;
+            const newRecipe = loadedRecipes.find(recipe => recipe.id === id)!.recipe;
+            const recipeWithServings = {
+                selectedRecipe: newRecipe,
+                selectedServings: 0 // Initialize with 0, will be updated in the next loop
+            };
+            selectedRecipes.push(recipeWithServings);
+        });
+        servings.forEach((serving, index) => {
+            selectedRecipes[index].selectedServings = parseInt((serving as HTMLInputElement).value);
+        });
+        setRecipes(selectedRecipes);
+    }, [submitted ]);
 
     const SelectInputs = () => {
         let selectInputs = [];
         for(let i = 0; i < inputs; i++) {
             selectInputs.push(<select name="recipe" 
-            id="recipe" key={i}>{recipes}</select>)
+            id="recipe" key={i} ref={(element) => selects.push(element!)}>{recipeSelect}</select>)
         }
         return selectInputs;
     }
@@ -163,12 +206,12 @@ const RecipeSelect = ({ recipes, inputs }: RecipeSelectProps) => {
     const NumberInputs = () => {
         let numberInputs = [];
         for(let i = 0; i < inputs; i++) {
-            numberInputs.push( <input type="number" id="servings" name="servings" required min={1} key={i}/>)
+            numberInputs.push( <input type="number" id="servings" name="servings" required min={1} key={i} ref={(element) => servings.push(element!)}/>)
         }
         return numberInputs;
     }
 
-    return (<>
+    return (
         <div className={styles.short_inputs_group}>
             <div className={styles.select_group}>
                 <label htmlFor="recipes">Recipes</label>
@@ -179,6 +222,6 @@ const RecipeSelect = ({ recipes, inputs }: RecipeSelectProps) => {
                 {NumberInputs()}
             </div>
         </div>
-    </>)
+    )
 }
 
