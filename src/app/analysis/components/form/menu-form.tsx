@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState, useRef } from 'react'
+import { useContext, useEffect, useState, useRef, use } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, LoadedRecipe, RecipeWithServings } from '@/app/types/types';
+import { CardState, LoadedRecipe, RecipeWithServings, Recipe } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
@@ -24,7 +24,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const [recipeSelect, setRecipeSelect] = useState<JSX.Element[]>([]);
     const [name, setName] = useState<string>('');
     const [ingredients, setIngredients] = useState<string>('');
-    const [recipes, setRecipes] = useState<RecipeWithServings[] | null>(null);
+    const [recipes, setRecipes] = useState<RecipeWithServings[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>();
     const { user } = useContext(AuthContext);
@@ -69,7 +69,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         if(currentMenu.menu) {
             setName(currentMenu.menu.name);
             setIngredients(currentMenu.menu.ingredients.join('\n'));
-            // setInputsnumber(currentMenu.menu.recipes.length);
+            setInputsnumber(currentMenu.menu.recipes.length);
             // setRecipes(currentMenu.menu.recipes);
         }
     }, [currentMenu]);
@@ -86,9 +86,9 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                 name,
                 nutrients,
                 ingredients: ingredients.split('\n'),
-                recipes: recipes!
+                recipes: recipes
             };
-            console.log(newMenu);
+            // console.log(newMenu);
             setCardOpen(CardState.OPEN);
             setCurrentMenu({
                 menu: newMenu,
@@ -133,7 +133,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             <textarea id="menu-ingredients" name="menu-ingredients" required
                             placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
                         </div>
-                        <RecipeSelect recipeSelect={recipeSelect} inputs={inputsnumber} loadedRecipes={loadedRecipes} setRecipes={setRecipes}/>
+                        <RecipeSelect recipeSelect={recipeSelect} inputs={inputsnumber} loadedRecipes={loadedRecipes} setRecipes={setRecipes} currentMenu={currentMenu} recipes={recipes}/>
                         <div className={styles.form_group}>
                             <button type="button" className={styles.add_button} onClick={() => setInputsnumber(inputsnumber + 1)}>Add Recipe</button>
                         </div>
@@ -153,48 +153,89 @@ interface RecipeSelectProps {
     recipeSelect: JSX.Element[],
     inputs: number,
     loadedRecipes: LoadedRecipe[],
-    setRecipes: (recipes: RecipeWithServings[]) => void
+    setRecipes: (recipes: RecipeWithServings[]) => void,
+    currentMenu: {
+        menu: {
+            name: string,
+            nutrients: {
+                calories: number,
+                carbs: number,
+                fat: number,
+                protein: number
+            },
+            ingredients: string[],
+            recipes: RecipeWithServings[]
+        } | null,
+        id: string | null
+    },
+    recipes: RecipeWithServings[]
 }
 
-const RecipeSelect = ({ recipeSelect, inputs, loadedRecipes, setRecipes }: RecipeSelectProps) => {
+const RecipeSelect = ({ recipeSelect, inputs, loadedRecipes, recipes, setRecipes, currentMenu }: RecipeSelectProps) => {
 
-    let servings: HTMLInputElement[] = [];
-    let selects: HTMLSelectElement[] = [];
+    const [inputValues, setInputValues] = useState<number[]>([]);
+    const [selectValues, setSelectValues] = useState<Recipe[]>([]);
     const [inputChanged, setInputChanged] = useState<boolean>(false);
 
+    useEffect(() => {
+        if (loadedRecipes && loadedRecipes.length > 0) {
+            setInputValues(Array(inputs).fill(1));
+            setSelectValues(Array(inputs).fill(recipeSelect[0]));
+        }
+    }, [inputs, loadedRecipes]);
 
     useEffect(() => {
-        const selectedRecipes: any[] = [];
+        let selectedRecipes: RecipeWithServings[] = [];
         
-        selects.forEach((select) => {
-            const id = select.children[select.selectedIndex].id;
-            const newRecipe = loadedRecipes.find(recipe => recipe.id === id)!.recipe;
+        selectValues.forEach((selectValue) => {
             const recipeWithServings = {
-                selectedRecipe: newRecipe,
+                selectedRecipe: selectValue,
                 selectedServings: 0 // Initialize with 0, will be updated in the next loop
             };
             selectedRecipes.push(recipeWithServings);
         });
-        servings.forEach((serving, index) => {
-            selectedRecipes[index].selectedServings = parseInt((serving as HTMLInputElement).value);
+        inputValues.forEach((inputNumber, index) => {
+            selectedRecipes[index].selectedServings = inputNumber;
         });
         setRecipes(selectedRecipes);
         setInputChanged(false);
+        // console.log(selectedRecipes);
     }, [inputChanged, inputs]);
 
+    useEffect(() => {
+        if (currentMenu && recipes) {
+            setInputValues(recipes.map(recipe => recipe.selectedServings));
+            setSelectValues(recipes.map(recipe => recipe.selectedRecipe));
+            console.log(recipes);
+        }
+    }, [currentMenu]);
+
     const SelectInputs = () => {
+
+        const handleInputChange = (index: number, id: string) => {
+            const newValue = loadedRecipes.find(recipe => recipe.id === id)!.recipe;
+            setSelectValues(selectValues.map((value, i) => i === index ? newValue : value));
+            setInputChanged(true);
+        };
+
         let selectInputs = [];
         for(let i = 0; i < inputs; i++) {
-            selectInputs.push(<select name="recipe" 
-            id="recipe" key={i} ref={(element) => selects.push(element!)} onChange={() => setInputChanged(true)}>{recipeSelect}</select>)
+            selectInputs.push(<select name="recipe" value={selectValues[i]}
+            id="recipe" key={i} onChange={(e) => handleInputChange(i, e.target.options[e.target.selectedIndex].id)}>{recipeSelect}</select>)
         }
         return selectInputs;
     }
 
     const NumberInputs = () => {
+ 
+        const handleInputChange = (index: number, newValue: number) => {
+            setInputValues(inputValues.map((value, i) => i === index ? newValue : value));
+            setInputChanged(true);
+        };
+
         let numberInputs = [];
         for(let i = 0; i < inputs; i++) {
-            numberInputs.push( <input type="number" id="servings" name="servings" required min={1} key={i} ref={(element) => servings.push(element!)} onChange={() => setInputChanged(true)}/>)
+            numberInputs.push( <input type="number" id="servings" name="servings" value={inputValues[i]} required min={1} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
         }
         return numberInputs;
     }
