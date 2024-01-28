@@ -4,7 +4,7 @@ import { CardOpenContext } from '@/app/context/card-context';
 import { CardState, LoadedRecipe, RecipeWithServings, Recipe } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
-import { CurrentMenuContext } from '@/app/context/menu-context';
+import { CurrentMenuContext, CurrentMenu } from '@/app/context/menu-context';
 import { AuthContext } from '@/app/context/auth-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
 import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
@@ -37,6 +37,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         setIngredients('');
         setClearSearch(false);
         setInputsnumber(0);
+        setRecipes([]);
     }, [searchCleared]);
 
     useEffect(() => {
@@ -126,20 +127,7 @@ export default MenuForm
 interface RecipeSelectProps {
     inputs: number,
     setRecipes: (recipes: RecipeWithServings[]) => void,
-    currentMenu: {
-        menu: {
-            name: string,
-            nutrients: {
-                calories: number,
-                carbs: number,
-                fat: number,
-                protein: number
-            },
-            ingredients: string[],
-            recipes: RecipeWithServings[]
-        } | null,
-        id: string | null
-    },
+    currentMenu: CurrentMenu,
     recipes: RecipeWithServings[]
 }
 
@@ -148,7 +136,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes, currentMenu }: RecipeSelect
     const { user } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
-    const [recipeOptions, setRecipeOptions] = useState<JSX.Element[]>([]);
+    // const [recipeOptions, setRecipeOptions] = useState<JSX.Element[]>([]);
 
     useEffect(() => {
         if(!user) {
@@ -161,12 +149,12 @@ const RecipeSelect = ({ inputs, recipes, setRecipes, currentMenu }: RecipeSelect
                 );
                 setLoadedRecipes(responseData.recipe);
 
-                const options = responseData.recipe.map((recipe: LoadedRecipe, index: number) => {
-                    return (
-                        <option key={index} value={recipe.recipe.name} id={recipe.id}>{recipe.recipe.name}</option>
-                    )
-                })
-                setRecipeOptions(options);
+                // const options = responseData.recipe.map((recipe: LoadedRecipe, index: number) => {
+                //     return (
+                //         <option key={index} value={recipe.recipe.name} id={recipe.id}>{recipe.recipe.name}</option>
+                //     )
+                // })
+                // setRecipeOptions(options);
             } catch (err) {}
         };
         fetchRecipes();
@@ -184,7 +172,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes, currentMenu }: RecipeSelect
 
     useEffect(() => {
         if (currentMenu.menu) {
-            setRecipes(recipes);
+            setRecipes(currentMenu.menu.recipes);
         }
     }, [currentMenu]);
 
@@ -198,10 +186,17 @@ const RecipeSelect = ({ inputs, recipes, setRecipes, currentMenu }: RecipeSelect
             } : recipe));
         };
 
+      
+
         let selectInputs = [];
         for(let i = 0; i < inputs; i++) {
+            const options = loadedRecipes.map((recipe: LoadedRecipe, index: number) => {
+                return (
+                    <option key={index} value={recipe.recipe.name} selected={recipes[i] && recipe.recipe.name == recipes[i].selectedRecipe.name} id={recipe.id}>{recipe.recipe.name}</option>
+                )
+            });
             selectInputs.push(<select name="recipe"
-            id="recipe" key={i} onChange={(e) => handleInputChange(i, e.target.options[e.target.selectedIndex].id)}>{recipeOptions}</select>)
+            id="recipe" key={i} onChange={(e) => handleInputChange(i, e.target.options[e.target.selectedIndex].id)}>{options}</select>)
         }
         return selectInputs;
     }
@@ -217,7 +212,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes, currentMenu }: RecipeSelect
 
         let numberInputs = [];
         for(let i = 0; i < inputs; i++) {
-            numberInputs.push( <input type="number" id="servings" name="servings" required min={1} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
+            numberInputs.push( <input type="number" id="servings" name="servings" value={recipes[i] && recipes[i].selectedServings} required min={1} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
         }
         return numberInputs;
     }

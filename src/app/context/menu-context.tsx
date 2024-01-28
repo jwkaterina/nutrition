@@ -1,7 +1,7 @@
 import { createContext, useState, useMemo } from 'react';
 import { MenuProp } from '@/app/types/types';
 
-interface CurrentMenu  {
+export interface CurrentMenu  {
     menu: MenuProp | null,
     id: string | null
 }
