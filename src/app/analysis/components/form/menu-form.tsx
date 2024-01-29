@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState, useRef, use } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, LoadedRecipe, RecipeWithServings, Recipe } from '@/app/types/types';
+import { CardState, LoadedRecipe, RecipeWithServings } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
-import { CurrentMenuContext, CurrentMenu } from '@/app/context/menu-context';
+import { CurrentMenuContext } from '@/app/context/menu-context';
 import { AuthContext } from '@/app/context/auth-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
 import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
@@ -108,7 +108,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             <textarea id="menu-ingredients" name="menu-ingredients" required
                             placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
                         </div>
-                        <RecipeSelect inputs={inputsnumber} setRecipes={setRecipes} currentMenu={currentMenu} recipes={recipes}/>
+                        <RecipeSelect inputs={inputsnumber} setRecipes={setRecipes} recipes={recipes}/>
                         <div className={styles.form_group}>
                             <button type="button" className={styles.add_button} onClick={() => setInputsnumber(inputsnumber + 1)}>Add Recipe</button>
                         </div>
@@ -127,16 +127,14 @@ export default MenuForm
 interface RecipeSelectProps {
     inputs: number,
     setRecipes: (recipes: RecipeWithServings[]) => void,
-    currentMenu: CurrentMenu,
     recipes: RecipeWithServings[]
 }
 
-const RecipeSelect = ({ inputs, recipes, setRecipes, currentMenu }: RecipeSelectProps) => {
+const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
 
     const { user } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
-    // const [recipeOptions, setRecipeOptions] = useState<JSX.Element[]>([]);
 
     useEffect(() => {
         if(!user) {
@@ -148,33 +146,23 @@ const RecipeSelect = ({ inputs, recipes, setRecipes, currentMenu }: RecipeSelect
                     `http://localhost:5001/recipes/user/${user}`
                 );
                 setLoadedRecipes(responseData.recipe);
-
-                // const options = responseData.recipe.map((recipe: LoadedRecipe, index: number) => {
-                //     return (
-                //         <option key={index} value={recipe.recipe.name} id={recipe.id}>{recipe.recipe.name}</option>
-                //     )
-                // })
-                // setRecipeOptions(options);
             } catch (err) {}
         };
         fetchRecipes();
     }, []);
 
     useEffect(() => {
-        if(currentMenu.menu) return;
         if (loadedRecipes && loadedRecipes.length > 0) {
-            setRecipes(Array(inputs).fill({
-                selectedRecipe: loadedRecipes[0].recipe,
-                selectedServings: 0
-            }));
+            if (inputs > recipes.length) {
+                const newRecipes: RecipeWithServings[] = Array(inputs - recipes.length).fill({
+                    selectedRecipe: loadedRecipes[0].recipe,
+                    selectedServings: 1
+                });
+                const newRecipesArray: RecipeWithServings[] = [...recipes, ...newRecipes];
+                setRecipes(newRecipesArray);
+            }
         }
-    }, [inputs, loadedRecipes]);
-
-    useEffect(() => {
-        if (currentMenu.menu) {
-            setRecipes(currentMenu.menu.recipes);
-        }
-    }, [currentMenu]);
+    }, [inputs, loadedRecipes, recipes.length]);
 
     const SelectInputs = () => {
 
@@ -185,8 +173,6 @@ const RecipeSelect = ({ inputs, recipes, setRecipes, currentMenu }: RecipeSelect
                 selectedServings: recipe.selectedServings
             } : recipe));
         };
-
-      
 
         let selectInputs = [];
         for(let i = 0; i < inputs; i++) {
