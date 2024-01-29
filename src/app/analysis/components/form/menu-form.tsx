@@ -53,7 +53,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
         setIsLoading(true);
         try {
-            // const nutrients = await analyseRecipe(ingredients.split('\n'));
+            const nutrients = await analyseRecipe(ingredients.split('\n'));
             setIsLoading(false);
 
             const newMenu = {
@@ -86,7 +86,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
         <div className={styles.card_container}>
-            {/* <MenuCard menu={currentMenu.menu} index={0} id={null} open={true}/> */}
+            <MenuCard menu={currentMenu.menu} index={0} id={null} open={true}/>
         </div>
     )
 
