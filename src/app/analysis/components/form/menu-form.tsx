@@ -58,7 +58,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
             const newMenu = {
                 name,
-                nutrients: [],
+                nutrients: nutrients,
                 ingredients: ingredients.split('\n'),
                 recipes: recipes
             };
