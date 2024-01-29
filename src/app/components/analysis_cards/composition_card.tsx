@@ -1,5 +1,4 @@
 import styles from './alanysis_card.module.css';
-import { Nutrients, NutrientsProp, Nutrient } from '@/app/types/types';
 import Arc from './utils/arc';
 import SmallCircle from './utils/small_circle';
 

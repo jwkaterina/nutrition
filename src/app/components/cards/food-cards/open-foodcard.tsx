@@ -1,6 +1,6 @@
 import styles from '../card.module.css'
 import { findNutrients } from '@/app/services/fetch-data'
-import { Food, Nutrients, NutrientsProp } from '@/app/types/types'
+import { Food, Nutrients } from '@/app/types/types'
 import { useEffect, useState } from 'react'
 import FoodHeaderCard from './header-foodcard'
 import DailyValueCard from '../../analysis_cards/dailyvalue_card'
@@ -19,7 +19,6 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
     const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
 
     const [content, setContent] = useState<Nutrients | null>(null);
-    const [contentPercent, setContentPercent] = useState<NutrientsProp | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedOption, setSelectedOption] = useState<string>('Value pre 100g');
     const [measureUri, setMeasureUri] = useState<string>(food.measures[0].uri);
@@ -43,16 +42,6 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
 
     }, [quantity, selectedOption]);
 
-
-    useEffect(() => {
-
-        const fetchNutreintsPercent = async() => {
-            const nutrientsPercent = await findNutrients(food.food.foodId, gramUri, 100);
-            setContentPercent(nutrientsPercent.totalNutrients);
-        }
-        fetchNutreintsPercent();
-    }, [])
-
     return (
         <div className={styles.card_grid}>
             <FoodHeaderCard 
@@ -64,11 +53,11 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                 setQuantity={setQuantity}
             />
             {content && <DailyValueCard content={content} />}
-            {contentPercent && <CompositionCard 
-                protein={contentPercent.PROCNT.quantity}
-                carbs={contentPercent.CHOCDF.quantity}
-                fat={contentPercent.FAT.quantity} 
-            />}
+            <CompositionCard 
+                protein={food.food.nutrients.PROCNT}
+                carbs={food.food.nutrients.CHOCDF}
+                fat={food.food.nutrients.FAT} 
+            />
             {content && <BigNutrientsCard content={content} />}
             {content && <VitaminsCard content={content} />}
             {content && <MineralsCard content={content} />}
