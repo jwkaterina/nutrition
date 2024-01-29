@@ -26,11 +26,10 @@ const OpenRecipeCard  = ({ recipe }: OpenRecipeCardProps): JSX.Element => {
     const fatPer100gram: number = recipe.nutrients.totalNutrients.FAT.quantity / devideBy;
 
     useEffect(() => {
-        const recipeContent = RecipeNutrientsCalculator(recipe);
+        const recipeContent = RecipeNutrientsCalculator(recipe.nutrients, recipe.servings, 1);
         setContent(recipeContent);
     }, [])
 
-        
     return (
         <div className={styles.card_grid}>
             <RecipeHeaderCard recipe={recipe} />
