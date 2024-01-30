@@ -52,7 +52,11 @@ const menuSchema = new Schema({
             totalNutrients: { type: Nutrients, required: true },
             totalDaily: { type: Nutrients, required: true },
             totalWeight: { type: Number, required: true }
-        }
+        },
+        recipes: [{
+            selectedRecipe: { type: mongoose.Types.ObjectId, required: true, ref: 'Recipe' },
+            selectedServings: { type: Number, required: true },
+        }],
     },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User'}
 });

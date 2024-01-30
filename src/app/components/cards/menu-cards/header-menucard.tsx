@@ -1,8 +1,9 @@
 import styles from '../../analysis_cards/alanysis_card.module.css';
-import { Menu } from '@/app/types/types';
+import { MenuProp } from '@/app/types/types';
 
 interface MenuHeaderCardProps {
-    menu: Menu }
+    menu: MenuProp
+}
 
 const MenuHeaderCard = ({ menu }: MenuHeaderCardProps): JSX.Element => {
 
@@ -15,7 +16,7 @@ const MenuHeaderCard = ({ menu }: MenuHeaderCardProps): JSX.Element => {
                 </div>
                 <div className={styles.form}>
                     <select name="measure" id="measure">
-                        <option>{menu.nutrients.totalWeight.toFixed(0)}g</option>
+                        {menu.nutrients && <option>{menu.nutrients.totalWeight.toFixed(0)}g</option>}
                     </select>
                 </div>
             </div>

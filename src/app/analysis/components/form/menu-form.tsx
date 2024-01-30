@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, RecipeWithServings } from '@/app/types/types';
+import { CardState, Nutrients, RecipeWithServings } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
 import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
 import RecipeSelect from './recipe-select';
+import { MenuNutrientsCalculator } from './nutrients-calculator';
 
 interface MenuFormProps {
     searchCleared: boolean,
@@ -53,7 +54,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
         setIsLoading(true);
         try {
-            const nutrients = await analyseRecipe(ingredients.split('\n'));
+            const nutrients: Nutrients = await fetchNutrients();
             setIsLoading(false);
 
             const newMenu = {
@@ -75,6 +76,25 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             throw error;        
         }
     }
+
+    const fetchNutrients = async (): Promise<Nutrients> => {
+        const recipesArr = recipes.map((recipe) => { return {
+            nutrients: recipe.selectedRecipe.nutrients,
+            selectedServings: recipe.selectedServings
+        }})
+        if(ingredients != '') {
+            const ingredientsNutrients = await analyseRecipe(ingredients.split('\n'));
+            recipesArr.push({
+                nutrients: ingredientsNutrients,
+                selectedServings: 1
+            }); 
+        }
+        console.log(recipesArr);
+        const nutrients: Nutrients = MenuNutrientsCalculator(recipesArr);
+
+        return nutrients;
+    }
+
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
@@ -104,7 +124,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             <label htmlFor="menu-ingredients">Ingredients
                                 <span>(Enter each ingredient on a new line)</span>
                             </label>
-                            <textarea id="menu-ingredients" name="menu-ingredients" required
+                            <textarea id="menu-ingredients" name="menu-ingredients"
                             placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
                         </div>
                         <RecipeSelect inputs={inputsnumber} setRecipes={setRecipes} recipes={recipes}/>

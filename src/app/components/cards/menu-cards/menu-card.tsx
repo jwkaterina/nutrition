@@ -1,4 +1,4 @@
-import { Menu, CardState } from '@/app/types/types'
+import { MenuProp, CardState } from '@/app/types/types'
 import Card from '../card'
 import { useContext, useState } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'
@@ -7,7 +7,7 @@ import OpenMenuCard from './open-manucard'
 import ClosedCard from '../closed-card'
 
 interface MenuCardProps {
-    menu: Menu,
+    menu: MenuProp,
     index: number,
     id: string | null,
     open: boolean
@@ -33,8 +33,7 @@ const MenuCard = ({ menu, index, id, open }: MenuCardProps): JSX.Element => {
     }
 
     return <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
-            {isOpen ? <OpenMenuCard menu={menu}/> : 
-            <ClosedCard 
+            {isOpen ? <OpenMenuCard menu={menu}/> : <ClosedCard 
                 title={menu.name}
                 calories={menu.nutrients.calories}
                 protein={menu.nutrients.totalNutrients.PROCNT.quantity}

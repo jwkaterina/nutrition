@@ -78,7 +78,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
 
         let numberInputs = [];
         for(let i = 0; i < inputs; i++) {
-            numberInputs.push( <input type="number" id="servings" name="servings" value={recipes[i] && recipes[i].selectedServings} required min={1} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
+            numberInputs.push( <input type="number" id="servings" name="servings" value={recipes[i] ? recipes[i].selectedServings : 1} required min={1} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
         }
         return numberInputs;
     }

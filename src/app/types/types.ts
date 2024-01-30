@@ -37,22 +37,30 @@ export type MeasureProp = {
     weight: number
 }
 
-export type LoadedFood = {
-    creator: string,
-    food: Food,
-    id: string
+export interface Recipe {
+    name: string,
+    image: string,
+    servings: number,
+    ingredients: string[],
+    nutrients: Nutrients,
 }
 
-export type LoadedRecipe = {
-    creator: string,
-    recipe: Recipe,
-    id: string
+export interface MenuProp {
+    name: string,
+    ingredients: string[],
+    nutrients: Nutrients,
+    recipes: RecipeWithServings[]
 }
 
-export type LoadedMenu = {
-    creator: string,
-    menu: MenuProp,
-    id: string
+export interface Nutrients {
+    calories: number,
+    totalNutrients: NutrientsProp,
+    totalDaily: NutrientsProp,
+    totalWeight: number
+}
+
+export interface NutrientsProp {
+    [key: string]: Nutrient
 }
 
 export type Nutrient = {
@@ -96,33 +104,25 @@ export type Nutrient = {
 //     ZN: Nutrient
 // }
 
-export interface NutrientsProp {
-    [key: string]: Nutrient
-}
-
-export interface Nutrients {
-    calories: number,
-    totalNutrients: NutrientsProp,
-    totalDaily: NutrientsProp,
-    totalWeight: number
-}
-
-export interface Recipe {
-    name: string,
-    image: string,
-    servings: number,
-    ingredients: string[],
-    nutrients: Nutrients,
-}
-
-export interface MenuProp {
-    name: string,
-    ingredients: string[],
-    nutrients: Nutrients,
-    recipes: RecipeWithServings[]
-}
-
 export interface RecipeWithServings {
     selectedRecipe: Recipe,
     selectedServings: number
+}
+
+export type LoadedFood = {
+    creator: string,
+    food: Food,
+    id: string
+}
+
+export type LoadedRecipe = {
+    creator: string,
+    recipe: Recipe,
+    id: string
+}
+
+export type LoadedMenu = {
+    creator: string,
+    menu: MenuProp,
+    id: string
 }

@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState } from '@/app/types/types';
+import { CardState, Nutrients } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
 import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
+import { RecipeNutrientsCalculator } from './nutrients-calculator';
 
 interface RecipeFormProps {
     searchCleared: boolean,
@@ -49,7 +50,12 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
 
         setIsLoading(true);
         try {
-            const nutrients = await analyseRecipe(ingredients.split('\n'));
+            const recipeContent: Nutrients = await analyseRecipe(ingredients.split('\n'));
+            const nutrients: Nutrients = RecipeNutrientsCalculator({
+                nutrients: recipeContent, 
+                totalServings: servings, 
+                selectedServings: 1
+            });
             setIsLoading(false);
 
             const newRecipe = {
