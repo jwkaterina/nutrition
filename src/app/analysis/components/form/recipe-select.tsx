@@ -58,11 +58,11 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
         for(let i = 0; i < inputs; i++) {
             const options = loadedRecipes.map((recipe: LoadedRecipe, index: number) => {
                 return (
-                    <option key={index} value={recipe.recipe.name} selected={recipes[i] && recipe.recipe.name == recipes[i].selectedRecipe.name} id={recipe.id}>{recipe.recipe.name}</option>
+                    <option key={index} value={recipe.recipe.name}  id={recipe.id}>{recipe.recipe.name}</option>
                 )
             });
             selectInputs.push(<select name="recipe"
-            id="recipe" key={i} onChange={(e) => handleInputChange(i, e.target.options[e.target.selectedIndex].id)}>{options}</select>)
+            id="recipe" key={i} value={recipes[i] && recipes[i].selectedRecipe.name} onChange={(e) => handleInputChange(i, e.target.options[e.target.selectedIndex].id)}>{options}</select>)
         }
         return selectInputs;
     }
