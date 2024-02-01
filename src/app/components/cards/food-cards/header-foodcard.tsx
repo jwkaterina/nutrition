@@ -52,7 +52,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
             }
         });
         if(customWeight) {
-            options.push(<option key={0} value='Value pre 100g' id='initial'>Value pre 100g</option>);
+            options.push(<option key={measures.length + 1} value='Value pre 100g' id='initial'>Value pre 100g</option>);
         } else {
             options.push(<option key={measures.length + 1} value='Custom weight' id='custom'>Custom weight</option>)
         }
