@@ -14,10 +14,10 @@ export const RecipeNutrientsCalculator = (recipe: RecipeCalculatorProps): Nutrie
 
     const newCalories: number = calories * recipe.selectedServings / recipe.totalServings;
     const newTotalNutrients: NutrientsProp = Object.fromEntries(
-          Object.entries(totalNutrients).map(([key, value]) => [key, {
-            label: value.label,
-            quantity: value.quantity * recipe.selectedServings / recipe.totalServings,
-            unit: value.unit
+            Object.entries(totalNutrients).map(([key, value]) => [key, {
+                label: value.label,
+                quantity: value.quantity * recipe.selectedServings / recipe.totalServings,
+                unit: value.unit
         }])
     );
     
@@ -55,18 +55,27 @@ export const MenuNutrientsCalculator = (recipes: MenuCalculatorProps[]): Nutrien
             selectedServings: recipe.selectedServings});
     });
     const newCalories: number = recipesNutrients.reduce((acc, curr) => acc + curr.calories, 0);
-    const newTotalNutrients: NutrientsProp = recipesNutrients.reduce((acc, curr) => {
+    const newTotalNutrients: NutrientsProp = recipesNutrients.map((value) => value.totalNutrients).reduce((acc, curr) => {
+        const updatedNutrients: NutrientsProp = {};
         Object.entries(acc).forEach(([key, value]) => {
-            value.quantity += curr.totalNutrients[key].quantity;
+            updatedNutrients[key] = {
+                ...value,
+                quantity: value.quantity + curr[key].quantity
+            };
         });
-        return acc;
-    }, recipesNutrients[0].totalNutrients);
-    const newTotalDaily: NutrientsProp = recipesNutrients.reduce((acc, curr) => {
+        return updatedNutrients;
+    });
+    const newTotalDaily: NutrientsProp = recipesNutrients.map((value) => value.totalDaily).reduce((acc, curr) => {
+        const updatedNutrients: NutrientsProp = {};
         Object.entries(acc).forEach(([key, value]) => {
-            value.quantity += curr.totalDaily[key].quantity;
+            updatedNutrients[key] = {
+                ...value,
+                quantity: value.quantity + curr[key].quantity
+            };
         });
-        return acc;
-    }, recipesNutrients[0].totalDaily);
+        return updatedNutrients;
+    });
+
     const newTotalWeight: number = recipesNutrients.reduce((acc, curr) => acc + curr.totalWeight, 0);
 
     return({
