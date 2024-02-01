@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/app/context/auth-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { LoadedRecipe, RecipeWithServings } from '@/app/types/types';
+import { LoadedRecipe, RecipeWithServings, NutrientsProp } from '@/app/types/types';
 import styles from './form.module.css';
+import { create } from 'domain';
 
 interface RecipeSelectProps {
     inputs: number,
@@ -47,11 +48,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
     const SelectInputs = () => {
 
         const handleInputChange = (index: number, id: string) => {
-            const newValue = loadedRecipes.find(recipe => recipe.id === id)!.recipe;
-            setRecipes(recipes.map((recipe, i) => i === index ? {
-                selectedRecipe: newValue,
-                selectedServings: recipe.selectedServings
-            } : recipe));
+            undateRecipe(index, id);
         };
 
         let selectInputs = [];
@@ -81,6 +78,44 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
             numberInputs.push( <input type="number" id="servings" name="servings" value={recipes[i] ? recipes[i].selectedServings : 1} required min={1} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
         }
         return numberInputs;
+    }
+
+    const undateRecipe = async (index: number, id: string) => {
+        const newRecipe = loadedRecipes.find(recipe => recipe.id === id)!.recipe;
+        const newTotalNutrients: NutrientsProp = Object.fromEntries(
+            Object.entries(newRecipe.nutrients.totalNutrients)
+                .filter(([key]) => key !== 'id' && key !== '_id')
+                .map(([key, value]) => [key, {
+                    label: value.label,
+                    quantity: value.quantity,
+                    unit: value.unit
+                }])
+        );
+        const newTotalDaily: NutrientsProp = Object.fromEntries(
+            Object.entries(newRecipe.nutrients.totalDaily)
+                .filter(([key]) => key !== 'id' && key !== '_id')
+                .map(([key, value]) => [key, {
+                    label: value.label,
+                    quantity: value.quantity,
+                    unit: value.unit
+                }])
+        );
+        setRecipes(recipes.map((recipe, i) => i === index ? {
+            selectedRecipe: {
+                name: newRecipe.name,
+                image: newRecipe.image,
+                servings: newRecipe.servings,
+                nutrients: {
+                    calories: newRecipe.nutrients.calories,
+                    totalNutrients: newTotalNutrients,
+                    totalDaily: newTotalDaily,
+                    totalWeight: newRecipe.nutrients.totalWeight
+                },
+                ingredients: newRecipe.ingredients
+            
+            },
+            selectedServings: recipe.selectedServings
+        } : recipe));
     }
 
     return (

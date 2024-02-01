@@ -8,7 +8,7 @@ import { CurrentMenuContext } from '@/app/context/menu-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
 import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
 import RecipeSelect from './recipe-select';
-import { MenuNutrientsCalculator } from './nutrients-calculator';
+import { MenuNutrientsCalculator, RecipeNutrientsCalculator } from './nutrients-calculator';
 
 interface MenuFormProps {
     searchCleared: boolean,
@@ -78,20 +78,28 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     }
 
     const fetchNutrients = async (): Promise<Nutrients> => {
-        const recipesArr = recipes.map((recipe) => { return {
+        const recipesArr = recipes.map((recipe) => { 
+            console.log(recipe.selectedRecipe.nutrients)
+            return {
             nutrients: recipe.selectedRecipe.nutrients,
             selectedServings: recipe.selectedServings
         }})
         if(ingredients != '') {
-            const ingredientsNutrients = await analyseRecipe(ingredients.split('\n'));
+            const ingredientsContent = await analyseRecipe(ingredients.split('\n'));
+            const ingredientsNutrients: Nutrients = RecipeNutrientsCalculator({
+                nutrients: ingredientsContent, 
+                totalServings: 1, 
+                selectedServings: 1
+            });
             recipesArr.push({
                 nutrients: ingredientsNutrients,
                 selectedServings: 1
             }); 
+            console.log(ingredientsNutrients);
         }
         console.log(recipesArr);
         const nutrients: Nutrients = MenuNutrientsCalculator(recipesArr);
-
+        console.log('success')
         return nutrients;
     }
 

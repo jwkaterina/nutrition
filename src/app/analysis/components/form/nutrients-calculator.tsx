@@ -14,19 +14,23 @@ export const RecipeNutrientsCalculator = (recipe: RecipeCalculatorProps): Nutrie
 
     const newCalories: number = calories * recipe.selectedServings / recipe.totalServings;
     const newTotalNutrients: NutrientsProp = Object.fromEntries(
-            Object.entries(totalNutrients).map(([key, value]) => [key, {
+        Object.entries(totalNutrients).map(([key, value]) => {
+            return [key, {
                 label: value.label,
                 quantity: value.quantity * recipe.selectedServings / recipe.totalServings,
                 unit: value.unit
-        }])
+            }];
+        })
     );
     
     const newTotalDaily: NutrientsProp = Object.fromEntries(
-        Object.entries(totalDaily).map(([key, value]) => [key, {
-            label: value.label,
-            quantity: value.quantity * recipe.selectedServings / recipe.totalServings,
-            unit: value.unit
-        }])
+        Object.entries(totalDaily).map(([key, value]) => {
+            return [key, {
+                label: value.label,
+                quantity: value.quantity * recipe.selectedServings / recipe.totalServings,
+                unit: value.unit
+            }];
+        })
     );
     
     const newTotalWeight: number = totalWeight * recipe.selectedServings / recipe.totalServings;
@@ -58,20 +62,24 @@ export const MenuNutrientsCalculator = (recipes: MenuCalculatorProps[]): Nutrien
     const newTotalNutrients: NutrientsProp = recipesNutrients.map((value) => value.totalNutrients).reduce((acc, curr) => {
         const updatedNutrients: NutrientsProp = {};
         Object.entries(acc).forEach(([key, value]) => {
-            updatedNutrients[key] = {
-                ...value,
-                quantity: value.quantity + curr[key].quantity
-            };
+            if (curr[key]) {
+                updatedNutrients[key] = {
+                    ...value,
+                    quantity: value.quantity + curr[key].quantity
+                };
+            }
         });
         return updatedNutrients;
     });
     const newTotalDaily: NutrientsProp = recipesNutrients.map((value) => value.totalDaily).reduce((acc, curr) => {
         const updatedNutrients: NutrientsProp = {};
         Object.entries(acc).forEach(([key, value]) => {
-            updatedNutrients[key] = {
-                ...value,
-                quantity: value.quantity + curr[key].quantity
-            };
+            if (curr[key]) {
+                updatedNutrients[key] = {
+                    ...value,
+                    quantity: value.quantity + curr[key].quantity
+                };
+            }
         });
         return updatedNutrients;
     });

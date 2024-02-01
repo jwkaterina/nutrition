@@ -43,20 +43,32 @@ const Nutrients = new Schema({
     ZN: { type: Nutrient, required: false }
 })  
 
-const menuSchema = new Schema({
-    menu:{
+const Recipe = new Schema({
+    selectedRecipe: {    
         name: { type: String, required: true },
+        image: { type: String, required: false },
+        servings: { type: Number, required: true },
         ingredients: [{ type: String, required: true }],
         nutrients: {
             calories: { type: Number, required: true },
             totalNutrients: { type: Nutrients, required: true },
             totalDaily: { type: Nutrients, required: true },
             totalWeight: { type: Number, required: true }
+        }},
+    selectedServings: { type: Number, required: false },
+})
+
+const menuSchema = new Schema({
+    menu:{
+        name: { type: String, required: true },
+        ingredients: [{ type: String, required: false }],
+        nutrients: {
+            calories: { type: Number, required: true },
+            totalNutrients: { type: Nutrients, required: true },
+            totalDaily: { type: Nutrients, required: true },
+            totalWeight: { type: Number, required: true }
         },
-        recipes: [{
-            selectedRecipe: { type: mongoose.Types.ObjectId, required: true, ref: 'Recipe' },
-            selectedServings: { type: Number, required: true },
-        }],
+        recipes: [{ type: Recipe, required: false}],
     },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User'}
 });
