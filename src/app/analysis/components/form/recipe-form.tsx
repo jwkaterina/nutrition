@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { use, useContext, useEffect, useState } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
 import { CardState, Nutrients } from '@/app/types/types';
@@ -20,7 +20,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
     const [name, setName] = useState<string>('');
     const [servings, setServings] = useState<number>(1);
-    const [ingredients, setIngredients] = useState<string>('');
+    const [ingredientsString, setIngredientsString] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>();
 
@@ -33,7 +33,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
         }
         setName('');
         setServings(1);
-        setIngredients('');
+        setIngredientsString('');
         setClearSearch(false);
     }, [searchCleared]);
 
@@ -41,40 +41,50 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
         if(currentRecipe.recipe) {
             setName(currentRecipe.recipe.name);
             setServings(currentRecipe.recipe.servings);
-            setIngredients(currentRecipe.recipe.ingredients.join('\n'));
+            setIngredientsString(currentRecipe.recipe.ingredients.join('\n'));
         }
     }, [currentRecipe]);
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const ingredientsArray: string[] = ingredientsString
+            .split('\n')
+            .map((ingredient) => ingredient.trim())
+            .filter((ingredient) => ingredient !== '');
+
         setIsLoading(true);
         try {
-            const recipeContent: Nutrients = await analyseRecipe(ingredients.split('\n'));
+           
+            const recipeContent: Nutrients = await analyseRecipe(ingredientsArray);
+       
+            setIsLoading(false);
+
             const nutrients: Nutrients = RecipeNutrientsCalculator({
                 nutrients: recipeContent, 
                 totalServings: servings, 
                 selectedServings: 1
             });
-            setIsLoading(false);
-
             const newRecipe = {
                 name,
                 image: '',
                 servings,
                 nutrients,
-                ingredients: ingredients.split('\n')
+                ingredients: ingredientsArray
             };
-            setCardOpen(CardState.OPEN);
             setCurrentRecipe({
                 recipe: newRecipe,
                 id: null
             });
+            setCardOpen(CardState.OPEN);
+            // at the end of analysis set ingredients state to the formatted string in order to avoid unnecessary re-rendering
+            setIngredientsString(ingredientsArray.join('\n'));
         } 
         catch(error) {
             setError('Could not analyse recipe. Ensure that all ingredients are spelled correctly and try again.');
             setIsLoading(false);
-            throw error;        }
+            throw error;        
+        }
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -82,18 +92,19 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
     }
 
     const handleIngredientsInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
-        setIngredients(e.currentTarget.value);
+        setIngredientsString(e.currentTarget.value);
     }
 
     const handleServingsInput = (e: React.FormEvent<HTMLInputElement>) => {
         setServings(parseInt(e.currentTarget.value));
     }
 
-    if(currentRecipe.recipe && cardOpen == CardState.OPEN) return (
+    if(currentRecipe.recipe && cardOpen == CardState.OPEN) {
+        return (
         <div className={styles.card_container}>
             <RecipeCard recipe={currentRecipe.recipe} index={0} id={null} open={true}/>
         </div> 
-    )
+    )}
 
     return (<>
             {error && <ErrorModal error={error} onClose={() => setError(null)} />}
@@ -113,7 +124,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
                                 <span>(Enter each ingredient on a new line)</span>
                             </label>
                             <textarea id="recipe-ingredients" name="recipe-ingredients" required
-                            placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
+                            placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredientsString} onInput={e => handleIngredientsInput(e)}/>
                         </div>
                         <div className={styles.form_group}>
                             <label htmlFor="recipe-servings">Number of Servings</label>
