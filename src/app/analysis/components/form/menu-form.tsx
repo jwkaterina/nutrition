@@ -20,7 +20,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const [name, setName] = useState<string>('');
-    const [ingredients, setIngredients] = useState<string>('');
+    const [ingredientsString, setIngredientsString] = useState<string>('');
     const [recipes, setRecipes] = useState<RecipeWithServings[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>();
@@ -34,7 +34,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             });
         }
         setName('');
-        setIngredients('');
+        setIngredientsString('');
         setClearSearch(false);
         setInputsnumber(0);
         setRecipes([]);
@@ -43,49 +43,54 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     useEffect(() => {
         if(currentMenu.menu) {
             setName(currentMenu.menu.name);
-            setIngredients(currentMenu.menu.ingredients.join('\n'));
+            setIngredientsString(currentMenu.menu.ingredients.join('\n'));
             setInputsnumber(currentMenu.menu.recipes.length);
             setRecipes(currentMenu.menu.recipes);
         }
     }, [currentMenu]);
+
+    const ArrayfromString = (string: string) => {
+        return string.split('\n').map((ingredient) => ingredient.trim()).filter((ingredient) => ingredient !== '')
+    };
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setIsLoading(true);
         try {
-            const nutrients: Nutrients = await fetchNutrients();
+            const ingredientsArray = ArrayfromString(ingredientsString);
+            const nutrients: Nutrients = await fetchNutrients(ingredientsArray);
             setIsLoading(false);
 
             const newMenu = {
                 name,
                 nutrients: nutrients,
-                ingredients: ingredients.split('\n'),
+                ingredients: ingredientsArray,
                 recipes: recipes
             };
-            console.log(newMenu);
             setCardOpen(CardState.OPEN);
             setCurrentMenu({
                 menu: newMenu,
                 id: null
             });
+            // at the end of analysis set ingredients state to the formatted string in order to avoid unnecessary re-rendering
+            setIngredientsString(ingredientsArray.join('\n'));
         } 
         catch(error) {
-            setError('Could not analyse menu. Ensure that all ingredients are spelled correctly and try again.');
+            setError('Could not analyse menu. Ensure that all ingredientsString are spelled correctly and try again.');
             setIsLoading(false);
             throw error;        
         }
     }
 
-    const fetchNutrients = async (): Promise<Nutrients> => {
+    const fetchNutrients = async (ingredientsArray: string[]): Promise<Nutrients> => {
         const recipesArr = recipes.map((recipe) => { 
-            console.log(recipe.selectedRecipe.nutrients)
             return {
             nutrients: recipe.selectedRecipe.nutrients,
             selectedServings: recipe.selectedServings
         }})
-        if(ingredients != '') {
-            const ingredientsContent = await analyseRecipe(ingredients.split('\n'));
+        if(ingredientsArray && ingredientsArray.length > 0) {
+            const ingredientsContent = await analyseRecipe(ingredientsArray);
             const ingredientsNutrients: Nutrients = RecipeNutrientsCalculator({
                 nutrients: ingredientsContent, 
                 totalServings: 1, 
@@ -95,11 +100,8 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                 nutrients: ingredientsNutrients,
                 selectedServings: 1
             }); 
-            console.log(ingredientsNutrients);
         }
-        console.log(recipesArr);
         const nutrients: Nutrients = MenuNutrientsCalculator(recipesArr);
-        console.log('success')
         return nutrients;
     }
 
@@ -109,7 +111,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     }
 
     const handleIngredientsInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
-        setIngredients(e.currentTarget.value);
+        setIngredientsString(e.currentTarget.value);
     }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
@@ -133,7 +135,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                                 <span>(Enter each ingredient on a new line)</span>
                             </label>
                             <textarea id="menu-ingredients" name="menu-ingredients"
-                            placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredients} onInput={e => handleIngredientsInput(e)}/>
+                            placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredientsString} onInput={e => handleIngredientsInput(e)}/>
                         </div>
                         <RecipeSelect inputs={inputsnumber} setRecipes={setRecipes} recipes={recipes}/>
                         <div className={styles.form_group}>

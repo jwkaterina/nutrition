@@ -45,13 +45,14 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
         }
     }, [currentRecipe]);
 
+    const ArrayfromString = (string: string) => {
+        return string.split('\n').map((ingredient) => ingredient.trim()).filter((ingredient) => ingredient !== '')
+    };
+
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const ingredientsArray: string[] = ingredientsString
-            .split('\n')
-            .map((ingredient) => ingredient.trim())
-            .filter((ingredient) => ingredient !== '');
+        const ingredientsArray = ArrayfromString(ingredientsString);
 
         setIsLoading(true);
         try {
