@@ -21,7 +21,7 @@ const ClosedCard = ({ title, image, calories, protein, fat, carbs }: ClosedCardP
             <div className={styles.nutrients}>
             <div className={styles.column}>
                 <h5>kcal</h5>
-                {calories && <p>{calories}</p>}
+                {calories && <p>{calories.toFixed(0)}</p>}
             </div>
             <div className={styles.column} style={{color: 'var(--primary-color)'}}>
                 <h5>prot</h5>

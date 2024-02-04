@@ -58,9 +58,9 @@
 .options {
     margin: 1rem;
     width: calc(100% - 2rem);
-    height: 150px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    height: 150px;
 }
 
 .options ul {
@@ -76,4 +76,35 @@
     font-weight: 400;
     color: var(--gray-darker);
     cursor: pointer;
+}
+
+.sort_buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+.filter_button, .sort_button {
+    right: 1rem;
+    background-color: white;
+    width: 100px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 0.2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-weight: 400;
+    color: var(--gray-dark);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 1rem;
+    font-size: 1rem;
+}
+
+.sort_buttons select, .sort_buttons select:focus {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: var(--gray-dark);
 }

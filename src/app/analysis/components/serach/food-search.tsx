@@ -3,7 +3,7 @@ import { parseQuery, autocomplete } from '@/app/services/fetch-data'
 import { useState, useContext, useEffect, FormEvent, KeyboardEvent } from 'react' 
 import PageGrid from '@/app/components/slider/page-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faMagnifyingGlass, faXmark, faSliders, faArrowUpWideShort } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext } from '@/app/context/card-context';
 import { Food, CardState} from '@/app/types/types';
 import FoodCard from '@/app/components/cards/food-cards/food-card';
@@ -68,11 +68,11 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		let foodArr: Food[] = [];
 		if(!hints) return;
 		hints.forEach((hint: Food) => {
-			if(foodArr.find((food: Food) => food.food.foodId === hint.food.foodId) || hint.food.category !== "Generic foods") {
-				return;
-			} else {
+			// if(foodArr.find((food: Food) => food.food.foodId === hint.food.foodId) || hint.food.category !== "Generic foods") {
+			// 	return;
+			// } else {
 				foodArr.push(hint);
-			}
+			// }
 		});
 		setFoodArr(foodArr);
 	}
@@ -99,6 +99,8 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		)
 	})
 
+	const showFilter: boolean = cardOpen !== CardState.OPEN && !showOptions && foodArr.length != 0;
+
     const style = () => {
         if(cardOpen == CardState.OPEN) {
             return {overflow: 'hidden'}
@@ -116,22 +118,28 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
                     onClick={() => setShowOptions(true)} 
                     onInput={e => handleInput(e)} 
                     value={input} 
-                    onKeyUp={handleEnterKey}/>
+                    onKeyUp={handleEnterKey}
+				/>
                 {!showOptions && <FontAwesomeIcon 
                     icon={faMagnifyingGlass} 
-                    className={styles.searchIcon}/>}
+                    className={styles.searchIcon}
+				/>}
                 {showOptions && <FontAwesomeIcon 
                     icon={faArrowLeft} 
                     className={styles.backIcon} 
-                    onClick={handleBackclick}/>}
+                    onClick={handleBackclick}
+				/>}
                 {showOptions && <FontAwesomeIcon 
                     icon={faXmark} 
                     className={styles.deleteIcon} 
-                    onClick={emptyInput}/>}
+                    onClick={emptyInput}
+				/>}
             </div>}
             {showOptions && <Options 
                 queryOptions={queryOptions} 
-                onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}/>}
+                onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}
+			/>}
+			{showFilter && <SortButtons />}
             {foodArr.length > 0 && <PageGrid>{foodList}</PageGrid>}
         </div>
     )
@@ -145,15 +153,36 @@ interface OptionsProps {
 	onclick: (e: any) => Promise<void>;
 }
 
-const Options = ({queryOptions, onclick}: OptionsProps): JSX.Element => {
+const Options = ({queryOptions, onclick }: OptionsProps): JSX.Element => {
     
 	return (
-	<div className={styles.options}>
-        <ul>
-            <li onClick={onclick}>{queryOptions ? queryOptions[0] : 'apple'}</li>
-            <li onClick={onclick}>{queryOptions ? queryOptions[1] : 'rice'}</li>
-            <li onClick={onclick}>{queryOptions ? queryOptions[2] : 'broccoli'}</li>
-        </ul>
-	</div>
+		<div className={`${styles.options}`}>
+			<ul>
+				<li onClick={onclick}>{queryOptions ? queryOptions[0] : 'apple'}</li>
+				<li onClick={onclick}>{queryOptions ? queryOptions[1] : 'rice'}</li>
+				<li onClick={onclick}>{queryOptions ? queryOptions[2] : 'broccoli'}</li>
+			</ul>
+		</div>
+	)
+}
+
+const SortButtons = () => {
+	return (
+		<div className={styles.sort_buttons}>
+			<div className={styles.filter_button}>
+				<p>Filter</p>
+				<FontAwesomeIcon icon={faSliders} />
+			</div>
+			<div className={styles.sort_button}>
+				<select>
+				{/* <FontAwesomeIcon icon={faArrowUpWideShort}/> */}
+					<option>Sort</option>
+					<option>Calories</option>
+					<option>Protein</option>
+					<option>Fat</option>
+					<option>Carbs</option>
+				</select>				
+			</div>
+		</div>
 	)
 }
