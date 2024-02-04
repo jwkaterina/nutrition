@@ -1,6 +1,6 @@
 import styles from './search.module.css'
 import { parseQuery, autocomplete } from '@/app/services/fetch-data'
-import { useState, useContext, useEffect, FormEvent, KeyboardEvent } from 'react' 
+import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } from 'react' 
 import PageGrid from '@/app/components/slider/page-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark, faSliders, faArrowUpWideShort } from '@fortawesome/free-solid-svg-icons'
@@ -20,6 +20,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
 	const [input, setInput] = useState('');
+	const searchRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		setCardOpen(CardState.CLOSED);
@@ -88,8 +89,13 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	}
 
 	useEffect(() => {
-		if(cardOpen == CardState.OPEN) {
+		if(cardOpen == CardState.OPEN && searchRef.current) {
 			setShowOptions(false);
+			(searchRef.current as HTMLElement).scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "auto",
+            });
 		}
 	}, [cardOpen])
 
@@ -110,7 +116,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
     }
 
     return (
-        <div className={styles.container} style={style()}>
+        <div className={styles.container} style={style()} ref={searchRef}>
             {cardOpen != CardState.OPEN && <div className={styles.input_container}>
                 <input 
                     type="text" 
