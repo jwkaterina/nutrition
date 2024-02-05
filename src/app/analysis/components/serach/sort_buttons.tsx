@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSliders } from '@fortawesome/free-solid-svg-icons';
 import { SortType } from '@/app/types/types';
 import styles from './search.module.css';
+import { useState } from 'react';
 
 interface SortButtonsProps {
 	sort: SortType;
@@ -9,6 +10,8 @@ interface SortButtonsProps {
 }
 
 const SortButtons = ({ sort, setSort }: SortButtonsProps): JSX.Element => {
+
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
 	const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const select = e.target;
@@ -46,11 +49,20 @@ const SortButtons = ({ sort, setSort }: SortButtonsProps): JSX.Element => {
 
 	return (
 		<div className={styles.sort_buttons}>
-			<div className={styles.filter_button}>
-				<p>Filter</p>
-				<FontAwesomeIcon icon={faSliders} />
+			<div className={styles.filter_dropdown} >
+				<button className={styles.dropbtn} onClick={() => setIsFilterOpen(!isFilterOpen)}>
+                    Filter <FontAwesomeIcon icon={faSliders} />
+                </button>
+                {isFilterOpen && (
+                    <div className={styles.dropdown_content}>
+                        <Toggler text={'Generic-foods'}/>
+                        <Toggler text={'Packaged-foods'}/>
+                        <Toggler text={'Generic-meals'}/>
+                        <Toggler text={'Fast-foods'}/>
+                    </div>
+                )}
 			</div>
-			<div className={styles.sort_button}>
+			<div className={styles.sort_select}>
 				<select onChange={(e) => handleOptionChange(e)}>
 					<option key={0}>Sort</option>
 					<option key={1}>More Calories</option>
@@ -68,3 +80,28 @@ const SortButtons = ({ sort, setSort }: SortButtonsProps): JSX.Element => {
 }
 
 export default SortButtons;
+
+interface TogglerProps {
+    // checked: boolean;
+    // setChecked: (checked: boolean) => void;
+    text: string;
+}
+
+const Toggler = ({ text }: TogglerProps): JSX.Element => {
+
+    const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.checked, text);
+    }
+
+    return (
+        <div className={styles.dropdown_row}>
+            <span>{text}</span>
+            <label className={styles.toggler_wrapper}>
+                <input type="checkbox" onChange={handleCheckboxClick}></input>
+                <div className={styles.toggler_slider}>
+                    <div className={styles.toggler_knob}></div>
+                </div>
+            </label>
+        </div>
+    )
+}
