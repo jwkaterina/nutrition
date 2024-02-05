@@ -1,5 +1,5 @@
 import styles from "./nav-bar.module.css"
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { useContext } from "react";
 import { AuthContext } from "@/app/context/auth-context";
 import { SlideContext } from "@/app/context/slide-context";
@@ -16,6 +16,7 @@ interface FooterProps {
 const Footer = ({ color }: FooterProps): JSX.Element => {
 
     const router = useRouter();
+    const path = usePathname();
     const { isLoggedIn } = useContext(AuthContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
     const { setCardOpen } = useContext(CardOpenContext);
@@ -32,15 +33,21 @@ const Footer = ({ color }: FooterProps): JSX.Element => {
     }
 
     const handleHomeClick = () => {
-        setCardOpen(CardState.CLOSED);
+        if(path === '/') {
+            setCardOpen(CardState.CLOSING);
+        } else {
+            setCardOpen(CardState.CLOSED);
+            setScrollBehavior('auto');
+            router.push('/');
+            setTimeout(() => {
+                setScrollBehavior('smooth');
+            }, 500);
+        }
+        
         setCurrentFood({food: null, id: null});
         setCurrentRecipe({id: null, recipe: null});
 		setCurrentMenu({id: null, menu: null});
-        setScrollBehavior('auto');
-        router.push('/');
-        setTimeout(() => {
-            setScrollBehavior('smooth');
-        }, 500);
+    
     }
 
     return (
