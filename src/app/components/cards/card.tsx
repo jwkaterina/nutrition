@@ -70,6 +70,9 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             cardRef.current?.animate(keyframesReverse, options);
             setIsOpen(false);
         }
+        if(cardOpen == CardState.CLOSED && isOpen) {
+            setIsOpen(false);
+        }
     }, [cardOpen])
 
     const style = () => {
@@ -78,7 +81,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
                 height: '100%',
                 width: '100vw'
             }
-        }
+        } 
     }
 
     return (
