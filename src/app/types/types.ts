@@ -126,3 +126,15 @@ export type LoadedMenu = {
     menu: MenuProp,
     id: string
 }
+
+export enum SortType {
+    ASC_Calories,
+    DESC_Calories,
+    ASC_Protein,
+    DESC_Protein,
+    ASC_Fat,
+    DESC_Fat,
+    ASC_Carbs,
+    DESC_Carbs,
+    DEFAULT
+}

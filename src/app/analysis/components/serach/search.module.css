@@ -102,9 +102,14 @@
     font-size: 1rem;
 }
 
+.sort_button {
+    width: 150px;
+}
+
 .sort_buttons select, .sort_buttons select:focus {
     border: none;
     outline: none;
     font-size: 1rem;
     color: var(--gray-dark);
+    width: 100%;
 }

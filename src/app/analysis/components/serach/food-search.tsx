@@ -1,12 +1,13 @@
 import styles from './search.module.css'
 import { parseQuery, autocomplete } from '@/app/services/fetch-data'
 import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } from 'react' 
-import PageGrid from '@/app/components/slider/page-grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faMagnifyingGlass, faXmark, faSliders, faArrowUpWideShort } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faMagnifyingGlass, faXmark, faSliders } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext } from '@/app/context/card-context';
-import { Food, CardState} from '@/app/types/types';
-import FoodCard from '@/app/components/cards/food-cards/food-card';
+import { Food, CardState, SortType} from '@/app/types/types';
+import FoodList from './food-list';
+import SortButtons from './sort_buttons';
+import Options from './options';
 
 interface FoodSearchProps {
 	searchCleared: boolean,
@@ -20,6 +21,8 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
 	const [input, setInput] = useState('');
+	const [sort, setSort] = useState<SortType>(SortType.DEFAULT);
+
 	const searchRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -99,12 +102,6 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		}
 	}, [cardOpen])
 
-    const foodList: JSX.Element[] = foodArr.map((hint, index) => {
-		return (
-			<FoodCard food={hint} index={index + 1} key={index + 1} id={null} open={false}/>
-		)
-	})
-
 	const showFilter: boolean = cardOpen !== CardState.OPEN && !showOptions && foodArr.length != 0;
 
     const style = () => {
@@ -145,50 +142,10 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
                 queryOptions={queryOptions} 
                 onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}
 			/>}
-			{showFilter && <SortButtons />}
-            {foodArr.length > 0 && <PageGrid>{foodList}</PageGrid>}
+			{showFilter && <SortButtons sort={sort} setSort={setSort} />}
+            {foodArr.length > 0 && <FoodList foodArr={foodArr} sort={sort}/>}
         </div>
     )
 }
 
 export default FoodSearch;
-
-
-interface OptionsProps {
-	queryOptions: string[] | null;
-	onclick: (e: any) => Promise<void>;
-}
-
-const Options = ({queryOptions, onclick }: OptionsProps): JSX.Element => {
-    
-	return (
-		<div className={`${styles.options}`}>
-			<ul>
-				<li onClick={onclick}>{queryOptions ? queryOptions[0] : 'apple'}</li>
-				<li onClick={onclick}>{queryOptions ? queryOptions[1] : 'rice'}</li>
-				<li onClick={onclick}>{queryOptions ? queryOptions[2] : 'broccoli'}</li>
-			</ul>
-		</div>
-	)
-}
-
-const SortButtons = () => {
-	return (
-		<div className={styles.sort_buttons}>
-			<div className={styles.filter_button}>
-				<p>Filter</p>
-				<FontAwesomeIcon icon={faSliders} />
-			</div>
-			<div className={styles.sort_button}>
-				<select>
-				{/* <FontAwesomeIcon icon={faArrowUpWideShort}/> */}
-					<option>Sort</option>
-					<option>Calories</option>
-					<option>Protein</option>
-					<option>Fat</option>
-					<option>Carbs</option>
-				</select>				
-			</div>
-		</div>
-	)
-}
