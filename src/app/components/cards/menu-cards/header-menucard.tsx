@@ -18,7 +18,7 @@ const MenuHeaderCard = ({ menu }: MenuHeaderCardProps): JSX.Element => {
                 <h1>{menu.name}</h1>      
             </div>
             <div className={styles.form}>
-                <input className={styles.long_input} name="measure" id="measure" value={`1 serving - ${(menu.nutrients.totalWeight).toFixed(0)}g`}></input>
+                <div className={styles.long_input} id="measure">{`1 serving - ${(menu.nutrients.totalWeight).toFixed(0)}g`}</div>
             </div>
         </div>
     )
