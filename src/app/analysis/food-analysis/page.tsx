@@ -24,7 +24,10 @@ const FoodAnalysis = ({ }: FoodAnalysisProps): JSX.Element => {
 		<NavBar color={secondaryColor}>
 			{cardOpen == CardState.OPEN ? 
 			<OpenAnalysisMenu /> : 
-			<AnalysisMenu onClear={() => setClearSearch(true)}/>
+			<AnalysisMenu 
+				rightText="Clear Search"
+				onClear={() => setClearSearch(true)}
+			/>
 			}
 		</NavBar>
 		<FoodSearch searchCleared={clearSearch} setClearSearch={setClearSearch}/>

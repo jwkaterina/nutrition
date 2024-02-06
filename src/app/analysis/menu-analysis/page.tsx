@@ -20,7 +20,10 @@ const MenuSearch = (): JSX.Element => {
 			<NavBar color={secondaryColor}>
 				{cardOpen == CardState.OPEN ? 
 				<OpenAnalysisMenu/> : 
-				<AnalysisMenu onClear={() => setClearSearch(true)}/>
+				<AnalysisMenu 
+					rightText="Clear Form"
+					onClear={() => setClearSearch(true)}
+				/>
 				}
 			</NavBar>
 			<MenuForm searchCleared={clearSearch} setClearSearch={setClearSearch}/>

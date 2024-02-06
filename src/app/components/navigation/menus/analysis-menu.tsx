@@ -8,10 +8,11 @@ import { CurrentMenuContext } from '@/app/context/menu-context'
 import { CardState } from '@/app/types/types'
 
 interface AnalysisMenuProps {
-	onClear: () => void
+	onClear: () => void,
+	rightText: string
 }
 
-const AnalysisMenu = ({ onClear }: AnalysisMenuProps): JSX.Element => {
+const AnalysisMenu = ({ onClear, rightText }: AnalysisMenuProps): JSX.Element => {
 
 	const { setCardOpen } = useContext(CardOpenContext);
 	const router = useRouter();
@@ -33,7 +34,7 @@ const AnalysisMenu = ({ onClear }: AnalysisMenuProps): JSX.Element => {
 	return (
 		<Menu 
 		   leftText="Back To Favorites" 
-		   rightText= {`Clear Search`}
+		   rightText= {rightText}
 		   onLeftclick={onBackClick} 
 		   onRightclick={() => onClear()}
 		/>
