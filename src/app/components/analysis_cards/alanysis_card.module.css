@@ -14,13 +14,10 @@
 }
 
 .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
     align-items: center;
     grid-gap: 1rem;
     color: var(--gray-dark);
-    width: 100%;
+    width: 80%;
 }
 
 .img {
@@ -34,14 +31,16 @@
     font-size: 1.5rem;
     font-weight: 400;
     color: var(--gray-dark);
+    justify-self: center;
+    text-align: center;
 }
 
 .form {
     margin-top: 1rem;
-    width: 100%;
+    width: 80%;
 }
 
-.form input, .form select {
+.form .short_input, .form select, .form .long_input {
     font-size: 0.8rem;
     font-weight: 400;
     color: var(--primary-color);
@@ -52,11 +51,11 @@
     padding: 0.7rem;
 }
 
-.form select {
+.form select, .form .long_input {
     width: 100%;
 }
 
-.form input {
+.form .short_input {
     width: 45%;
     margin-right: 10%;
 }
@@ -73,7 +72,6 @@
     margin-bottom: 1rem;
     color: var(--gray-dark);
     font-weight: 400;
-    margin-bottom: 1rem;
 }
 
 .daily_grid {

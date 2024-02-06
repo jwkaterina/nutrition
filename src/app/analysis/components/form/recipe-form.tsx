@@ -68,7 +68,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
             });
             const newRecipe = {
                 name,
-                image: '',
+                image: "https://www.edamam.com/food-img/42c/42c006401027d35add93113548eeaae6.jpg",
                 servings,
                 nutrients,
                 ingredients: ingredientsArray

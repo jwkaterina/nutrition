@@ -7,20 +7,20 @@ interface MenuHeaderCardProps {
 
 const MenuHeaderCard = ({ menu }: MenuHeaderCardProps): JSX.Element => {
 
+    const style = {
+                display: 'grid',
+                gridTemplateColumns: '1fr'
+            }
 
     return(
         <div className={styles.container} style={{gridArea: 'header'}}>
-            <div style={{padding: '2rem'}}>
-                <div className={styles.header}>
-                    <h1>{menu.name}</h1>      
-                </div>
-                <div className={styles.form}>
-                    <select name="measure" id="measure">
-                        {menu.nutrients && <option>{menu.nutrients.totalWeight.toFixed(0)}g</option>}
-                    </select>
-                </div>
+            <div className={styles.header} style={style}>
+                <h1>{menu.name}</h1>      
             </div>
-    </div>
+            <div className={styles.form}>
+                <input className={styles.long_input} name="measure" id="measure" value={`1 serving - ${(menu.nutrients.totalWeight).toFixed(0)}g`}></input>
+            </div>
+        </div>
     )
 }
 
