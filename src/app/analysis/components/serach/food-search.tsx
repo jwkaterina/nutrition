@@ -97,7 +97,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		}
 	}, [cardOpen])
 
-	const showFilter: boolean = cardOpen !== CardState.OPEN && !showOptions && foodArr.length != 0;
+	const showFilter: boolean = cardOpen !== CardState.OPEN && !showOptions;
 
     const style = () => {
         if(cardOpen == CardState.OPEN) {
