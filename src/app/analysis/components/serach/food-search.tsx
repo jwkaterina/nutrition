@@ -2,7 +2,7 @@ import styles from './search.module.css'
 import { parseQuery, autocomplete } from '@/app/services/fetch-data'
 import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } from 'react' 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faMagnifyingGlass, faXmark, faSliders } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext } from '@/app/context/card-context';
 import { Food, CardState, SortType} from '@/app/types/types';
 import FoodList from './food-list';
@@ -17,11 +17,13 @@ interface FoodSearchProps {
 const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Element => {
 
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
+	const [hintsArr, setHintsArr] = useState<Food[]>([]);
 	const [foodArr, setFoodArr] = useState<Food[]>([]);
 	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
 	const [input, setInput] = useState('');
 	const [sort, setSort] = useState<SortType>(SortType.DEFAULT);
+	const [filter, setFilter] = useState<string[]>(['Generic foods']);
 
 	const searchRef = useRef<HTMLDivElement>(null);
 
@@ -56,7 +58,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		setInput(option.innerText);
 
 		const result = await parseQuery(option.innerText);
-		if(result) addHintsToArray(result.hints);
+		if(result) setHintsArr(result.hints);
 	}
 
 	const handleEnterKey = async(e: KeyboardEvent) => {
@@ -64,22 +66,15 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 			setShowOptions(false);
 			setCardOpen(CardState.CLOSED);
 			const result = await parseQuery(input);
-			if(result) addHintsToArray(result.hints);    
+			if(result) setHintsArr(result.hints);    
 		}
 	}
 
-	const addHintsToArray = (hints: Food[]) => {
-		let foodArr: Food[] = [];
-		if(!hints) return;
-		hints.forEach((hint: Food) => {
-			// if(foodArr.find((food: Food) => food.food.foodId === hint.food.foodId) || hint.food.category !== "Generic foods") {
-			// 	return;
-			// } else {
-				foodArr.push(hint);
-			// }
-		});
-		setFoodArr(foodArr);
-	}
+	useEffect(() => {
+		if(hintsArr.length == 0) return;
+		const filteredHints = hintsArr.filter((hint: Food) => filter.includes(hint.food.category));
+		setFoodArr(filteredHints);
+	}, [filter, hintsArr])
 
 	const handleBackclick = () => {
 		setShowOptions(false);
@@ -142,7 +137,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
                 queryOptions={queryOptions} 
                 onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}
 			/>}
-			{showFilter && <SortButtons sort={sort} setSort={setSort} />}
+			{showFilter && <SortButtons setSort={setSort} setFilter={setFilter} filter={filter}/>}
             {foodArr.length > 0 && <FoodList foodArr={foodArr} sort={sort}/>}
         </div>
     )

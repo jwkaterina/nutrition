@@ -5,11 +5,12 @@ import styles from './search.module.css';
 import { useState } from 'react';
 
 interface SortButtonsProps {
-	sort: SortType;
 	setSort: (sort: SortType) => void;
+    setFilter: (filter: string[]) => void;
+    filter: string[];
 }
 
-const SortButtons = ({ sort, setSort }: SortButtonsProps): JSX.Element => {
+const SortButtons = ({ setSort, setFilter, filter }: SortButtonsProps): JSX.Element => {
 
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -51,14 +52,14 @@ const SortButtons = ({ sort, setSort }: SortButtonsProps): JSX.Element => {
 		<div className={styles.sort_buttons}>
 			<div className={styles.filter_dropdown} >
 				<button className={styles.dropbtn} onClick={() => setIsFilterOpen(!isFilterOpen)}>
-                    Filter <FontAwesomeIcon icon={faSliders} />
+                    Filter <FontAwesomeIcon icon={faSliders} className={styles.filter_icon}/>
                 </button>
                 {isFilterOpen && (
                     <div className={styles.dropdown_content}>
-                        <Toggler text={'Generic-foods'}/>
-                        <Toggler text={'Packaged-foods'}/>
-                        <Toggler text={'Generic-meals'}/>
-                        <Toggler text={'Fast-foods'}/>
+                        <Toggler text={'Generic foods'} setFilter={setFilter} filter={filter}/>
+                        <Toggler text={'Packaged foods'} setFilter={setFilter} filter={filter}/>
+                        <Toggler text={'Generic meals'} setFilter={setFilter} filter={filter}/>
+                        <Toggler text={'Fast foods'} setFilter={setFilter} filter={filter}/>
                     </div>
                 )}
 			</div>
@@ -82,22 +83,23 @@ const SortButtons = ({ sort, setSort }: SortButtonsProps): JSX.Element => {
 export default SortButtons;
 
 interface TogglerProps {
-    // checked: boolean;
-    // setChecked: (checked: boolean) => void;
     text: string;
+    setFilter: (filter: string[]) => void;
+    filter: string[];
 }
 
-const Toggler = ({ text }: TogglerProps): JSX.Element => {
+const Toggler = ({ text, setFilter, filter }: TogglerProps): JSX.Element => {
 
     const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.checked, text);
+        if(e.target.checked) setFilter([...filter, text]);
+        else setFilter(filter.filter(item => item !== text));
     }
 
     return (
         <div className={styles.dropdown_row}>
             <span>{text}</span>
             <label className={styles.toggler_wrapper}>
-                <input type="checkbox" onChange={handleCheckboxClick}></input>
+            <input type="checkbox" checked={filter.includes(text)} onChange={handleCheckboxClick}></input>
                 <div className={styles.toggler_slider}>
                     <div className={styles.toggler_knob}></div>
                 </div>

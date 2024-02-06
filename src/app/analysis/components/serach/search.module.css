@@ -126,6 +126,10 @@
     width: 200px;
 }
 
+.filter_icon {
+    color: var(--gray-darker)
+}
+
 .dropbtn {
     width: 100%;
     height: 100%;
