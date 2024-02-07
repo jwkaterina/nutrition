@@ -79,8 +79,9 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
 
     const handleRightClick = (): void => {
         if(rightText === 'Edit') {
-            setCardOpen(CardState.CLOSED);
-            router.push('/analysis/recipe-analysis');
+            if(currentRecipe.recipe) router.push('/analysis/recipe-analysis');
+            if(currentMenu.menu) router.push('/analysis/menu-analysis');
+            setCardOpen(CardState.CLOSING);
         } else deleteCard();
     }
 

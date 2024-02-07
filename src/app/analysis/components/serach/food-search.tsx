@@ -28,10 +28,6 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const searchRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		setCardOpen(CardState.CLOSED);
-	}, [])
-
-	useEffect(() => {
 		if(searchCleared) {
 			setFoodArr([]);
 			setInput('');
@@ -54,7 +50,6 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 
 		setShowOptions(false);
 		setQueryOptions(null);
-		setCardOpen(CardState.CLOSED);
 		setInput(option.innerText);
 
 		const result = await parseQuery(option.innerText);
@@ -64,7 +59,6 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const handleEnterKey = async(e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			setShowOptions(false);
-			setCardOpen(CardState.CLOSED);
 			const result = await parseQuery(input);
 			if(result) setHintsArr(result.hints);    
 		}
@@ -87,7 +81,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	}
 
 	useEffect(() => {
-		if(cardOpen == CardState.OPEN && searchRef.current) {
+		if(cardOpen == CardState.OPENING && searchRef.current) {
 			setShowOptions(false);
 			(searchRef.current as HTMLElement).scrollTo({
                 top: 0,
@@ -100,7 +94,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const showFilter: boolean = cardOpen !== CardState.OPEN && !showOptions;
 
     const style = () => {
-        if(cardOpen == CardState.OPEN) {
+        if(cardOpen == CardState.OPENING) {
             return {overflow: 'hidden'}
         } else {
             return {overflow: 'auto'}
@@ -109,7 +103,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 
     return (
         <div className={styles.container} style={style()} ref={searchRef}>
-            {cardOpen != CardState.OPEN && <div className={styles.input_container}>
+            {cardOpen == CardState.CLOSED && <div className={styles.input_container}>
                 <input 
                     type="text" 
                     className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search } placeholder='search food' 

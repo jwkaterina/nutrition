@@ -21,7 +21,6 @@ const AnalysisMenu = ({ onClear, rightText }: AnalysisMenuProps): JSX.Element =>
 	const { setCurrentMenu } = useContext(CurrentMenuContext);
 
 	const onBackClick = (): void => {
-		setCardOpen(CardState.CLOSED);
 		setScrollBehavior('auto');
 		router.push('/');
 		setTimeout(() => {

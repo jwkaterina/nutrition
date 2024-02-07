@@ -30,7 +30,7 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
       }, [slide]);
 
 	useEffect(() => {
-		if(slidesRef.current && cardOpen == CardState.OPEN) {
+		if(slidesRef.current && cardOpen == CardState.OPENING) {
 			(slidesRef.current as HTMLElement).scrollTo({
                 top: 0,
                 left: (slidesRef.current as HTMLElement).clientWidth * slide,

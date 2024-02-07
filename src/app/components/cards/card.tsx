@@ -13,7 +13,7 @@ interface CardProps {
 
 const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): JSX.Element => {
 
-    const { cardOpen } = useContext(CardOpenContext);
+    const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const cardRef = useRef<HTMLDivElement>(null);
     const [style, setStyle] = useState({} as React.CSSProperties);
 
@@ -77,17 +77,20 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
         };
         if(cardRef.current && cardOpen == CardState.OPENING) {
             cardRef.current.animate(keyframes, animationOptions);
+            setCardOpen(CardState.OPEN);
+
         } 
         if(cardOpen == CardState.CLOSING) {
             cardRef.current?.animate(keyframesReverse, animationOptions);
             setIsOpen(false);
+            setCardOpen(CardState.CLOSED);
+
         }
         if(cardOpen == CardState.CLOSED) {
             cardRef.current?.animate(keyframesReverse, styleOptions);
             setIsOpen(false);
         }
     }, [cardOpen, isOpen])
-
 
     return (
         <div className={styles.card} onClick={onCardClick} ref={cardRef} style={style}>
