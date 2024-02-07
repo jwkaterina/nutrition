@@ -1,5 +1,5 @@
 import { CardState } from "@/app/types/types"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { CardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from '@/app/context/food-context'
 import { CurrentRecipeContext } from '@/app/context/recipe-context'
@@ -8,11 +8,12 @@ import { useHttpClient } from "@/app/hooks/http-hook"
 import Menu from "./menu"
 import ErrorModal from "@/app/components/overlays/error-modal/error-modal"
 import LoadingSpinner from "@/app/components/overlays/loading/loading-spinner"
+import { useRouter} from 'next/navigation';
 
 interface OpenCardMenuProps {
     onFoodDelete: () => void,
     onRecipeDelete: () => void,
-    onMenuDelete: () => void,
+    onMenuDelete: () => void
 }
 
 const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMenuProps): JSX.Element => {
@@ -23,6 +24,9 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const [rightText, setRightText] = useState<string>("Delete");
+
+    const router = useRouter();
 
     const deleteCard = (): void => {
         if(currentFood.food) deleteFood();
@@ -73,14 +77,27 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
         setCurrentMenu({id: null, recipe: null});
     }
 
+    const handleRightClick = (): void => {
+        if(rightText === 'Edit') {
+            setCardOpen(CardState.CLOSED);
+            router.push('/analysis/recipe-analysis');
+        } else deleteCard();
+    }
+
+    useEffect(() => {
+        if(currentFood.food) return;
+        if(currentRecipe.recipe) setRightText("Edit");
+        if(currentMenu.menu) setRightText("Edit");
+    }, [currentFood, currentRecipe, currentMenu])
+
     return (<>
         {error && <ErrorModal error={error} onClose={clearError} />}
         {isLoading && <LoadingSpinner />}
         <Menu 
             leftText="Back to Favorites" 
-            rightText="Delete" 
+            rightText={rightText}
             onLeftclick={handleBackClick} 
-            onRightclick={() => deleteCard()} 
+            onRightclick={handleRightClick} 
         />
     </>)
 }
