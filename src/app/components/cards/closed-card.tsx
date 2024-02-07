@@ -15,10 +15,10 @@ const ClosedCard = ({ title, image, calories, protein, fat, carbs }: ClosedCardP
 
     return (<>
         <div className={styles.title}>
-                {image && <img src={image} alt="" className={styles.img}/>}
-                <h2>{title}</h2>
-            </div>
-            <div className={styles.nutrients}>
+            {image && <img src={image} alt="" className={styles.img}/>}
+            <h2>{title}</h2>
+        </div>
+        <div className={styles.nutrients}>
             <div className={styles.column}>
                 <h5>kcal</h5>
                 {calories && <p>{calories.toFixed(0)}</p>}

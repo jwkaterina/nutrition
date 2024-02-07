@@ -1,5 +1,5 @@
 import styles from './card.module.css'
-import { useRef, useContext, useEffect } from 'react'
+import { useRef, useContext, useEffect, useState } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'
 import { CardState } from '@/app/types/types'
 
@@ -15,6 +15,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
 
     const { cardOpen } = useContext(CardOpenContext);
     const cardRef = useRef<HTMLDivElement>(null);
+    const [style, setStyle] = useState({} as React.CSSProperties);
 
     let mediaQuery600: MediaQueryList | null = null;
     let mediaQuery1000: MediaQueryList | null = null;
@@ -55,37 +56,41 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
         { top: 0, left: 0, width: '100%', height: `${cardHeight}px`, zIndex: 1, transform: `translate(0px, 0px)` }
     ];
 
-    const options: KeyframeAnimationOptions  = {
+    const animationOptions: KeyframeAnimationOptions  = {
         duration: 300,
         easing: 'ease-in-out',
         fill: 'forwards'
     };
 
-    if(cardRef.current && isOpen) {
-        cardRef.current.animate(keyframes, options);
-    } 
-
+    const styleOptions: KeyframeAnimationOptions  = {
+        duration: 0,
+        fill: 'forwards'
+    };
+   
     useEffect(() => {
-        if(cardOpen == CardState.CLOSING && isOpen) {
-            cardRef.current?.animate(keyframesReverse, options);
-            setIsOpen(false);
-        }
-        if(cardOpen == CardState.CLOSED && isOpen) {
-            setIsOpen(false);
-        }
-    }, [cardOpen])
-
-    const style = () => {
-        if(isOpen) {
-            return {
+        if(!isOpen) return;
+        if(cardOpen == CardState.OPEN) {
+            setStyle({
                 height: '100%',
                 width: '100vw'
-            }
+            })
+        };
+        if(cardRef.current && cardOpen == CardState.OPENING) {
+            cardRef.current.animate(keyframes, animationOptions);
         } 
-    }
+        if(cardOpen == CardState.CLOSING) {
+            cardRef.current?.animate(keyframesReverse, animationOptions);
+            setIsOpen(false);
+        }
+        if(cardOpen == CardState.CLOSED) {
+            cardRef.current?.animate(keyframesReverse, styleOptions);
+            setIsOpen(false);
+        }
+    }, [cardOpen, isOpen])
+
 
     return (
-        <div className={styles.card} onClick={onCardClick} ref={cardRef} style={style()}>
+        <div className={styles.card} onClick={onCardClick} ref={cardRef} style={style}>
             {children}
         </div>
     )

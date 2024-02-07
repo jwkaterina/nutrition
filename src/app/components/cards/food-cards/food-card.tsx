@@ -23,7 +23,7 @@ const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
         if(isOpen) {
             return 
         }
-        setCardOpen(CardState.OPEN);
+        setCardOpen(CardState.OPENING);
         setIsOpen(true); 
 
         setCurrentFood({

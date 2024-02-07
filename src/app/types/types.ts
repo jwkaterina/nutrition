@@ -5,6 +5,7 @@ export enum SlideType {
 }
 
 export enum CardState { 
+    OPENING,
     OPEN,
     CLOSING,
     CLOSED

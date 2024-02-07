@@ -23,7 +23,7 @@ const MenuCard = ({ menu, index, id, open }: MenuCardProps): JSX.Element => {
         if(isOpen) {
             return 
         }
-        setCardOpen(CardState.OPEN);
+        setCardOpen(CardState.OPENING);
         setIsOpen(true); 
 
         setCurrentMenu({

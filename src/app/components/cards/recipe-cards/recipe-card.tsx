@@ -23,7 +23,7 @@ const RecipeCard = ({ recipe, index, id, open }: RecipeCardProps): JSX.Element =
         if(isOpen) {
             return 
         }
-        setCardOpen(CardState.OPEN);
+        setCardOpen(CardState.OPENING);
         setIsOpen(true); 
 
         setCurrentRecipe({
