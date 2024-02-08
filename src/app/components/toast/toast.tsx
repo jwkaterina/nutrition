@@ -1,5 +1,7 @@
 import styles from './toast.module.css';
 import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark, faCircleCheck, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 interface ToastProps {
     active: boolean;
@@ -17,25 +19,32 @@ const Toast = ({ active,  message, clearError, status }: ToastProps) => {
             setOpen(true);
             setTimeout(() => {
                 setOpen(false);
-            }, 5000)
+            }, 4000);
+            setTimeout(() => {
+                clearError();
+            }, 4500);
         }
     }, [active]);
 
     const onClose = () => {
         setOpen(false);
-        clearError();
+        setTimeout(() => {
+            clearError();
+        }, 500);
     }
 
     return (<>
         <div className={open ? `${styles.toast} ${styles.active}` : `${styles.toast}`}>
             <div className={styles.toast_content}>
-                {/* <i className={styles.fas fa_solid fa_check check}></i> */}
-                <div className={styles.message}>
+                {status == 'Success' ? 
+                <FontAwesomeIcon icon={faCircleCheck} className={styles.check}/> :
+                <FontAwesomeIcon icon={faCircleExclamation} className={styles.fail}/>}
+                <div className={styles.info}>
                     <span className={`${styles.text} ${styles.status}`}>{status}</span>
                     <span className={`${styles.text} ${styles.message}`}>{message}</span>
                 </div>
             </div>
-                {/* <i className={styles.fa_solid fa-xmark close} onClick={onClose}></i> */}
+            <FontAwesomeIcon icon={faXmark} className={styles.close} onClick={onClose}/>
             <div className={open ? `${styles.progress} ${styles.active}` : `${styles.progress}`}></div>
         </div>
     </>)
