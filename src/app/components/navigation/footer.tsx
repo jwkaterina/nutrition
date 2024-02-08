@@ -28,6 +28,7 @@ const Footer = ({ color }: FooterProps): JSX.Element => {
         if (isLoggedIn) {
             // logout
         } else {
+            setCardOpen(CardState.CLOSED);
             router.push('/auth')
         }
     }
