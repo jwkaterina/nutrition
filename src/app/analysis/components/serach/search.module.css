@@ -95,6 +95,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     margin-left: 1rem;
+    z-index: 3;
 }
 
 .filter_dropdown, .sort_select, .filter_dropdown .dropbtn {

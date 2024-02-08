@@ -8,11 +8,13 @@ interface SortButtonsProps {
 	setSort: (sort: SortType) => void;
     setFilter: (filter: string[]) => void;
     filter: string[];
+	isOpen: boolean;
+	setOpen: (open: boolean) => void;
 }
 
-const SortButtons = ({ setSort, setFilter, filter }: SortButtonsProps): JSX.Element => {
+const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButtonsProps): JSX.Element => {
 
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    // const [isFilterOpen, setIsFilterOpen] = useState(false);
 
 	const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const select = e.target;
@@ -51,10 +53,10 @@ const SortButtons = ({ setSort, setFilter, filter }: SortButtonsProps): JSX.Elem
 	return (
 		<div className={styles.sort_buttons}>
 			<div className={styles.filter_dropdown} >
-				<button className={styles.dropbtn} onClick={() => setIsFilterOpen(!isFilterOpen)}>
+				<button className={styles.dropbtn} onClick={() => setOpen(!isOpen)}>
                     Filter <FontAwesomeIcon icon={faSliders} className={styles.filter_icon}/>
                 </button>
-                {isFilterOpen && (
+                {isOpen && (
                     <div className={styles.dropdown_content}>
                         <Toggler text={'Generic foods'} setFilter={setFilter} filter={filter}/>
                         <Toggler text={'Packaged foods'} setFilter={setFilter} filter={filter}/>

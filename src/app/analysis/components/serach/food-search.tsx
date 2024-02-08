@@ -24,6 +24,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const [input, setInput] = useState('');
 	const [sort, setSort] = useState<SortType>(SortType.DEFAULT);
 	const [filter, setFilter] = useState<string[]>(['Generic foods']);
+	const [isFilterOpen, setIsFilterOpen] = useState(false);
 
 	const searchRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +103,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
     }
 
     return (
-        <div className={styles.container} style={style()} ref={searchRef}>
+        <div className={styles.container} style={style()} ref={searchRef} onClick={() => {isFilterOpen && setIsFilterOpen(false)}}>
             {cardOpen == CardState.CLOSED && <div className={styles.input_container}>
                 <input 
                     type="text" 
@@ -131,7 +132,12 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
                 queryOptions={queryOptions} 
                 onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}
 			/>}
-			{showFilter && <SortButtons setSort={setSort} setFilter={setFilter} filter={filter}/>}
+			{showFilter && <SortButtons 
+				setSort={setSort} 
+				setFilter={setFilter} 
+				filter={filter} 
+				isOpen={isFilterOpen} 
+				setOpen={setIsFilterOpen}/>}
             {foodArr.length > 0 && <FoodList foodArr={foodArr} sort={sort}/>}
         </div>
     )
