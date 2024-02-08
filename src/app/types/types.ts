@@ -139,3 +139,8 @@ export enum SortType {
     DESC_Carbs,
     DEFAULT
 }
+
+export enum AnalysisMode {
+    VIEW,
+    EDIT
+}

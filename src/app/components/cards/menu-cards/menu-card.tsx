@@ -1,4 +1,4 @@
-import { MenuProp, CardState } from '@/app/types/types'
+import { MenuProp, CardState, AnalysisMode } from '@/app/types/types'
 import Card from '../card'
 import { useContext, useState } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'
@@ -28,7 +28,8 @@ const MenuCard = ({ menu, index, id, open }: MenuCardProps): JSX.Element => {
 
         setCurrentMenu({
             menu: menu,
-            id: id
+            id: id,
+            mode: AnalysisMode.VIEW
         });
     }
 

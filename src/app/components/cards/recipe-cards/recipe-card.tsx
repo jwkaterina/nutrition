@@ -1,4 +1,4 @@
-import { Recipe, CardState } from '@/app/types/types'
+import { Recipe, CardState, AnalysisMode } from '@/app/types/types'
 import Card from '../card'
 import { useContext, useState } from 'react'
 import { CardOpenContext } from '@/app/context/card-context'
@@ -28,7 +28,8 @@ const RecipeCard = ({ recipe, index, id, open }: RecipeCardProps): JSX.Element =
 
         setCurrentRecipe({
             recipe: recipe,
-            id: id
+            id: id,
+            mode: AnalysisMode.VIEW
         });
     }
 

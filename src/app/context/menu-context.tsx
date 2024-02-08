@@ -1,9 +1,10 @@
 import { createContext, useState, useMemo } from 'react';
-import { MenuProp } from '@/app/types/types';
+import { MenuProp, AnalysisMode } from '@/app/types/types';
 
 export interface CurrentMenu  {
     menu: MenuProp | null,
-    id: string | null
+    id: string | null,
+    mode: AnalysisMode
 }
 
 interface CurrentMenuContextProps {
@@ -14,7 +15,8 @@ interface CurrentMenuContextProps {
 export const CurrentMenuContext = createContext<CurrentMenuContextProps>({
     currentMenu: {
         menu: null,
-        id: null
+        id: null,
+        mode: AnalysisMode.VIEW
     },
     setCurrentMenu: () => {}
 });
@@ -22,7 +24,8 @@ export const CurrentMenuContext = createContext<CurrentMenuContextProps>({
 export const CurrentMenuProvider = ({ children }: any) => {
     const [currentMenu, setCurrentMenu] = useState<CurrentMenu>({
         menu: null,
-        id: null
+        id: null,
+        mode: AnalysisMode.VIEW
     });
 
     const contextValue = useMemo(() => ({

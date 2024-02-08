@@ -1,7 +1,7 @@
 import { use, useContext, useEffect, useState } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, Nutrients } from '@/app/types/types';
+import { CardState, Nutrients, AnalysisMode } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
@@ -28,7 +28,8 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
         if(searchCleared) {
             setCurrentRecipe({
                 recipe: null,
-                id: null
+                id: null,
+                mode: AnalysisMode.VIEW
             });
         }
         setName('');
@@ -75,7 +76,8 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
             };
             setCurrentRecipe({
                 recipe: newRecipe,
-                id: null
+                id: null,
+                mode: currentRecipe.mode
             });
             setCardOpen(CardState.OPEN);
             // at the end of analysis set ingredients state to the formatted string in order to avoid unnecessary re-rendering

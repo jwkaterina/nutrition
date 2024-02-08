@@ -3,7 +3,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { useContext } from "react";
 import { AuthContext } from "@/app/context/auth-context";
 import { SlideContext } from "@/app/context/slide-context";
-import { CardState } from "@/app/types/types";
+import { CardState, AnalysisMode } from "@/app/types/types";
 import { CardOpenContext } from "@/app/context/card-context";
 import { CurrentRecipeContext } from "@/app/context/recipe-context";
 import { CurrentMenuContext } from "@/app/context/menu-context";
@@ -45,8 +45,8 @@ const Footer = ({ color }: FooterProps): JSX.Element => {
         }
         
         setCurrentFood({food: null, id: null});
-        setCurrentRecipe({id: null, recipe: null});
-		setCurrentMenu({id: null, menu: null});
+        setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+		setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
     
     }
 

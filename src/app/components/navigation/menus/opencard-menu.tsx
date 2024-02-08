@@ -1,4 +1,4 @@
-import { CardState } from "@/app/types/types"
+import { CardState, AnalysisMode } from "@/app/types/types"
 import { useContext, useEffect, useState } from "react"
 import { CardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from '@/app/context/food-context'
@@ -54,7 +54,7 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
             );
             onRecipeDelete();
             setCardOpen(CardState.CLOSING);
-            setCurrentRecipe({id: null, recipe: null});
+            setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
         } catch (err) {}
     }
 
@@ -66,21 +66,27 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
             );
             onMenuDelete();
             setCardOpen(CardState.CLOSING);
-            setCurrentMenu({id: null, menu: null});
+            setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
         } catch (err) {}
     }
 
     const handleBackClick = (): void => {
         setCardOpen(CardState.CLOSING);
         setCurrentFood({id: null, food: null});
-        setCurrentRecipe({id: null, recipe: null});
-        setCurrentMenu({id: null, recipe: null});
+        setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+        setCurrentMenu({id: null, recipe: null, mode: AnalysisMode.VIEW});
     }
 
     const handleRightClick = (): void => {
         if(rightText === 'Edit') {
-            if(currentRecipe.recipe) router.push('/analysis/recipe-analysis');
-            if(currentMenu.menu) router.push('/analysis/menu-analysis');
+            if(currentRecipe.recipe) {
+                router.push('/analysis/recipe-analysis');
+                setCurrentRecipe({id: currentRecipe.id, recipe: currentRecipe.recipe, mode: AnalysisMode.EDIT});
+            }
+            if(currentMenu.menu) {
+                router.push('/analysis/menu-analysis');
+                setCurrentMenu({id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT});
+            }
             setCardOpen(CardState.CLOSING);
         } else deleteCard();
     }
