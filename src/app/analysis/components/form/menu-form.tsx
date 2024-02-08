@@ -5,9 +5,9 @@ import { CardState, Nutrients, RecipeWithServings, AnalysisMode } from '@/app/ty
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
-import  LoadingSpinner from '@/app/components/loading/loading-spinner';import RecipeSelect from './recipe-select';
+import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';import RecipeSelect from './recipe-select';
 import { MenuNutrientsCalculator, RecipeNutrientsCalculator } from './nutrients-calculator';
-import Toast from '@/app/components/toast/toast';
+import Toast from '@/app/components/utilities/toast/toast';
 
 interface MenuFormProps {
     searchCleared: boolean,

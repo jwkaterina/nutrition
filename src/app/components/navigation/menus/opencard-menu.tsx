@@ -6,8 +6,8 @@ import { CurrentRecipeContext } from '@/app/context/recipe-context'
 import { CurrentMenuContext } from '@/app/context/menu-context'
 import { useHttpClient } from "@/app/hooks/http-hook"
 import Menu from "./menu"
-import LoadingSpinner from "@/app/components/loading/loading-spinner"
-import Toast from "../../toast/toast"
+import LoadingSpinner from "@/app/components/utilities/loading/loading-spinner"
+import Toast from "../../utilities/toast/toast"
 import { useRouter} from 'next/navigation';
 
 interface OpenCardMenuProps {

@@ -5,8 +5,8 @@ import { CardState, Nutrients, AnalysisMode } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
-import  LoadingSpinner from '@/app/components/loading/loading-spinner';import { RecipeNutrientsCalculator } from './nutrients-calculator';
-import Toast from '@/app/components/toast/toast';
+import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';import { RecipeNutrientsCalculator } from './nutrients-calculator';
+import Toast from '@/app/components/utilities/toast/toast';
 
 interface RecipeFormProps {
     searchCleared: boolean,
