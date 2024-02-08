@@ -6,7 +6,7 @@ import { CurrentRecipeContext } from '@/app/context/recipe-context'
 import { CurrentMenuContext } from '@/app/context/menu-context'
 import { useHttpClient } from "@/app/hooks/http-hook"
 import Menu from "./menu"
-import LoadingSpinner from "@/app/components/overlays/loading/loading-spinner"
+import LoadingSpinner from "@/app/components/loading/loading-spinner"
 import Toast from "../../toast/toast"
 import { useRouter} from 'next/navigation';
 

@@ -1,13 +1,12 @@
-import styles from './loading.module.css';
-import Overlay from '../overlay';
+import styles from './loading-spinner.module.css';
 
 const LoadingSpinner = (): JSX.Element => {
-
+    
     return (
-        <Overlay>
+        <div className={styles.container}>
             <div className={styles.spinner}></div>
-        </Overlay>
+        </div>
     );
-};
+}
 
 export default LoadingSpinner;

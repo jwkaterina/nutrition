@@ -5,8 +5,7 @@ import FoodCard from '../../cards/food-cards/food-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/app/context/auth-context';
-import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
-import Toast from '@/app/components/toast/toast';
+import  LoadingSpinner from '@/app/components/loading/loading-spinner';import Toast from '@/app/components/toast/toast';
 
 interface FoodSlideProps {
     foodDeleted: boolean
