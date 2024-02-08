@@ -1,4 +1,4 @@
-import { use, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
 import { CardState, Nutrients, AnalysisMode } from '@/app/types/types';
@@ -6,8 +6,8 @@ import { analyseRecipe } from '@/app/services/fetch-data';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
-import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
 import { RecipeNutrientsCalculator } from './nutrients-calculator';
+import Toast from '@/app/components/toast/toast';
 
 interface RecipeFormProps {
     searchCleared: boolean,
@@ -110,7 +110,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
     )}
 
     return (<>
-            {error && <ErrorModal error={error} onClose={() => setError(null)} />}
+            <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearError={() => setError(null)} />
             {isLoading && <LoadingSpinner />}
             <div className={styles.container}>
                 <div className={styles.form_container}>

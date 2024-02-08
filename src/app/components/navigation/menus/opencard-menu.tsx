@@ -6,8 +6,8 @@ import { CurrentRecipeContext } from '@/app/context/recipe-context'
 import { CurrentMenuContext } from '@/app/context/menu-context'
 import { useHttpClient } from "@/app/hooks/http-hook"
 import Menu from "./menu"
-import ErrorModal from "@/app/components/overlays/error-modal/error-modal"
 import LoadingSpinner from "@/app/components/overlays/loading/loading-spinner"
+import Toast from "../../toast/toast"
 import { useRouter} from 'next/navigation';
 
 interface OpenCardMenuProps {
@@ -98,7 +98,7 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
     }, [currentFood, currentRecipe, currentMenu])
 
     return (<>
-        {error && <ErrorModal error={error} onClose={clearError} />}
+        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearError={clearError} />
         {isLoading && <LoadingSpinner />}
         <Menu 
             leftText="Back to Favorites" 

@@ -6,9 +6,9 @@ import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
-import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
 import RecipeSelect from './recipe-select';
 import { MenuNutrientsCalculator, RecipeNutrientsCalculator } from './nutrients-calculator';
+import Toast from '@/app/components/toast/toast';
 
 interface MenuFormProps {
     searchCleared: boolean,
@@ -123,7 +123,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     )
 
     return (<>
-            {error && <ErrorModal error={error} onClose={() => setError(null)} />}
+            <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearError={() => setError(null)} />
             {isLoading && <LoadingSpinner />}
             <div className={styles.container}>
                 <div className={styles.form_container}>

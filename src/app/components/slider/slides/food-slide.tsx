@@ -6,7 +6,7 @@ import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/app/context/auth-context';
 import LoadingSpinner from '@/app/components/overlays/loading/loading-spinner';
-import ErrorModal from '@/app/components/overlays/error-modal/error-modal';
+import Toast from '@/app/components/toast/toast';
 
 interface FoodSlideProps {
     foodDeleted: boolean
@@ -40,7 +40,7 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
     }, [foodDeleted]);
 
     return (<>
-        {error && <ErrorModal error={error} onClose={clearError} />}
+        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearError={clearError} />
         {isLoading && <LoadingSpinner />}
          <Slide>
             {foodList.length > 0 && foodList}
