@@ -72,8 +72,8 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             setCardOpen(CardState.OPEN);
             setCurrentMenu({
                 menu: newMenu,
-                id: null,
-                mode: AnalysisMode.VIEW
+                id: currentMenu.mode == AnalysisMode.EDIT ? currentMenu.id : null,
+                mode: currentMenu.mode
             });
             // at the end of analysis set ingredients state to the formatted string in order to avoid unnecessary re-rendering
             setIngredientsString(ingredientsArray.join('\n'));

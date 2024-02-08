@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useEffect, useContext, useState } from "react"
 import { CardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from "@/app/context/food-context"
 import { CurrentRecipeContext } from "@/app/context/recipe-context"
@@ -10,7 +10,7 @@ import { useHttpClient } from '@/app/hooks/http-hook';
 import { AuthContext } from "@/app/context/auth-context"
 import ErrorModal from "@/app/components/overlays/error-modal/error-modal"
 import LoadingSpinner from "@/app/components/overlays/loading/loading-spinner"
-import { CardState, Food, Recipe, MenuProp } from "@/app/types/types"
+import { CardState, Food, Recipe, MenuProp, AnalysisMode } from "@/app/types/types"
 
 interface OpenAnalysisMenuProps {
     
@@ -28,7 +28,10 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const { user } = useContext(AuthContext);
     const { setScrollBehavior } = useContext(SlideContext);
-    const { slide } = useContext(SlideContext);
+
+    useEffect(() => {
+        if(currentRecipe.mode == AnalysisMode.EDIT || currentMenu.mode == AnalysisMode.EDIT) setRightText('Update Favorites');
+    }, [currentRecipe.mode, currentMenu.mode]);
  
     const addToFavorites = async () => {
         if(currentFood.food) addFoodToFavorites();
@@ -84,19 +87,56 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
             } catch (err) {}
     }
 
+    const updateFavorites = async () => {
+        if(currentRecipe.recipe) updateRecipe();
+        if(currentMenu.menu) updateMenu();
+    }
+
+    const updateRecipe = async () => {
+        const Recipe: Recipe | null = currentRecipe!.recipe;
+        try {
+            await sendRequest(
+                `http://localhost:5001/recipes/${currentRecipe.id}`,
+                'PATCH',
+                JSON.stringify({
+                updatedRecipe: Recipe
+                }),
+                { 'Content-Type': 'application/json' }
+            );
+            setRightText('Go To Favorites');
+            } catch (err) {}
+    }
+
+    const updateMenu = async () => {
+        const Menu: MenuProp | null = currentMenu!.menu;
+        try {
+            await sendRequest(
+                `http://localhost:5001/menus/${currentMenu.id}`,
+                'PATCH',
+                JSON.stringify({
+                updatedMenu: Menu
+                }),
+                { 'Content-Type': 'application/json' }
+            );
+            setRightText('Go To Favorites');
+            } catch (err) {}
+    }
+
     const handleRightClick = (): void => {
         if(rightText === 'Add To Favorites') {
             addToFavorites();
         } else if(rightText === 'Go To Favorites') {
             setCardOpen(CardState.CLOSED);
             setCurrentFood({id: null, food: null});
-            setCurrentRecipe({id: null, recipe: null});
-            setCurrentMenu({id: null, menu: null});
+            setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+            setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
             setScrollBehavior('auto');
             router.push('/');
             setTimeout(() => {
                 setScrollBehavior('smooth');
             }, 500);
+        } else if (rightText === 'Update Favorites') {
+            updateFavorites();
         }
     }
 

@@ -10,6 +10,8 @@ router.post(
   '/', recipeControllers.createRecipe
 );
 
+router.patch('/:pid', recipeControllers.updateRecipe);
+
 router.delete('/:pid', recipeControllers.deleteRecipe);
 
 module.exports = router;

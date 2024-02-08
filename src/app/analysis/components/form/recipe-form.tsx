@@ -76,7 +76,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
             };
             setCurrentRecipe({
                 recipe: newRecipe,
-                id: null,
+                id: currentRecipe.mode === AnalysisMode.EDIT ? currentRecipe.id : null,
                 mode: currentRecipe.mode
             });
             setCardOpen(CardState.OPEN);

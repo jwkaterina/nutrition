@@ -90,6 +90,47 @@ const createMenu = async (req, res, next) => {
   res.status(201).json({ menu: createdMenu });
 };
 
+const updateMenu = async (req, res, next) => {
+
+  const { updatedMenu } = req.body;
+  const menuId = req.params.pid;
+  console.log(updatedMenu);
+
+  let menu;
+  try {
+    menu = await Menu.findById(menuId);
+    // console.log(menu);
+  } catch (err) {
+    const error = new HttpError(
+      console.log('could not find menu'),
+      'Something went wrong, could not update menu.',
+      500
+    );
+    return next(error);
+  }
+
+  if (!menu) {
+    const error = new HttpError('Could not find menu for this id.', 404);
+    return next(error);
+  }
+
+  menu.menu = updatedMenu;
+  // console.log(menu);
+
+  try {
+    await menu.save();
+  } catch (err) {
+    console.log('could not save menu')
+    const error = new HttpError(
+      'Something went wrong, could not update menu.',
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ menu: menu.toObject({ getters: true }) });
+};
+
 const deleteMenu = async (req, res, next) => {
   const menuId = req.params.pid;
 
@@ -130,3 +171,4 @@ const deleteMenu = async (req, res, next) => {
 exports.getMenuByUserId = getMenuByUserId;
 exports.createMenu = createMenu;
 exports.deleteMenu = deleteMenu;
+exports.updateMenu = updateMenu;

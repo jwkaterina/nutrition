@@ -10,6 +10,8 @@ router.post(
   '/', menuControllers.createMenu
 );
 
+router.patch('/:pid', menuControllers.updateMenu);
+
 router.delete('/:pid', menuControllers.deleteMenu);
 
 module.exports = router;

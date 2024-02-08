@@ -91,6 +91,47 @@ const createRecipe = async (req, res, next) => {
   res.status(201).json({ recipe: createdRecipe });
 };
 
+const updateRecipe = async (req, res, next) => {
+
+  const { updatedRecipe } = req.body;
+  const recipeId = req.params.pid;
+  console.log(updatedRecipe);
+
+  let recipe;
+  try {
+    recipe = await Recipe.findById(recipeId);
+    // console.log(recipe);
+  } catch (err) {
+    const error = new HttpError(
+      console.log('could not find recipe'),
+      'Something went wrong, could not update recipe.',
+      500
+    );
+    return next(error);
+  }
+
+  if (!recipe) {
+    const error = new HttpError('Could not find recipe for this id.', 404);
+    return next(error);
+  }
+
+  recipe.recipe = updatedRecipe;
+  // console.log(recipe);
+
+  try {
+    await recipe.save();
+  } catch (err) {
+    console.log('could not save recipe')
+    const error = new HttpError(
+      'Something went wrong, could not update recipe.',
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json({ recipe: recipe.toObject({ getters: true }) });
+};
+
 const deleteRecipe = async (req, res, next) => {
   const recipeId = req.params.pid;
 
@@ -130,4 +171,5 @@ const deleteRecipe = async (req, res, next) => {
 
 exports.getRecipeByUserId = getRecipeByUserId;
 exports.createRecipe = createRecipe;
+exports.updateRecipe = updateRecipe;
 exports.deleteRecipe = deleteRecipe;
