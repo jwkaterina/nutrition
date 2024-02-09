@@ -13,8 +13,6 @@ export default function Home(): JSX.Element {
 
     const { cardOpen } = useContext(CardOpenContext);
     const [deletedFood, setDeletedFood] = useState<boolean>(false);
-    const [deletedRecipe, setDeletedRecipe] = useState<boolean>(false);
-    const [deletedMenu, setDeletedMenu] = useState<boolean>(false);
 
     const primaryColor = "var(--primary-color)";
 
@@ -24,15 +22,11 @@ export default function Home(): JSX.Element {
                 {cardOpen == CardState.OPEN ? 
                     <OpenCardMenu 
                         onFoodDelete={() => setDeletedFood(true)}
-                        onRecipeDelete={() => setDeletedRecipe(true)}
-                        onMenuDelete={() => setDeletedMenu(true)}
                     /> : 
                     <MainNav/>}
             </NavBar>
             <Slider 
                 foodDeleted={deletedFood} 
-                recipeDeleted={deletedRecipe}
-                menuDeleted={deletedMenu}
             />
             <Footer color={primaryColor} />
         </>

@@ -8,12 +8,10 @@ import { CardOpenContext } from '@/app/context/card-context';
 import { SlideContext } from '../../context/slide-context';
 
 interface SliderProps {
-    foodDeleted: boolean,
-    recipeDeleted: boolean,
-    menuDeleted: boolean
+    foodDeleted: boolean
 }
 
-const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.Element => {
+const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
 
     const slidesRef = useRef(null);
     const { cardOpen } = useContext(CardOpenContext);
@@ -68,8 +66,8 @@ const Slider = ({ foodDeleted, recipeDeleted, menuDeleted }: SliderProps): JSX.E
             style={style()}
         >
             <FoodSlide foodDeleted={foodDeleted}/>
-            <RecipeSlide recipeDeleted={recipeDeleted}/>
-            <MenuSlide menuDeleted={menuDeleted}/>
+            <RecipeSlide />
+            <MenuSlide />
       </div>
     )
 }

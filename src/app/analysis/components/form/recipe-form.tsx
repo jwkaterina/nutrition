@@ -5,8 +5,12 @@ import { CardState, Nutrients, AnalysisMode } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
-import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';import { RecipeNutrientsCalculator } from './nutrients-calculator';
+import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';
+import { RecipeNutrientsCalculator } from './nutrients-calculator';
 import Toast from '@/app/components/utilities/toast/toast';
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { useRouter} from 'next/navigation';
+import { SlideContext } from "@/app/context/slide-context";
 
 interface RecipeFormProps {
     searchCleared: boolean,
@@ -22,6 +26,10 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
     const [ingredientsString, setIngredientsString] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>();
+    const {sendRequest} = useHttpClient();
+    const { setScrollBehavior } = useContext(SlideContext);
+
+    const router = useRouter();
 
     useEffect(() => {
         if(searchCleared) {
@@ -89,6 +97,23 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
         }
     }
 
+    const deleteRecipe = async () => {
+        try {
+            await sendRequest(
+                `http://localhost:5001/recipes/${currentRecipe.id}`,
+                'DELETE'
+            );            
+            setScrollBehavior('auto');
+            router.push('/');
+            setTimeout(() => {
+                setScrollBehavior('smooth');
+            }, 500);            
+            setCardOpen(CardState.CLOSED);
+            setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+            // setMessage("Recipe deleted successfully");
+        } catch (err) {}
+    }
+
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
     }
@@ -135,6 +160,9 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
                         <div className={styles.form_group}>
                             <button type="submit">Analyze</button>
                         </div>
+                        {currentRecipe.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
+                            <button onClick={deleteRecipe}>Delete</button>
+                        </div>}
                     </form>
                 </div>
             </div>

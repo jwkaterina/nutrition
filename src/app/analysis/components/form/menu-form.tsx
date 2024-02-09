@@ -5,9 +5,13 @@ import { CardState, Nutrients, RecipeWithServings, AnalysisMode } from '@/app/ty
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
-import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';import RecipeSelect from './recipe-select';
+import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';
+import RecipeSelect from './recipe-select';
 import { MenuNutrientsCalculator, RecipeNutrientsCalculator } from './nutrients-calculator';
 import Toast from '@/app/components/utilities/toast/toast';
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { useRouter} from 'next/navigation';
+import { SlideContext } from "@/app/context/slide-context";
 
 interface MenuFormProps {
     searchCleared: boolean,
@@ -24,6 +28,10 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>();
     const [inputsnumber, setInputsnumber] = useState<number>(0);
+    const {sendRequest} = useHttpClient();
+    const { setScrollBehavior } = useContext(SlideContext);
+
+    const router = useRouter();
 
     useEffect(() => {
         if(searchCleared) {
@@ -106,6 +114,23 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         return nutrients;
     }
 
+    const deleteMenu = async () => {
+        try {
+            await sendRequest(
+                `http://localhost:5001/menus/${currentMenu.id}`,
+                'DELETE'
+            );
+            setScrollBehavior('auto');
+            router.push('/');
+            setTimeout(() => {
+                setScrollBehavior('smooth');
+            }, 500);            
+            setCardOpen(CardState.CLOSED);
+            setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
+            // setMessage("Menu deleted successfully");
+        } catch (err) {}
+    }
+
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
@@ -145,6 +170,9 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         <div className={styles.form_group}>
                             <button type="submit">Analyze</button>
                         </div>
+                        {currentMenu.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
+                            <button onClick={deleteMenu}>Delete</button>
+                        </div>}
                     </form>
                 </div>
             </div>

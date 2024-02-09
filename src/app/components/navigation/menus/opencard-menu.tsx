@@ -11,12 +11,10 @@ import Toast from "../../utilities/toast/toast"
 import { useRouter} from 'next/navigation';
 
 interface OpenCardMenuProps {
-    onFoodDelete: () => void,
-    onRecipeDelete: () => void,
-    onMenuDelete: () => void
+    onFoodDelete: () => void
 }
 
-const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMenuProps): JSX.Element => {
+const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
 
 
     const { setCardOpen } = useContext(CardOpenContext);
@@ -29,12 +27,6 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
 
     const router = useRouter();
 
-    const deleteCard = (): void => {
-        if(currentFood.food) deleteFood();
-        if(currentRecipe.recipe) deleteRecipe();
-        if(currentMenu.menu) deleteMenu();
-    }
-
     const deleteFood = async () => {
         try {
             await sendRequest(
@@ -44,33 +36,12 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
             onFoodDelete();
             setCurrentFood({id: null, food: null});
             setMessage("Food deleted successfully");
+            setTimeout(() => {
+                setCardOpen(CardState.CLOSED);
+            }, 4000);
         } catch (err) {
 
         }
-    }
-
-    const deleteRecipe = async () => {
-        try {
-            await sendRequest(
-                `http://localhost:5001/recipes/${currentRecipe.id}`,
-                'DELETE'
-            );
-            onRecipeDelete();
-            setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
-            setMessage("Recipe deleted successfully");
-        } catch (err) {}
-    }
-
-    const deleteMenu = async () => {
-        try {
-            await sendRequest(
-                `http://localhost:5001/menus/${currentMenu.id}`,
-                'DELETE'
-            );
-            onMenuDelete();
-            setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
-            setMessage("Menu deleted successfully");
-        } catch (err) {}
     }
 
     const handleBackClick = (): void => {
@@ -91,7 +62,7 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
                 setCurrentMenu({id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT});
             }
             setCardOpen(CardState.CLOSING);
-        } else deleteCard();
+        } else deleteFood();
     }
 
     useEffect(() => {
@@ -99,11 +70,6 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
         if(currentRecipe.recipe) setRightText("Edit");
         if(currentMenu.menu) setRightText("Edit");
     }, [currentFood, currentRecipe, currentMenu])
-
-    useEffect(() => {
-        if(message) console.log(message);
-        console.log('OpenCardMenu: message:', message);
-    }, [message])
 
     return (<>
         {error && <Toast active ={true} status={'Error'} message={error} clearMessage={clearError} />}

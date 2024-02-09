@@ -8,10 +8,9 @@ import { AuthContext } from '@/app/context/auth-context';
 import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';import Toast from '../../utilities/toast/toast';
 
 interface MenuSlideProps {
-    menuDeleted: boolean
 }
 
-const MenuSlide = ({ menuDeleted }: MenuSlideProps): JSX.Element => {
+const MenuSlide = ({ }: MenuSlideProps): JSX.Element => {
 
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [menuList, setMenuList] = useState<JSX.Element[]>([]);
@@ -36,7 +35,7 @@ const MenuSlide = ({ menuDeleted }: MenuSlideProps): JSX.Element => {
             } catch (err) {}
         };
         fetchMenus();
-    }, [menuDeleted]);
+    }, []);
 
     return (<>
         <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={clearError} />
