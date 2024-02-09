@@ -39,7 +39,7 @@ const MenuSlide = ({ menuDeleted }: MenuSlideProps): JSX.Element => {
     }, [menuDeleted]);
 
     return (<>
-        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearError={clearError} />
+        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={clearError} />
         {isLoading && <LoadingSpinner />}
          <Slide>
             {menuList.length > 0 && menuList}

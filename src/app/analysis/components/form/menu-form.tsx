@@ -122,7 +122,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     )
 
     return (<>
-            <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearError={() => setError(null)} />
+            <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={() => setError(null)} />
             {isLoading && <LoadingSpinner />}
             <div className={styles.container}>
                 <div className={styles.form_container}>

@@ -83,7 +83,7 @@ const Auth = ({ }: AuthProps): JSX.Element => {
         <NavBar color={tertiaryColor}>
             <AuthMenu />
         </NavBar>
-        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearError={clearError} />
+        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={clearError} />
         {isLoading && <LoadingSpinner />}
         <div className={styles.container}>
             <form className={styles.form} onSubmit={handleSubmit}>

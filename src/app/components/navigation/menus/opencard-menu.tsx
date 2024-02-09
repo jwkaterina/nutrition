@@ -25,6 +25,7 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [rightText, setRightText] = useState<string>("Delete");
+    const [message, setMessage] = useState<string | null>(null);
 
     const router = useRouter();
 
@@ -41,9 +42,11 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
                 'DELETE'
             );
             onFoodDelete();
-            setCardOpen(CardState.CLOSING);
             setCurrentFood({id: null, food: null});
-        } catch (err) {}
+            setMessage("Food deleted successfully");
+        } catch (err) {
+
+        }
     }
 
     const deleteRecipe = async () => {
@@ -53,8 +56,8 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
                 'DELETE'
             );
             onRecipeDelete();
-            setCardOpen(CardState.CLOSING);
             setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+            setMessage("Recipe deleted successfully");
         } catch (err) {}
     }
 
@@ -65,8 +68,8 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
                 'DELETE'
             );
             onMenuDelete();
-            setCardOpen(CardState.CLOSING);
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
+            setMessage("Menu deleted successfully");
         } catch (err) {}
     }
 
@@ -97,8 +100,14 @@ const OpenCardMenu = ({ onFoodDelete, onMenuDelete, onRecipeDelete}: OpenCardMen
         if(currentMenu.menu) setRightText("Edit");
     }, [currentFood, currentRecipe, currentMenu])
 
+    useEffect(() => {
+        if(message) console.log(message);
+        console.log('OpenCardMenu: message:', message);
+    }, [message])
+
     return (<>
-        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearError={clearError} />
+        {error && <Toast active ={true} status={'Error'} message={error} clearMessage={clearError} />}
+        {message && <Toast active ={true} status={'Success'} message={message} clearMessage={() => setMessage(null)} />}
         {isLoading && <LoadingSpinner />}
         <Menu 
             leftText="Back to Favorites" 

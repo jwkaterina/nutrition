@@ -6,11 +6,11 @@ import { faXmark, faCircleCheck, faCircleExclamation } from '@fortawesome/free-s
 interface ToastProps {
     active: boolean;
     message: string | null;
-    clearError: () => void;
+    clearMessage: () => void;
     status: 'Success' | 'Error';
 }
 
-const Toast = ({ active,  message, clearError, status }: ToastProps) => {
+const Toast = ({ active,  message, clearMessage, status }: ToastProps) => {
 
     const [open, setOpen] = useState(false);
 
@@ -21,7 +21,7 @@ const Toast = ({ active,  message, clearError, status }: ToastProps) => {
                 setOpen(false);
             }, 4000);
             setTimeout(() => {
-                clearError();
+                clearMessage();
             }, 4500);
         }
     }, [active]);
@@ -29,7 +29,7 @@ const Toast = ({ active,  message, clearError, status }: ToastProps) => {
     const onClose = () => {
         setOpen(false);
         setTimeout(() => {
-            clearError();
+            clearMessage();
         }, 500);
     }
 
@@ -37,8 +37,9 @@ const Toast = ({ active,  message, clearError, status }: ToastProps) => {
         <div className={open ? `${styles.toast} ${styles.active}` : `${styles.toast}`}>
             <div className={styles.toast_content}>
                 {status == 'Success' ? 
-                <FontAwesomeIcon icon={faCircleCheck} className={styles.check}/> :
-                <FontAwesomeIcon icon={faCircleExclamation} className={styles.fail}/>}
+                    <FontAwesomeIcon icon={faCircleCheck} className={styles.check}/> :
+                    <FontAwesomeIcon icon={faCircleExclamation} className={styles.fail}/>
+                }
                 <div className={styles.info}>
                     <span className={`${styles.text} ${styles.status}`}>{status}</span>
                     <span className={`${styles.text} ${styles.message}`}>{message}</span>

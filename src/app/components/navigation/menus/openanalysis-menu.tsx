@@ -146,7 +146,7 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     }
 
     return (<>
-        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearError={clearError} />
+        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={clearError} />
         {isLoading && <LoadingSpinner/>}
         <Menu 
             leftText='Back to Analysis' 
