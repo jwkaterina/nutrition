@@ -5,10 +5,11 @@ import NavBar from '@/app/components/navigation/nav-bar';
 import AuthMenu from '@/app/components/navigation/menus/auth-menu';
 import { AuthContext } from '@/app/context/auth-context';
 import { useState, useContext } from 'react';
-import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';import { useRouter} from 'next/navigation';
+import { useRouter} from 'next/navigation';
 import { SlideContext } from '@/app/context/slide-context';
+import { StatusType } from '@/app/types/types';
+import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import Toast from '@/app/components/utilities/toast/toast';
 
 interface AuthProps {
 }
@@ -16,10 +17,11 @@ interface AuthProps {
 const Auth = ({ }: AuthProps): JSX.Element => {
 
     const tertiaryColor: string = "var(--tertiary-color)";
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const { sendRequest } = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
     const { setIsLoggedIn, setUser } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState<boolean>(true);
+    const { setMessage, setStatus } = useContext(StatusContext);
 
     const router = useRouter();
 
@@ -46,7 +48,12 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                 setIsLoggedIn(true);
                 setUser(responseData.user.id);
                 goBack();
-            } catch (err) {}
+                setStatus(StatusType.SUCCESS);
+                setMessage('Logged in');
+            } catch (err) {
+                setStatus(StatusType.ERROR);
+                setMessage('Invalid credentials');
+            }
         } else {
             const formName = form.name as unknown as HTMLInputElement;
             const name: string = formName.value;
@@ -67,7 +74,12 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                 setIsLoggedIn(true);
                 setUser(responseData.user.id);
                 goBack();
-              } catch (err) {}
+                setStatus(StatusType.SUCCESS);
+                setMessage('Signed up');
+              } catch (err) {
+                setStatus(StatusType.ERROR);
+                setMessage('Invalid credentials');
+              }
         }
     }
 
@@ -83,8 +95,6 @@ const Auth = ({ }: AuthProps): JSX.Element => {
         <NavBar color={tertiaryColor}>
             <AuthMenu />
         </NavBar>
-        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={clearError} />
-        {isLoading && <LoadingSpinner />}
         <div className={styles.container}>
             <form className={styles.form} onSubmit={handleSubmit}>
                 {!loginMode && <div className={styles.form_group}>
