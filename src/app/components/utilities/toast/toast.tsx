@@ -16,12 +16,14 @@ const Toast = ({ }: ToastProps) => {
     useEffect(() => {
         if (message) {
             setOpen(true);
-            setTimeout(() => {
-                setOpen(false);
-            }, 4000);
-            setTimeout(() => {
-                setMessage(null);
-            }, 4500);
+            if(status == StatusType.SUCCESS) {
+                setTimeout(() => {
+                    setOpen(false);
+                }, 4000);
+                setTimeout(() => {
+                    setMessage(null);
+                }, 4500);
+            }
         }
     }, [message]);
 
@@ -45,7 +47,7 @@ const Toast = ({ }: ToastProps) => {
                 </div>
             </div>
             <FontAwesomeIcon icon={faXmark} className={styles.close} onClick={onClose}/>
-            <div className={open ? `${styles.progress} ${styles.active}` : `${styles.progress}`}></div>
+            {status == StatusType.SUCCESS && <div className={open ? `${styles.progress} ${styles.active}` : `${styles.progress}`}></div>}
         </div>
     </>)
 }
