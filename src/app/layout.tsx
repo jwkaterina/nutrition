@@ -3,6 +3,10 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import ContextProviders from '@/app/context/context-providers'
+import LoadingSpinner from './components/utilities/loading/loading-spinner'
+import Toast from './components/utilities/toast/toast'
+import { StatusContext } from '@/app/context/status-context'
+import { useContext } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,6 +15,9 @@ export default function RootLayout({
 }: {
     children: React.ReactNode
 }) {
+
+    const { isLoading } = useContext(StatusContext)
+
     return (
         <html lang="en">
             <head>
@@ -19,6 +26,8 @@ export default function RootLayout({
             </head>
             <body className={inter.className}>
                 <ContextProviders>
+                    {isLoading && <LoadingSpinner />}
+                    <Toast />
                     {children}
                 </ContextProviders>
             </body>

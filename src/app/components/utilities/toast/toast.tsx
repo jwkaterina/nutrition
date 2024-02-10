@@ -1,42 +1,41 @@
 import styles from './toast.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useContext,useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faCircleCheck, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { StatusContext } from '@/app/context/status-context';
+import { StatusType } from '@/app/types/types';
 
 interface ToastProps {
-    active: boolean;
-    message: string | null;
-    clearMessage: () => void;
-    status: 'Success' | 'Error';
 }
 
-const Toast = ({ active,  message, clearMessage, status }: ToastProps) => {
+const Toast = ({ }: ToastProps) => {
 
+    const { message, setMessage, status } = useContext(StatusContext);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (active) {
+        if (message) {
             setOpen(true);
             setTimeout(() => {
                 setOpen(false);
             }, 4000);
             setTimeout(() => {
-                clearMessage();
+                setMessage(null);
             }, 4500);
         }
-    }, [active]);
+    }, [message]);
 
     const onClose = () => {
         setOpen(false);
         setTimeout(() => {
-            clearMessage();
+            setMessage(null);
         }, 500);
     }
 
     return (<>
         <div className={open ? `${styles.toast} ${styles.active}` : `${styles.toast}`}>
             <div className={styles.toast_content}>
-                {status == 'Success' ? 
+                {status ==  StatusType.SUCCESS ? 
                     <FontAwesomeIcon icon={faCircleCheck} className={styles.check}/> :
                     <FontAwesomeIcon icon={faCircleExclamation} className={styles.fail}/>
                 }

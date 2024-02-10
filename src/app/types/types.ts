@@ -146,6 +146,6 @@ export enum AnalysisMode {
 }
 
 export enum StatusType {
-    SUCCESS,
-    ERROR
+    SUCCESS = 'Success',
+    ERROR = 'Error',
 }
