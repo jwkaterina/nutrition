@@ -26,7 +26,8 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
                 const responseData = await sendRequest(
                     `http://localhost:5001/recipes/user/${user}`
                 );
-                setLoadedRecipes(responseData.recipe);
+                const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
+                setLoadedRecipes(recipes);
             } catch (err) {}
         };
         fetchRecipes();
@@ -48,7 +49,11 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
     const SelectInputs = () => {
 
         const handleInputChange = (index: number, id: string) => {
-            undateRecipe(index, id);
+            const newRecipe = loadedRecipes.find(recipe => recipe.id === id)!.recipe;
+            setRecipes(recipes.map((recipe, i) => i === index ? {
+                selectedRecipe: newRecipe,
+                selectedServings: recipe.selectedServings
+            } : recipe));
         };
 
         let selectInputs = [];
@@ -80,10 +85,9 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
         return numberInputs;
     }
 
-    const undateRecipe = async (index: number, id: string) => {
-        const newRecipe = loadedRecipes.find(recipe => recipe.id === id)!.recipe;
+    const removeID = (recipe: LoadedRecipe) => {
         const newTotalNutrients: NutrientsProp = Object.fromEntries(
-            Object.entries(newRecipe.nutrients.totalNutrients)
+            Object.entries(recipe.recipe.nutrients.totalNutrients)
                 .filter(([key]) => key !== 'id' && key !== '_id')
                 .map(([key, value]) => [key, {
                     label: value.label,
@@ -92,7 +96,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
                 }])
         );
         const newTotalDaily: NutrientsProp = Object.fromEntries(
-            Object.entries(newRecipe.nutrients.totalDaily)
+            Object.entries(recipe.recipe.nutrients.totalDaily)
                 .filter(([key]) => key !== 'id' && key !== '_id')
                 .map(([key, value]) => [key, {
                     label: value.label,
@@ -100,22 +104,20 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
                     unit: value.unit
                 }])
         );
-        setRecipes(recipes.map((recipe, i) => i === index ? {
-            selectedRecipe: {
-                name: newRecipe.name,
-                image: newRecipe.image,
-                servings: newRecipe.servings,
+        return {
+            id: recipe.id,
+            recipe: {
+                name: recipe.recipe.name,
+                ingredients: recipe.recipe.ingredients,
                 nutrients: {
-                    calories: newRecipe.nutrients.calories,
+                    calories: recipe.recipe.nutrients.calories,
                     totalNutrients: newTotalNutrients,
                     totalDaily: newTotalDaily,
-                    totalWeight: newRecipe.nutrients.totalWeight
+                    totalWeight: recipe.recipe.nutrients.totalWeight
                 },
-                ingredients: newRecipe.ingredients
-            
-            },
-            selectedServings: recipe.selectedServings
-        } : recipe));
+                servings: recipe.recipe.servings
+            }
+        }
     }
 
     return (
