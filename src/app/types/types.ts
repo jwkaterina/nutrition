@@ -144,3 +144,8 @@ export enum AnalysisMode {
     VIEW,
     EDIT
 }
+
+export enum StatusType {
+    SUCCESS,
+    ERROR
+}

@@ -4,6 +4,7 @@ import { CurrentMenuProvider } from './menu-context'
 import { CardOpenProvider } from './card-context'
 import { SlideProvider } from './slide-context'
 import { AuthProvider } from './auth-context'
+import { StatusProvider } from './status-context'
 
 export default function ContextProviders({ children }: any) {
 
@@ -14,7 +15,9 @@ export default function ContextProviders({ children }: any) {
                     <CurrentFoodProvider>
                         <SlideProvider>
                             <AuthProvider>
-                                {children} 
+                                <StatusProvider>
+                                    {children} 
+                                </StatusProvider>
                             </AuthProvider>
                         </SlideProvider>
                     </CurrentFoodProvider>
