@@ -1,10 +1,10 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useContext } from 'react';
+import { StatusContext } from '../context/status-context';
 
 export const useHttpClient = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>();
+    const { setIsLoading } = useContext(StatusContext);
 
-    const activeHttpRequests = useRef<AbortController[]>([]);
+    // const activeHttpRequests = useRef<AbortController[]>([]);
 
     const sendRequest = useCallback(
         async (url: string, method: string = 'GET', body: null | string = null, headers = {}) => {
@@ -35,18 +35,12 @@ export const useHttpClient = () => {
                 }, 200);
                 return responseData;
             } catch (err) {
-                const message = (err as Error).message;
-                setError(message);
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 200);
                 throw err;
             }
         },[]);
-
-    const clearError = () => {
-        setError(null);
-    };
 
     // useEffect(() => {
     //   return () => {
@@ -55,5 +49,5 @@ export const useHttpClient = () => {
     //   };
     // }, []);
 
-    return { isLoading, error, sendRequest, clearError };
+    return { sendRequest };
 };

@@ -1,10 +1,11 @@
 import Slide from './slide'
 import Button from '@/app/components/slider/button'
-import { LoadedFood } from '@/app/types/types'
+import { LoadedFood, StatusType } from '@/app/types/types'
 import FoodCard from '../../cards/food-cards/food-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/app/context/auth-context';
+import { StatusContext } from '@/app/context/status-context'
 
 interface FoodSlideProps {
     foodDeleted: boolean
@@ -12,8 +13,9 @@ interface FoodSlideProps {
 
 const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
 
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const { sendRequest } = useHttpClient();
     const [foodList, setFoodList] = useState<JSX.Element[]>([]);
+    const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
 
     const { user } = useContext(AuthContext);
 
@@ -32,7 +34,12 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
                     )
                 })
                 setFoodList(foodList);
-            } catch (err) {}
+            } catch (err) {
+                setStatus(StatusType.ERROR);
+                setMessage("Could not fetch food. Try again later.");
+                setIsLoading(false);
+                throw err;
+            }
         };
         fetchFood();
     }, [foodDeleted]);

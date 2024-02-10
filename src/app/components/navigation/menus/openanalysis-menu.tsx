@@ -7,8 +7,9 @@ import { SlideContext } from "@/app/context/slide-context"
 import Menu from './menu'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { AuthContext } from "@/app/context/auth-context"
-import { CardState, Food, Recipe, MenuProp, AnalysisMode } from "@/app/types/types"
+import { AuthContext } from "@/app/context/auth-context";
+import { StatusContext } from "@/app/context/status-context";
+import { CardState, Food, Recipe, MenuProp, AnalysisMode, StatusType } from "@/app/types/types"
 
 interface OpenAnalysisMenuProps {
     
@@ -23,7 +24,8 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const { setCardOpen } = useContext(CardOpenContext);
-    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const { sendRequest } = useHttpClient();
+    const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
     const { user } = useContext(AuthContext);
     const { setScrollBehavior } = useContext(SlideContext);
 
@@ -39,6 +41,12 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
 
     const addFoodToFavorites = async () => {
         const Food: Food | null = currentFood!.food;
+        if(!user) {
+            setStatus(StatusType.ERROR);
+            setMessage('You must be logged in to add food to favorites.');
+            setIsLoading(false);
+            return;
+        }
         try {
             await sendRequest(
                 'http://localhost:5001/foods',
@@ -50,11 +58,24 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            } catch (err) {}
+            setStatus(StatusType.SUCCESS);
+            setMessage('Food added to favorites.');
+            } catch (err) {
+                setStatus(StatusType.ERROR);
+                setMessage('Could not add food to favorites. Try again later.');
+                setIsLoading(false);
+                throw err;
+            }
     }
 
     const addRecipeToFavorites = async () => {
         const Recipe: Recipe | null = currentRecipe!.recipe;
+        if(!user) {
+            setStatus(StatusType.ERROR);
+            setMessage('You must be logged in to add food to favorites.');
+            setIsLoading(false);
+            return;
+        }
         try {
             await sendRequest(
                 'http://localhost:5001/recipes',
@@ -66,11 +87,24 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            } catch (err) {}
+            setStatus(StatusType.SUCCESS);
+            setMessage('Recipe added to favorites.');
+            } catch (err) {
+                setStatus(StatusType.ERROR);
+                setMessage('Could not add recipe to favorites. Try again later.');
+                setIsLoading(false);
+                throw err;
+            }
     }
 
     const addMenuToFavorites = async () => {
         const Menu: MenuProp | null = currentMenu!.menu;
+        if(!user) {
+            setStatus(StatusType.ERROR);
+            setMessage('You must be logged in to add food to favorites.');
+            setIsLoading(false);
+            return;
+        }
         try {
             await sendRequest(
                 'http://localhost:5001/menus',
@@ -82,7 +116,14 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            } catch (err) {}
+            setStatus(StatusType.SUCCESS);
+            setMessage('Menu added to favorites.');
+            } catch (err) {
+                setStatus(StatusType.ERROR);
+                setMessage('Could not add menu to favorites. Try again later.');
+                setIsLoading(false);
+                throw err;
+            }
     }
 
     const updateFavorites = async () => {
@@ -102,7 +143,14 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            } catch (err) {}
+            setStatus(StatusType.SUCCESS);
+            setMessage('Recipe updated in favorites.');
+            } catch (err) {
+                setStatus(StatusType.ERROR);
+                setMessage('Could not update recipe in favorites. Try again later.');
+                setIsLoading(false);
+                throw err;
+            }
     }
 
     const updateMenu = async () => {
@@ -117,7 +165,14 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            } catch (err) {}
+            setStatus(StatusType.SUCCESS);
+            setMessage('Menu updated in favorites.');
+            } catch (err) {
+                setStatus(StatusType.ERROR);
+                setMessage('Could not update menu in favorites. Try again later.');
+                setIsLoading(false);
+                throw err;
+            }
     }
 
     const handleRightClick = (): void => {
