@@ -5,13 +5,13 @@ import { CardState, Nutrients, RecipeWithServings, AnalysisMode } from '@/app/ty
 import { analyseRecipe } from '@/app/services/fetch-data';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
-import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';
+import { StatusContext } from '@/app/context/status-context';
 import RecipeSelect from './recipe-select';
 import { MenuNutrientsCalculator, RecipeNutrientsCalculator } from './nutrients-calculator';
-import Toast from '@/app/components/utilities/toast/toast';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useRouter} from 'next/navigation';
 import { SlideContext } from "@/app/context/slide-context";
+import { StatusType} from '@/app/types/types';
 
 interface MenuFormProps {
     searchCleared: boolean,
@@ -25,8 +25,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const [name, setName] = useState<string>('');
     const [ingredientsString, setIngredientsString] = useState<string>('');
     const [recipes, setRecipes] = useState<RecipeWithServings[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>();
+    const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
     const [inputsnumber, setInputsnumber] = useState<number>(0);
     const {sendRequest} = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
@@ -64,12 +63,10 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setIsLoading(true);
-        try {
-            const ingredientsArray = ArrayfromString(ingredientsString);
-            const nutrients: Nutrients = await fetchNutrients(ingredientsArray);
-            setIsLoading(false);
+        const ingredientsArray = ArrayfromString(ingredientsString);
+        const nutrients: Nutrients | null = await calculateNutrients(ingredientsArray);
 
+        if(nutrients) {
             const newMenu = {
                 name,
                 nutrients: nutrients,
@@ -84,34 +81,51 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             });
             // at the end of analysis set ingredients state to the formatted string in order to avoid unnecessary re-rendering
             setIngredientsString(ingredientsArray.join('\n'));
-        } 
-        catch(error) {
-            setError('Could not analyse menu. Ensure that all ingredientsString are spelled correctly and try again.');
-            setIsLoading(false);
-            throw error;        
         }
     }
 
-    const fetchNutrients = async (ingredientsArray: string[]): Promise<Nutrients> => {
+    const calculateNutrients = async (ingredientsArray: string[]): Promise<Nutrients | null> => {
         const recipesArr = recipes.map((recipe) => { 
             return {
             nutrients: recipe.selectedRecipe.nutrients,
             selectedServings: recipe.selectedServings
-        }})
+        }});
+        console.log(recipesArr);
         if(ingredientsArray && ingredientsArray.length > 0) {
+            const ingredientsNutrients = await fetchNutrients(ingredientsArray);
+            recipesArr.push({
+                nutrients: ingredientsNutrients,
+                selectedServings: 1
+            }); 
+        }
+        console.log(recipesArr);
+        if(recipesArr.length > 0) {
+            const nutrients: Nutrients = MenuNutrientsCalculator(recipesArr);
+            return nutrients;
+        } else {
+            setStatus(StatusType.ERROR);
+            setMessage('Could not analyse menu. Choose at least one recipe or ingredient and try again.');
+            return null;
+        }
+    }
+
+    const fetchNutrients = async(ingredientsArray: string[]) => {
+        setIsLoading(true);
+        try {
             const ingredientsContent = await analyseRecipe(ingredientsArray);
             const ingredientsNutrients: Nutrients = RecipeNutrientsCalculator({
                 nutrients: ingredientsContent, 
                 totalServings: 1, 
                 selectedServings: 1
             });
-            recipesArr.push({
-                nutrients: ingredientsNutrients,
-                selectedServings: 1
-            }); 
+            setIsLoading(false);
+            return ingredientsNutrients;
+        } catch (error) {
+            setMessage('Could not analyse menu. Ensure that all ingredients are spelled correctly and try again.');
+            setStatus(StatusType.ERROR);
+            setIsLoading(false);
+            throw error;  
         }
-        const nutrients: Nutrients = MenuNutrientsCalculator(recipesArr);
-        return nutrients;
     }
 
     const deleteMenu = async () => {
@@ -127,10 +141,14 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             }, 500);            
             setCardOpen(CardState.CLOSED);
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
-            // setMessage("Menu deleted successfully");
-        } catch (err) {}
+            setStatus(StatusType.SUCCESS);
+            setMessage("Menu deleted successfully");
+        } catch (err) {
+            setStatus(StatusType.ERROR);
+            setMessage("Could not delete menu. Please try again");
+            throw err;
+        }
     }
-
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
@@ -147,8 +165,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     )
 
     return (<>
-            <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={() => setError(null)} />
-            {isLoading && <LoadingSpinner />}
             <div className={styles.container}>
                 <div className={styles.form_container}>
                     <form className={styles.form} onSubmit={handleSubmit}>
