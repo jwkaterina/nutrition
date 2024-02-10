@@ -8,9 +8,7 @@ import Menu from './menu'
 import { useRouter } from 'next/navigation'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { AuthContext } from "@/app/context/auth-context"
-import LoadingSpinner from "@/app/components/utilities/loading/loading-spinner"
 import { CardState, Food, Recipe, MenuProp, AnalysisMode } from "@/app/types/types"
-import Toast from "../../utilities/toast/toast"
 
 interface OpenAnalysisMenuProps {
     
@@ -146,8 +144,6 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
     }
 
     return (<>
-        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={clearError} />
-        {isLoading && <LoadingSpinner/>}
         <Menu 
             leftText='Back to Analysis' 
             rightText={rightText} 

@@ -5,7 +5,6 @@ import FoodCard from '../../cards/food-cards/food-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/app/context/auth-context';
-import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';import Toast from '@/app/components/utilities/toast/toast';
 
 interface FoodSlideProps {
     foodDeleted: boolean
@@ -39,8 +38,6 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
     }, [foodDeleted]);
 
     return (<>
-        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={clearError} />
-        {isLoading && <LoadingSpinner />}
          <Slide>
             {foodList.length > 0 && foodList}
             <Button search={'analysis/food-analysis'}/>

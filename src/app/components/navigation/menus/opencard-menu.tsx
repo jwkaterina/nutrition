@@ -6,8 +6,6 @@ import { CurrentRecipeContext } from '@/app/context/recipe-context'
 import { CurrentMenuContext } from '@/app/context/menu-context'
 import { useHttpClient } from "@/app/hooks/http-hook"
 import Menu from "./menu"
-import LoadingSpinner from "@/app/components/utilities/loading/loading-spinner"
-import Toast from "../../utilities/toast/toast"
 import { useRouter} from 'next/navigation';
 
 interface OpenCardMenuProps {
@@ -23,7 +21,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [rightText, setRightText] = useState<string>("Delete");
-    const [message, setMessage] = useState<string | null>(null);
+    // const [message, setMessage] = useState<string | null>(null);
 
     const router = useRouter();
 
@@ -35,7 +33,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
             );
             onFoodDelete();
             setCurrentFood({id: null, food: null});
-            setMessage("Food deleted successfully");
+            // setMessage("Food deleted successfully");
             setTimeout(() => {
                 setCardOpen(CardState.CLOSED);
             }, 4000);
@@ -72,9 +70,6 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     }, [currentFood, currentRecipe, currentMenu])
 
     return (<>
-        {error && <Toast active ={true} status={'Error'} message={error} clearMessage={clearError} />}
-        {message && <Toast active ={true} status={'Success'} message={message} clearMessage={() => setMessage(null)} />}
-        {isLoading && <LoadingSpinner />}
         <Menu 
             leftText="Back to Favorites" 
             rightText={rightText}

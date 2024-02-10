@@ -5,7 +5,6 @@ import RecipeCard from '../../cards/recipe-cards/recipe-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/app/context/auth-context';
-import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';import Toast from '../../utilities/toast/toast';
 
 interface RecipeSlideProps {
 }
@@ -38,8 +37,6 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
     }, []);
 
     return (<>
-        <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={clearError} />
-        {isLoading && <LoadingSpinner />}
          <Slide>
             {recipeList.length > 0 && recipeList}
             <Button search={'analysis/recipe-analysis'}/>
