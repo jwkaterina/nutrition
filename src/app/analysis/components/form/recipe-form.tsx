@@ -1,13 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, Nutrients, AnalysisMode } from '@/app/types/types';
+import { CardState, Nutrients, AnalysisMode, StatusType } from '@/app/types/types';
 import { analyseRecipe } from '@/app/services/fetch-data';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
-import  LoadingSpinner from '@/app/components/utilities/loading/loading-spinner';
+import { StatusContext } from '@/app/context/status-context';
 import { RecipeNutrientsCalculator } from './nutrients-calculator';
-import Toast from '@/app/components/utilities/toast/toast';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useRouter} from 'next/navigation';
 import { SlideContext } from "@/app/context/slide-context";
@@ -24,8 +23,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
     const [name, setName] = useState<string>('');
     const [servings, setServings] = useState<number>(1);
     const [ingredientsString, setIngredientsString] = useState<string>('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>();
+    const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
     const {sendRequest} = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
 
@@ -64,7 +62,6 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
 
         setIsLoading(true);
         try {
-           
             const recipeContent: Nutrients = await analyseRecipe(ingredientsArray);
        
             setIsLoading(false);
@@ -91,7 +88,8 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
             setIngredientsString(ingredientsArray.join('\n'));
         } 
         catch(error) {
-            setError('Could not analyse recipe. Ensure that all ingredients are spelled correctly and try again.');
+            setStatus(StatusType.ERROR);
+            setMessage('Could not analyse recipe. Ensure that all ingredients are spelled correctly and try again.');
             setIsLoading(false);
             throw error;        
         }
@@ -110,8 +108,13 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
             }, 500);            
             setCardOpen(CardState.CLOSED);
             setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
-            // setMessage("Recipe deleted successfully");
-        } catch (err) {}
+            setStatus(StatusType.SUCCESS);
+            setMessage("Recipe deleted successfully");
+        } catch (err) {
+            setStatus(StatusType.ERROR);
+            setMessage('Could not delete recipe. Try again later.');
+            throw err;
+        }
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -134,8 +137,6 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
     )}
 
     return (<>
-            <Toast active ={error ? true : false} status={'Error'} message={error ? error : ''} clearMessage={() => setError(null)} />
-            {isLoading && <LoadingSpinner />}
             <div className={styles.container}>
                 <div className={styles.form_container}>
                     <form className={styles.form} onSubmit={handleSubmit}>

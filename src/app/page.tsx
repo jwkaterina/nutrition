@@ -7,7 +7,7 @@ import MainNav from '@/app/components/navigation/main-nav';
 import OpenCardMenu from '@/app/components/navigation/menus/opencard-menu';
 import { CardOpenContext } from './context/card-context';
 import Footer from './components/navigation/footer';
-import { CardState } from './types/types';
+import { CardState, StatusType } from './types/types';
 
 export default function Home(): JSX.Element {
 
