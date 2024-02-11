@@ -4,6 +4,7 @@ const foodDatabaseAPIControllers = require('../api-controllers/foodDatabaseAPI-c
 
 const router = express.Router();
 
-router.get('/:query', foodDatabaseAPIControllers.autocomplete);
+router.get('/query/:query', foodDatabaseAPIControllers.autocomplete);
+router.get('/ingr/:ingr', foodDatabaseAPIControllers.parseQuery);
 
 module.exports = router;

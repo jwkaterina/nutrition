@@ -1,11 +1,11 @@
 import styles from './search.module.css'
-import { parseQuery, autocomplete } from '@/app/services/fetch-data'
 import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } from 'react' 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext } from '@/app/context/card-context';
 import { Food, CardState, SortType} from '@/app/types/types';
 import { useHttpClient} from '@/app/hooks/http-hook';
+import { StatusContext } from '@/app/context/status-context';
 import FoodList from './food-list';
 import SortButtons from './sort_buttons';
 import Options from './options';
@@ -26,6 +26,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const [sort, setSort] = useState<SortType>(SortType.DEFAULT);
 	const [filter, setFilter] = useState<string[]>(['Generic foods']);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
+	const { setMessage } = useContext(StatusContext);
 	const { sendRequest } = useHttpClient();
 
 	const searchRef = useRef<HTMLDivElement>(null);
@@ -46,7 +47,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	
 		try {
 			const query: string[] = await sendRequest(
-			`http://localhost:5001/api/${inputValue}`,
+			`http://localhost:5001/api/query/${inputValue || ''}`,
 			'GET'
 			);
 			setShowOptions(true);
@@ -62,15 +63,29 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		setQueryOptions(null);
 		setInput(option.innerText);
 
-		const result = await parseQuery(option.innerText);
-		if(result) setHintsArr(result.hints);
+		try {
+			const result = await sendRequest(
+				`http://localhost:5001/api/ingr/${option.innerText}`,
+				'GET'
+			);
+			if(result) setHintsArr(result.hints);
+		} catch (err) {
+			setMessage('Food not found.');
+		}
 	}
 
 	const handleEnterKey = async(e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			setShowOptions(false);
-			const result = await parseQuery(input);
-			if(result) setHintsArr(result.hints);    
+			try {
+				const result = await sendRequest(
+					`http://localhost:5001/api/ingr/${input}`,
+					'GET'
+				);
+				if(result) setHintsArr(result.hints);    
+			} catch (err) {
+				setMessage('Food not found.');
+			}
 		}
 	}
 

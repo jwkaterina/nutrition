@@ -39,9 +39,10 @@ const parseQuery = async (req, res, next) => {
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        return result;
+        res.status(200).json(result);
     } catch (error) {
         console.error(error);
+        throw new HttpError('Could not find any results', 404);
     }
 }
 
