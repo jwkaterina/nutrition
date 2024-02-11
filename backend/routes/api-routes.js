@@ -1,9 +1,9 @@
 const express = require('express');
 
-const apiControllers = require('../controllers/api-controllers');
+const foodDatabaseAPIControllers = require('../api-controllers/foodDatabaseAPI-controllers');
 
 const router = express.Router();
 
-router.get('/:query', apiControllers.autocomplete);
+router.get('/:query', foodDatabaseAPIControllers.autocomplete);
 
 module.exports = router;

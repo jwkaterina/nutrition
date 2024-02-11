@@ -24,4 +24,26 @@ const autocomplete = async (req, res, next) => {
     }
 }
 
+const parseQuery = async (req, res, next) => {
+
+    const ingr = req.params.ingr;
+
+    const type = 'cooking';
+    const url = `https://api.edamam.com/api/food-database/v2/parser?app_id=${appId}&app_key=${appKey}&ingr=${ingr}&nutrition-type=${type}`;
+    const options = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        },
+    };
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 exports.autocomplete = autocomplete;
+exports.parseQuery = parseQuery;

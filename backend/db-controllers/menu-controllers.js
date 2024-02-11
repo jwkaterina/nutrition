@@ -35,6 +35,8 @@ const createMenu = async (req, res, next) => {
 
   const { menu, creator } = req.body;
 
+  console.log(menu);
+
   const createdMenu = new Menu({
     menu,
     creator
@@ -44,12 +46,14 @@ const createMenu = async (req, res, next) => {
   try {
     user = await User.findById(creator);
   } catch (err) {
+    console.log('could not find user');
     const error = new HttpError('Creating menu failed, please try again', 500);
     return next(error);
   }
 
   if (!user) {
     const error = new HttpError('Could not find user for provided id', 404);
+    console.log(error);
     return next(error);
   }
 
@@ -57,6 +61,7 @@ const createMenu = async (req, res, next) => {
   try {
     existingMenu = await Menu.findOne({ "menu.name": menu.name })
   } catch (err) {
+    console.log('could not find menu');
     const error = new HttpError(
       'Creating menu failed, please try again later.',
       500
@@ -69,6 +74,7 @@ const createMenu = async (req, res, next) => {
       'Menu exists already.',
       422
     );
+    console.log(error);
     return next(error);
   }
 
@@ -80,6 +86,7 @@ const createMenu = async (req, res, next) => {
     await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
+    console.log(err)
     const error = new HttpError(
       'Creating menu failed, please try again.',
       500

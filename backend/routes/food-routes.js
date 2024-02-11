@@ -1,6 +1,6 @@
 const express = require('express');
 
-const foodControllers = require('../controllers/food-controllers');
+const foodControllers = require('../db-controllers/food-controllers');
 
 const router = express.Router();
 

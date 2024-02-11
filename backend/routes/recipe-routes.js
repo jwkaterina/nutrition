@@ -1,6 +1,6 @@
 const express = require('express');
 
-const recipeControllers = require('../controllers/recipe-controllers');
+const recipeControllers = require('../db-controllers/recipe-controllers');
 
 const router = express.Router();
 

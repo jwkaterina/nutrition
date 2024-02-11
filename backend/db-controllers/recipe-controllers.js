@@ -95,15 +95,12 @@ const updateRecipe = async (req, res, next) => {
 
   const { updatedRecipe } = req.body;
   const recipeId = req.params.pid;
-  console.log(updatedRecipe);
 
   let recipe;
   try {
     recipe = await Recipe.findById(recipeId);
-    // console.log(recipe);
   } catch (err) {
     const error = new HttpError(
-      console.log('could not find recipe'),
       'Something went wrong, could not update recipe.',
       500
     );
@@ -116,12 +113,10 @@ const updateRecipe = async (req, res, next) => {
   }
 
   recipe.recipe = updatedRecipe;
-  // console.log(recipe);
 
   try {
     await recipe.save();
   } catch (err) {
-    console.log('could not save recipe')
     const error = new HttpError(
       'Something went wrong, could not update recipe.',
       500
