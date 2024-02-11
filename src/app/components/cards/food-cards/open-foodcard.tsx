@@ -1,7 +1,6 @@
 import styles from '../card.module.css'
-import { findNutrients } from '@/app/services/fetch-data'
 import { Food, Nutrients } from '@/app/types/types'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import FoodHeaderCard from './header-foodcard'
 import DailyValueCard from '../../analysis_cards/dailyvalue_card'
 import CompositionCard from '../../analysis_cards/composition_card'
@@ -9,6 +8,8 @@ import BigNutrientsCard from '../../analysis_cards/bignutrients_card'
 import VitaminsCard from '../../analysis_cards/vitamins_card'
 import MineralsCard from '../../analysis_cards/minerals_card'
 import FatsCard from '../../analysis_cards/fats_card'
+import { useHttpClient } from '@/app/hooks/http-hook'
+import { StatusContext } from '@/app/context/status-context'
 
 interface OpenFoodCardProps {
     food: Food
@@ -22,21 +23,63 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedOption, setSelectedOption] = useState<string>('Value pre 100g');
     const [measureUri, setMeasureUri] = useState<string>(food.measures[0].uri);
+    const { sendRequest } = useHttpClient();
+    const { setMessage } = useContext(StatusContext);
 
     useEffect(() => {
         const fetchContent = async() => {
             if(selectedOption === 'grams') {
-                const nutrients = await findNutrients(food.food.foodId, gramUri, quantity);
-                setContent(nutrients);
-                return;
+                try {
+                    const nutrients: Nutrients = await sendRequest(
+                        `http://localhost:5001/api/nutrients`,
+                        'POST',
+                        JSON.stringify({
+                            foodId: food.food.foodId, 
+                            measure: gramUri, 
+                            quantity: quantity
+                        }),
+                        { 'Content-Type': 'application/json' }
+                    );
+                    setContent(nutrients);
+                    return;
+                } catch (err) {
+                    setMessage('Could not fetch nutrients');
+                }
             } 
             if(selectedOption === 'Value pre 100g') {
-                const nutrients = await findNutrients(food.food.foodId, gramUri, 100);
+                try {
+                    const nutrients: Nutrients = await sendRequest(
+                        `http://localhost:5001/api/nutrients`,
+                        'POST',
+                        JSON.stringify({
+                            foodId: food.food.foodId, 
+                            measure: gramUri, 
+                            quantity: 100
+                        }),
+                        { 'Content-Type': 'application/json' }
+                    );
+                    setContent(nutrients);
+                    return;
+                } catch (err) {
+                    setMessage('Could not fetch nutrients');
+                }
+            }
+            try {
+                const nutrients: Nutrients = await sendRequest(
+                    `http://localhost:5001/api/nutrients`,
+                    'POST',
+                    JSON.stringify({
+                        foodId: food.food.foodId, 
+                        measure: gramUri, 
+                        quantity: quantity
+                    }),
+                    { 'Content-Type': 'application/json' }
+                );
                 setContent(nutrients);
                 return;
+            } catch (err) {
+                setMessage('Could not fetch nutrients');
             }
-            const nutrients = await findNutrients(food.food.foodId, measureUri, quantity);
-            setContent(nutrients);
         }
         fetchContent();
 

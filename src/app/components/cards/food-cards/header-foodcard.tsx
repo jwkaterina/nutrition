@@ -1,7 +1,8 @@
 import styles from '../../analysis_cards/alanysis_card.module.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Food, MeasureProp, Nutrients } from '@/app/types/types';
-import { findNutrients } from '@/app/services/fetch-data'
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { StatusContext } from '@/app/context/status-context';
 
 interface FoodHeaderCardProps {
     food: Food,
@@ -16,6 +17,8 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
 
     const [measures, setMeasures] = useState<MeasureProp[]>([]);
     const [customWeight, setCustomWeight] = useState<boolean>(false);
+    const { setMessage} = useContext(StatusContext);
+    const { sendRequest } = useHttpClient();
     const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
     const ounseUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce";
     const poundUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_pound";
@@ -26,10 +29,22 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
         let measureNutrients: Nutrients[] = [];
         const fetchMeasuresWeight = async() => {
             for(let i = 0; i < food.measures.length; i++) {
-                
-                const nutrients: Nutrients = await findNutrients(food.food.foodId, food.measures[i].uri, 1);
-                measureNutrients.push(nutrients);
-            }
+                try {
+                    const nutrients: Nutrients = await sendRequest(
+                        `http://localhost:5001/api/nutrients`,
+                        'POST',
+                        JSON.stringify({
+                            foodId: food.food.foodId, 
+                            measure: food.measures[i].uri, 
+                            quantity: 1
+                        }),
+                        { 'Content-Type': 'application/json' }
+                    );
+                    measureNutrients.push(nutrients);
+                } catch (err) {
+                    setMessage('Could not fetch nutrients');
+                }
+            } 
             const measures: MeasureProp[] = measureNutrients.map((measure: any, i) => {
                 return {label: food.measures[i].label, uri: food.measures[i].uri, weight: measure.totalWeight};
             })

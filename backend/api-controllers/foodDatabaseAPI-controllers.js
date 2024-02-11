@@ -46,5 +46,36 @@ const parseQuery = async (req, res, next) => {
     }
 }
 
+const findNutrients = async (req, res, next) => {
+
+    const { foodId, measure, quantity } = req.body;
+
+    const url = `https://api.edamam.com/api/food-database/v2/nutrients?app_id=${appId}&app_key=${appKey}`;
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            "ingredients": [
+            {
+                "quantity": quantity,
+                "measureURI": measure,         
+                "foodId": foodId
+            }
+            ]
+        })
+    };
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        res.status(200).json(result);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 exports.autocomplete = autocomplete;
 exports.parseQuery = parseQuery;
+exports.findNutrients = findNutrients;
