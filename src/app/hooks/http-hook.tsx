@@ -28,7 +28,7 @@ export const useHttpClient = () => {
                 // );
 
                 if (!response.ok) {
-                    throw new Error();
+                    throw new Error('An error occurred');
                 }
 
                 setIsLoading(false);

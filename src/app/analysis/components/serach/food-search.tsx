@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext } from '@/app/context/card-context';
 import { Food, CardState, SortType} from '@/app/types/types';
+import { useHttpClient} from '@/app/hooks/http-hook';
 import FoodList from './food-list';
 import SortButtons from './sort_buttons';
 import Options from './options';
@@ -25,6 +26,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const [sort, setSort] = useState<SortType>(SortType.DEFAULT);
 	const [filter, setFilter] = useState<string[]>(['Generic foods']);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
+	const { sendRequest } = useHttpClient();
 
 	const searchRef = useRef<HTMLDivElement>(null);
 
@@ -42,9 +44,16 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		const inputValue = (e.target as HTMLInputElement).value;
 		setInput(inputValue);
 	
-		const result: string[] = await autocomplete(inputValue || '');
-		setShowOptions(true);
-		setQueryOptions(result);
+		try {
+			const query: string[] = await sendRequest(
+			`http://localhost:5001/api/${inputValue}`,
+			'GET'
+			);
+			setShowOptions(true);
+			setQueryOptions(query);
+		} catch (err) {
+			console.log(err);
+		}
 	}
 
 	const handleOptionClick = async(option: HTMLLIElement) => {
