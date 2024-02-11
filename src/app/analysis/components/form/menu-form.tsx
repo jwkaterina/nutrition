@@ -90,7 +90,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             nutrients: recipe.selectedRecipe.nutrients,
             selectedServings: recipe.selectedServings
         }});
-        console.log(recipesArr);
         if(ingredientsArray && ingredientsArray.length > 0) {
             const ingredientsNutrients = await fetchNutrients(ingredientsArray);
             recipesArr.push({
@@ -98,7 +97,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                 selectedServings: 1
             }); 
         }
-        console.log(recipesArr);
         if(recipesArr.length > 0) {
             const nutrients: Nutrients = MenuNutrientsCalculator(recipesArr);
             return nutrients;
@@ -141,12 +139,9 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             }, 500);            
             setCardOpen(CardState.CLOSED);
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
-            setStatus(StatusType.SUCCESS);
             setMessage("Menu deleted successfully");
         } catch (err) {
-            setStatus(StatusType.ERROR);
             setMessage("Could not delete menu. Please try again");
-            throw err;
         }
     }
 

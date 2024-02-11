@@ -1,8 +1,9 @@
 import { useState, useCallback, useRef, useEffect, useContext } from 'react';
 import { StatusContext } from '../context/status-context';
+import { StatusType } from '../types/types';
 
 export const useHttpClient = () => {
-    const { setIsLoading } = useContext(StatusContext);
+    const { setIsLoading, setStatus } = useContext(StatusContext);
 
     // const activeHttpRequests = useRef<AbortController[]>([]);
 
@@ -27,17 +28,15 @@ export const useHttpClient = () => {
                 // );
 
                 if (!response.ok) {
-                    throw new Error(responseData.message);
+                    throw new Error();
                 }
 
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 200);
+                setIsLoading(false);
+                setStatus(StatusType.SUCCESS);
                 return responseData;
             } catch (err) {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 200);
+                setIsLoading(false);
+                setStatus(StatusType.ERROR);
                 throw err;
             }
         },[]);
