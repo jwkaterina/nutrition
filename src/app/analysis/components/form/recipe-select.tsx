@@ -3,7 +3,7 @@ import { AuthContext } from '@/app/context/auth-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { LoadedRecipe, RecipeWithServings, NutrientsProp } from '@/app/types/types';
 import styles from './form.module.css';
-import { create } from 'domain';
+import { StatusContext } from '@/app/context/status-context';
 
 interface RecipeSelectProps {
     inputs: number,
@@ -16,6 +16,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
     const { user } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
+    const { setMessage } = useContext(StatusContext);
 
     useEffect(() => {
         if(!user) {
@@ -28,7 +29,9 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
                 );
                 const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
                 setLoadedRecipes(recipes);
-            } catch (err) {}
+            } catch (err) {
+                setMessage('Could not fetch recipes');
+            }
         };
         fetchRecipes();
     }, []);

@@ -7,7 +7,6 @@ import { AuthContext } from '@/app/context/auth-context';
 import { useState, useContext } from 'react';
 import { useRouter} from 'next/navigation';
 import { SlideContext } from '@/app/context/slide-context';
-import { StatusType } from '@/app/types/types';
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
 
@@ -21,7 +20,7 @@ const Auth = ({ }: AuthProps): JSX.Element => {
     const { setScrollBehavior } = useContext(SlideContext);
     const { setIsLoggedIn, setUser } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState<boolean>(true);
-    const { setMessage, setStatus } = useContext(StatusContext);
+    const { setMessage } = useContext(StatusContext);
 
     const router = useRouter();
 
@@ -48,10 +47,8 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                 setIsLoggedIn(true);
                 setUser(responseData.user.id);
                 goBack();
-                setStatus(StatusType.SUCCESS);
                 setMessage('Logged in');
             } catch (err) {
-                setStatus(StatusType.ERROR);
                 setMessage('Invalid credentials');
             }
         } else {
@@ -74,10 +71,8 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                 setIsLoggedIn(true);
                 setUser(responseData.user.id);
                 goBack();
-                setStatus(StatusType.SUCCESS);
                 setMessage('Signed up');
               } catch (err) {
-                setStatus(StatusType.ERROR);
                 setMessage('Invalid credentials');
               }
         }

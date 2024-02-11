@@ -73,6 +73,7 @@ const findNutrients = async (req, res, next) => {
         res.status(200).json(result);
     } catch (error) {
         console.error(error);
+        throw new HttpError('Could not find any results', 404);
     }
 }
 

@@ -1,4 +1,4 @@
-import { CardState, AnalysisMode, StatusType } from "@/app/types/types"
+import { CardState, AnalysisMode } from "@/app/types/types"
 import { useContext, useEffect, useState } from "react"
 import { CardOpenContext } from "@/app/context/card-context"
 import { CurrentFoodContext } from '@/app/context/food-context'
@@ -22,7 +22,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const { sendRequest } = useHttpClient();
     const [rightText, setRightText] = useState<string>("Delete");
-    const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
+    const { setMessage } = useContext(StatusContext);
 
     const router = useRouter();
 
@@ -34,16 +34,12 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
             );
             onFoodDelete();
             setCurrentFood({id: null, food: null});
-            setStatus(StatusType.SUCCESS);
             setMessage("Food deleted successfully");
             setTimeout(() => {
                 setCardOpen(CardState.CLOSED);
             }, 4000);
         } catch (err) {
-            setStatus(StatusType.ERROR);
             setMessage("Could not delete food. Try again later.");
-            setIsLoading(false);
-            throw err;
         }
     }
 

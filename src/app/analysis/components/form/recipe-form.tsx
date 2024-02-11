@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, Nutrients, AnalysisMode, StatusType } from '@/app/types/types';
-import { analyseRecipe } from '@/app/services/fetch-data';
+import { CardState, Nutrients, AnalysisMode } from '@/app/types/types';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
 import { StatusContext } from '@/app/context/status-context';
@@ -23,7 +22,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
     const [name, setName] = useState<string>('');
     const [servings, setServings] = useState<number>(1);
     const [ingredientsString, setIngredientsString] = useState<string>('');
-    const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
+    const { setMessage } = useContext(StatusContext);
     const {sendRequest} = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
 
@@ -60,12 +59,16 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
 
         const ingredientsArray = ArrayfromString(ingredientsString);
 
-        setIsLoading(true);
         try {
-            const recipeContent: Nutrients = await analyseRecipe(ingredientsArray);
+            const recipeContent: Nutrients = await sendRequest(
+                `http://localhost:5001/api/recipe`,
+                'POST',
+                JSON.stringify({
+                    ingredients: ingredientsArray
+                }),
+                { 'Content-Type': 'application/json' }
+            );
        
-            setIsLoading(false);
-
             const nutrients: Nutrients = RecipeNutrientsCalculator({
                 nutrients: recipeContent, 
                 totalServings: servings, 
@@ -88,10 +91,7 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
             setIngredientsString(ingredientsArray.join('\n'));
         } 
         catch(error) {
-            setStatus(StatusType.ERROR);
             setMessage('Could not analyse recipe. Ensure that all ingredients are spelled correctly and try again.');
-            setIsLoading(false);
-            throw error;        
         }
     }
 
@@ -108,10 +108,8 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
             }, 500);            
             setCardOpen(CardState.CLOSED);
             setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
-            setStatus(StatusType.SUCCESS);
             setMessage("Recipe deleted successfully");
         } catch (err) {
-            setStatus(StatusType.ERROR);
             setMessage('Could not delete recipe. Try again later.');
             throw err;
         }

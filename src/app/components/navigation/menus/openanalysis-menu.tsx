@@ -58,13 +58,9 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            setStatus(StatusType.SUCCESS);
             setMessage('Food added to favorites.');
             } catch (err) {
-                setStatus(StatusType.ERROR);
                 setMessage('Could not add food to favorites. Try again later.');
-                setIsLoading(false);
-                throw err;
             }
     }
 
@@ -87,13 +83,9 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            setStatus(StatusType.SUCCESS);
             setMessage('Recipe added to favorites.');
             } catch (err) {
-                setStatus(StatusType.ERROR);
                 setMessage('Could not add recipe to favorites. Try again later.');
-                setIsLoading(false);
-                throw err;
             }
     }
 
@@ -116,12 +108,9 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            setStatus(StatusType.SUCCESS);
             setMessage('Menu added to favorites.');
             } catch (err) {
-                setStatus(StatusType.ERROR);
                 setMessage('Could not add menu to favorites. Try again later.');
-                setIsLoading(false);
                 throw err;
             }
     }
@@ -143,13 +132,9 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            setStatus(StatusType.SUCCESS);
             setMessage('Recipe updated in favorites.');
             } catch (err) {
-                setStatus(StatusType.ERROR);
                 setMessage('Could not update recipe in favorites. Try again later.');
-                setIsLoading(false);
-                throw err;
             }
     }
 
@@ -165,13 +150,9 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
                 { 'Content-Type': 'application/json' }
             );
             setRightText('Go To Favorites');
-            setStatus(StatusType.SUCCESS);
             setMessage('Menu updated in favorites.');
             } catch (err) {
-                setStatus(StatusType.ERROR);
                 setMessage('Could not update menu in favorites. Try again later.');
-                setIsLoading(false);
-                throw err;
             }
     }
 

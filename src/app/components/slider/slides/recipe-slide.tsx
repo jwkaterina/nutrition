@@ -1,6 +1,6 @@
 import Slide from './slide'
 import Button from '@/app/components/slider/button'
-import { LoadedRecipe, StatusType } from '@/app/types/types'
+import { LoadedRecipe } from '@/app/types/types'
 import RecipeCard from '../../cards/recipe-cards/recipe-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
@@ -14,7 +14,7 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
 
     const { sendRequest } = useHttpClient();
     const [recipeList, setRecipeList] = useState<JSX.Element[]>([]);
-    const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
+    const { setMessage } = useContext(StatusContext);
 
     const { user } = useContext(AuthContext);
 
@@ -34,10 +34,7 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
                 })
                 setRecipeList(recipeList);
             } catch (err) {
-                setStatus(StatusType.ERROR);
                 setMessage("Could not fetch recipe. Try again later.");
-                setIsLoading(false);
-                throw err;
             }
         };
         fetchRecipes();
