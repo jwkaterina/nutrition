@@ -127,7 +127,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
     }
 
     return (
-        <div className={styles.container} style={style()} ref={searchRef} onClick={() => {isFilterOpen && setIsFilterOpen(false)}}>
+        <div className={styles.container} style={style()} ref={searchRef}>
             {cardOpen == CardState.CLOSED && <div className={styles.input_container}>
                 <input 
                     type="text" 

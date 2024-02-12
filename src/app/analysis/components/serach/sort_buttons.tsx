@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSliders } from '@fortawesome/free-solid-svg-icons';
 import { SortType } from '@/app/types/types';
 import styles from './search.module.css';
-import { useState } from 'react';
+import { useRef, useEffect } from 'react';
 
 interface SortButtonsProps {
 	setSort: (sort: SortType) => void;
@@ -14,7 +14,18 @@ interface SortButtonsProps {
 
 const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButtonsProps): JSX.Element => {
 
-    // const [isFilterOpen, setIsFilterOpen] = useState(false);
+	const ref = useRef(null);
+	useEffect(() => {
+	  const checkIfClickedOutside = (e: MouseEvent) => {
+		if (ref.current && !(ref.current as HTMLElement).contains(e.target as HTMLElement)) {
+			setOpen(false)
+		}
+	  }
+	  document.addEventListener("click", checkIfClickedOutside)
+	  return () => {
+		document.removeEventListener("click", checkIfClickedOutside)
+	  }
+	}, [open])
 
 	const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const select = e.target;
@@ -52,7 +63,7 @@ const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButton
 
 	return (
 		<div className={styles.sort_buttons}>
-			<div className={styles.filter_dropdown} >
+			<div className={styles.filter_dropdown} ref={ref}>
 				<button className={styles.dropbtn} onClick={() => setOpen(!isOpen)}>
                     Filter <FontAwesomeIcon icon={faSliders} className={styles.filter_icon}/>
                 </button>
