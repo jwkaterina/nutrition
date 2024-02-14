@@ -8,7 +8,6 @@ interface MenuHeaderCardProps {
 const MenuHeaderCard = ({ menu }: MenuHeaderCardProps): JSX.Element => {
 
     const style = {
-                display: 'grid',
                 gridTemplateColumns: '1fr'
             }
 

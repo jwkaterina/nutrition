@@ -9,12 +9,10 @@ const RecipeHeaderCard = ({ recipe }: RecipeHeaderCardProps): JSX.Element => {
     const style = () => {
         if(recipe.image) {
             return {
-                display: 'grid',
                 gridTemplateColumns: '1fr 3fr'
             }
         } else {
             return {
-                display: 'grid',
                 gridTemplateColumns: '1fr'
             }
         }

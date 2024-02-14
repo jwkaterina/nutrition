@@ -15,6 +15,7 @@ interface FoodHeaderCardProps {
 
 const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantity }: FoodHeaderCardProps): JSX.Element => {
 
+    const { image } = food.food;
     const [measures, setMeasures] = useState<MeasureProp[]>([]);
     const [customWeight, setCustomWeight] = useState<boolean>(false);
     const { setMessage} = useContext(StatusContext);
@@ -95,14 +96,25 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
         }
     }
 
-    const { image } = food.food;
     const isImage = (url: string) => {
         return /\.(jpg|jpeg)$/.test(url);
     }
 
+    const style = () => {
+        if(image) {
+            return {
+                gridTemplateColumns: '1fr 3fr'
+            }
+        } else {
+            return {
+                gridTemplateColumns: '1fr'
+            }
+        }
+    }
+
     return(
         <div className={styles.container} style={{gridArea: 'header'}}>
-            <div className={styles.header}>
+            <div className={styles.header} style={style()}>
                 {isImage(image) && <img src={image} alt="" className={styles.img}/>}
                 <h1>{food.food.label}</h1>      
             </div>

@@ -25,7 +25,7 @@ const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButton
 	  return () => {
 		document.removeEventListener("click", checkIfClickedOutside)
 	  }
-	}, [open])
+	}, [isOpen])
 
 	const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const select = e.target;
