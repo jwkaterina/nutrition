@@ -84,7 +84,6 @@ const createRecipe = async (req, res, next) => {
     await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
-    console.log(err)
     const error = new HttpError(
       'Creating recipe failed, please try again.',
       500
@@ -169,7 +168,7 @@ const deleteRecipe = async (req, res, next) => {
     return next(error);
   }
 
-  fs.unlink(imagePath, err => {
+  if(recipe.image) fs.unlink(imagePath, err => {
     console.log(err);
   });
 
