@@ -1,13 +1,14 @@
 const express = require('express');
 
 const recipeControllers = require('../db-controllers/recipe-controllers');
+const fileUpload = require('../middleware/file-upload');
 
 const router = express.Router();
 
 router.get('/user/:uid', recipeControllers.getRecipeByUserId);
 
 router.post(
-  '/', recipeControllers.createRecipe
+  '/',fileUpload.single('image'), recipeControllers.createRecipe
 );
 
 router.patch('/:pid', recipeControllers.updateRecipe);

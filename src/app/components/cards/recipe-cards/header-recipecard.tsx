@@ -2,9 +2,11 @@ import styles from '../../analysis_cards/alanysis_card.module.css';
 import { Recipe } from '@/app/types/types';
 
 interface RecipeHeaderCardProps {
-    recipe: Recipe }
+    recipe: Recipe,
+    image?: string
+}
 
-const RecipeHeaderCard = ({ recipe }: RecipeHeaderCardProps): JSX.Element => {
+const RecipeHeaderCard = ({ recipe, image }: RecipeHeaderCardProps): JSX.Element => {
 
     const style = () => {
         if(recipe.image) {
@@ -21,7 +23,7 @@ const RecipeHeaderCard = ({ recipe }: RecipeHeaderCardProps): JSX.Element => {
     return(
         <div className={styles.container} style={{gridArea: 'header'}}>
             <div className={styles.header} style={style()}>
-                {recipe.image && <img src={recipe.image} alt="" className={styles.img}/>}
+                {image && <img src={image} alt="" className={styles.img}/>}
                 <h1>{recipe.name}</h1>      
             </div>
             <div className={styles.form}>

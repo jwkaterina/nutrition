@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const mongoose = require('mongoose');
 
 const HttpError = require('../models/http-error');
@@ -34,9 +36,11 @@ const getRecipeByUserId = async (req, res, next) => {
 const createRecipe = async (req, res, next) => {
 
   const { recipe, creator } = req.body;
+  const parsedRecipe = JSON.parse(recipe);
 
   const createdRecipe = new Recipe({
-    recipe,
+    recipe: parsedRecipe,
+    image: req.file.path,
     creator
   });
 
@@ -55,7 +59,7 @@ const createRecipe = async (req, res, next) => {
 
   let existingRecipe
   try {
-    existingRecipe = await Recipe.findOne({ "recipe.name": recipe.name });
+    existingRecipe = await Recipe.findOne({ "recipe.name": parsedRecipe.name });
   } catch (err) {
     const error = new HttpError(
       'Creating recipe failed, please try again later.',
@@ -94,6 +98,7 @@ const createRecipe = async (req, res, next) => {
 const updateRecipe = async (req, res, next) => {
 
   const { updatedRecipe } = req.body;
+  const image = req.file.path;
   const recipeId = req.params.pid;
 
   let recipe;
@@ -113,6 +118,7 @@ const updateRecipe = async (req, res, next) => {
   }
 
   recipe.recipe = updatedRecipe;
+  recipe.image = image;
 
   try {
     await recipe.save();
@@ -146,6 +152,8 @@ const deleteRecipe = async (req, res, next) => {
     return next(error);
   }
 
+  const imagePath = recipe.image;
+
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -161,6 +169,10 @@ const deleteRecipe = async (req, res, next) => {
     return next(error);
   }
 
+  fs.unlink(imagePath, err => {
+    console.log(err);
+  });
+  
   res.status(200).json({ message: 'Deleted recipe.' });
 };
 

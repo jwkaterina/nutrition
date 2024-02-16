@@ -119,7 +119,8 @@ export type LoadedFood = {
 export type LoadedRecipe = {
     creator: string,
     recipe: Recipe,
-    id: string
+    id: string,
+    image: string
 }
 
 export type LoadedMenu = {

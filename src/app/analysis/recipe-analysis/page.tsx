@@ -17,20 +17,21 @@ const RecipeAnalysis = ({ }: RecipeAnalysisProps): JSX.Element => {
 
 	const { cardOpen } = useContext(CardOpenContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
+	const [file, setFile] = useState();
 
 	const secondaryColor: string = "var(--secondary-color)";
 
 	return (<>
 			<NavBar color={secondaryColor}>
 				{cardOpen == CardState.OPEN ? 
-				<OpenAnalysisMenu/> : 
+				<OpenAnalysisMenu file={file} /> : 
 				<AnalysisMenu 
 					rightText="Clear Form"
 					onClear={() => setClearSearch(true)}
 				/>
 				}
 			</NavBar>
-			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch}/>
+			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch} setFile={setFile}/>
 			<Footer color={secondaryColor} />
 		</>  )
 }

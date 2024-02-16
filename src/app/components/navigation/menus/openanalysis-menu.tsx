@@ -12,10 +12,10 @@ import { StatusContext } from "@/app/context/status-context";
 import { CardState, Food, Recipe, MenuProp, AnalysisMode, StatusType } from "@/app/types/types"
 
 interface OpenAnalysisMenuProps {
-    
+    file?: any;
 }
 
-const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
+const OpenAnalysisMenu = ({ file }: OpenAnalysisMenuProps): JSX.Element => {
 
     const [rightText, setRightText] = useState<string>('Add To Favorites');
     const router = useRouter();
@@ -73,14 +73,15 @@ const OpenAnalysisMenu = ({  }: OpenAnalysisMenuProps): JSX.Element => {
             return;
         }
         try {
+            const formData = new FormData();
+            const recipeString = JSON.stringify(Recipe);
+            formData.append('recipe', recipeString);
+            formData.append('creator', user);
+            formData.append('image', file);
             await sendRequest(
                 'http://localhost:5001/recipes',
                 'POST',
-                JSON.stringify({
-                recipe: Recipe,
-                creator: user
-                }),
-                { 'Content-Type': 'application/json' }
+                formData
             );
             setRightText('Go To Favorites');
             setMessage('Recipe added to favorites.');

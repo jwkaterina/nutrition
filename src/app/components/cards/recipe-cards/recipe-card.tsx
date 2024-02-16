@@ -10,10 +10,11 @@ interface RecipeCardProps {
     recipe: Recipe,
     index: number,
     id: string | null,
-    open: boolean
+    open: boolean,
+    image?: string
 }
 
-const RecipeCard = ({ recipe, index, id, open }: RecipeCardProps): JSX.Element => {
+const RecipeCard = ({ recipe, index, id, open, image }: RecipeCardProps): JSX.Element => {
 
     const [isOpen, setIsOpen] = useState<boolean>(open);
     const { setCardOpen } = useContext(CardOpenContext);
@@ -32,12 +33,13 @@ const RecipeCard = ({ recipe, index, id, open }: RecipeCardProps): JSX.Element =
             mode: AnalysisMode.VIEW
         });
     }
+    // console.log(recipe.image, 'recipe image')
 
     return <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
-            {isOpen ? <OpenRecipeCard recipe={recipe}/> : 
+            {isOpen ? <OpenRecipeCard recipe={recipe} image={image}/> : 
             <ClosedCard 
                 title={recipe.name}
-                image={recipe.image}
+                image={image}
                 calories={recipe.nutrients.calories}
                 protein={recipe.nutrients.totalNutrients.PROCNT.quantity}
                 fat={recipe.nutrients.totalNutrients.FAT.quantity}

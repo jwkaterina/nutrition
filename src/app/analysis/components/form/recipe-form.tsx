@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useRef } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
 import { CardState, Nutrients, AnalysisMode } from '@/app/types/types';
@@ -12,10 +12,11 @@ import { SlideContext } from "@/app/context/slide-context";
 
 interface RecipeFormProps {
     searchCleared: boolean,
-    setClearSearch: (clearSearch: boolean) => void
+    setClearSearch: (clearSearch: boolean) => void,
+    setFile: (file: any) => void
 }
 
-const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Element => {
+const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps): JSX.Element => {
 
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
@@ -76,7 +77,6 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
             });
             const newRecipe = {
                 name,
-                image: "https://www.edamam.com/food-img/42c/42c006401027d35add93113548eeaae6.jpg",
                 servings,
                 nutrients,
                 ingredients: ingredientsArray
@@ -127,10 +127,40 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
         setServings(parseInt(e.currentTarget.value));
     }
 
+    const filePickerRef = useRef();
+    const [previewUrl, setPreviewUrl] = useState<string>();
+
+    // useEffect(() => {
+    //     if (!file) {
+    //         return;
+    //     }
+    //     const fileReader = new FileReader();
+    //     fileReader.onload = () => {
+    //     setPreviewUrl(fileReader.result);
+    //     };
+    //     fileReader.readAsDataURL(file);
+    // }, [file]);
+
+    const pickedHandler = event => {
+        if (event.target.files && event.target.files.length === 1) {
+            setFile(event.target.files[0]);
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                setPreviewUrl(fileReader.result);
+            };
+            fileReader.readAsDataURL(event.target.files[0]);
+            console.log(fileReader.result)
+        }
+    };
+        
+    const pickImageHandler = () => {
+        filePickerRef.current.click();
+    };
+
     if(currentRecipe.recipe && cardOpen == CardState.OPEN) {
         return (
         <div className={styles.card_container}>
-            <RecipeCard recipe={currentRecipe.recipe} index={0} id={null} open={true}/>
+            <RecipeCard recipe={currentRecipe.recipe} image={previewUrl} index={0} id={null} open={true}/>
         </div> 
     )}
 
@@ -143,7 +173,20 @@ const RecipeForm = ({ searchCleared, setClearSearch }: RecipeFormProps): JSX.Ele
                             <input type="text" id="recipe-name" name="recipe-name" required value={name} onInput={e => handleNameInput(e)}/>
                         </div>
                         <div className={styles.form_group}>
-                            <button type="button" className={styles.add_button}>Add Image</button>
+                            <input
+                                ref={filePickerRef}
+                                style={{ display: 'none' }}
+                                type="file"
+                                accept=".jpg,.png,.jpeg"
+                                onChange={pickedHandler}
+                            />
+                            {/* <div>
+                                <div>
+                                {previewUrl && <img src={previewUrl} alt="Preview" />}
+                                {!previewUrl && <p>Please pick an image.</p>}
+                                </div>
+                            </div> */}
+                            <button type="button" className={styles.add_button} onClick={pickImageHandler}>Add Image</button>
                         </div>
                         <div className={styles.form_group}>
                             <label htmlFor="recipe-ingredients">Ingredients

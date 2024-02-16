@@ -46,7 +46,6 @@ const Nutrients = new Schema({
 const recipeSchema = new Schema({
     recipe:{
         name: { type: String, required: true },
-        image: { type: String, required: false },
         servings: { type: Number, required: true },
         ingredients: [{ type: String, required: true }],
         nutrients: {
@@ -56,6 +55,7 @@ const recipeSchema = new Schema({
             totalWeight: { type: Number, required: true }
         }
     },
+    image: { type: String, required: false },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User'}
 });
 
