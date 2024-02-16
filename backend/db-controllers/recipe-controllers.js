@@ -40,7 +40,7 @@ const createRecipe = async (req, res, next) => {
 
   const createdRecipe = new Recipe({
     recipe: parsedRecipe,
-    image: req.file.path,
+    image: req.file ? req.file.path : null,
     creator
   });
 
@@ -98,7 +98,7 @@ const createRecipe = async (req, res, next) => {
 const updateRecipe = async (req, res, next) => {
 
   const { updatedRecipe } = req.body;
-  const image = req.file.path;
+  // const image = req.file ? req.file.path : null;
   const recipeId = req.params.pid;
 
   let recipe;
@@ -118,7 +118,7 @@ const updateRecipe = async (req, res, next) => {
   }
 
   recipe.recipe = updatedRecipe;
-  recipe.image = image;
+  // recipe.image = image;
 
   try {
     await recipe.save();
@@ -172,7 +172,7 @@ const deleteRecipe = async (req, res, next) => {
   fs.unlink(imagePath, err => {
     console.log(err);
   });
-  
+
   res.status(200).json({ message: 'Deleted recipe.' });
 };
 

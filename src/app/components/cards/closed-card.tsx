@@ -2,7 +2,7 @@ import styles from './card.module.css'
 
 interface ClosedCardProps {
     title: string,
-    image?: string,
+    image: string | null,
     calories: number,
     protein: number,
     fat: number,

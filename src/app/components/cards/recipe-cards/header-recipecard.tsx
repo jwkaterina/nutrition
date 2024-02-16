@@ -3,13 +3,13 @@ import { Recipe } from '@/app/types/types';
 
 interface RecipeHeaderCardProps {
     recipe: Recipe,
-    image?: string
+    image: string | null
 }
 
 const RecipeHeaderCard = ({ recipe, image }: RecipeHeaderCardProps): JSX.Element => {
 
     const style = () => {
-        if(recipe.image) {
+        if(image) {
             return {
                 gridTemplateColumns: '1fr 3fr'
             }

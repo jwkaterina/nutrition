@@ -11,7 +11,7 @@ interface RecipeCardProps {
     index: number,
     id: string | null,
     open: boolean,
-    image?: string
+    image: string | null
 }
 
 const RecipeCard = ({ recipe, index, id, open, image }: RecipeCardProps): JSX.Element => {
@@ -33,13 +33,12 @@ const RecipeCard = ({ recipe, index, id, open, image }: RecipeCardProps): JSX.El
             mode: AnalysisMode.VIEW
         });
     }
-    // console.log(recipe.image, 'recipe image')
 
     return <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
             {isOpen ? <OpenRecipeCard recipe={recipe} image={image}/> : 
             <ClosedCard 
                 title={recipe.name}
-                image={image}
+                image={image && image}
                 calories={recipe.nutrients.calories}
                 protein={recipe.nutrients.totalNutrients.PROCNT.quantity}
                 fat={recipe.nutrients.totalNutrients.FAT.quantity}

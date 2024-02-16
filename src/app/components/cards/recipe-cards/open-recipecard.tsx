@@ -11,7 +11,7 @@ import FatsCard from '../../analysis_cards/fats_card'
 
 interface OpenRecipeCardProps {
     recipe: Recipe,
-    image?: string
+    image: string | null
 }
 
 const OpenRecipeCard  = ({ recipe, image }: OpenRecipeCardProps): JSX.Element => {
@@ -25,7 +25,7 @@ const OpenRecipeCard  = ({ recipe, image }: OpenRecipeCardProps): JSX.Element =>
 
     return (
         <div className={styles.card_grid}>
-            <RecipeHeaderCard recipe={recipe} image={image}/>
+            <RecipeHeaderCard recipe={recipe} image={image && image}/>
             {recipe.nutrients && <DailyValueCard content={recipe.nutrients} />}
             <CompositionCard 
                 protein={proteinPer100gram}

@@ -17,7 +17,7 @@ const RecipeAnalysis = ({ }: RecipeAnalysisProps): JSX.Element => {
 
 	const { cardOpen } = useContext(CardOpenContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
-	const [file, setFile] = useState();
+	const [file, setFile] = useState<FormData | null>(null);
 
 	const secondaryColor: string = "var(--secondary-color)";
 

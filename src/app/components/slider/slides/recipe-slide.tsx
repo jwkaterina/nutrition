@@ -29,7 +29,7 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
                 );
                 const recipeList = responseData.recipe.map((recipe: LoadedRecipe, index: number) => {
                     return (
-                        <RecipeCard recipe={recipe.recipe} image={`http://localhost:5001/${recipe.image}`} index={index + 1} key={index + 1} id={recipe.id} open={false}/>
+                        <RecipeCard recipe={recipe.recipe} image={recipe.image && `http://localhost:5001/${recipe.image}`} index={index + 1} key={index + 1} id={recipe.id} open={false}/>
                     )
                 })
                 setRecipeList(recipeList);

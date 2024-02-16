@@ -26,6 +26,8 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const { setMessage } = useContext(StatusContext);
     const {sendRequest} = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
+    const filePickerRef = useRef<HTMLInputElement | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
     const router = useRouter();
 
@@ -127,40 +129,25 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         setServings(parseInt(e.currentTarget.value));
     }
 
-    const filePickerRef = useRef();
-    const [previewUrl, setPreviewUrl] = useState<string>();
-
-    // useEffect(() => {
-    //     if (!file) {
-    //         return;
-    //     }
-    //     const fileReader = new FileReader();
-    //     fileReader.onload = () => {
-    //     setPreviewUrl(fileReader.result);
-    //     };
-    //     fileReader.readAsDataURL(file);
-    // }, [file]);
-
-    const pickedHandler = event => {
+    const pickedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length === 1) {
             setFile(event.target.files[0]);
             const fileReader = new FileReader();
             fileReader.onload = () => {
-                setPreviewUrl(fileReader.result);
+                setPreviewUrl(fileReader.result as string);
             };
             fileReader.readAsDataURL(event.target.files[0]);
-            console.log(fileReader.result)
         }
     };
         
     const pickImageHandler = () => {
-        filePickerRef.current.click();
+        (filePickerRef.current! as HTMLElement).click();
     };
 
     if(currentRecipe.recipe && cardOpen == CardState.OPEN) {
         return (
         <div className={styles.card_container}>
-            <RecipeCard recipe={currentRecipe.recipe} image={previewUrl} index={0} id={null} open={true}/>
+            <RecipeCard recipe={currentRecipe.recipe} image={previewUrl && previewUrl} index={0} id={null} open={true}/>
         </div> 
     )}
 
@@ -172,7 +159,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                             <label htmlFor="recipe-name">Recipe Name</label>
                             <input type="text" id="recipe-name" name="recipe-name" required value={name} onInput={e => handleNameInput(e)}/>
                         </div>
-                        <div className={styles.form_group}>
+                        {currentRecipe.mode == AnalysisMode.VIEW && <div className={styles.form_group}>
                             <input
                                 ref={filePickerRef}
                                 style={{ display: 'none' }}
@@ -180,14 +167,8 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                                 accept=".jpg,.png,.jpeg"
                                 onChange={pickedHandler}
                             />
-                            {/* <div>
-                                <div>
-                                {previewUrl && <img src={previewUrl} alt="Preview" />}
-                                {!previewUrl && <p>Please pick an image.</p>}
-                                </div>
-                            </div> */}
                             <button type="button" className={styles.add_button} onClick={pickImageHandler}>Add Image</button>
-                        </div>
+                        </div>}
                         <div className={styles.form_group}>
                             <label htmlFor="recipe-ingredients">Ingredients
                                 <span>(Enter each ingredient on a new line)</span>
