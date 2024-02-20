@@ -13,9 +13,10 @@ import { CardState, Food, Recipe, MenuProp, AnalysisMode, StatusType } from "@/a
 
 interface OpenAnalysisMenuProps {
     file?: any;
+    setFile?: (file: any) => void;
 }
 
-const OpenAnalysisMenu = ({ file }: OpenAnalysisMenuProps): JSX.Element => {
+const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element => {
 
     const [rightText, setRightText] = useState<string>('Add To Favorites');
     const router = useRouter();
@@ -165,6 +166,7 @@ const OpenAnalysisMenu = ({ file }: OpenAnalysisMenuProps): JSX.Element => {
             setCurrentFood({id: null, food: null});
             setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
+            setFile && setFile(null);
             setScrollBehavior('auto');
             router.push('/');
             setTimeout(() => {

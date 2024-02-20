@@ -8,10 +8,11 @@ import { AnalysisMode } from '@/app/types/types'
 
 interface AnalysisMenuProps {
 	onClear: () => void,
-	rightText: string
+	rightText: string,
+	setFile?: (file: any) => void
 }
 
-const AnalysisMenu = ({ onClear, rightText }: AnalysisMenuProps): JSX.Element => {
+const AnalysisMenu = ({ onClear, rightText, setFile }: AnalysisMenuProps): JSX.Element => {
 
 	const router = useRouter();
 	const { setScrollBehavior } = useContext(SlideContext);
@@ -26,6 +27,7 @@ const AnalysisMenu = ({ onClear, rightText }: AnalysisMenuProps): JSX.Element =>
 		}, 500);
 		setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
 		setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
+		setFile && setFile(null);
 	}
 
 	return (

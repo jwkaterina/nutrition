@@ -11,9 +11,10 @@ import { CurrentFoodContext } from "@/app/context/food-context";
 
 interface FooterProps {
     color: string,
+    setFile?: (file: any) => void
 }
 
-const Footer = ({ color }: FooterProps): JSX.Element => {
+const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
 
     const router = useRouter();
     const path = usePathname();
@@ -48,7 +49,7 @@ const Footer = ({ color }: FooterProps): JSX.Element => {
         setCurrentFood({food: null, id: null});
         setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
 		setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
-    
+        setFile && setFile(null);
     }
 
     return (

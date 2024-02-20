@@ -24,15 +24,16 @@ const RecipeAnalysis = ({ }: RecipeAnalysisProps): JSX.Element => {
 	return (<>
 			<NavBar color={secondaryColor}>
 				{cardOpen == CardState.OPEN ? 
-				<OpenAnalysisMenu file={file} /> : 
+				<OpenAnalysisMenu file={file} setFile={setFile}/> : 
 				<AnalysisMenu 
 					rightText="Clear Form"
 					onClear={() => setClearSearch(true)}
+					setFile={setFile}
 				/>
 				}
 			</NavBar>
 			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch} setFile={setFile}/>
-			<Footer color={secondaryColor} />
+			<Footer color={secondaryColor} setFile={setFile}/>
 		</>  )
 }
 
