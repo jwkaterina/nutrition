@@ -25,7 +25,7 @@ const AnalysisMenu = ({ onClear, rightText, setFile }: AnalysisMenuProps): JSX.E
 		setTimeout(() => {
 			setScrollBehavior('smooth');
 		}, 500);
-		setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+		setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
 		setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
 		setFile && setFile(null);
 	}

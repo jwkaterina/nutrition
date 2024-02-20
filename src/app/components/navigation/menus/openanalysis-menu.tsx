@@ -125,13 +125,14 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
     const updateRecipe = async () => {
         const Recipe: Recipe | null = currentRecipe!.recipe;
         try {
+            const formData = new FormData();
+            const recipeString = JSON.stringify(Recipe);
+            formData.append('recipeString', recipeString);
+            formData.append('image', file);
             await sendRequest(
                 `http://localhost:5001/recipes/${currentRecipe.id}`,
                 'PATCH',
-                JSON.stringify({
-                updatedRecipe: Recipe
-                }),
-                { 'Content-Type': 'application/json' }
+                formData
             );
             setRightText('Go To Favorites');
             setMessage('Recipe updated in favorites.');
@@ -164,7 +165,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         } else if(rightText === 'Go To Favorites') {
             setCardOpen(CardState.CLOSED);
             setCurrentFood({id: null, food: null});
-            setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+            setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
             setFile && setFile(null);
             setScrollBehavior('auto');

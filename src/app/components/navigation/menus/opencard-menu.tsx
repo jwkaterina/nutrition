@@ -44,7 +44,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const handleBackClick = (): void => {
         setCardOpen(CardState.CLOSING);
         setCurrentFood({id: null, food: null});
-        setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+        setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
         setCurrentMenu({id: null, recipe: null, mode: AnalysisMode.VIEW});
     }
 
@@ -52,7 +52,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
         if(rightText === 'Edit') {
             if(currentRecipe.recipe) {
                 router.push('/analysis/recipe-analysis');
-                setCurrentRecipe({id: currentRecipe.id, recipe: currentRecipe.recipe, mode: AnalysisMode.EDIT});
+                setCurrentRecipe({id: currentRecipe.id, recipe: currentRecipe.recipe, image: currentRecipe.image, mode: AnalysisMode.EDIT});
             }
             if(currentMenu.menu) {
                 router.push('/analysis/menu-analysis');

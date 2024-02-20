@@ -8,10 +8,10 @@ const router = express.Router();
 router.get('/user/:uid', recipeControllers.getRecipeByUserId);
 
 router.post(
-  '/',fileUpload.single('image'), recipeControllers.createRecipe
+  '/', fileUpload.single('image'), recipeControllers.createRecipe
 );
 
-router.patch('/:pid', recipeControllers.updateRecipe);
+router.patch('/:pid', fileUpload.single('image'), recipeControllers.updateRecipe);
 
 router.delete('/:pid', recipeControllers.deleteRecipe);
 

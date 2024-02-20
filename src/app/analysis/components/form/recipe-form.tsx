@@ -36,6 +36,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             setCurrentRecipe({
                 recipe: null,
                 id: null,
+                image: null,
                 mode: AnalysisMode.VIEW
             });
         }
@@ -43,6 +44,8 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         setServings(1);
         setIngredientsString('');
         setClearSearch(false);
+        setPreviewUrl(null);
+        setFile(null);
     }, [searchCleared]);
 
     useEffect(() => {
@@ -50,6 +53,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             setName(currentRecipe.recipe.name);
             setServings(currentRecipe.recipe.servings);
             setIngredientsString(currentRecipe.recipe.ingredients.join('\n'));
+            setPreviewUrl(currentRecipe.recipe.image);
         }
     }, [currentRecipe]);
 
@@ -63,17 +67,55 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         const ingredientsArray = ArrayfromString(ingredientsString);
 
         try {
-            const recipeContent: Nutrients = await sendRequest(
-                `http://localhost:5001/api/recipe`,
-                'POST',
-                JSON.stringify({
-                    ingredients: ingredientsArray
-                }),
-                { 'Content-Type': 'application/json' }
-            );
+            // const recipeContent: Nutrients = await sendRequest(
+            //     `http://localhost:5001/api/recipe`,
+            //     'POST',
+            //     JSON.stringify({
+            //         ingredients: ingredientsArray
+            //     }),
+            //     { 'Content-Type': 'application/json' }
+            // );
        
             const nutrients: Nutrients = RecipeNutrientsCalculator({
-                nutrients: recipeContent, 
+                // nutrients: recipeContent, 
+                nutrients: {
+                    calories: 100,
+                    totalNutrients: {
+                        FAT: {
+                            label: "Fat",
+                            quantity: 100,
+                            unit: "g"
+                        },
+                        CHOCDF: {
+                            label: "Carbs",
+                            quantity: 100,
+                            unit: "g"
+                        },
+                        PROCNT: {
+                            label: "Protein",
+                            quantity: 100,
+                            unit: "g"
+                        }
+                    },
+                    totalDaily: {
+                        FAT: {
+                            label: "Fat",
+                            quantity: 100,
+                            unit: "%"
+                        },
+                        CHOCDF: {
+                            label: "Carbs",
+                            quantity: 100,
+                            unit: "%"
+                        },
+                        PROCNT: {
+                            label: "Protein",
+                            quantity: 100,
+                            unit: "%"
+                        }
+                    },
+                    totalWeight: 100
+                }, 
                 totalServings: servings, 
                 selectedServings: 1
             });
@@ -86,6 +128,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             setCurrentRecipe({
                 recipe: newRecipe,
                 id: currentRecipe.mode === AnalysisMode.EDIT ? currentRecipe.id : null,
+                image: previewUrl ? previewUrl : currentRecipe.image,
                 mode: currentRecipe.mode
             });
             setCardOpen(CardState.OPEN);
@@ -108,7 +151,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             setTimeout(() => {
                 setScrollBehavior('smooth');
             }, 500);            
-            setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+            setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
             setMessage("Recipe deleted successfully");
         } catch (err) {
             setMessage('Could not delete recipe. Try again later.');
@@ -146,7 +189,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     if(currentRecipe.recipe && cardOpen == CardState.OPEN) {
         return (
         <div className={styles.card_container}>
-            <RecipeCard recipe={currentRecipe.recipe} image={previewUrl && previewUrl} index={0} id={null} open={true}/>
+            <RecipeCard recipe={currentRecipe.recipe} image={currentRecipe.image} index={0} id={null} open={true}/>
         </div> 
     )}
 
@@ -158,7 +201,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                             <label htmlFor="recipe-name">Recipe Name</label>
                             <input type="text" id="recipe-name" name="recipe-name" required value={name} onInput={e => handleNameInput(e)}/>
                         </div>
-                        {currentRecipe.mode == AnalysisMode.VIEW && <div className={styles.form_group}>
+                        <div className={styles.form_group}>
                             <input
                                 ref={filePickerRef}
                                 style={{ display: 'none' }}
@@ -166,8 +209,8 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                                 accept=".jpg,.png,.jpeg"
                                 onChange={pickedHandler}
                             />
-                            <button type="button" className={styles.add_button} onClick={pickImageHandler}>Add Image</button>
-                        </div>}
+                            <button type="button" className={styles.add_button} onClick={pickImageHandler}>{currentRecipe.mode == AnalysisMode.VIEW ? 'Add Image' : 'Change Image'}</button>
+                        </div>
                         <div className={styles.form_group}>
                             <label htmlFor="recipe-ingredients">Ingredients
                                 <span>(Enter each ingredient on a new line)</span>

@@ -47,7 +47,7 @@ const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
         }
         
         setCurrentFood({food: null, id: null});
-        setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
+        setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
 		setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
         setFile && setFile(null);
     }

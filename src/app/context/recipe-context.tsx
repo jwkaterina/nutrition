@@ -4,6 +4,7 @@ import { Recipe, AnalysisMode } from '@/app/types/types';
 interface CurrentRecipe  {
     recipe: Recipe | null,
     id: string | null,
+    image: string | null,
     mode: AnalysisMode
 }
 
@@ -16,6 +17,7 @@ export const CurrentRecipeContext = createContext<CurrentRecipeContextProps>({
     currentRecipe: {
         recipe: null,
         id: null,
+        image: null,
         mode: AnalysisMode.VIEW
     },
     setCurrentRecipe: () => {}
@@ -25,6 +27,7 @@ export const CurrentRecipeProvider = ({ children }: any) => {
     const [currentRecipe, setCurrentRecipe] = useState<CurrentRecipe>({
         recipe: null,
         id: null,
+        image: null,
         mode: AnalysisMode.VIEW
     });
 

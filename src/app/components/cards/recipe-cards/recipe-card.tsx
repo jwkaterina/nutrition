@@ -30,6 +30,7 @@ const RecipeCard = ({ recipe, index, id, open, image }: RecipeCardProps): JSX.El
         setCurrentRecipe({
             recipe: recipe,
             id: id,
+            image: image,
             mode: AnalysisMode.VIEW
         });
     }

@@ -95,9 +95,10 @@ const createRecipe = async (req, res, next) => {
 };
 
 const updateRecipe = async (req, res, next) => {
+  const { recipeString } = req.body;
+  const updatedRecipe = JSON.parse(recipeString);
 
-  const { updatedRecipe } = req.body;
-  // const image = req.file ? req.file.path : null;
+  const undatedImage = req.file ? req.file.path : null;
   const recipeId = req.params.pid;
 
   let recipe;
@@ -117,7 +118,12 @@ const updateRecipe = async (req, res, next) => {
   }
 
   recipe.recipe = updatedRecipe;
-  // recipe.image = image;
+  if(undatedImage) {
+    fs.unlink(recipe.image, err => {
+      console.log(err);
+    });
+    recipe.image = undatedImage;
+  }
 
   try {
     await recipe.save();
