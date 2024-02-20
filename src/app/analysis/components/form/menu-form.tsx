@@ -137,7 +137,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             setTimeout(() => {
                 setScrollBehavior('smooth');
             }, 500);            
-            setCardOpen(CardState.CLOSED);
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
             setMessage("Menu deleted successfully");
         } catch (err) {
@@ -182,7 +181,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             <button type="submit">Analyze</button>
                         </div>
                         {currentMenu.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
-                            <button onClick={deleteMenu}>Delete</button>
+                            <button type="button" onClick={deleteMenu}>Delete</button>
                         </div>}
                     </form>
                 </div>

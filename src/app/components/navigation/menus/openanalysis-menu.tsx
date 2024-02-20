@@ -176,8 +176,11 @@ const OpenAnalysisMenu = ({ file }: OpenAnalysisMenuProps): JSX.Element => {
     }
 
     const handleBackClick = (): void => {
-        setCardOpen(CardState.CLOSING);
-        setCurrentFood({id: null, food: null});
+        if(currentFood.food) {
+            setCardOpen(CardState.CLOSING);
+            setCurrentFood({id: null, food: null});
+        }
+        setCardOpen(CardState.CLOSED);
     }
 
     return (<>

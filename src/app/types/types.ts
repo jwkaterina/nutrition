@@ -5,10 +5,10 @@ export enum SlideType {
 }
 
 export enum CardState { 
-    OPENING,
-    OPEN,
-    CLOSING,
-    CLOSED
+    OPENING = 'OPENING',
+    OPEN = 'OPEN',
+    CLOSING = 'CLOSING',
+    CLOSED = 'CLOSED'
 }
 
 export interface Food {

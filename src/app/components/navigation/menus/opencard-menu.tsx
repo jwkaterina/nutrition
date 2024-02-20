@@ -35,9 +35,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
             onFoodDelete();
             setCurrentFood({id: null, food: null});
             setMessage("Food deleted successfully");
-            setTimeout(() => {
-                setCardOpen(CardState.CLOSED);
-            }, 4000);
+            setCardOpen(CardState.CLOSED);
         } catch (err) {
             setMessage("Could not delete food. Try again later.");
         }
@@ -60,7 +58,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
                 router.push('/analysis/menu-analysis');
                 setCurrentMenu({id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT});
             }
-            setCardOpen(CardState.CLOSING);
+            setCardOpen(CardState.CLOSED);
         } else deleteFood();
     }
 

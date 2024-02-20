@@ -108,7 +108,6 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             setTimeout(() => {
                 setScrollBehavior('smooth');
             }, 500);            
-            setCardOpen(CardState.CLOSED);
             setCurrentRecipe({id: null, recipe: null, mode: AnalysisMode.VIEW});
             setMessage("Recipe deleted successfully");
         } catch (err) {
@@ -184,7 +183,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                             <button type="submit">Analyze</button>
                         </div>
                         {currentRecipe.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
-                            <button onClick={deleteRecipe}>Delete</button>
+                            <button type="button" onClick={deleteRecipe}>Delete</button>
                         </div>}
                     </form>
                 </div>
