@@ -16,10 +16,10 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
     const { sendRequest } = useHttpClient();
     const [foodList, setFoodList] = useState<JSX.Element[]>([]);
     const { setMessage } = useContext(StatusContext);
-    const { token, user } = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
 
     useEffect(() => {
-        if(!user) {
+        if(!token) {
             setFoodList([]);
             return;
         }
@@ -27,7 +27,7 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
         const fetchFood = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5001/foods/user/${user}`, 'GET', null, {
+                    `http://localhost:5001/foods`, 'GET', null, {
                         Authorization: 'Bearer ' + token
                       }
                 );
@@ -42,7 +42,7 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
             }
         };
         fetchFood();
-    }, [foodDeleted, token, user]);
+    }, [foodDeleted, token]);
 
     return (<>
          <Slide>

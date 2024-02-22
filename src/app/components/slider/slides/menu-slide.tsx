@@ -15,17 +15,17 @@ const MenuSlide = ({ }: MenuSlideProps): JSX.Element => {
     const { sendRequest } = useHttpClient();
     const [menuList, setMenuList] = useState<JSX.Element[]>([]);
     const { setMessage } = useContext(StatusContext);
-    const { user, token } = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
 
     useEffect(() => {
-        if(!user) {
+        if(!token) {
             setMenuList([]);
             return;
         }
         const fetchMenus = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5001/menus/user/${user}`,'GET', null, {
+                    `http://localhost:5001/menus`,'GET', null, {
                         Authorization: 'Bearer ' + token
                       }
                 );
@@ -40,7 +40,7 @@ const MenuSlide = ({ }: MenuSlideProps): JSX.Element => {
             }
         };
         fetchMenus();
-    }, [token, user]);
+    }, [token]);
 
     return (<>
          <Slide>

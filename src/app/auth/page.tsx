@@ -44,7 +44,7 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                         'Content-Type': 'application/json'
                     }
                 );
-                login(responseData.userId, responseData.token);
+                login(responseData.token);
                 setMessage('Logged in');
                 goBack();
             } catch (err) { }
@@ -65,7 +65,7 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                     }
                     );
 
-                login(responseData.userId, responseData.token);
+                login(responseData.token);
                 goBack();
                 setMessage('Signed up');
               } catch (err) {}

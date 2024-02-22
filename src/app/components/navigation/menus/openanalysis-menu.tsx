@@ -27,7 +27,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
     const { setCardOpen } = useContext(CardOpenContext);
     const { sendRequest } = useHttpClient();
     const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
-    const { user, token } = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
     const { setScrollBehavior } = useContext(SlideContext);
 
     useEffect(() => {
@@ -52,10 +52,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             await sendRequest(
                 'http://localhost:5001/foods',
                 'POST',
-                JSON.stringify({
-                food: Food,
-                creator: user
-                }),
+                JSON.stringify({food: Food}),
                 { 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token }
             );
@@ -78,7 +75,6 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             const formData = new FormData();
             const recipeString = JSON.stringify(Recipe);
             formData.append('recipe', recipeString);
-            formData.append('creator', user!);
             formData.append('image', file);
             await sendRequest(
                 'http://localhost:5001/recipes',
@@ -106,10 +102,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             await sendRequest(
                 'http://localhost:5001/menus',
                 'POST',
-                JSON.stringify({
-                menu: Menu,
-                creator: user
-                }),
+                JSON.stringify({menu: Menu}),
                 { 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token }
             );

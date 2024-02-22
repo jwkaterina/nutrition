@@ -6,8 +6,8 @@ const HttpError = require('../models/http-error');
 const Recipe = require('../models/recipe');
 const User = require('../models/user');
 
-const getRecipeByUserId = async (req, res, next) => {
-  const userId = req.params.uid;
+const getRecipes = async (req, res, next) => {
+  const userId = req.userData.userId;
 
   let userWithRecipe;
   try {
@@ -35,18 +35,18 @@ const getRecipeByUserId = async (req, res, next) => {
 
 const createRecipe = async (req, res, next) => {
 
-  const { recipe, creator } = req.body;
+  const { recipe } = req.body;
   const parsedRecipe = JSON.parse(recipe);
 
   const createdRecipe = new Recipe({
     recipe: parsedRecipe,
     image: req.file ? req.file.path : null,
-    creator
+    creator: req.userData.userId
   });
 
   let user;
   try {
-    user = await User.findById(creator);
+    user = await User.findById(req.userData.userId);
   } catch (err) {
     const error = new HttpError('Creating recipe failed, please try again', 500);
     return next(error);
@@ -59,7 +59,7 @@ const createRecipe = async (req, res, next) => {
 
   let existingRecipe
   try {
-    existingRecipe = await Recipe.findOne({ "recipe.name": parsedRecipe.name });
+    existingRecipe = await Recipe.findOne({ "recipe.name": parsedRecipe.name, "creator": req.userData.userId});
   } catch (err) {
     const error = new HttpError(
       'Creating recipe failed, please try again later.',
@@ -195,7 +195,7 @@ const deleteRecipe = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted recipe.' });
 };
 
-exports.getRecipeByUserId = getRecipeByUserId;
+exports.getRecipes = getRecipes;
 exports.createRecipe = createRecipe;
 exports.updateRecipe = updateRecipe;
 exports.deleteRecipe = deleteRecipe;

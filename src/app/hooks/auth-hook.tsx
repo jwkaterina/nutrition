@@ -6,18 +6,15 @@ let logoutTimer: NodeJS.Timeout;
 export const useAuth = () => {
   const [token, setToken] = useState<string | null>(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState<Date | null>();
-  const [user, setUserId] = useState<string | null>(null);
 
-  const login = useCallback((uid: string, token: string, expirationDate?: Date) => {
+  const login = useCallback((token: string, expirationDate?: Date) => {
     setToken(token);
-    setUserId(uid);
     const tokenExpirationDate =
       expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
     setTokenExpirationDate(tokenExpirationDate);
     setToLocalStorage(
       'userData',
       JSON.stringify({
-        user: uid,
         token: token,
         expiration: tokenExpirationDate.toISOString()
       })
@@ -27,7 +24,6 @@ export const useAuth = () => {
   const logout = useCallback(() => {
     setToken(null);
     setTokenExpirationDate(null);
-    setUserId(null);
     removeFromLocalStorage('userData');
   }, []);
 
@@ -47,9 +43,9 @@ export const useAuth = () => {
       storedData.token &&
       new Date(storedData.expiration) > new Date()
     ) {
-      login(storedData.user, storedData.token, new Date(storedData.expiration));
+      login(storedData.token, new Date(storedData.expiration));
     }
   }, [login]);
 
-  return { token, login, logout, user };
+  return { token, login, logout };
 };

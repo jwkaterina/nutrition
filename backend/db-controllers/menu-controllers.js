@@ -4,8 +4,8 @@ const HttpError = require('../models/http-error');
 const Menu = require('../models/menu');
 const User = require('../models/user');
 
-const getMenuByUserId = async (req, res, next) => {
-  const userId = req.params.uid;
+const getMenus = async (req, res, next) => {
+  const userId = req.userData.userId;
 
   let userWithMenu;
   try {
@@ -33,18 +33,18 @@ const getMenuByUserId = async (req, res, next) => {
 
 const createMenu = async (req, res, next) => {
 
-  const { menu, creator } = req.body;
+  const { menu } = req.body;
 
   console.log(menu);
 
   const createdMenu = new Menu({
     menu,
-    creator
+    creator: req.userData.userId
   });
 
   let user;
   try {
-    user = await User.findById(creator);
+    user = await User.findById(req.userData.userId);
   } catch (err) {
     console.log('could not find user');
     const error = new HttpError('Creating menu failed, please try again', 500);
@@ -59,7 +59,7 @@ const createMenu = async (req, res, next) => {
 
   let existingMenu
   try {
-    existingMenu = await Menu.findOne({ "menu.name": menu.name })
+    existingMenu = await Menu.findOne({ "menu.name": menu.name, "creator": req.userData.userId})
   } catch (err) {
     console.log('could not find menu');
     const error = new HttpError(
@@ -189,7 +189,7 @@ const deleteMenu = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted menu.' });
 };
 
-exports.getMenuByUserId = getMenuByUserId;
+exports.getMenus = getMenus;
 exports.createMenu = createMenu;
 exports.deleteMenu = deleteMenu;
 exports.updateMenu = updateMenu;

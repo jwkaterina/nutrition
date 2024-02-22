@@ -4,8 +4,8 @@ const HttpError = require('../models/http-error');
 const Food = require('../models/food');
 const User = require('../models/user');
 
-const getFoodByUserId = async (req, res, next) => {
-  const userId = req.params.uid;
+const getFoods = async (req, res, next) => {
+  const userId = req.userData.userId;
 
   let userWithFood;
   try {
@@ -33,16 +33,16 @@ const getFoodByUserId = async (req, res, next) => {
 
 const createFood = async (req, res, next) => {
 
-  const { food, creator } = req.body;
+  const { food } = req.body;
 
   const createdFood = new Food({
     food,
-    creator
+    creator: req.userData.userId
   });
 
   let user;
   try {
-    user = await User.findById(creator);
+    user = await User.findById(req.userData.userId);
   } catch (err) {
     const error = new HttpError('Creating food failed, please try again', 500);
     return next(error);
@@ -55,7 +55,7 @@ const createFood = async (req, res, next) => {
 
   let existingFood
   try {
-    existingFood = await Food.findOne({ "food.food.label": food.food.label })
+    existingFood = await Food.findOne({ "food.food.label": food.food.label, "creator": req.userData.userId})
   } catch (err) {
     const error = new HttpError(
       'Creating food failed, please try again later.',
@@ -135,6 +135,6 @@ const deleteFood = async (req, res, next) => {
   res.status(200).json({ message: 'Deleted food.' });
 };
 
-exports.getFoodByUserId = getFoodByUserId;
+exports.getFoods = getFoods;
 exports.createFood = createFood;
 exports.deleteFood = deleteFood;

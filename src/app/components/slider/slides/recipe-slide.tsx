@@ -15,17 +15,17 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
     const { sendRequest } = useHttpClient();
     const [recipeList, setRecipeList] = useState<JSX.Element[]>([]);
     const { setMessage } = useContext(StatusContext);
-    const { user, token } = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
 
     useEffect(() => {
-        if(!user) {
+        if(!token) {
             setRecipeList([]);
             return;
         }
         const fetchRecipes = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5001/recipes/user/${user}`,'GET', null, {
+                    `http://localhost:5001/recipes`,'GET', null, {
                         Authorization: 'Bearer ' + token
                       }
                 );
@@ -40,7 +40,7 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
             }
         };
         fetchRecipes();
-    }, [token, user]);
+    }, [token]);
 
     return (<>
          <Slide>
