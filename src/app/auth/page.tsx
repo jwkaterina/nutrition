@@ -18,7 +18,7 @@ const Auth = ({ }: AuthProps): JSX.Element => {
     const tertiaryColor: string = "var(--tertiary-color)";
     const { sendRequest } = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
-    const { setUser, setToken } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState<boolean>(true);
     const { setMessage } = useContext(StatusContext);
 
@@ -44,8 +44,7 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                         'Content-Type': 'application/json'
                     }
                 );
-                setUser(responseData.userId);
-                setToken(responseData.token);
+                login(responseData.userId, responseData.token);
                 setMessage('Logged in');
                 goBack();
             } catch (err) { }
@@ -66,8 +65,7 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                     }
                     );
 
-                setUser(responseData.userId);
-                setToken(responseData.token);
+                login(responseData.userId, responseData.token);
                 goBack();
                 setMessage('Signed up');
               } catch (err) {}

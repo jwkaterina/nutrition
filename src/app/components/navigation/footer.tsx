@@ -20,7 +20,7 @@ const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
 
     const router = useRouter();
     const path = usePathname();
-    const { isLoggedIn, setToken, setUser } = useContext(AuthContext);
+    const { isLoggedIn, logout } = useContext(AuthContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
     const { setCardOpen } = useContext(CardOpenContext);
     const { setScrollBehavior } = useContext(SlideContext);
@@ -30,8 +30,7 @@ const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
 
     const handleAuthClick = () => {
         if (isLoggedIn) {
-            setToken(null);
-            setUser(null);      
+            logout();   
             setStatus(StatusType.SUCCESS);
             setMessage('Logged out');  
         } else {

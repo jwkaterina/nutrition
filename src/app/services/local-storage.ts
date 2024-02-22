@@ -13,3 +13,9 @@ export const setToLocalStorage = (key: string, obj: any) => {
         localStorage.setItem(key, JSON.stringify(obj))
     }
 }
+
+export const removeFromLocalStorage = (key: string) => {
+    if (typeof window !== 'undefined') {
+        localStorage.removeItem(key);
+    }
+}

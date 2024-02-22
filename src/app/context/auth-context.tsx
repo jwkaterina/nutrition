@@ -1,33 +1,33 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
+import { useAuth } from "@/app/hooks/auth-hook";
 
 interface AuthContextProps {
     isLoggedIn: boolean,
     token: string | null,
-    setToken: React.Dispatch<React.SetStateAction<string | null>>,
     user: string | null,
-    setUser: React.Dispatch<React.SetStateAction<string | null>>
+    login: (uid: string, token: string, expiration?: Date) => void,
+    logout: () => void
 }
 
 export const AuthContext = createContext<AuthContextProps>({
     isLoggedIn: false,
     token: null,
-    setToken: () => { },
     user: null,
-    setUser: () => { }
+    login: () => { },
+    logout: () => { }
 });
 
 export const AuthProvider = ({ children }: any) => {
-    const [token, setToken] = useState<string | null>(null);
+    const { token, login, logout, user } = useAuth();
     const isLoggedIn = !!token;
-    const [user, setUser] = useState<string | null>(null);
 
     return (
         <AuthContext.Provider value={{
             isLoggedIn,
             token,
-            setToken,
             user,
-            setUser
+            login,
+            logout
         }}>
             {children}
         </AuthContext.Provider>
