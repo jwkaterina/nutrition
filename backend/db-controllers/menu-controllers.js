@@ -116,10 +116,16 @@ const updateMenu = async (req, res, next) => {
     return next(error);
   }
 
-  if (!menu) {
-    const error = new HttpError('Could not find menu for this id.', 404);
+  // if (!menu) {
+  //   const error = new HttpError('Could not find menu for this id.', 404);
+  //   return next(error);
+  // }
+
+  if (menu.creator.toString() !== req.userData.userId) {
+    const error = new HttpError('You are not allowed to edit this menu.', 401);
     return next(error);
   }
+
 
   menu.menu = updatedMenu;
   // console.log(menu);
@@ -154,6 +160,14 @@ const deleteMenu = async (req, res, next) => {
 
   if (!menu) {
     const error = new HttpError('Could not find menu for this id.', 404);
+    return next(error);
+  }
+
+  if (menu.creator.id !== req.userData.userId) {
+    const error = new HttpError(
+      'You are not allowed to delete this menu.',
+      401
+    );
     return next(error);
   }
 

@@ -112,10 +112,16 @@ const updateRecipe = async (req, res, next) => {
     return next(error);
   }
 
-  if (!recipe) {
-    const error = new HttpError('Could not find recipe for this id.', 404);
+  // if (!recipe) {
+  //   const error = new HttpError('Could not find recipe for this id.', 404);
+  //   return next(error);
+  // }
+
+  if (recipe.creator.toString() !== req.userData.userId) {
+    const error = new HttpError('You are not allowed to edit this recipe.', 401);
     return next(error);
   }
+
 
   recipe.recipe = updatedRecipe;
   if(undatedImage) {
@@ -154,6 +160,14 @@ const deleteRecipe = async (req, res, next) => {
 
   if (!recipe) {
     const error = new HttpError('Could not find recipe for this id.', 404);
+    return next(error);
+  }
+
+  if (recipe.creator.id !== req.userData.userId) {
+    const error = new HttpError(
+      'You are not allowed to delete this recipe.',
+      401
+    );
     return next(error);
   }
 
