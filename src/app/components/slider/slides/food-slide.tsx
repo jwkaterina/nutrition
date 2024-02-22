@@ -16,13 +16,14 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
     const { sendRequest } = useHttpClient();
     const [foodList, setFoodList] = useState<JSX.Element[]>([]);
     const { setMessage } = useContext(StatusContext);
-
     const { token, user } = useContext(AuthContext);
 
     useEffect(() => {
         if(!user) {
+            setFoodList([]);
             return;
         }
+
         const fetchFood = async () => {
             try {
                 const responseData = await sendRequest(
@@ -41,7 +42,7 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
             }
         };
         fetchFood();
-    }, [foodDeleted]);
+    }, [foodDeleted, token, user]);
 
     return (<>
          <Slide>

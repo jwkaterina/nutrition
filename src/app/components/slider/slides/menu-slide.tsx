@@ -15,11 +15,11 @@ const MenuSlide = ({ }: MenuSlideProps): JSX.Element => {
     const { sendRequest } = useHttpClient();
     const [menuList, setMenuList] = useState<JSX.Element[]>([]);
     const { setMessage } = useContext(StatusContext);
-
     const { user, token } = useContext(AuthContext);
 
     useEffect(() => {
         if(!user) {
+            setMenuList([]);
             return;
         }
         const fetchMenus = async () => {
@@ -40,7 +40,7 @@ const MenuSlide = ({ }: MenuSlideProps): JSX.Element => {
             }
         };
         fetchMenus();
-    }, []);
+    }, [token, user]);
 
     return (<>
          <Slide>

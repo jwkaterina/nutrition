@@ -15,11 +15,11 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
     const { sendRequest } = useHttpClient();
     const [recipeList, setRecipeList] = useState<JSX.Element[]>([]);
     const { setMessage } = useContext(StatusContext);
-
     const { user, token } = useContext(AuthContext);
 
     useEffect(() => {
         if(!user) {
+            setRecipeList([]);
             return;
         }
         const fetchRecipes = async () => {
@@ -40,7 +40,7 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
             }
         };
         fetchRecipes();
-    }, []);
+    }, [token, user]);
 
     return (<>
          <Slide>
