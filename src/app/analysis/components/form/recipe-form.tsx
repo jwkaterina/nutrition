@@ -9,6 +9,7 @@ import { RecipeNutrientsCalculator } from './nutrients-calculator';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useRouter} from 'next/navigation';
 import { SlideContext } from "@/app/context/slide-context";
+import { AuthContext } from '@/app/context/auth-context';
 
 interface RecipeFormProps {
     searchCleared: boolean,
@@ -28,6 +29,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const { setScrollBehavior } = useContext(SlideContext);
     const filePickerRef = useRef<HTMLInputElement | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const { token } = useContext(AuthContext);
 
     const router = useRouter();
 
@@ -144,7 +146,9 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         try {
             await sendRequest(
                 `http://localhost:5001/recipes/${currentRecipe.id}`,
-                'DELETE'
+                'DELETE', null, {
+                    Authorization: 'Bearer ' + token
+                }
             );            
             setScrollBehavior('auto');
             router.push('/');

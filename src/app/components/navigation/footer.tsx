@@ -8,6 +8,8 @@ import { CardOpenContext } from "@/app/context/card-context";
 import { CurrentRecipeContext } from "@/app/context/recipe-context";
 import { CurrentMenuContext } from "@/app/context/menu-context";
 import { CurrentFoodContext } from "@/app/context/food-context";
+import { StatusContext } from "@/app/context/status-context";
+import { StatusType } from "@/app/types/types";
 
 interface FooterProps {
     color: string,
@@ -18,16 +20,20 @@ const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
 
     const router = useRouter();
     const path = usePathname();
-    const { isLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn, setToken, setUser } = useContext(AuthContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
     const { setCardOpen } = useContext(CardOpenContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const { setCurrentRecipe } = useContext(CurrentRecipeContext);
     const { setCurrentMenu } = useContext(CurrentMenuContext);
+    const { setStatus, setMessage } = useContext(StatusContext);
 
     const handleAuthClick = () => {
         if (isLoggedIn) {
-            // logout
+            setToken(null);
+            setUser(null);      
+            setStatus(StatusType.SUCCESS);
+            setMessage('Logged out');  
         } else {
             setCardOpen(CardState.CLOSED);
             router.push('/auth')

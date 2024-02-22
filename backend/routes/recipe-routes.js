@@ -2,8 +2,10 @@ const express = require('express');
 
 const recipeControllers = require('../db-controllers/recipe-controllers');
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
+router.use(checkAuth);
 
 router.get('/user/:uid', recipeControllers.getRecipeByUserId);
 

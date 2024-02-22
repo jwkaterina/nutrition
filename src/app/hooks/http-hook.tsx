@@ -3,7 +3,7 @@ import { StatusContext } from '../context/status-context';
 import { StatusType } from '../types/types';
 
 export const useHttpClient = () => {
-    const { setIsLoading, setStatus } = useContext(StatusContext);
+    const { setIsLoading, setStatus, setMessage } = useContext(StatusContext);
 
     // const activeHttpRequests = useRef<AbortController[]>([]);
 
@@ -28,7 +28,7 @@ export const useHttpClient = () => {
                 // );
 
                 if (!response.ok) {
-                    throw new Error('An error occurred');
+                    throw new Error(responseData.message);
                 }
 
                 setIsLoading(false);
@@ -36,6 +36,7 @@ export const useHttpClient = () => {
                 return responseData;
             } catch (err) {
                 setIsLoading(false);
+                setMessage((err as Error).message);
                 setStatus(StatusType.ERROR);
                 throw err;
             }

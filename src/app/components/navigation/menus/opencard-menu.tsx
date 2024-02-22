@@ -8,6 +8,7 @@ import { StatusContext } from "@/app/context/status-context"
 import { useHttpClient } from "@/app/hooks/http-hook"
 import Menu from "./menu"
 import { useRouter} from 'next/navigation';
+import { AuthContext } from "@/app/context/auth-context";
 
 interface OpenCardMenuProps {
     onFoodDelete: () => void
@@ -23,6 +24,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const { sendRequest } = useHttpClient();
     const [rightText, setRightText] = useState<string>("Delete");
     const { setMessage } = useContext(StatusContext);
+    const { token } = useContext(AuthContext);
 
     const router = useRouter();
 
@@ -30,7 +32,9 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
         try {
             await sendRequest(
                 `http://localhost:5001/foods/${currentFood.id}`,
-                'DELETE'
+                'DELETE', null, {
+                    Authorization: 'Bearer ' + token
+                }
             );
             onFoodDelete();
             setCurrentFood({id: null, food: null});

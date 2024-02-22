@@ -1,8 +1,10 @@
 const express = require('express');
 
 const menuControllers = require('../db-controllers/menu-controllers');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
+router.use(checkAuth);
 
 router.get('/user/:uid', menuControllers.getMenuByUserId);
 

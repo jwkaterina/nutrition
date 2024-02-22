@@ -16,7 +16,7 @@ const MenuSlide = ({ }: MenuSlideProps): JSX.Element => {
     const [menuList, setMenuList] = useState<JSX.Element[]>([]);
     const { setMessage } = useContext(StatusContext);
 
-    const { user } = useContext(AuthContext);
+    const { user, token } = useContext(AuthContext);
 
     useEffect(() => {
         if(!user) {
@@ -25,7 +25,9 @@ const MenuSlide = ({ }: MenuSlideProps): JSX.Element => {
         const fetchMenus = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5001/menus/user/${user}`
+                    `http://localhost:5001/menus/user/${user}`,'GET', null, {
+                        Authorization: 'Bearer ' + token
+                      }
                 );
                 const menuList = responseData.menus.map((menu: LoadedMenu, index: number) => {
                     return (

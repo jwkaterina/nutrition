@@ -18,7 +18,7 @@ const Auth = ({ }: AuthProps): JSX.Element => {
     const tertiaryColor: string = "var(--tertiary-color)";
     const { sendRequest } = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
-    const { setIsLoggedIn, setUser } = useContext(AuthContext);
+    const { setUser, setToken } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState<boolean>(true);
     const { setMessage } = useContext(StatusContext);
 
@@ -44,13 +44,11 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                         'Content-Type': 'application/json'
                     }
                 );
-                setIsLoggedIn(true);
-                setUser(responseData.user.id);
-                goBack();
+                setUser(responseData.userId);
+                setToken(responseData.token);
                 setMessage('Logged in');
-            } catch (err) {
-                setMessage('Invalid credentials');
-            }
+                goBack();
+            } catch (err) { }
         } else {
             const formName = form.name as unknown as HTMLInputElement;
             const name: string = formName.value;
@@ -68,13 +66,11 @@ const Auth = ({ }: AuthProps): JSX.Element => {
                     }
                     );
 
-                setIsLoggedIn(true);
-                setUser(responseData.user.id);
+                setUser(responseData.userId);
+                setToken(responseData.token);
                 goBack();
                 setMessage('Signed up');
-              } catch (err) {
-                setMessage('Invalid credentials');
-              }
+              } catch (err) {}
         }
     }
 

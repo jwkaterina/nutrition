@@ -27,7 +27,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
     const { setCardOpen } = useContext(CardOpenContext);
     const { sendRequest } = useHttpClient();
     const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
-    const { user } = useContext(AuthContext);
+    const { user, token } = useContext(AuthContext);
     const { setScrollBehavior } = useContext(SlideContext);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
 
     const addFoodToFavorites = async () => {
         const Food: Food | null = currentFood!.food;
-        if(!user) {
+        if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You must be logged in to add food to favorites.');
             setIsLoading(false);
@@ -56,7 +56,8 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
                 food: Food,
                 creator: user
                 }),
-                { 'Content-Type': 'application/json' }
+                { 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token }
             );
             setRightText('Go To Favorites');
             setMessage('Food added to favorites.');
@@ -67,7 +68,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
 
     const addRecipeToFavorites = async () => {
         const Recipe: Recipe | null = currentRecipe!.recipe;
-        if(!user) {
+        if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You must be logged in to add food to favorites.');
             setIsLoading(false);
@@ -77,12 +78,14 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             const formData = new FormData();
             const recipeString = JSON.stringify(Recipe);
             formData.append('recipe', recipeString);
-            formData.append('creator', user);
+            formData.append('creator', user!);
             formData.append('image', file);
             await sendRequest(
                 'http://localhost:5001/recipes',
                 'POST',
-                formData
+                formData, {
+                    Authorization: 'Bearer ' + token
+                }
             );
             setRightText('Go To Favorites');
             setMessage('Recipe added to favorites.');
@@ -93,7 +96,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
 
     const addMenuToFavorites = async () => {
         const Menu: MenuProp | null = currentMenu!.menu;
-        if(!user) {
+        if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You must be logged in to add food to favorites.');
             setIsLoading(false);
@@ -107,7 +110,8 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
                 menu: Menu,
                 creator: user
                 }),
-                { 'Content-Type': 'application/json' }
+                { 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token }
             );
             setRightText('Go To Favorites');
             setMessage('Menu added to favorites.');
@@ -132,7 +136,8 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             await sendRequest(
                 `http://localhost:5001/recipes/${currentRecipe.id}`,
                 'PATCH',
-                formData
+                formData,
+                { Authorization: 'Bearer ' + token }
             );
             setRightText('Go To Favorites');
             setMessage('Recipe updated in favorites.');
@@ -150,7 +155,8 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
                 JSON.stringify({
                 updatedMenu: Menu
                 }),
-                { 'Content-Type': 'application/json' }
+                { 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token }
             );
             setRightText('Go To Favorites');
             setMessage('Menu updated in favorites.');

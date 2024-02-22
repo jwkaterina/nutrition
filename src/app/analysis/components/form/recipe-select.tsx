@@ -13,19 +13,21 @@ interface RecipeSelectProps {
 
 const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
 
-    const { user } = useContext(AuthContext);
+    const { user, token } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
     const { setMessage } = useContext(StatusContext);
 
     useEffect(() => {
-        if(!user) {
+        if(!token) {
             return;
         }
         const fetchRecipes = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5001/recipes/user/${user}`
+                    `http://localhost:5001/recipes/user/${user}`, 'GET', null, {
+                        Authorization: 'Bearer ' + token
+                    }
                 );
                 const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
                 setLoadedRecipes(recipes);

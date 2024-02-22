@@ -10,6 +10,7 @@ import { MenuNutrientsCalculator, RecipeNutrientsCalculator } from './nutrients-
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useRouter} from 'next/navigation';
 import { SlideContext } from "@/app/context/slide-context";
+import { AuthContext } from '@/app/context/auth-context';
 
 interface MenuFormProps {
     searchCleared: boolean,
@@ -27,6 +28,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const [inputsnumber, setInputsnumber] = useState<number>(0);
     const {sendRequest} = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
+    const { token } = useContext(AuthContext);
 
     const router = useRouter();
 
@@ -130,7 +132,9 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         try {
             await sendRequest(
                 `http://localhost:5001/menus/${currentMenu.id}`,
-                'DELETE'
+                'DELETE', null, {
+                    Authorization: 'Bearer ' + token
+                }
             );
             setScrollBehavior('auto');
             router.push('/');
