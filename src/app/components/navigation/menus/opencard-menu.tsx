@@ -40,9 +40,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
             setCurrentFood({id: null, food: null});
             setMessage("Food deleted successfully");
             setCardOpen(CardState.CLOSED);
-        } catch (err) {
-            setMessage("Could not delete food. Try again later.");
-        }
+        } catch (err) {}
     }
 
     const handleBackClick = (): void => {

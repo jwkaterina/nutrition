@@ -5,7 +5,6 @@ import RecipeCard from '../../cards/recipe-cards/recipe-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/app/context/auth-context';
-import { StatusContext } from '@/app/context/status-context'
 
 interface RecipeSlideProps {
 }
@@ -14,7 +13,6 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
 
     const { sendRequest } = useHttpClient();
     const [recipeList, setRecipeList] = useState<JSX.Element[]>([]);
-    const { setMessage } = useContext(StatusContext);
     const { token } = useContext(AuthContext);
 
     useEffect(() => {
@@ -35,9 +33,7 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
                     )
                 })
                 setRecipeList(recipeList);
-            } catch (err) {
-                setMessage("Could not fetch recipe. Try again later.");
-            }
+            } catch (err) {}
         };
         fetchRecipes();
     }, [token]);

@@ -5,7 +5,6 @@ import MenuCard from '../../cards/menu-cards/menu-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/app/context/auth-context';
-import { StatusContext } from '@/app/context/status-context'
 
 interface MenuSlideProps {
 }
@@ -14,7 +13,6 @@ const MenuSlide = ({ }: MenuSlideProps): JSX.Element => {
 
     const { sendRequest } = useHttpClient();
     const [menuList, setMenuList] = useState<JSX.Element[]>([]);
-    const { setMessage } = useContext(StatusContext);
     const { token } = useContext(AuthContext);
 
     useEffect(() => {
@@ -35,9 +33,7 @@ const MenuSlide = ({ }: MenuSlideProps): JSX.Element => {
                     )
                 })
                 setMenuList(menuList);
-            } catch (err) {
-                setMessage("Could not fetch menu. Try again later.");
-            }
+            } catch (err) {}
         };
         fetchMenus();
     }, [token]);

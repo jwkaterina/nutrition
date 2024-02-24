@@ -39,11 +39,12 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
                             measure: food.measures[i].uri, 
                             quantity: 1
                         }),
-                        { 'Content-Type': 'application/json' }
+                        { 'Content-Type': 'application/json' },
+                        false
                     );
                     measureNutrients.push(nutrients);
                 } catch (err) {
-                    setMessage('Could not fetch nutrients');
+                    setMessage('Could not find measures');
                 }
             } 
             const measures: MeasureProp[] = measureNutrients.map((measure: any, i) => {

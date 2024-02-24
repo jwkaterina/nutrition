@@ -58,9 +58,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Food added to favorites.');
-            } catch (err) {
-                setMessage('Could not add food to favorites. Try again later.');
-            }
+            } catch (err) {}
     }
 
     const addRecipeToFavorites = async () => {
@@ -85,9 +83,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Recipe added to favorites.');
-            } catch (err) {
-                setMessage('Could not add recipe to favorites. Try again later.');
-            }
+            } catch (err) {}
     }
 
     const addMenuToFavorites = async () => {
@@ -108,10 +104,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Menu added to favorites.');
-            } catch (err) {
-                setMessage('Could not add menu to favorites. Try again later.');
-                throw err;
-            }
+            } catch (err) {}
     }
 
     const updateFavorites = async () => {
@@ -134,9 +127,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Recipe updated in favorites.');
-            } catch (err) {
-                setMessage('Could not update recipe in favorites. Try again later.');
-            }
+            } catch (err) {}
     }
 
     const updateMenu = async () => {
@@ -153,9 +144,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Menu updated in favorites.');
-            } catch (err) {
-                setMessage('Could not update menu in favorites. Try again later.');
-            }
+            } catch (err) {}
     }
 
     const handleRightClick = (): void => {

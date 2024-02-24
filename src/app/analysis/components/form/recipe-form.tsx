@@ -69,55 +69,55 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         const ingredientsArray = ArrayfromString(ingredientsString);
 
         try {
-            // const recipeContent: Nutrients = await sendRequest(
-            //     `http://localhost:5001/api/recipe`,
-            //     'POST',
-            //     JSON.stringify({
-            //         ingredients: ingredientsArray
-            //     }),
-            //     { 'Content-Type': 'application/json' }
-            // );
+            const recipeContent: Nutrients = await sendRequest(
+                `http://localhost:5001/api/recipe`,
+                'POST',
+                JSON.stringify({
+                    ingredients: ingredientsArray
+                }),
+                { 'Content-Type': 'application/json' }
+            );
        
             const nutrients: Nutrients = RecipeNutrientsCalculator({
-                // nutrients: recipeContent, 
-                nutrients: {
-                    calories: 100,
-                    totalNutrients: {
-                        FAT: {
-                            label: "Fat",
-                            quantity: 100,
-                            unit: "g"
-                        },
-                        CHOCDF: {
-                            label: "Carbs",
-                            quantity: 100,
-                            unit: "g"
-                        },
-                        PROCNT: {
-                            label: "Protein",
-                            quantity: 100,
-                            unit: "g"
-                        }
-                    },
-                    totalDaily: {
-                        FAT: {
-                            label: "Fat",
-                            quantity: 100,
-                            unit: "%"
-                        },
-                        CHOCDF: {
-                            label: "Carbs",
-                            quantity: 100,
-                            unit: "%"
-                        },
-                        PROCNT: {
-                            label: "Protein",
-                            quantity: 100,
-                            unit: "%"
-                        }
-                    },
-                    totalWeight: 100
-                }, 
+                nutrients: recipeContent, 
+                // nutrients: {
+                //     calories: 100,
+                //     totalNutrients: {
+                //         FAT: {
+                //             label: "Fat",
+                //             quantity: 100,
+                //             unit: "g"
+                //         },
+                //         CHOCDF: {
+                //             label: "Carbs",
+                //             quantity: 100,
+                //             unit: "g"
+                //         },
+                //         PROCNT: {
+                //             label: "Protein",
+                //             quantity: 100,
+                //             unit: "g"
+                //         }
+                //     },
+                //     totalDaily: {
+                //         FAT: {
+                //             label: "Fat",
+                //             quantity: 100,
+                //             unit: "%"
+                //         },
+                //         CHOCDF: {
+                //             label: "Carbs",
+                //             quantity: 100,
+                //             unit: "%"
+                //         },
+                //         PROCNT: {
+                //             label: "Protein",
+                //             quantity: 100,
+                //             unit: "%"
+                //         }
+                //     },
+                //     totalWeight: 100
+                // }, 
                 totalServings: servings, 
                 selectedServings: 1
             });
@@ -157,10 +157,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             }, 500);            
             setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
             setMessage("Recipe deleted successfully");
-        } catch (err) {
-            setMessage('Could not delete recipe. Try again later.');
-            throw err;
-        }
+        } catch (err) {}
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {

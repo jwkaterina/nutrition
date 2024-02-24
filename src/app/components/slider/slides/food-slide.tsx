@@ -5,7 +5,6 @@ import FoodCard from '../../cards/food-cards/food-card'
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/app/context/auth-context';
-import { StatusContext } from '@/app/context/status-context'
 
 interface FoodSlideProps {
     foodDeleted: boolean
@@ -15,7 +14,6 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
 
     const { sendRequest } = useHttpClient();
     const [foodList, setFoodList] = useState<JSX.Element[]>([]);
-    const { setMessage } = useContext(StatusContext);
     const { token } = useContext(AuthContext);
 
     useEffect(() => {
@@ -37,9 +35,7 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
                     )
                 })
                 setFoodList(foodList);
-            } catch (err) {
-                setMessage("Could not fetch food. Try again later.");
-            }
+            } catch (err) {}
         };
         fetchFood();
     }, [foodDeleted, token]);

@@ -27,9 +27,10 @@ const analyseRecipe = async (req, res, next) => {
         }
         const result = await response.json();
         res.status(200).json(result);
-    } catch (error) {
-        console.error(error);
-        throw new HttpError('Could not find any results', 404);
+    } catch (err) {
+        console.error(err);
+        const error = new HttpError('Ensure that all ingredients are spelled correctly and try again.', 404);
+        return next(error);
     }
 }
 

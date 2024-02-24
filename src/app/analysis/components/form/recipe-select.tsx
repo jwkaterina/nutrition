@@ -32,7 +32,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
                 const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
                 setLoadedRecipes(recipes);
             } catch (err) {
-                setMessage('Could not fetch recipes');
+                setMessage('Could not find recipes');
             }
         };
         fetchRecipes();

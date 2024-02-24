@@ -12,7 +12,7 @@ const getMenus = async (req, res, next) => {
     userWithMenu = await User.findById(userId).populate('menus');
   } catch (err) {
     const error = new HttpError(
-      'Fetching menu failed, please try again later',
+      'Could not find menu. Try again later.',
       500
     );
     return next(error);
@@ -20,7 +20,7 @@ const getMenus = async (req, res, next) => {
 
   if (!userWithMenu) {
     return next(
-      new HttpError('Could not find menu for the provided user id.', 404)
+      new HttpError('Could not find menu. Try again later.', 404)
     );
   }
 
@@ -47,12 +47,12 @@ const createMenu = async (req, res, next) => {
     user = await User.findById(req.userData.userId);
   } catch (err) {
     console.log('could not find user');
-    const error = new HttpError('Creating menu failed, please try again', 500);
+    const error = new HttpError('Could not add menu to favorites. Try again later.', 500);
     return next(error);
   }
 
   if (!user) {
-    const error = new HttpError('Could not find user for provided id', 404);
+    const error = new HttpError('Could not add menu to favorites. Try again later.', 404);
     console.log(error);
     return next(error);
   }
@@ -63,7 +63,7 @@ const createMenu = async (req, res, next) => {
   } catch (err) {
     console.log('could not find menu');
     const error = new HttpError(
-      'Creating menu failed, please try again later.',
+      'Could not add menu to favorites. Try again later.',
       500
     );
     return next(error);
@@ -71,7 +71,7 @@ const createMenu = async (req, res, next) => {
   
   if (existingMenu) {
     const error = new HttpError(
-      'Menu exists already.',
+      'Menu with this name exists already.',
       422
     );
     console.log(error);
@@ -88,7 +88,7 @@ const createMenu = async (req, res, next) => {
   } catch (err) {
     console.log(err)
     const error = new HttpError(
-      'Creating menu failed, please try again.',
+      'Could not add menu to favorites. Try again later.',
       500
     );
     return next(error);
@@ -110,16 +110,16 @@ const updateMenu = async (req, res, next) => {
   } catch (err) {
     const error = new HttpError(
       console.log('could not find menu'),
-      'Something went wrong, could not update menu.',
+      'Could not update menu in favorites. Try again later.',
       500
     );
     return next(error);
   }
 
-  // if (!menu) {
-  //   const error = new HttpError('Could not find menu for this id.', 404);
-  //   return next(error);
-  // }
+  if (!menu) {
+    const error = new HttpError('Could not update menu in favorites. Try again later.', 404);
+    return next(error);
+  }
 
   if (menu.creator.toString() !== req.userData.userId) {
     const error = new HttpError('You are not allowed to edit this menu.', 401);
@@ -135,7 +135,7 @@ const updateMenu = async (req, res, next) => {
   } catch (err) {
     console.log('could not save menu')
     const error = new HttpError(
-      'Something went wrong, could not update menu.',
+      'Could not update menu in favorites. Try again later.',
       500
     );
     return next(error);
@@ -152,14 +152,14 @@ const deleteMenu = async (req, res, next) => {
     menu = await Menu.findById(menuId).populate('creator');
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete menu.',
+      'Could not delete menu. Try again later.',
       500
     );
     return next(error);
   }
 
   if (!menu) {
-    const error = new HttpError('Could not find menu for this id.', 404);
+    const error = new HttpError('Could not delete menu. Try again later.', 404);
     return next(error);
   }
 
@@ -180,7 +180,7 @@ const deleteMenu = async (req, res, next) => {
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete menu.',
+      'Could not delete menu. Try again later.',
       500
     );
     return next(error);

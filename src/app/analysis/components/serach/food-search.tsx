@@ -3,7 +3,7 @@ import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } fro
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext } from '@/app/context/card-context';
-import { Food, CardState, SortType} from '@/app/types/types';
+import { Food, CardState, SortType, StatusType} from '@/app/types/types';
 import { useHttpClient} from '@/app/hooks/http-hook';
 import { StatusContext } from '@/app/context/status-context';
 import FoodList from './food-list';
@@ -17,7 +17,7 @@ interface FoodSearchProps {
 
 const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Element => {
 
-    const { cardOpen, setCardOpen } = useContext(CardOpenContext);
+    const { cardOpen } = useContext(CardOpenContext);
 	const [hintsArr, setHintsArr] = useState<Food[]>([]);
 	const [foodArr, setFoodArr] = useState<Food[]>([]);
 	const [showOptions, setShowOptions] = useState<boolean>(false);
@@ -26,7 +26,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const [sort, setSort] = useState<SortType>(SortType.DEFAULT);
 	const [filter, setFilter] = useState<string[]>(['Generic foods']);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
-	const { setMessage } = useContext(StatusContext);
+	const { setMessage, setStatus } = useContext(StatusContext);
 	const { sendRequest } = useHttpClient();
 
 	const searchRef = useRef<HTMLDivElement>(null);
@@ -44,17 +44,15 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const handleInput = async(e: FormEvent) => {
 		const inputValue = (e.target as HTMLInputElement).value;
 		setInput(inputValue);
-	
+		if(inputValue.length == 0) return;
 		try {
 			const query: string[] = await sendRequest(
-			`http://localhost:5001/api/query/${inputValue || ''}`,
-			'GET'
+			`http://localhost:5001/api/query/${inputValue}`,
+			'GET', null, {}, false
 			);
 			setShowOptions(true);
 			setQueryOptions(query);
-		} catch (err) {
-			console.log(err);
-		}
+		} catch (err) {}
 	}
 
 	const handleOptionClick = async(option: HTMLLIElement) => {
@@ -69,9 +67,11 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 				'GET'
 			);
 			if(result) setHintsArr(result.hints);
-		} catch (err) {
-			setMessage('Food not found.');
-		}
+			if(result.hints.length == 0) {
+				setMessage('Food not found.');
+				setStatus(StatusType.ERROR);
+			}
+		} catch (err) {}
 	}
 
 	const handleEnterKey = async(e: KeyboardEvent) => {
@@ -83,9 +83,11 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 					'GET'
 				);
 				if(result) setHintsArr(result.hints);    
-			} catch (err) {
-				setMessage('Food not found.');
-			}
+				if(result.hints.length == 0) {
+					setMessage('Food not found.');
+					setStatus(StatusType.ERROR);
+				}
+			} catch (err) {}
 		}
 	}
 

@@ -44,12 +44,12 @@ const createFood = async (req, res, next) => {
   try {
     user = await User.findById(req.userData.userId);
   } catch (err) {
-    const error = new HttpError('Creating food failed, please try again', 500);
+    const error = new HttpError('Could not add food to favorites. Try again later.', 500);
     return next(error);
   }
 
   if (!user) {
-    const error = new HttpError('Could not find user for provided id', 404);
+    const error = new HttpError('Could not add food to favorites. Try again later.', 404);
     return next(error);
   }
 
@@ -58,7 +58,7 @@ const createFood = async (req, res, next) => {
     existingFood = await Food.findOne({ "food.food.label": food.food.label, "creator": req.userData.userId})
   } catch (err) {
     const error = new HttpError(
-      'Creating food failed, please try again later.',
+      'Could not add food to favorites. Try again later.',
       500
     );
     return next(error);
@@ -81,7 +81,7 @@ const createFood = async (req, res, next) => {
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
-      'Creating food failed, please try again.',
+      'Could not add food to favorites. Try again later.',
       500
     );
     return next(error);
@@ -98,14 +98,14 @@ const deleteFood = async (req, res, next) => {
     food = await Food.findById(foodId).populate('creator');
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete food.',
+      'Could not delete food. Try again later.',
       500
     );
     return next(error);
   }
 
   if (!food) {
-    const error = new HttpError('Could not find food for this id.', 404);
+    const error = new HttpError('Could not delete food. Try again later.', 404);
     return next(error);
   }
 
@@ -126,7 +126,7 @@ const deleteFood = async (req, res, next) => {
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete food.',
+      'Could not delete food. Try again later.',
       500
     );
     return next(error);

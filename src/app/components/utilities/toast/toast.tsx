@@ -10,7 +10,7 @@ interface ToastProps {
 
 const Toast = ({ }: ToastProps) => {
 
-    const { message, setMessage, status } = useContext(StatusContext);
+    const { message, setMessage, status, setStatus } = useContext(StatusContext);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
@@ -31,6 +31,7 @@ const Toast = ({ }: ToastProps) => {
         setOpen(false);
         setTimeout(() => {
             setMessage(null);
+            setStatus(StatusType.SUCCESS);
         }, 500);
     }
 

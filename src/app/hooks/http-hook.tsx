@@ -8,8 +8,9 @@ export const useHttpClient = () => {
     // const activeHttpRequests = useRef<AbortController[]>([]);
 
     const sendRequest = useCallback(
-        async (url: string, method: string = 'GET', body: null | string | FormData = null, headers = {}) => {
-            setIsLoading(true);
+        async (url: string, method: string = 'GET', body: null | string | FormData = null, headers = {}, isLoading: boolean = true) => {
+            console.log('isLoading', isLoading)
+            if(isLoading == true) setIsLoading(true);
             // const httpAbortCtrl = new AbortController();
             // activeHttpRequests.current.push(httpAbortCtrl);
 
@@ -35,6 +36,7 @@ export const useHttpClient = () => {
                 setStatus(StatusType.SUCCESS);
                 return responseData;
             } catch (err) {
+                console.log(err);
                 setIsLoading(false);
                 setMessage((err as Error).message);
                 setStatus(StatusType.ERROR);

@@ -14,7 +14,7 @@ const getRecipes = async (req, res, next) => {
     userWithRecipe = await User.findById(userId).populate('recipes');
   } catch (err) {
     const error = new HttpError(
-      'Fetching recipe failed, please try again later',
+      'Could not find recipe. Try again later.',
       500
     );
     return next(error);
@@ -22,7 +22,7 @@ const getRecipes = async (req, res, next) => {
 
   if (!userWithRecipe) {
     return next(
-      new HttpError('Could not find recipe for the provided user id.', 404)
+      new HttpError('Could not find recipe. Try again later.', 404)
     );
   }
 
@@ -48,12 +48,12 @@ const createRecipe = async (req, res, next) => {
   try {
     user = await User.findById(req.userData.userId);
   } catch (err) {
-    const error = new HttpError('Creating recipe failed, please try again', 500);
+    const error = new HttpError('Could not add recipe to favorites. Try again later.', 500);
     return next(error);
   }
 
   if (!user) {
-    const error = new HttpError('Could not find user for provided id', 404);
+    const error = new HttpError('Could not add recipe to favorites. Try again later.', 404);
     return next(error);
   }
 
@@ -62,7 +62,7 @@ const createRecipe = async (req, res, next) => {
     existingRecipe = await Recipe.findOne({ "recipe.name": parsedRecipe.name, "creator": req.userData.userId});
   } catch (err) {
     const error = new HttpError(
-      'Creating recipe failed, please try again later.',
+      'Could not add recipe to favorites. Try again later.',
       500
     );
     return next(error);
@@ -70,7 +70,7 @@ const createRecipe = async (req, res, next) => {
   
   if (existingRecipe) {
     const error = new HttpError(
-      'Recipe exists already.',
+      'Recipe with this name exists already.',
       422
     );
     return next(error);
@@ -85,8 +85,7 @@ const createRecipe = async (req, res, next) => {
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
-      'Creating recipe failed, please try again.',
-      500
+      'Creating recipe failed, please try again.Could not add recipe to favorites. Try again later.',
     );
     return next(error);
   }
@@ -103,19 +102,19 @@ const updateRecipe = async (req, res, next) => {
 
   let recipe;
   try {
-    recipe = await Recipe.findById(recipeId);
+    recipe = await Recipe.findById(recipeId,);
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not update recipe.',
+      'Could not update recipe in favorites. Try again later.',
       500
     );
     return next(error);
   }
 
-  // if (!recipe) {
-  //   const error = new HttpError('Could not find recipe for this id.', 404);
-  //   return next(error);
-  // }
+  if (!recipe) {
+    const error = new HttpError('Could not update recipe in favorites. Try again later.', 404);
+    return next(error);
+  }
 
   if (recipe.creator.toString() !== req.userData.userId) {
     const error = new HttpError('You are not allowed to edit this recipe.', 401);
@@ -135,7 +134,7 @@ const updateRecipe = async (req, res, next) => {
     await recipe.save();
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not update recipe.',
+      'Could not update recipe in favorites. Try again later.',
       500
     );
     return next(error);
@@ -152,14 +151,14 @@ const deleteRecipe = async (req, res, next) => {
     recipe = await Recipe.findById(recipeId).populate('creator');
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete recipe.',
+      'Could not delete recipe. Try again later.',
       500
     );
     return next(error);
   }
 
   if (!recipe) {
-    const error = new HttpError('Could not find recipe for this id.', 404);
+    const error = new HttpError('Could not delete recipe. Try again later.', 404);
     return next(error);
   }
 
@@ -182,7 +181,7 @@ const deleteRecipe = async (req, res, next) => {
     await sess.commitTransaction();
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete recipe.',
+      'Could not delete recipe. Try again later.',
       500
     );
     return next(error);

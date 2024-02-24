@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import styles from './form.module.css'
 import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, Nutrients, RecipeWithServings, AnalysisMode } from '@/app/types/types';
+import { CardState, Nutrients, RecipeWithServings, AnalysisMode, StatusType } from '@/app/types/types';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import { CurrentMenuContext } from '@/app/context/menu-context';
 import { StatusContext } from '@/app/context/status-context';
@@ -24,7 +24,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const [name, setName] = useState<string>('');
     const [ingredientsString, setIngredientsString] = useState<string>('');
     const [recipes, setRecipes] = useState<RecipeWithServings[]>([]);
-    const { setMessage } = useContext(StatusContext);
+    const { setMessage, setStatus } = useContext(StatusContext);
     const [inputsnumber, setInputsnumber] = useState<number>(0);
     const {sendRequest} = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
@@ -92,15 +92,16 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         }});
         if(ingredientsArray && ingredientsArray.length > 0) {
             const ingredientsNutrients = await fetchNutrients(ingredientsArray);
-            if(ingredientsNutrients) recipesArr.push({
-                nutrients: ingredientsNutrients,
-                selectedServings: 1
-            }); 
+                if(ingredientsNutrients) recipesArr.push({
+                    nutrients: ingredientsNutrients,
+                    selectedServings: 1
+                }); 
         }
         if(recipesArr.length > 0) {
             const nutrients: Nutrients = MenuNutrientsCalculator(recipesArr);
             return nutrients;
         } else {
+            setStatus(StatusType.ERROR);
             setMessage('Could not analyse menu. Choose at least one recipe or ingredient and try again.');
             return null;
         }
@@ -124,7 +125,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             return ingredientsNutrients;
         } catch (error) {
             setMessage('Could not analyse menu. Ensure that all ingredients are spelled correctly and try again.');
-            return null;
+            throw error;
         }
     }
 
@@ -143,9 +144,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             }, 500);            
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
             setMessage("Menu deleted successfully");
-        } catch (err) {
-            setMessage("Could not delete menu. Please try again");
-        }
+        } catch (err) {}
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -154,6 +153,15 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
     const handleIngredientsInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
         setIngredientsString(e.currentTarget.value);
+    }
+
+    const handleAddRecipe = () => {
+        if(!token) {
+            setStatus(StatusType.ERROR);
+            setMessage('You need to be logged in to add a recipe');
+            return;
+        }
+        setInputsnumber(inputsnumber + 1);
     }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
@@ -179,7 +187,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         </div>
                         <RecipeSelect inputs={inputsnumber} setRecipes={setRecipes} recipes={recipes}/>
                         <div className={styles.form_group}>
-                            <button type="button" className={styles.add_button} onClick={() => setInputsnumber(inputsnumber + 1)}>Add Recipe</button>
+                            <button type="button" className={styles.add_button} onClick={handleAddRecipe}>Add Recipe</button>
                         </div>
                         <div className={styles.form_group}>
                             <button type="submit">Analyze</button>
