@@ -15,7 +15,7 @@ const Options = ({queryOptions, onclick }: OptionsProps): JSX.Element => {
 				<li onClick={onclick}>{queryOptions ? queryOptions[2] : 'broccoli'}</li>
 			</ul>
 		</div>
-	)
+	);
 }
 
 export default Options;

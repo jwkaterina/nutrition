@@ -1,12 +1,5 @@
 import { createContext, useState, useMemo } from 'react';
-import { Recipe, AnalysisMode } from '@/app/types/types';
-
-interface CurrentRecipe  {
-    recipe: Recipe | null,
-    id: string | null,
-    image: string | null,
-    mode: AnalysisMode
-}
+import { CurrentRecipe, AnalysisMode } from '@/app/types/types';
 
 interface CurrentRecipeContextProps {
     currentRecipe: CurrentRecipe,

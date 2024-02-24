@@ -94,6 +94,24 @@ export type LoadedMenu = {
     id: string
 }
 
+export interface CurrentFood  {
+    food: Food | null,
+    id: string | null
+}
+
+export interface CurrentRecipe  {
+    recipe: Recipe | null,
+    id: string | null,
+    image: string | null,
+    mode: AnalysisMode
+}
+
+export interface CurrentMenu  {
+    menu: MenuProp | null,
+    id: string | null,
+    mode: AnalysisMode
+}
+
 export enum SortType {
     ASC_Calories,
     DESC_Calories,

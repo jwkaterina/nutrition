@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/app/context/auth-context';
+import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { LoadedRecipe, RecipeWithServings, NutrientsProp } from '@/app/types/types';
+
 import styles from './form.module.css';
-import { StatusContext } from '@/app/context/status-context';
 
 interface RecipeSelectProps {
     inputs: number,
@@ -14,9 +15,9 @@ interface RecipeSelectProps {
 const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
 
     const { token } = useContext(AuthContext);
+    const { setMessage } = useContext(StatusContext);
     const { sendRequest } = useHttpClient();
     const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
-    const { setMessage } = useContext(StatusContext);
 
     useEffect(() => {
         if(!token) {
@@ -34,7 +35,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
             } catch (err) {
                 setMessage('Could not find recipes');
             }
-        };
+        }
         fetchRecipes();
     }, []);
 
@@ -59,18 +60,25 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
                 selectedRecipe: newRecipe,
                 selectedServings: recipe.selectedServings
             } : recipe));
-        };
+        }
 
         let selectInputs = [];
         for(let i = 0; i < inputs; i++) {
             const options = loadedRecipes.map((recipe: LoadedRecipe, index: number) => {
                 return (
                     <option key={index} value={recipe.recipe.name}  id={recipe.id}>{recipe.recipe.name}</option>
-                )
+                );
             });
-            selectInputs.push(<select name="recipe"
-            id="recipe" key={i} value={recipes[i] && recipes[i].selectedRecipe.name} onChange={(e) => handleInputChange(i, e.target.options[e.target.selectedIndex].id)}>{options}</select>)
-        }
+            selectInputs.push(
+            <select 
+                name="recipe"
+                id="recipe" 
+                key={i} 
+                value={recipes[i] && recipes[i].selectedRecipe.name} 
+                onChange={(e) => handleInputChange(i, e.target.options[e.target.selectedIndex].id)}
+            >{options}
+            </select>);
+        };
         return selectInputs;
     }
 
@@ -122,7 +130,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
                 },
                 servings: recipe.recipe.servings
             }
-        }
+        };
     }
 
     return (
@@ -136,7 +144,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
                 {NumberInputs()}
             </div>
         </div>
-    )
+    );
 }
 
 export default RecipeSelect;

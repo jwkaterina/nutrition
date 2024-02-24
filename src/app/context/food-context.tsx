@@ -1,10 +1,5 @@
 import { createContext, useState, useMemo } from 'react';
-import { Food } from '@/app/types/types';
-
-interface CurrentFood  {
-    food: Food | null,
-    id: string | null
-}
+import { CurrentFood } from '@/app/types/types';
 
 interface CurrentFoodContextProps {
     currentFood: CurrentFood,

@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSliders } from '@fortawesome/free-solid-svg-icons';
+import Toggler from './toggler';
 import { FoodType, SortType } from '@/app/types/types';
 import styles from './search.module.css';
 import { useRef, useEffect } from 'react';
@@ -20,13 +21,13 @@ const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButton
 		const checkIfClickedOutside = (e: MouseEvent) => {
 			if (ref.current && !(ref.current as HTMLElement).contains(e.target as HTMLElement)) {
 				setOpen(false)
-			}
+			};
 		}
-		document.addEventListener("click", checkIfClickedOutside)
+		document.addEventListener("click", checkIfClickedOutside);
 		return () => {
-			document.removeEventListener("click", checkIfClickedOutside)
+			document.removeEventListener("click", checkIfClickedOutside);
 		}
-	}, [isOpen])
+	}, [isOpen]);
 
 	const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const select = e.target;
@@ -59,7 +60,7 @@ const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButton
 			default:
 				setSort(SortType.DEFAULT);
 				break;
-		}	
+		};	
 	}
 
 	return (
@@ -91,33 +92,7 @@ const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButton
 				</select>				
 			</div>
 		</div>
-	)
+	);
 }
 
 export default SortButtons;
-
-interface TogglerProps {
-    foodType: FoodType;
-    setFilter: (filter: FoodType[]) => void;
-    filter: FoodType[];
-}
-
-const Toggler = ({ foodType, setFilter, filter }: TogglerProps): JSX.Element => {
-
-    const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(e.target.checked) setFilter([...filter, foodType]);
-        else setFilter(filter.filter(item => item !== foodType));
-    }
-
-    return (
-        <div className={styles.dropdown_row}>
-            <span>{foodType}</span>
-            <label className={styles.toggler_wrapper}>
-            <input type="checkbox" checked={filter.includes(foodType)} onChange={handleCheckboxClick}></input>
-                <div className={styles.toggler_slider}>
-                    <div className={styles.toggler_knob}></div>
-                </div>
-            </label>
-        </div>
-    )
-}

@@ -1,12 +1,12 @@
 'use client'
 
-import NavBar from '@/app/components/navigation/nav-bar';
-import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
-import OpenAnalysisMenu from '@/app/components/navigation/menus/openanalysis-menu';
-import Footer from '@/app/components/navigation/footer';
-import { CardOpenContext } from '@/app/context/card-context';
 import { useContext, useState } from 'react';
+import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
+import Footer from '@/app/components/navigation/footer';
 import MenuForm from '../components/form/menu-form';
+import NavBar from '@/app/components/navigation/nav-bar';
+import OpenAnalysisMenu from '@/app/components/navigation/menus/openanalysis-menu';
+import { CardOpenContext } from '@/app/context/card-context';
 import { CardState } from '@/app/types/types';
 
 const MenuSearch = (): JSX.Element => {
@@ -16,7 +16,8 @@ const MenuSearch = (): JSX.Element => {
 
 	const secondaryColor: string = "var(--secondary-color)";
 
-	return (<>
+	return (
+		<>
 			<NavBar color={secondaryColor}>
 				{cardOpen == CardState.OPEN ? 
 				<OpenAnalysisMenu/> : 
@@ -28,7 +29,8 @@ const MenuSearch = (): JSX.Element => {
 			</NavBar>
 			<MenuForm searchCleared={clearSearch} setClearSearch={setClearSearch}/>
 			<Footer color={secondaryColor} />
-		</>  )
+		</>  
+	);
 }
 
-export default MenuSearch
+export default MenuSearch;

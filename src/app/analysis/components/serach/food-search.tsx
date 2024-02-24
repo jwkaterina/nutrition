@@ -1,14 +1,15 @@
-import styles from './search.module.css'
 import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } from 'react' 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { CardOpenContext } from '@/app/context/card-context';
-import { Food, CardState, SortType, StatusType, FoodType } from '@/app/types/types';
-import { useHttpClient} from '@/app/hooks/http-hook';
-import { StatusContext } from '@/app/context/status-context';
 import FoodList from './food-list';
 import SortButtons from './sort_buttons';
 import Options from './options';
+import { CardOpenContext } from '@/app/context/card-context';
+import { useHttpClient} from '@/app/hooks/http-hook';
+import { Food, CardState, SortType, StatusType, FoodType } from '@/app/types/types';
+import { StatusContext } from '@/app/context/status-context';
+
+import styles from './search.module.css'
 
 interface FoodSearchProps {
 	searchCleared: boolean,
@@ -18,18 +19,19 @@ interface FoodSearchProps {
 const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Element => {
 
     const { cardOpen } = useContext(CardOpenContext);
+	const { setMessage, setStatus } = useContext(StatusContext);
+	const { sendRequest } = useHttpClient();
 	const [hintsArr, setHintsArr] = useState<Food[]>([]);
 	const [foodArr, setFoodArr] = useState<Food[]>([]);
 	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
-	const [input, setInput] = useState('');
+	const [input, setInput] = useState<string>('');
 	const [sort, setSort] = useState<SortType>(SortType.DEFAULT);
 	const [filter, setFilter] = useState<FoodType[]>([FoodType.FAST_FOODS, FoodType.GENERIC_FOODS, FoodType.GENERIC_MEALS, FoodType.PACKAGED_FOODS]);
-	const [isFilterOpen, setIsFilterOpen] = useState(false);
-	const { setMessage, setStatus } = useContext(StatusContext);
-	const { sendRequest } = useHttpClient();
-
+	const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 	const searchRef = useRef<HTMLDivElement>(null);
+
+	const showFilter: boolean = cardOpen !== CardState.OPEN && !showOptions;
 
 	useEffect(() => {
 		if(searchCleared) {
@@ -39,7 +41,24 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 			setQueryOptions(null);
 			setClearSearch(false);
 		}
-	}, [searchCleared])
+	}, [searchCleared]);
+
+	useEffect(() => {
+		if(!hintsArr || hintsArr.length == 0) return;
+		const filteredHints = hintsArr.filter((hint: Food) => filter.includes(hint.food.category));
+		setFoodArr(filteredHints);
+	}, [filter, hintsArr]);
+
+	useEffect(() => {
+		if(cardOpen == CardState.OPENING && searchRef.current) {
+			setShowOptions(false);
+			(searchRef.current as HTMLElement).scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "auto",
+            });
+		};
+	}, [cardOpen]);
 
 	const handleInput = async(e: FormEvent) => {
 		const inputValue = (e.target as HTMLInputElement).value;
@@ -91,12 +110,6 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		}
 	}
 
-	useEffect(() => {
-		if(!hintsArr || hintsArr.length == 0) return;
-		const filteredHints = hintsArr.filter((hint: Food) => filter.includes(hint.food.category));
-		setFoodArr(filteredHints);
-	}, [filter, hintsArr])
-
 	const handleBackclick = () => {
 		setShowOptions(false);
 		emptyInput();
@@ -107,24 +120,11 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		setQueryOptions(null);
 	}
 
-	useEffect(() => {
-		if(cardOpen == CardState.OPENING && searchRef.current) {
-			setShowOptions(false);
-			(searchRef.current as HTMLElement).scrollTo({
-                top: 0,
-                left: 0,
-                behavior: "auto",
-            });
-		}
-	}, [cardOpen])
-
-	const showFilter: boolean = cardOpen !== CardState.OPEN && !showOptions;
-
     const style = () => {
         if(cardOpen == CardState.OPENING) {
-            return {overflow: 'hidden'}
+            return {overflow: 'hidden'};
         } else {
-            return {overflow: 'auto'}
+            return {overflow: 'auto'};
         }
     }
 
@@ -166,7 +166,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 				setOpen={setIsFilterOpen}/>}
             {foodArr.length > 0 && <FoodList foodArr={foodArr} sort={sort}/>}
         </div>
-    )
+    );
 }
 
 export default FoodSearch;

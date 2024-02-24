@@ -1,28 +1,26 @@
 'use client';
 
-import styles from './page.module.css';
-import NavBar from '@/app/components/navigation/nav-bar';
-import AuthMenu from '@/app/components/navigation/menus/auth-menu';
-import { AuthContext } from '@/app/context/auth-context';
 import { useState, useContext } from 'react';
 import { useRouter} from 'next/navigation';
+import AuthMenu from '@/app/components/navigation/menus/auth-menu';
+import NavBar from '@/app/components/navigation/nav-bar';
+import { AuthContext } from '@/app/context/auth-context';
 import { SlideContext } from '@/app/context/slide-context';
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
+import styles from './page.module.css';
 
-interface AuthProps {
-}
+const Auth = (): JSX.Element => {
 
-const Auth = ({ }: AuthProps): JSX.Element => {
-
-    const tertiaryColor: string = "var(--tertiary-color)";
     const { sendRequest } = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
     const { login } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState<boolean>(true);
     const { setMessage } = useContext(StatusContext);
-
     const router = useRouter();
+
+    const tertiaryColor: string = "var(--tertiary-color)";
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -80,32 +78,33 @@ const Auth = ({ }: AuthProps): JSX.Element => {
         }, 500);
     }
 
-    return (<>
-        <NavBar color={tertiaryColor}>
-            <AuthMenu />
-        </NavBar>
-        <div className={styles.container}>
-            <form className={styles.form} onSubmit={handleSubmit}>
-                {!loginMode && <div className={styles.form_group}>
-                    <label htmlFor="name">Name</label>
-                    <input id="name" type="text" required />
-                </div>}
-                <div className={styles.form_group}>
-                    <label htmlFor="email">Email</label>
-                    <input id="email" type="email" required/>
-                </div>
-                <div className={styles.form_group}>
-                    <label htmlFor="password">Password</label>
-                    <input id="password" type="password" minLength={5} required/>
-                </div>
-                <div className={styles.form_group}>
-                    <button type="submit">{loginMode ? 'Login' : 'Signup'}</button>
-                </div>
-            </form>
-            <button className={styles.switch_button} onClick={() => setLoginMode(!loginMode)}>{`Switch to ${loginMode ? 'Signup' : 'Login'}`}</button>
-        </div>
-    </>
-    )
+    return (
+        <>
+            <NavBar color={tertiaryColor}>
+                <AuthMenu />
+            </NavBar>
+            <div className={styles.container}>
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    {!loginMode && <div className={styles.form_group}>
+                        <label htmlFor="name">Name</label>
+                        <input id="name" type="text" required />
+                    </div>}
+                    <div className={styles.form_group}>
+                        <label htmlFor="email">Email</label>
+                        <input id="email" type="email" required/>
+                    </div>
+                    <div className={styles.form_group}>
+                        <label htmlFor="password">Password</label>
+                        <input id="password" type="password" minLength={5} required/>
+                    </div>
+                    <div className={styles.form_group}>
+                        <button type="submit">{loginMode ? 'Login' : 'Signup'}</button>
+                    </div>
+                </form>
+                <button className={styles.switch_button} onClick={() => setLoginMode(!loginMode)}>{`Switch to ${loginMode ? 'Signup' : 'Login'}`}</button>
+            </div>
+        </>
+    );
 }
 
-export default Auth
+export default Auth;

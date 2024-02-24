@@ -1,11 +1,5 @@
 import { createContext, useState, useMemo } from 'react';
-import { MenuProp, AnalysisMode } from '@/app/types/types';
-
-export interface CurrentMenu  {
-    menu: MenuProp | null,
-    id: string | null,
-    mode: AnalysisMode
-}
+import { CurrentMenu, AnalysisMode } from '@/app/types/types';
 
 interface CurrentMenuContextProps {
     currentMenu: CurrentMenu,

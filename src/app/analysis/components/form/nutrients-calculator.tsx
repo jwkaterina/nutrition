@@ -67,7 +67,7 @@ export const MenuNutrientsCalculator = (recipes: MenuCalculatorProps[]): Nutrien
                     ...value,
                     quantity: value.quantity + curr[key].quantity
                 };
-            }
+            };
         });
         return updatedNutrients;
     });
@@ -79,7 +79,7 @@ export const MenuNutrientsCalculator = (recipes: MenuCalculatorProps[]): Nutrien
                     ...value,
                     quantity: value.quantity + curr[key].quantity
                 };
-            }
+            };
         });
         return updatedNutrients;
     });

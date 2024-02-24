@@ -34,12 +34,10 @@ const FoodList = ({ foodArr, sort }: FoodListProps): JSX.Element => {
 				return 0;
 		}
 	}).map((hint, index) => {
-		return (
-			<FoodCard food={hint} index={index + 1} key={index + 1} id={null} open={false}/>
-		)
+		return <FoodCard food={hint} index={index + 1} key={index + 1} id={null} open={false}/>;
 	});
 
-	return <PageGrid>{foodList}</PageGrid>
+	return <PageGrid>{foodList}</PageGrid>;
 }
 
 export default FoodList;

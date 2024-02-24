@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState, useRef } from 'react'
-import styles from './form.module.css'
-import { CardOpenContext } from '@/app/context/card-context';
-import { CardState, Nutrients, AnalysisMode } from '@/app/types/types';
-import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
-import { CurrentRecipeContext } from '@/app/context/recipe-context';
-import { StatusContext } from '@/app/context/status-context';
-import { RecipeNutrientsCalculator } from './nutrients-calculator';
-import { useHttpClient } from '@/app/hooks/http-hook';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useRouter} from 'next/navigation';
-import { SlideContext } from "@/app/context/slide-context";
+import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
+import { RecipeNutrientsCalculator } from './nutrients-calculator';
 import { AuthContext } from '@/app/context/auth-context';
+import { CardOpenContext } from '@/app/context/card-context';
+import { CurrentRecipeContext } from '@/app/context/recipe-context';
+import { SlideContext } from "@/app/context/slide-context";
+import { StatusContext } from '@/app/context/status-context';
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { CardState, Nutrients, AnalysisMode, Recipe } from '@/app/types/types';
+import styles from './form.module.css';
 
 interface RecipeFormProps {
     searchCleared: boolean,
@@ -19,18 +19,17 @@ interface RecipeFormProps {
 
 const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps): JSX.Element => {
 
+    const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
+    const { setMessage } = useContext(StatusContext);
+    const { setScrollBehavior } = useContext(SlideContext);
+    const {sendRequest} = useHttpClient();
     const [name, setName] = useState<string>('');
     const [servings, setServings] = useState<number>(1);
     const [ingredientsString, setIngredientsString] = useState<string>('');
-    const { setMessage } = useContext(StatusContext);
-    const {sendRequest} = useHttpClient();
-    const { setScrollBehavior } = useContext(SlideContext);
-    const filePickerRef = useRef<HTMLInputElement | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const { token } = useContext(AuthContext);
-
+    const filePickerRef = useRef<HTMLInputElement | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -59,8 +58,8 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         }
     }, [currentRecipe]);
 
-    const ArrayfromString = (string: string) => {
-        return string.split('\n').map((ingredient) => ingredient.trim()).filter((ingredient) => ingredient !== '')
+    const ArrayfromString = (string: string): string[] => {
+        return string.split('\n').map((ingredient) => ingredient.trim()).filter((ingredient) => ingredient !== '');
     };
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
@@ -80,52 +79,15 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
        
             const nutrients: Nutrients = RecipeNutrientsCalculator({
                 nutrients: recipeContent, 
-                // nutrients: {
-                //     calories: 100,
-                //     totalNutrients: {
-                //         FAT: {
-                //             label: "Fat",
-                //             quantity: 100,
-                //             unit: "g"
-                //         },
-                //         CHOCDF: {
-                //             label: "Carbs",
-                //             quantity: 100,
-                //             unit: "g"
-                //         },
-                //         PROCNT: {
-                //             label: "Protein",
-                //             quantity: 100,
-                //             unit: "g"
-                //         }
-                //     },
-                //     totalDaily: {
-                //         FAT: {
-                //             label: "Fat",
-                //             quantity: 100,
-                //             unit: "%"
-                //         },
-                //         CHOCDF: {
-                //             label: "Carbs",
-                //             quantity: 100,
-                //             unit: "%"
-                //         },
-                //         PROCNT: {
-                //             label: "Protein",
-                //             quantity: 100,
-                //             unit: "%"
-                //         }
-                //     },
-                //     totalWeight: 100
-                // }, 
                 totalServings: servings, 
                 selectedServings: 1
             });
-            const newRecipe = {
+            const newRecipe: Recipe = {
                 name,
                 servings,
                 nutrients,
-                ingredients: ingredientsArray
+                ingredients: ingredientsArray,
+                image: ''
             };
             setCurrentRecipe({
                 recipe: newRecipe,
@@ -189,51 +151,51 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
 
     if(currentRecipe.recipe && cardOpen == CardState.OPEN) {
         return (
-        <div className={styles.card_container}>
-            <RecipeCard recipe={currentRecipe.recipe} image={currentRecipe.image} index={0} id={null} open={true}/>
-        </div> 
-    )}
+            <div className={styles.card_container}>
+                <RecipeCard recipe={currentRecipe.recipe} image={currentRecipe.image} index={0} id={null} open={true}/>
+            </div> 
+        );
+    }
 
-    return (<>
-            <div className={styles.container}>
-                <div className={styles.form_container}>
-                    <form className={styles.form} onSubmit={handleSubmit}>
-                        <div className={styles.form_group}>
-                            <label htmlFor="recipe-name">Recipe Name</label>
-                            <input type="text" id="recipe-name" name="recipe-name" required value={name} onInput={e => handleNameInput(e)}/>
-                        </div>
-                        <div className={styles.form_group}>
-                            <input
-                                ref={filePickerRef}
-                                style={{ display: 'none' }}
-                                type="file"
-                                accept=".jpg,.png,.jpeg"
-                                onChange={pickedHandler}
-                            />
-                            <button type="button" className={styles.add_button} onClick={pickImageHandler}>{currentRecipe.mode == AnalysisMode.VIEW ? 'Add Image' : 'Change Image'}</button>
-                        </div>
-                        <div className={styles.form_group}>
-                            <label htmlFor="recipe-ingredients">Ingredients
-                                <span>(Enter each ingredient on a new line)</span>
-                            </label>
-                            <textarea id="recipe-ingredients" name="recipe-ingredients" required
-                            placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredientsString} onInput={e => handleIngredientsInput(e)}/>
-                        </div>
-                        <div className={styles.form_group}>
-                            <label htmlFor="recipe-servings">Number of Servings</label>
-                            <input type="number" id="recipe-servings" name="recipe-servings" required min='1' value={servings} onInput={e => handleServingsInput(e)}/>
-                        </div>
-                        <div className={styles.form_group}>
-                            <button type="submit">Analyze</button>
-                        </div>
-                        {currentRecipe.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
-                            <button type="button" onClick={deleteRecipe}>Delete</button>
-                        </div>}
-                    </form>
-                </div>
+    return (
+        <div className={styles.container}>
+            <div className={styles.form_container}>
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <div className={styles.form_group}>
+                        <label htmlFor="recipe-name">Recipe Name</label>
+                        <input type="text" id="recipe-name" name="recipe-name" required value={name} onInput={e => handleNameInput(e)}/>
+                    </div>
+                    <div className={styles.form_group}>
+                        <input
+                            ref={filePickerRef}
+                            style={{ display: 'none' }}
+                            type="file"
+                            accept=".jpg,.png,.jpeg"
+                            onChange={pickedHandler}
+                        />
+                        <button type="button" className={styles.add_button} onClick={pickImageHandler}>{currentRecipe.mode == AnalysisMode.VIEW ? 'Add Image' : 'Change Image'}</button>
+                    </div>
+                    <div className={styles.form_group}>
+                        <label htmlFor="recipe-ingredients">Ingredients
+                            <span>(Enter each ingredient on a new line)</span>
+                        </label>
+                        <textarea id="recipe-ingredients" name="recipe-ingredients" required
+                        placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredientsString} onInput={e => handleIngredientsInput(e)}/>
+                    </div>
+                    <div className={styles.form_group}>
+                        <label htmlFor="recipe-servings">Number of Servings</label>
+                        <input type="number" id="recipe-servings" name="recipe-servings" required min='1' value={servings} onInput={e => handleServingsInput(e)}/>
+                    </div>
+                    <div className={styles.form_group}>
+                        <button type="submit">Analyze</button>
+                    </div>
+                    {currentRecipe.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
+                        <button type="button" onClick={deleteRecipe}>Delete</button>
+                    </div>}
+                </form>
             </div>
-        </>
-    )
+        </div>
+    );
 }
 
-export default RecipeForm
+export default RecipeForm;
