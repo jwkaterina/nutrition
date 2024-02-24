@@ -68,7 +68,10 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
     };
    
     useEffect(() => {
-        if(!isOpen) return;
+        if(!isOpen) {
+            setStyle({cursor: 'pointer'});
+            return;
+        };
         if(cardOpen == CardState.OPEN) {
             setStyle({
                 height: '100%',

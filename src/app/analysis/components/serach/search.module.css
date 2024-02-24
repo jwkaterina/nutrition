@@ -93,7 +93,6 @@
     height: 40px;
     border-radius: 0.2rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
     margin-left: 1rem;
     z-index: 3;
 }
@@ -108,6 +107,10 @@
     justify-content: space-between;
     align-items: center;
     color: var(--gray-dark);
+}
+
+.filter_dropdown .dropbtn, .sort_select select {
+    cursor: pointer;
 }
 
 .sort_select {
@@ -150,7 +153,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     font-weight: 400;
     color: var(--gray-dark);
-    cursor: pointer;
     z-index: 1;
 }
 
