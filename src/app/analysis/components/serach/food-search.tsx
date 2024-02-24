@@ -92,7 +92,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	}
 
 	useEffect(() => {
-		if(hintsArr.length == 0) return;
+		if(!hintsArr || hintsArr.length == 0) return;
 		const filteredHints = hintsArr.filter((hint: Food) => filter.includes(hint.food.category));
 		setFoodArr(filteredHints);
 	}, [filter, hintsArr])

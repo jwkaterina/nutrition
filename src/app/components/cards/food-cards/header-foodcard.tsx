@@ -40,7 +40,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
                             quantity: 1
                         }),
                         { 'Content-Type': 'application/json' },
-                        false
+                        false, false
                     );
                     measureNutrients.push(nutrients);
                 } catch (err) {
