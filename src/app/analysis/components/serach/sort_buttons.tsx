@@ -1,13 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSliders } from '@fortawesome/free-solid-svg-icons';
-import { SortType } from '@/app/types/types';
+import { FoodType, SortType } from '@/app/types/types';
 import styles from './search.module.css';
 import { useRef, useEffect } from 'react';
 
 interface SortButtonsProps {
 	setSort: (sort: SortType) => void;
-    setFilter: (filter: string[]) => void;
-    filter: string[];
+    setFilter: (filter: FoodType[]) => void;
+    filter: FoodType[];
 	isOpen: boolean;
 	setOpen: (open: boolean) => void;
 }
@@ -15,16 +15,17 @@ interface SortButtonsProps {
 const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButtonsProps): JSX.Element => {
 
 	const ref = useRef(null);
+
 	useEffect(() => {
-	  const checkIfClickedOutside = (e: MouseEvent) => {
-		if (ref.current && !(ref.current as HTMLElement).contains(e.target as HTMLElement)) {
-			setOpen(false)
+		const checkIfClickedOutside = (e: MouseEvent) => {
+			if (ref.current && !(ref.current as HTMLElement).contains(e.target as HTMLElement)) {
+				setOpen(false)
+			}
 		}
-	  }
-	  document.addEventListener("click", checkIfClickedOutside)
-	  return () => {
-		document.removeEventListener("click", checkIfClickedOutside)
-	  }
+		document.addEventListener("click", checkIfClickedOutside)
+		return () => {
+			document.removeEventListener("click", checkIfClickedOutside)
+		}
 	}, [isOpen])
 
 	const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -69,10 +70,10 @@ const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButton
                 </button>
                 {isOpen && (
                     <div className={styles.dropdown_content}>
-                        <Toggler text={'Generic foods'} setFilter={setFilter} filter={filter}/>
-                        <Toggler text={'Packaged foods'} setFilter={setFilter} filter={filter}/>
-                        <Toggler text={'Generic meals'} setFilter={setFilter} filter={filter}/>
-                        <Toggler text={'Fast foods'} setFilter={setFilter} filter={filter}/>
+                        <Toggler foodType={FoodType.GENERIC_FOODS} setFilter={setFilter} filter={filter}/>
+                        <Toggler foodType={FoodType.PACKAGED_FOODS} setFilter={setFilter} filter={filter}/>
+                        <Toggler foodType={FoodType.GENERIC_MEALS} setFilter={setFilter} filter={filter}/>
+                        <Toggler foodType={FoodType.FAST_FOODS} setFilter={setFilter} filter={filter}/>
                     </div>
                 )}
 			</div>
@@ -96,23 +97,23 @@ const SortButtons = ({ setSort, setFilter, filter, isOpen, setOpen }: SortButton
 export default SortButtons;
 
 interface TogglerProps {
-    text: string;
-    setFilter: (filter: string[]) => void;
-    filter: string[];
+    foodType: FoodType;
+    setFilter: (filter: FoodType[]) => void;
+    filter: FoodType[];
 }
 
-const Toggler = ({ text, setFilter, filter }: TogglerProps): JSX.Element => {
+const Toggler = ({ foodType, setFilter, filter }: TogglerProps): JSX.Element => {
 
     const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(e.target.checked) setFilter([...filter, text]);
-        else setFilter(filter.filter(item => item !== text));
+        if(e.target.checked) setFilter([...filter, foodType]);
+        else setFilter(filter.filter(item => item !== foodType));
     }
 
     return (
         <div className={styles.dropdown_row}>
-            <span>{text}</span>
+            <span>{foodType}</span>
             <label className={styles.toggler_wrapper}>
-            <input type="checkbox" checked={filter.includes(text)} onChange={handleCheckboxClick}></input>
+            <input type="checkbox" checked={filter.includes(foodType)} onChange={handleCheckboxClick}></input>
                 <div className={styles.toggler_slider}>
                     <div className={styles.toggler_knob}></div>
                 </div>

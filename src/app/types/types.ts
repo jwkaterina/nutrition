@@ -20,7 +20,7 @@ export type FoodProp = {
     foodId: string,
     label: string,
     image: string,
-    category: string,
+    category: FoodType,
     categoryLabel: string,
     knownAs: string,
     nutrients: {
@@ -70,41 +70,6 @@ export type Nutrient = {
     unit: string
 }
 
-// export type NutrientsProp = {
-//     CA: Nutrient,
-//     CHOCDF: Nutrient,
-//     CHOLE: Nutrient,
-//     ENERC_KCAL: Nutrient,
-//     FAMS: Nutrient,
-//     FAPU: Nutrient,
-//     FASAT: Nutrient,
-//     FAT: Nutrient,
-//     FATRN: Nutrient,
-//     FE: Nutrient,
-//     FIBTG: Nutrient,
-//     FOLAC: Nutrient,
-//     FOLDFE: Nutrient,
-//     FOLFD: Nutrient,
-//     K: Nutrient,
-//     MG: Nutrient,
-//     NA: Nutrient,
-//     NIA: Nutrient,
-//     P: Nutrient,
-//     PROCNT: Nutrient,
-//     RIBF: Nutrient,
-//     SUGAR: Nutrient,
-//     THIA: Nutrient,
-//     TOCPHA: Nutrient,
-//     VITA_RAE: Nutrient,
-//     VITB12: Nutrient,
-//     VITB6A: Nutrient,
-//     VITC: Nutrient,
-//     VITD: Nutrient,
-//     VITK1: Nutrient,
-//     WATER: Nutrient,
-//     ZN: Nutrient
-// }
-
 export interface RecipeWithServings {
     selectedRecipe: Recipe,
     selectedServings: number
@@ -139,6 +104,13 @@ export enum SortType {
     ASC_Carbs,
     DESC_Carbs,
     DEFAULT
+}
+
+export enum FoodType {
+    GENERIC_FOODS = 'Generic foods', 
+    PACKAGED_FOODS = 'Packaged foods', 
+    GENERIC_MEALS = 'Generic meals', 
+    FAST_FOODS = 'Fast foods'
 }
 
 export enum AnalysisMode {

@@ -3,7 +3,7 @@ import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } fro
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { CardOpenContext } from '@/app/context/card-context';
-import { Food, CardState, SortType, StatusType} from '@/app/types/types';
+import { Food, CardState, SortType, StatusType, FoodType } from '@/app/types/types';
 import { useHttpClient} from '@/app/hooks/http-hook';
 import { StatusContext } from '@/app/context/status-context';
 import FoodList from './food-list';
@@ -24,7 +24,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const [queryOptions, setQueryOptions] = useState<string[] | null>(null);
 	const [input, setInput] = useState('');
 	const [sort, setSort] = useState<SortType>(SortType.DEFAULT);
-	const [filter, setFilter] = useState<string[]>(['Generic foods']);
+	const [filter, setFilter] = useState<FoodType[]>([FoodType.FAST_FOODS, FoodType.GENERIC_FOODS, FoodType.GENERIC_MEALS, FoodType.PACKAGED_FOODS]);
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const { setMessage, setStatus } = useContext(StatusContext);
 	const { sendRequest } = useHttpClient();
