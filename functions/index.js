@@ -1,5 +1,19 @@
+/**
+ * Import function triggers from their respective submodules:
+ *
+ * const {onCall} = require("firebase-functions/v2/https");
+ * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
+ *
+ * See a full list of supported triggers at https://firebase.google.com/docs/functions
+ */
+
 const fs = require('fs');
 const path = require('path');
+
+const {onRequest} = require("firebase-functions/v2/https");
+const logger = require("firebase-functions/logger");
+
+const cors = require('cors')({origin: true});
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -13,6 +27,7 @@ const apiRoutes = require('./routes/api-routes');
 const HttpError = require('./models/http-error');
 
 const app = express();
+app.use(cors);
 
 app.use(bodyParser.json());
 
@@ -58,8 +73,12 @@ app.use((error, req, res, next) => {
 mongoose
     .connect('mongodb+srv://jwkaterina:jw0507015599@cluster0.ajgjgkk.mongodb.net/nutrition?retryWrites=true&w=majority')
     .then(() => {
-        app.listen(5001);
+        // app.listen(5001);
+        logger.info("Hello logs!", {structuredData: true});
     })
     .catch(err => {
-        console.log(err);
+        logger.error("Oops, something went wrong!", err);
+        // console.log(err);
     });
+
+exports.app = onRequest(app);
