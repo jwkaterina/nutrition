@@ -1,5 +1,5 @@
-import styles from '../../analysis_cards/alanysis_card.module.css';
 import { Recipe } from '@/app/types/types';
+import styles from '../../analysis_cards/alanysis_card.module.css';
 
 interface RecipeHeaderCardProps {
     recipe: Recipe,
@@ -10,13 +10,9 @@ const RecipeHeaderCard = ({ recipe, image }: RecipeHeaderCardProps): JSX.Element
 
     const style = () => {
         if(image) {
-            return {
-                gridTemplateColumns: '1fr 3fr'
-            }
+            return { gridTemplateColumns: '1fr 3fr' }
         } else {
-            return {
-                gridTemplateColumns: '1fr'
-            }
+            return { gridTemplateColumns: '1fr' }
         }
     }
 
@@ -30,7 +26,7 @@ const RecipeHeaderCard = ({ recipe, image }: RecipeHeaderCardProps): JSX.Element
                 <div className={styles.long_input} id="measure">{`1 serving - ${(recipe.nutrients.totalWeight).toFixed(0)}g`}</div>
             </div>
         </div>
-    )
+    );
 }
 
 export default RecipeHeaderCard;

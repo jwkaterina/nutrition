@@ -1,10 +1,10 @@
-import { Food, CardState } from '@/app/types/types'
-import Card from '../card'
-import { useContext, useState } from 'react'
-import { CardOpenContext } from '@/app/context/card-context'
-import { CurrentFoodContext } from '@/app/context/food-context'
-import OpenFoodCard from './open-foodcard'
-import ClosedCard from '../closed-card'
+import { useContext, useState } from 'react';
+import Card from '../card';
+import ClosedCard from '../closed-card';
+import OpenFoodCard from './open-foodcard';
+import { CardOpenContext } from '@/app/context/card-context';
+import { CurrentFoodContext } from '@/app/context/food-context';
+import { Food, CardState } from '@/app/types/types';
 
 interface FoodCardProps {
     food: Food,
@@ -15,13 +15,13 @@ interface FoodCardProps {
 
 const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(open);
     const { setCardOpen } = useContext(CardOpenContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
+    const [isOpen, setIsOpen] = useState<boolean>(open);
 
     const handleCardClick = () => {
         if(isOpen) {
-            return 
+            return;
         }
         setCardOpen(CardState.OPENING);
         setIsOpen(true); 
@@ -34,9 +34,10 @@ const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
 
     const isImage = () => {
         return /\.(jpg|jpeg)$/.test(food.food.image);
-      }
+    }
 
-    return <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
+    return (
+        <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
             {isOpen ? <OpenFoodCard food={food}/> : 
             <ClosedCard 
                 title={food.food.label}
@@ -47,6 +48,7 @@ const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
                 carbs={food.food.nutrients.CHOCDF}
             />}
         </Card>
+    );
 }
 
-export default FoodCard
+export default FoodCard;

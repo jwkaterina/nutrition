@@ -1,10 +1,10 @@
-import Slide from './slide'
-import Button from '@/app/components/slider/button'
-import { LoadedFood } from '@/app/types/types'
-import FoodCard from '../../cards/food-cards/food-card'
-import { useHttpClient } from '@/app/hooks/http-hook';
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react';
+import Button from '@/app/components/slider/button';
+import FoodCard from '../../cards/food-cards/food-card';
+import Slide from './slide';
 import { AuthContext } from '@/app/context/auth-context';
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { LoadedFood } from '@/app/types/types';
 
 interface FoodSlideProps {
     foodDeleted: boolean
@@ -40,12 +40,12 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
         fetchFood();
     }, [foodDeleted, token]);
 
-    return (<>
+    return (
          <Slide>
             {foodList.length > 0 && foodList}
             <Button search={'analysis/food-analysis'}/>
         </Slide>  
-    </>)
+    );
 }
 
-export default FoodSlide
+export default FoodSlide;

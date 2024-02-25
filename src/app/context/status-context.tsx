@@ -36,5 +36,5 @@ export const StatusProvider = ({ children }: any) => {
         }}>
             {children}
         </StatusContext.Provider>
-    )
+    );
 }

@@ -1,14 +1,12 @@
-import { useContext } from 'react'
-import styles from './nav-bar.module.css'
-import { SlideType } from "@/app/types/types"
+import { useContext } from 'react';
 import { SlideContext } from '@/app/context/slide-context';
+import { SlideType } from "@/app/types/types";
+import styles from './nav-bar.module.css';
 
-interface MainNavProps {
-}
-
-const MainNav = ({ }: MainNavProps): JSX.Element => {
+const MainNav = (): JSX.Element => {
 
     const { slide, setSlide, setBlockScroll } = useContext(SlideContext);
+
     let mediaQuery: MediaQueryList | null = null;
 
     if(typeof window !== 'undefined') {
@@ -16,17 +14,15 @@ const MainNav = ({ }: MainNavProps): JSX.Element => {
     }
 
     let linkWidth: string;
-    if(mediaQuery && (mediaQuery as MediaQueryList).matches) {
-        linkWidth = '100px';
-    } else {
-        linkWidth = '200px';
-    }
+    if(mediaQuery && (mediaQuery as MediaQueryList).matches) linkWidth = '100px';
+    linkWidth = '200px';
     const scrollBarWidth: string = '20vw';
 
     type ScrollBarPosition = {
         left: string,
         width: string
     }
+
     const calculateScrollBarPosition = (): ScrollBarPosition  => {
         const spaceWidth: string = `(100vw - 3 * ${linkWidth}) / 4`;
         const position1: string = `calc(${spaceWidth} + ${linkWidth} / 2 - ${scrollBarWidth} / 2)`;   
@@ -57,17 +53,19 @@ const MainNav = ({ }: MainNavProps): JSX.Element => {
         setSlide(slide);
         setTimeout(() => {
             setBlockScroll(false);
-        }, 500)
+        }, 500);
     }
 
-    return <>
-        <div className={styles.main_links}>
-            <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(SlideType.FOOD)}>My Food</a>
-            <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(SlideType.RECIPE)}>My Recipes</a>
-            <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(SlideType.MENU)}>My Menus</a>
-        </div>
-        <div className={styles.scroll_bar} style={calculateScrollBarPosition()}></div>
-    </>
+    return (
+        <>
+            <div className={styles.main_links}>
+                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(SlideType.FOOD)}>My Food</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(SlideType.RECIPE)}>My Recipes</a>
+                <a className={styles.link} style={{width: `${linkWidth}`}} onClick={() => handleClick(SlideType.MENU)}>My Menus</a>
+            </div>
+            <div className={styles.scroll_bar} style={calculateScrollBarPosition()}></div>
+        </>
+    );
 }
 
-export default MainNav
+export default MainNav;

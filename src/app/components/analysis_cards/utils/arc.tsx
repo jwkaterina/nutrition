@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface ArcProps {
     degree: number | null,
@@ -28,7 +28,7 @@ const Arc = ({ degree, percent, color, radius, strokeWidth }: ArcProps): JSX.Ele
         if(arcRef.current) {
             arcRef.current.animate(keyframes, options);
         }
-    }, [])
+    }, []);
 
     const circumreference: number = radius * 2 * Math.PI;
     const widthHeight: number = 2 * radius + 2 * strokeWidth;
@@ -38,7 +38,7 @@ const Arc = ({ degree, percent, color, radius, strokeWidth }: ArcProps): JSX.Ele
         <svg width={widthHeight} height={widthHeight} style={{ transform: `rotate(${degree}deg)`}}>
             <circle  style={{strokeDasharray: circumreference}} ref={arcRef} cx={center} cy={center} r={radius} stroke={color} strokeWidth={strokeWidth} fill="none"/>
         </svg>
-    )
+    );
 }
 
-export default Arc
+export default Arc;

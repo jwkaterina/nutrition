@@ -1,6 +1,6 @@
-import styles from './alanysis_card.module.css';
-import { Nutrient, Nutrients } from '@/app/types/types';
 import BarRow from './utils/bar_row';
+import { Nutrient, Nutrients } from '@/app/types/types';
+import styles from './alanysis_card.module.css';
 
 interface BigNutrientsCardProps {
     content: Nutrients | null;
@@ -56,7 +56,7 @@ const BigNutrientsCard = ({ content }: BigNutrientsCardProps): JSX.Element => {
                 />
             </div>
         </div>
-    )
+    );
 }
 
 export default BigNutrientsCard;

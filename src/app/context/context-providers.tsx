@@ -25,4 +25,4 @@ export default function ContextProviders({ children }: any) {
             </CurrentMenuProvider>
         </CurrentRecipeProvider>
     );
-  }
+}

@@ -14,7 +14,7 @@ export const Button = ({ search }: ButtonProps): JSX.Element => {
                 <div className={styles.add__icon}>+</div>
             </Link> 
         </div>
-    )
+    );
 }
 
-export default Button
+export default Button;

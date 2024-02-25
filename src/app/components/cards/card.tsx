@@ -1,7 +1,7 @@
-import styles from './card.module.css'
-import { useRef, useContext, useEffect, useState } from 'react'
-import { CardOpenContext } from '@/app/context/card-context'
-import { CardState } from '@/app/types/types'
+import { useRef, useContext, useEffect, useState } from 'react';
+import { CardOpenContext } from '@/app/context/card-context';
+import { CardState } from '@/app/types/types';
+import styles from './card.module.css';
 
 interface CardProps {
     index: number,
@@ -14,8 +14,8 @@ interface CardProps {
 const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): JSX.Element => {
 
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
-    const cardRef = useRef<HTMLDivElement>(null);
     const [style, setStyle] = useState({} as React.CSSProperties);
+    const cardRef = useRef<HTMLDivElement>(null);
 
     let mediaQuery600: MediaQueryList | null = null;
     let mediaQuery1000: MediaQueryList | null = null;
@@ -71,13 +71,13 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
         if(!isOpen) {
             setStyle({cursor: 'pointer'});
             return;
-        };
+        }
         if(cardOpen == CardState.OPEN) {
             setStyle({
                 height: '100%',
                 width: '100vw'
             })
-        };
+        }
         if(cardRef.current && cardOpen == CardState.OPENING) {
             cardRef.current.animate(keyframes, animationOptions);
             setCardOpen(CardState.OPEN);
@@ -93,13 +93,13 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             cardRef.current?.animate(keyframesReverse, styleOptions);
             setIsOpen(false);
         }
-    }, [cardOpen, isOpen])
+    }, [cardOpen, isOpen]);
 
     return (
         <div className={styles.card} onClick={onCardClick} ref={cardRef} style={style}>
             {children}
         </div>
-    )
+    );
 }
 
-export default Card
+export default Card;

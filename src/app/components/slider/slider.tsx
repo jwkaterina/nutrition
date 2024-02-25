@@ -1,11 +1,12 @@
-import styles from './slider.module.css'
+
+import { useEffect, useRef, useContext } from 'react';
 import FoodSlide from '@/app/components/slider/slides/food-slide';
 import RecipeSlide from '@/app/components/slider/slides/recipe-slide';
 import MenuSlide from '@/app/components/slider/slides/menu-slide';
-import { useEffect, useRef, useContext } from 'react';
-import { SlideType, CardState } from '@/app/types/types';
 import { CardOpenContext } from '@/app/context/card-context';
 import { SlideContext } from '../../context/slide-context';
+import { SlideType, CardState } from '@/app/types/types';
+import styles from './slider.module.css';
 
 interface SliderProps {
     foodDeleted: boolean
@@ -35,7 +36,7 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
                 behavior: "auto",
             });
 		}
-	}, [cardOpen])
+	}, [cardOpen]);
 
     const handleScroll = () => {
       if(blockScroll || !slidesRef.current) return;
@@ -52,9 +53,9 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
 
     const style = () => {
         if(cardOpen == CardState.OPEN) {
-            return {overflow: 'hidden'}
+            return {overflow: 'hidden'};
         } else {
-            return {overflow: 'auto'}
+            return {overflow: 'auto'};
         }
     }
 
@@ -69,7 +70,7 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
             <RecipeSlide />
             <MenuSlide />
       </div>
-    )
+    );
 }
 
-export default Slider
+export default Slider;

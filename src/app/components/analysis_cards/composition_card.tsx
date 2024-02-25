@@ -1,6 +1,6 @@
-import styles from './alanysis_card.module.css';
 import Arc from './utils/arc';
 import SmallCircle from './utils/small_circle';
+import styles from './alanysis_card.module.css';
 
 interface CompositionCardProps {
     protein: number | null;
@@ -35,7 +35,7 @@ const CompositionCard = ({ protein, carbs, fat }: CompositionCardProps): JSX.Ele
     const strokeWidth: number = 20;
     const widthHeight: number = 2 * radius + 2 * strokeWidth;
     
-    if(!waterPercent || !proteinPercent || !carbsPercent || !fatPercent) return <></>
+    if(!waterPercent || !proteinPercent || !carbsPercent || !fatPercent) return <></>;
 
     return (
         <div className={styles.container} style={{gridArea: 'composition'}}>
@@ -55,7 +55,7 @@ const CompositionCard = ({ protein, carbs, fat }: CompositionCardProps): JSX.Ele
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default CompositionCard;

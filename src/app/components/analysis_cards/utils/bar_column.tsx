@@ -1,6 +1,7 @@
-import styles from './utils.module.css'
-import { Nutrient } from '@/app/types/types'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react';
+import { Nutrient } from '@/app/types/types';
+import styles from './utils.module.css';
+
 
 interface BarColumnProps {
     vitamin: Nutrient,
@@ -12,12 +13,13 @@ interface BarColumnProps {
 
 const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarColumnProps): JSX.Element => {    
 
+    const barRef = useRef<HTMLDivElement>(null);
+
     const barHeight: number = 100;
     let percentHeight: number = 0;
     if(vitaminPercent && vitaminPercent.quantity < 100) percentHeight = vitaminPercent.quantity / 100 * barHeight;
     if(vitaminPercent && vitaminPercent.quantity >= 100) percentHeight = barHeight;
 
-    const barRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const options: KeyframeAnimationOptions  = {
@@ -33,23 +35,25 @@ const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarCol
         if(barRef.current) {
             barRef.current.animate(keyframes, options);
         }
-    }, [percentHeight])
+    }, [percentHeight]);
     
 
-    if(!vitamin) return <></>
+    if(!vitamin) return <></>;
 
-    return <div className={styles.bar_column}>
-                <div className={styles.bar_label}>
-                    {vitaminPercent ? <span>{`${vitaminPercent.quantity.toFixed(1)}${vitaminPercent.unit}`}</span> : <span>0%</span>}
-                </div>   
-                <div className={styles.bar} style={{height: `${barHeight}px`, backgroundColor: lightColor}}>
-                    <div className={styles.percent_bar} ref={barRef} style={{backgroundColor: color}}></div>
-                </div>        
-                <div className={styles.bar_label}>
-                    <p>{label}</p>
-                    <span>{`${vitamin.quantity.toFixed(1)}${vitamin.unit}`}</span>
-                </div>                      
-            </div>
+    return (
+        <div className={styles.bar_column}>
+            <div className={styles.bar_label}>
+                {vitaminPercent ? <span>{`${vitaminPercent.quantity.toFixed(1)}${vitaminPercent.unit}`}</span> : <span>0%</span>}
+            </div>   
+            <div className={styles.bar} style={{height: `${barHeight}px`, backgroundColor: lightColor}}>
+                <div className={styles.percent_bar} ref={barRef} style={{backgroundColor: color}}></div>
+            </div>        
+            <div className={styles.bar_label}>
+                <p>{label}</p>
+                <span>{`${vitamin.quantity.toFixed(1)}${vitamin.unit}`}</span>
+            </div>                      
+        </div>
+    );
 }
 
-export default BarColumn
+export default BarColumn;

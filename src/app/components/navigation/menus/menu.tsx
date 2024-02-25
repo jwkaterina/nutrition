@@ -1,4 +1,4 @@
-import styles from '../nav-bar.module.css'
+import styles from '../nav-bar.module.css';
 
 interface MenuProps {
 	leftText: string,
@@ -9,12 +9,14 @@ interface MenuProps {
 
 const Menu = ({ leftText, rightText, onLeftclick, onRightclick}: MenuProps): JSX.Element => {
 
-	return <>
-		<div className={styles.links}>
-			<a className={styles.link} onClick={onLeftclick}>{leftText}</a>
-			<a className={styles.link} onClick={onRightclick}>{rightText}</a>
-		</div>
-	</>
+	return (
+		<>
+			<div className={styles.links}>
+				<a className={styles.link} onClick={onLeftclick}>{leftText}</a>
+				<a className={styles.link} onClick={onRightclick}>{rightText}</a>
+			</div>
+		</>
+	);
 }
 
-export default Menu
+export default Menu;

@@ -1,5 +1,5 @@
-import styles from '../slider.module.css'
-import PageGrid from "../page-grid"
+import PageGrid from "../page-grid";
+import styles from '../slider.module.css';
 
 interface SlideProps {
     children: React.ReactNode
@@ -13,8 +13,8 @@ const Slide = ({ children }: SlideProps): JSX.Element => {
                 {children}
             </PageGrid>
         </div>
-    )
+    );
 }
 
-export default Slide
+export default Slide;
 

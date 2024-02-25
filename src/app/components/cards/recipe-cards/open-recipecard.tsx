@@ -1,13 +1,12 @@
-import styles from '../card.module.css'
-import { useEffect, useState } from 'react'
-import { Nutrients, NutrientsProp, Recipe } from '@/app/types/types'
-import RecipeHeaderCard from './header-recipecard'
-import DailyValueCard from '../../analysis_cards/dailyvalue_card'
-import CompositionCard from '../../analysis_cards/composition_card'
-import BigNutrientsCard from '../../analysis_cards/bignutrients_card'
-import VitaminsCard from '../../analysis_cards/vitamins_card'
-import MineralsCard from '../../analysis_cards/minerals_card'
-import FatsCard from '../../analysis_cards/fats_card'
+import BigNutrientsCard from '../../analysis_cards/bignutrients_card';
+import CompositionCard from '../../analysis_cards/composition_card';
+import DailyValueCard from '../../analysis_cards/dailyvalue_card';
+import FatsCard from '../../analysis_cards/fats_card';
+import MineralsCard from '../../analysis_cards/minerals_card';
+import RecipeHeaderCard from './header-recipecard';
+import VitaminsCard from '../../analysis_cards/vitamins_card';
+import { Recipe } from '@/app/types/types';
+import styles from '../card.module.css';
 
 interface OpenRecipeCardProps {
     recipe: Recipe,
@@ -37,7 +36,7 @@ const OpenRecipeCard  = ({ recipe, image }: OpenRecipeCardProps): JSX.Element =>
             {recipe.nutrients && <MineralsCard content={recipe.nutrients} />}
             {recipe.nutrients && <FatsCard content={recipe.nutrients} />}
         </div>
-    )
+    );
 }
 
-export default OpenRecipeCard
+export default OpenRecipeCard;

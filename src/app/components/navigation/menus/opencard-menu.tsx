@@ -1,14 +1,14 @@
-import { CardState, AnalysisMode } from "@/app/types/types"
-import { useContext, useEffect, useState } from "react"
-import { CardOpenContext } from "@/app/context/card-context"
-import { CurrentFoodContext } from '@/app/context/food-context'
-import { CurrentRecipeContext } from '@/app/context/recipe-context'
-import { CurrentMenuContext } from '@/app/context/menu-context'
-import { StatusContext } from "@/app/context/status-context"
-import { useHttpClient } from "@/app/hooks/http-hook"
-import Menu from "./menu"
+import { useContext, useEffect, useState } from "react";
+import Menu from "./menu";
 import { useRouter} from 'next/navigation';
 import { AuthContext } from "@/app/context/auth-context";
+import { CardOpenContext } from "@/app/context/card-context";
+import { CurrentFoodContext } from '@/app/context/food-context';
+import { CurrentRecipeContext } from '@/app/context/recipe-context';
+import { CurrentMenuContext } from '@/app/context/menu-context';
+import { StatusContext } from "@/app/context/status-context";
+import { useHttpClient } from "@/app/hooks/http-hook";
+import { CardState, AnalysisMode } from "@/app/types/types";
 
 interface OpenCardMenuProps {
     onFoodDelete: () => void
@@ -16,17 +16,15 @@ interface OpenCardMenuProps {
 
 const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
 
-
+    const router = useRouter();
     const { setCardOpen } = useContext(CardOpenContext);
     const { currentFood, setCurrentFood } = useContext(CurrentFoodContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
-    const { sendRequest } = useHttpClient();
-    const [rightText, setRightText] = useState<string>("Delete");
     const { setMessage } = useContext(StatusContext);
     const { token } = useContext(AuthContext);
-
-    const router = useRouter();
+    const { sendRequest } = useHttpClient();
+    const [rightText, setRightText] = useState<string>("Delete");
 
     const deleteFood = async () => {
         try {
@@ -68,16 +66,16 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
         if(currentFood.food) return;
         if(currentRecipe.recipe) setRightText("Edit");
         if(currentMenu.menu) setRightText("Edit");
-    }, [currentFood, currentRecipe, currentMenu])
+    }, [currentFood, currentRecipe, currentMenu]);
 
-    return (<>
+    return (
         <Menu 
             leftText="Back to Favorites" 
             rightText={rightText}
             onLeftclick={handleBackClick} 
             onRightclick={handleRightClick} 
         />
-    </>)
+    );
 }
 
-export default OpenCardMenu
+export default OpenCardMenu;

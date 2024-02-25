@@ -1,15 +1,14 @@
-import styles from "./nav-bar.module.css"
-import { useRouter, usePathname } from 'next/navigation'
 import { useContext } from "react";
+import { useRouter, usePathname } from 'next/navigation';
 import { AuthContext } from "@/app/context/auth-context";
 import { SlideContext } from "@/app/context/slide-context";
-import { CardState, AnalysisMode } from "@/app/types/types";
 import { CardOpenContext } from "@/app/context/card-context";
 import { CurrentRecipeContext } from "@/app/context/recipe-context";
 import { CurrentMenuContext } from "@/app/context/menu-context";
 import { CurrentFoodContext } from "@/app/context/food-context";
 import { StatusContext } from "@/app/context/status-context";
-import { StatusType } from "@/app/types/types";
+import { CardState, AnalysisMode, StatusType } from "@/app/types/types";
+import styles from "./nav-bar.module.css";
 
 interface FooterProps {
     color: string,
@@ -64,7 +63,7 @@ const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
 				<a className={styles.link} onClick={handleAuthClick}>{isLoggedIn ? 'Logout' : 'Login'}</a>
 		    </div>
         </nav>
-    )
+    );
 }
 
-export default Footer
+export default Footer;

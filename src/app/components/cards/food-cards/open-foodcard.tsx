@@ -1,14 +1,14 @@
-import styles from '../card.module.css'
-import { Food, Nutrients } from '@/app/types/types'
-import { useEffect, useState } from 'react'
-import FoodHeaderCard from './header-foodcard'
-import DailyValueCard from '../../analysis_cards/dailyvalue_card'
-import CompositionCard from '../../analysis_cards/composition_card'
-import BigNutrientsCard from '../../analysis_cards/bignutrients_card'
-import VitaminsCard from '../../analysis_cards/vitamins_card'
-import MineralsCard from '../../analysis_cards/minerals_card'
-import FatsCard from '../../analysis_cards/fats_card'
-import { useHttpClient } from '@/app/hooks/http-hook'
+import { useEffect, useState } from 'react';
+import BigNutrientsCard from '../../analysis_cards/bignutrients_card';
+import CompositionCard from '../../analysis_cards/composition_card';
+import DailyValueCard from '../../analysis_cards/dailyvalue_card';
+import FatsCard from '../../analysis_cards/fats_card';
+import FoodHeaderCard from './header-foodcard';
+import MineralsCard from '../../analysis_cards/minerals_card';
+import VitaminsCard from '../../analysis_cards/vitamins_card';
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { Food, Nutrients } from '@/app/types/types';
+import styles from '../card.module.css';
 
 interface OpenFoodCardProps {
     food: Food
@@ -16,13 +16,14 @@ interface OpenFoodCardProps {
 
 const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
 
-    const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
+    const { sendRequest } = useHttpClient();
 
     const [content, setContent] = useState<Nutrients | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedOption, setSelectedOption] = useState<string>('Value pre 100g');
     const [measureUri, setMeasureUri] = useState<string>(food.measures[0].uri);
-    const { sendRequest } = useHttpClient();
+
+    const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
 
     useEffect(() => {
         const fetchContent = async() => {
@@ -64,7 +65,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                     'POST',
                     JSON.stringify({
                         foodId: food.food.foodId, 
-                        measure: gramUri, 
+                        measure: measureUri, 
                         quantity: quantity
                     }),
                     { 'Content-Type': 'application/json' }
@@ -98,7 +99,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
             {content && <MineralsCard content={content} />}
             {content && <FatsCard content={content} />}
         </div>
-    )
+    );
 }
 
-export default OpenFoodCard
+export default OpenFoodCard;

@@ -1,7 +1,6 @@
-import styles from './alanysis_card.module.css';
-
-import { Nutrients, Nutrient } from '@/app/types/types';
 import HalfCircle from './utils/half_circle';
+import { Nutrients, Nutrient } from '@/app/types/types';
+import styles from './alanysis_card.module.css';
 
 interface DailyValueCardProps {
     content: Nutrients | null;
@@ -68,8 +67,8 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     centerY={18}
                 />
             </div>
-    </div>
-    )
+        </div>
+    );
 }
 
 export default DailyValueCard;

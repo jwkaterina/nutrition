@@ -1,15 +1,15 @@
-import { useEffect, useContext, useState } from "react"
-import { CardOpenContext } from "@/app/context/card-context"
-import { CurrentFoodContext } from "@/app/context/food-context"
-import { CurrentRecipeContext } from "@/app/context/recipe-context"
-import { CurrentMenuContext } from "@/app/context/menu-context"
-import { SlideContext } from "@/app/context/slide-context"
-import Menu from './menu'
-import { useRouter } from 'next/navigation'
-import { useHttpClient } from '@/app/hooks/http-hook';
+import { useEffect, useContext, useState } from "react";
+import { useRouter } from 'next/navigation';
+import Menu from './menu';
 import { AuthContext } from "@/app/context/auth-context";
 import { StatusContext } from "@/app/context/status-context";
-import { CardState, Food, Recipe, MenuProp, AnalysisMode, StatusType } from "@/app/types/types"
+import { CardOpenContext } from "@/app/context/card-context";
+import { CurrentFoodContext } from "@/app/context/food-context";
+import { CurrentRecipeContext } from "@/app/context/recipe-context";
+import { CurrentMenuContext } from "@/app/context/menu-context";
+import { SlideContext } from "@/app/context/slide-context";
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { CardState, Food, Recipe, MenuProp, AnalysisMode, StatusType } from "@/app/types/types";
 
 interface OpenAnalysisMenuProps {
     file?: any;
@@ -18,17 +18,17 @@ interface OpenAnalysisMenuProps {
 
 const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element => {
 
-    const [rightText, setRightText] = useState<string>('Add To Favorites');
     const router = useRouter();
-
     const { currentFood, setCurrentFood } = useContext(CurrentFoodContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const { setCardOpen } = useContext(CardOpenContext);
-    const { sendRequest } = useHttpClient();
     const { setIsLoading, setMessage, setStatus } = useContext(StatusContext);
     const { token } = useContext(AuthContext);
     const { setScrollBehavior } = useContext(SlideContext);
+    const { sendRequest } = useHttpClient();
+    const [rightText, setRightText] = useState<string>('Add To Favorites');
+
 
     useEffect(() => {
         if(currentRecipe.mode == AnalysisMode.EDIT || currentMenu.mode == AnalysisMode.EDIT) setRightText('Update Favorites');
@@ -58,7 +58,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Food added to favorites.');
-            } catch (err) {}
+        } catch (err) {}
     }
 
     const addRecipeToFavorites = async () => {
@@ -83,7 +83,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Recipe added to favorites.');
-            } catch (err) {}
+        } catch (err) {}
     }
 
     const addMenuToFavorites = async () => {
@@ -104,7 +104,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Menu added to favorites.');
-            } catch (err) {}
+        } catch (err) {}
     }
 
     const updateFavorites = async () => {
@@ -127,7 +127,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Recipe updated in favorites.');
-            } catch (err) {}
+        } catch (err) {}
     }
 
     const updateMenu = async () => {
@@ -144,7 +144,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             );
             setRightText('Go To Favorites');
             setMessage('Menu updated in favorites.');
-            } catch (err) {}
+        } catch (err) {}
     }
 
     const handleRightClick = (): void => {
@@ -174,14 +174,14 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         setCardOpen(CardState.CLOSED);
     }
 
-    return (<>
+    return (
         <Menu 
             leftText='Back to Analysis' 
             rightText={rightText} 
             onLeftclick={handleBackClick} 
             onRightclick={handleRightClick}
         />
-    </>)
+    );
 }
 
-export default OpenAnalysisMenu
+export default OpenAnalysisMenu;

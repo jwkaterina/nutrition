@@ -1,14 +1,11 @@
-import styles from './toast.module.css';
 import { useEffect, useContext,useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faCircleCheck, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { StatusContext } from '@/app/context/status-context';
 import { StatusType } from '@/app/types/types';
+import styles from './toast.module.css';
 
-interface ToastProps {
-}
-
-const Toast = ({ }: ToastProps) => {
+const Toast = () => {
 
     const { message, setMessage, status } = useContext(StatusContext);
     const [open, setOpen] = useState(false);
@@ -54,7 +51,7 @@ const Toast = ({ }: ToastProps) => {
         }, 500);
     }
 
-    return (<>
+    return (
         <div className={open ? `${styles.toast} ${styles.active}` : `${styles.toast}`}>
             <div className={styles.toast_content}>
                 {status ==  StatusType.SUCCESS ? 
@@ -69,7 +66,7 @@ const Toast = ({ }: ToastProps) => {
             <FontAwesomeIcon icon={faXmark} className={styles.close} onClick={onClose}/>
             {status == StatusType.SUCCESS && <div ref={progressRef} className={styles.progress}></div>}
         </div>
-    </>)
+    );
 }
 
 export default Toast;

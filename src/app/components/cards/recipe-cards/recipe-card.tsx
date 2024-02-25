@@ -1,10 +1,10 @@
-import { Recipe, CardState, AnalysisMode } from '@/app/types/types'
-import Card from '../card'
-import { useContext, useState } from 'react'
-import { CardOpenContext } from '@/app/context/card-context'
-import { CurrentRecipeContext } from '@/app/context/recipe-context'
-import OpenRecipeCard from './open-recipecard'
-import ClosedCard from '../closed-card'
+import { useContext, useState } from 'react';
+import Card from '../card';
+import ClosedCard from '../closed-card';
+import OpenRecipeCard from './open-recipecard';
+import { CardOpenContext } from '@/app/context/card-context';
+import { CurrentRecipeContext } from '@/app/context/recipe-context';
+import { Recipe, CardState, AnalysisMode } from '@/app/types/types';
 
 interface RecipeCardProps {
     recipe: Recipe,
@@ -35,7 +35,8 @@ const RecipeCard = ({ recipe, index, id, open, image }: RecipeCardProps): JSX.El
         });
     }
 
-    return <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
+    return (
+        <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
             {isOpen ? <OpenRecipeCard recipe={recipe} image={image}/> : 
             <ClosedCard 
                 title={recipe.name}
@@ -46,6 +47,7 @@ const RecipeCard = ({ recipe, index, id, open, image }: RecipeCardProps): JSX.El
                 carbs={recipe.nutrients.totalNutrients.CHOCDF.quantity}
             />}
         </Card>
+    );
 }
 
-export default RecipeCard
+export default RecipeCard;

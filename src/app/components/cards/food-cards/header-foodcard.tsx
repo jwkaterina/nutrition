@@ -1,8 +1,8 @@
-import styles from '../../analysis_cards/alanysis_card.module.css';
 import { useState, useEffect, useContext } from 'react';
-import { Food, MeasureProp, Nutrients } from '@/app/types/types';
-import { useHttpClient } from '@/app/hooks/http-hook';
 import { StatusContext } from '@/app/context/status-context';
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { Food, MeasureProp, Nutrients } from '@/app/types/types';
+import styles from '../../analysis_cards/alanysis_card.module.css';
 
 interface FoodHeaderCardProps {
     food: Food,
@@ -15,11 +15,12 @@ interface FoodHeaderCardProps {
 
 const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantity }: FoodHeaderCardProps): JSX.Element => {
 
-    const { image } = food.food;
-    const [measures, setMeasures] = useState<MeasureProp[]>([]);
-    const [customWeight, setCustomWeight] = useState<boolean>(false);
     const { setMessage} = useContext(StatusContext);
     const { sendRequest } = useHttpClient();
+    const [measures, setMeasures] = useState<MeasureProp[]>([]);
+    const [customWeight, setCustomWeight] = useState<boolean>(false);
+
+    const { image } = food.food;
     const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
     const ounseUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce";
     const poundUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_pound";
@@ -54,7 +55,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
             setMeasures(measures);
         }
         fetchMeasuresWeight();
-    }, [])
+    }, []);
 
     const calculateOptions = (): JSX.Element[] => {
         let options: JSX.Element[] = [];
@@ -103,13 +104,9 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
 
     const style = () => {
         if(image) {
-            return {
-                gridTemplateColumns: '1fr 3fr'
-            }
+            return { gridTemplateColumns: '1fr 3fr' };
         } else {
-            return {
-                gridTemplateColumns: '1fr'
-            }
+            return { gridTemplateColumns: '1fr' };
         }
     }
 
@@ -131,7 +128,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
                 </select>
             </div>
         </div>
-    )
+    );
 }
 
 export default FoodHeaderCard;

@@ -1,10 +1,10 @@
-import Menu from './menu'
-import { useRouter } from 'next/navigation'
-import { useContext } from 'react'
-import { SlideContext} from '@/app/context/slide-context'
-import { CurrentRecipeContext } from '@/app/context/recipe-context'
-import { CurrentMenuContext } from '@/app/context/menu-context'
-import { AnalysisMode } from '@/app/types/types'
+import { useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import Menu from './menu';
+import { SlideContext} from '@/app/context/slide-context';
+import { CurrentRecipeContext } from '@/app/context/recipe-context';
+import { CurrentMenuContext } from '@/app/context/menu-context';
+import { AnalysisMode } from '@/app/types/types';
 
 interface AnalysisMenuProps {
 	onClear: () => void,
@@ -37,7 +37,7 @@ const AnalysisMenu = ({ onClear, rightText, setFile }: AnalysisMenuProps): JSX.E
 		   onLeftclick={onBackClick} 
 		   onRightclick={() => onClear()}
 		/>
-	)
+	);
 }
 
-export default AnalysisMenu
+export default AnalysisMenu;

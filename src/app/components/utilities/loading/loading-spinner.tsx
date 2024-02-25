@@ -1,5 +1,5 @@
-import { StatusContext } from '@/app/context/status-context';
 import { useContext } from 'react';
+import { StatusContext } from '@/app/context/status-context';
 import styles from './loading-spinner.module.css';
 
 const LoadingSpinner = ( ): JSX.Element => {

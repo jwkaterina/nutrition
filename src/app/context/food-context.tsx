@@ -29,5 +29,5 @@ export const CurrentFoodProvider = ({ children }: any) => {
         <CurrentFoodContext.Provider value={contextValue}>
             {children}
         </CurrentFoodContext.Provider>
-  );
+    );
 }

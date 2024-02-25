@@ -1,4 +1,4 @@
-import styles from "./nav-bar.module.css"
+import styles from "./nav-bar.module.css";
 
 interface NavBarProps {
     color: string,
@@ -11,8 +11,8 @@ const NavBar = ({ color, children }: NavBarProps): JSX.Element => {
         <nav className={styles.container} style={{background: color}}>
             {children}
         </nav>
-    )
+    );
 }
 
-export default NavBar
+export default NavBar;
 

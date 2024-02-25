@@ -1,10 +1,10 @@
-import { MenuProp, CardState, AnalysisMode } from '@/app/types/types'
-import Card from '../card'
-import { useContext, useState } from 'react'
-import { CardOpenContext } from '@/app/context/card-context'
-import { CurrentMenuContext } from '@/app/context/menu-context'
-import OpenMenuCard from './open-manucard'
-import ClosedCard from '../closed-card'
+import { useContext, useState } from 'react';
+import Card from '../card';
+import ClosedCard from '../closed-card';
+import OpenMenuCard from './open-manucard';
+import { CardOpenContext } from '@/app/context/card-context';
+import { CurrentMenuContext } from '@/app/context/menu-context';
+import { MenuProp, CardState, AnalysisMode } from '@/app/types/types';
 
 interface MenuCardProps {
     menu: MenuProp,
@@ -15,9 +15,9 @@ interface MenuCardProps {
 
 const MenuCard = ({ menu, index, id, open }: MenuCardProps): JSX.Element => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(open);
     const { setCardOpen } = useContext(CardOpenContext);
     const { setCurrentMenu } = useContext(CurrentMenuContext);
+    const [isOpen, setIsOpen] = useState<boolean>(open);
 
     const handleCardClick = () => {
         if(isOpen) {
@@ -33,15 +33,18 @@ const MenuCard = ({ menu, index, id, open }: MenuCardProps): JSX.Element => {
         });
     }
 
-    return <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
+    return (
+        <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
             {isOpen ? <OpenMenuCard menu={menu}/> : <ClosedCard 
                 title={menu.name}
                 calories={menu.nutrients.calories}
                 protein={menu.nutrients.totalNutrients.PROCNT.quantity}
                 fat={menu.nutrients.totalNutrients.FAT.quantity}
                 carbs={menu.nutrients.totalNutrients.CHOCDF.quantity}
+                image={null}
             />}
         </Card>
+    );
 }
 
-export default MenuCard
+export default MenuCard;

@@ -1,6 +1,6 @@
-import styles from './utils.module.css';
-import { Nutrient } from '@/app/types/types';
 import { useEffect, useRef } from 'react';
+import { Nutrient } from '@/app/types/types';
+import styles from './utils.module.css';
 
 interface BarRowProps {
     nutrient: Nutrient;
@@ -12,6 +12,7 @@ interface BarRowProps {
 const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => {
 
     const lineRef = useRef<SVGLineElement>(null);
+
     const length: number = 70;
 
     useEffect(() => {
@@ -40,24 +41,24 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
         if(line) {
             lineRef.current.animate(keyframes, options);
         }
-    }, [daily])
+    }, [daily]);
 
     const styleProgress = () => {
 
         return {
             strokeDasharray: length,
             strokeDashoffset: length,
-        }
+        };
     }
 
     const styleLine = () => {
 
         return {
             strokeDasharray: length,
-        }
+        };
     }
 
-    if(!nutrient) return <></>
+    if(!nutrient) return <></>;
 
     return (
         <div className={styles.bar_row}>
@@ -69,7 +70,7 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
             </svg>
             {daily && <span>{`${daily.quantity.toFixed(0)}${daily.unit}`}</span>}
         </div>
-    )
+    );
 }
 
-export default BarRow
+export default BarRow;

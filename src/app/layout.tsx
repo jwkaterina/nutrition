@@ -1,18 +1,18 @@
 'use client'
 
-import { Inter } from 'next/font/google'
-import './globals.css'
-import ContextProviders from '@/app/context/context-providers'
-import LoadingSpinner from './components/utilities/loading/loading-spinner'
-import Toast from './components/utilities/toast/toast'
+import { Inter } from 'next/font/google';
+import ContextProviders from '@/app/context/context-providers';
+import LoadingSpinner from './components/utilities/loading/loading-spinner';
+import Toast from './components/utilities/toast/toast';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function RootLayout({
-    children,
-}: {
-    children: React.ReactNode
-}) {
+interface RootLayoutProps {
+    children: React.ReactNode;
+}
+
+const RootLayout = ({ children }: RootLayoutProps) => {
 
     return (
         <html lang="en">
@@ -28,5 +28,7 @@ export default function RootLayout({
                 </ContextProviders>
             </body>
         </html>
-    )
+    );
 }
+
+export default RootLayout;

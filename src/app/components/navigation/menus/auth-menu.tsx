@@ -1,13 +1,9 @@
-import Menu from './menu'
-import { useRouter } from 'next/navigation'
-import { useContext } from 'react'
-import { SlideContext } from '@/app/context/slide-context'
+import { useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import Menu from './menu';
+import { SlideContext } from '@/app/context/slide-context';
 
-interface AuthMenuProps {
-
-}
-
-const AuthMenu = ({ }: AuthMenuProps): JSX.Element => {
+const AuthMenu = (): JSX.Element => {
 
 	const router = useRouter();
     const { setBlockScroll } = useContext(SlideContext);
@@ -27,7 +23,7 @@ const AuthMenu = ({ }: AuthMenuProps): JSX.Element => {
 		   onLeftclick={backHandler} 
 		   onRightclick={() => {}}  
 		/>
-	)
+	);
 }
 
-export default AuthMenu
+export default AuthMenu;

@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import styles from './alanysis_card.module.css';
-import { Nutrients, Nutrient } from '@/app/types/types';
 import BarColumn from './utils/bar_column';
 import CircleRow from './utils/circle_row';
+import { Nutrients, Nutrient } from '@/app/types/types';
+import styles from './alanysis_card.module.css';
 
 interface VitaminsCardProps {
     content: Nutrients | null;
@@ -44,43 +43,48 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
     const vitaminEPercent: Nutrient = content!.totalDaily.TOCPHA;
     const vitaminKPercent: Nutrient = content!.totalDaily.VITK1;
   
-    if(mediaQuery && (mediaQuery as MediaQueryList).matches) return <div className={styles.container} style={{gridArea: 'vitamins', height: '100%'}}>
-        <h3 className={styles.title}>Vitamins</h3>
-        <div>
-            <CircleRow vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={vitaminC} vitaminPercent={vitaminCPercent} label={'vitaminC'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={riboflavin} vitaminPercent={riboflavinPercent} label={'riboflavin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={niacin} vitaminPercent={niacinPercent} label={'niacin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={vitaminB6} vitaminPercent={vitaminB6Percent} label={'vitaminB6'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={folateDFE} vitaminPercent={folateDFEPercent} label={'folateDFE'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={folateFood} vitaminPercent={folateFoodPercent} label={'folateFood'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={folicAcid} vitaminPercent={folicAcidPercent} label={'folicAcid'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={vitaminB12} vitaminPercent={vitaminB12Percent} label={'vitaminB12'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={vitaminD} vitaminPercent={vitaminDPercent} label={'vitaminD'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={vitaminE} vitaminPercent={vitaminEPercent} label={'vitaminE'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <CircleRow vitamin={vitaminK} vitaminPercent={vitaminKPercent} label={'vitaminK'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+    if(mediaQuery && (mediaQuery as MediaQueryList).matches) 
+    return (
+        <div className={styles.container} style={{gridArea: 'vitamins', height: '100%'}}>
+            <h3 className={styles.title}>Vitamins</h3>
+            <div>
+                <CircleRow vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={vitaminC} vitaminPercent={vitaminCPercent} label={'vitaminC'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={riboflavin} vitaminPercent={riboflavinPercent} label={'riboflavin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={niacin} vitaminPercent={niacinPercent} label={'niacin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={vitaminB6} vitaminPercent={vitaminB6Percent} label={'vitaminB6'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={folateDFE} vitaminPercent={folateDFEPercent} label={'folateDFE'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={folateFood} vitaminPercent={folateFoodPercent} label={'folateFood'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={folicAcid} vitaminPercent={folicAcidPercent} label={'folicAcid'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={vitaminB12} vitaminPercent={vitaminB12Percent} label={'vitaminB12'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={vitaminD} vitaminPercent={vitaminDPercent} label={'vitaminD'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={vitaminE} vitaminPercent={vitaminEPercent} label={'vitaminE'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow vitamin={vitaminK} vitaminPercent={vitaminKPercent} label={'vitaminK'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+            </div>
         </div>
-    </div>
+    );
 
-    return <div className={styles.container} style={{gridArea: 'vitamins'}}>
-        <h3 className={styles.title}>Vitamins</h3>
-        <div className={styles.bar_chart}>
-            <BarColumn vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={vitaminC} vitaminPercent={vitaminCPercent} label={'vitaminC'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={riboflavin} vitaminPercent={riboflavinPercent} label={'riboflavin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={niacin} vitaminPercent={niacinPercent} label={'niacin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={vitaminB6} vitaminPercent={vitaminB6Percent} label={'vitaminB6'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={folateDFE} vitaminPercent={folateDFEPercent} label={'folateDFE'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={folateFood} vitaminPercent={folateFoodPercent} label={'folateFood'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={folicAcid} vitaminPercent={folicAcidPercent} label={'folicAcid'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={vitaminB12} vitaminPercent={vitaminB12Percent} label={'vitaminB12'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={vitaminD} vitaminPercent={vitaminDPercent} label={'vitaminD'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={vitaminE} vitaminPercent={vitaminEPercent} label={'vitaminE'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-            <BarColumn vitamin={vitaminK} vitaminPercent={vitaminKPercent} label={'vitaminK'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+    return (
+        <div className={styles.container} style={{gridArea: 'vitamins'}}>
+            <h3 className={styles.title}>Vitamins</h3>
+            <div className={styles.bar_chart}>
+                <BarColumn vitamin={vitaminA} vitaminPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={vitaminC} vitaminPercent={vitaminCPercent} label={'vitaminC'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={thiamin} vitaminPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={riboflavin} vitaminPercent={riboflavinPercent} label={'riboflavin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={niacin} vitaminPercent={niacinPercent} label={'niacin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={vitaminB6} vitaminPercent={vitaminB6Percent} label={'vitaminB6'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={folateDFE} vitaminPercent={folateDFEPercent} label={'folateDFE'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={folateFood} vitaminPercent={folateFoodPercent} label={'folateFood'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={folicAcid} vitaminPercent={folicAcidPercent} label={'folicAcid'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={vitaminB12} vitaminPercent={vitaminB12Percent} label={'vitaminB12'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={vitaminD} vitaminPercent={vitaminDPercent} label={'vitaminD'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={vitaminE} vitaminPercent={vitaminEPercent} label={'vitaminE'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn vitamin={vitaminK} vitaminPercent={vitaminKPercent} label={'vitaminK'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+            </div>
         </div>
-    </div>
+    );
 }
 
-export default VitaminsCard
+export default VitaminsCard;

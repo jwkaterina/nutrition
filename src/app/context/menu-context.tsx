@@ -27,9 +27,9 @@ export const CurrentMenuProvider = ({ children }: any) => {
         setCurrentMenu
     }), [currentMenu, setCurrentMenu]);
 
-  return (
-    <CurrentMenuContext.Provider value={contextValue}>
-        {children}
-    </CurrentMenuContext.Provider>
-  );
+    return (
+        <CurrentMenuContext.Provider value={contextValue}>
+            {children}
+        </CurrentMenuContext.Provider>
+    );
 }

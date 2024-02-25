@@ -1,5 +1,5 @@
-import styles from '../../analysis_cards/alanysis_card.module.css';
 import { MenuProp } from '@/app/types/types';
+import styles from '../../analysis_cards/alanysis_card.module.css';
 
 interface MenuHeaderCardProps {
     menu: MenuProp
@@ -7,9 +7,7 @@ interface MenuHeaderCardProps {
 
 const MenuHeaderCard = ({ menu }: MenuHeaderCardProps): JSX.Element => {
 
-    const style = {
-                gridTemplateColumns: '1fr'
-            }
+    const style = { gridTemplateColumns: '1fr' }
 
     return(
         <div className={styles.container} style={{gridArea: 'header'}}>
@@ -20,7 +18,7 @@ const MenuHeaderCard = ({ menu }: MenuHeaderCardProps): JSX.Element => {
                 <div className={styles.long_input} id="measure">{`1 serving - ${(menu.nutrients.totalWeight).toFixed(0)}g`}</div>
             </div>
         </div>
-    )
+    );
 }
 
 export default MenuHeaderCard;

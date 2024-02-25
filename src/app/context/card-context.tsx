@@ -22,5 +22,5 @@ export const CardOpenProvider = ({ children }: any) => {
         }}>
             {children}
         </CardOpenContext.Provider>
-    )
+    );
 }

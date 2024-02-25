@@ -1,4 +1,4 @@
-import styles from './utils.module.css'
+import styles from './utils.module.css';
 
 interface SmallCircleProps {
     percent: number,
@@ -16,7 +16,7 @@ const SmallCircle = ({ percent, color, text, heightWidth }: SmallCircleProps): J
                 {text}
             </p>
         </div>
-    )
+    );
 }
 
-export default SmallCircle
+export default SmallCircle;

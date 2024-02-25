@@ -1,7 +1,7 @@
-import styles from './alanysis_card.module.css'
-import { Nutrients, Nutrient } from '@/app/types/types';
 import Arc from './utils/arc';
 import SmallCircle from './utils/small_circle';
+import { Nutrients, Nutrient } from '@/app/types/types';
+import styles from './alanysis_card.module.css';
 
 interface FatsCardProps {
     content: Nutrients | null;
@@ -20,6 +20,7 @@ const FatsCard = ({ content }: FatsCardProps) => {
     monounsatfatPercent: number | null = null, 
     polyunsatfatPercent: number | null = null, 
     restPercent: number | null = null;
+
     if(totalFat && transFat) transfatPercent = transFat.quantity * 100 / totalFat.quantity;
     if(transFat && transFat.quantity == 0) transfatPercent = 0.1;
     if(totalFat && satFat) satfatPercent = satFat.quantity * 100 / totalFat.quantity;
@@ -36,6 +37,7 @@ const FatsCard = ({ content }: FatsCardProps) => {
     polyunsatDeg: number | null = null, 
     restDeg: number | null = null;
     transDeg = 0;
+
     if(transfatPercent ) satDeg = transfatPercent / 100 * 360;
     if(satfatPercent && transfatPercent) monounsatDeg = (satfatPercent + transfatPercent!) / 100 * 360;
     if(satfatPercent && monounsatfatPercent && transfatPercent) polyunsatDeg = (monounsatfatPercent + satfatPercent + transfatPercent) / 100 * 360;
@@ -45,7 +47,7 @@ const FatsCard = ({ content }: FatsCardProps) => {
     const strokeWidth: number = 15;
     const widthHeight: number = 2 * radius + 2 * strokeWidth;
 
-    if(!polyunsatfatPercent || !satfatPercent || !transfatPercent || !monounsatfatPercent || !restPercent) return <></>
+    if(!polyunsatfatPercent || !satfatPercent || !transfatPercent || !monounsatfatPercent || !restPercent) return <></>;
 
     return (
         <div className={styles.container} style={{gridArea: 'fats'}}>
@@ -67,7 +69,7 @@ const FatsCard = ({ content }: FatsCardProps) => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default FatsCard
+export default FatsCard;

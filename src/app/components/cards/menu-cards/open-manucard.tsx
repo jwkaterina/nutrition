@@ -1,13 +1,12 @@
-import styles from '../card.module.css'
-import { MenuProp, Nutrients, NutrientsProp } from '@/app/types/types'
-import MenuHeaderCard from './header-menucard'
-import DailyValueCard from '../../analysis_cards/dailyvalue_card'
-import CompositionCard from '../../analysis_cards/composition_card'
-import BigNutrientsCard from '../../analysis_cards/bignutrients_card'
-import VitaminsCard from '../../analysis_cards/vitamins_card'
-import MineralsCard from '../../analysis_cards/minerals_card'
-import FatsCard from '../../analysis_cards/fats_card'
-import { useState } from 'react'
+import BigNutrientsCard from '../../analysis_cards/bignutrients_card';
+import CompositionCard from '../../analysis_cards/composition_card';
+import DailyValueCard from '../../analysis_cards/dailyvalue_card';
+import FatsCard from '../../analysis_cards/fats_card';
+import MenuHeaderCard from './header-menucard';
+import MineralsCard from '../../analysis_cards/minerals_card';
+import VitaminsCard from '../../analysis_cards/vitamins_card';
+import { MenuProp } from '@/app/types/types';
+import styles from '../card.module.css';
 
 interface OpenMenuCardProps {
     menu: MenuProp
@@ -36,7 +35,7 @@ const OpenMenuCard  = ({ menu }: OpenMenuCardProps): JSX.Element => {
             {menu.nutrients && <MineralsCard content={menu.nutrients} />}
             {menu.nutrients && <FatsCard content={menu.nutrients} />}
         </div>
-    )
+    );
 }
 
-export default OpenMenuCard
+export default OpenMenuCard;

@@ -1,6 +1,6 @@
+import { useEffect, useRef } from 'react';
 import { Nutrient } from '@/app/types/types';
-import styles from './utils.module.css'
-import { useEffect, useRef } from 'react'
+import styles from './utils.module.css';
 
 interface HalfCircleProps {
     nutrient: Nutrient;
@@ -16,11 +16,11 @@ interface HalfCircleProps {
 
 const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, strokeWidth, centerX, centerY }: HalfCircleProps): JSX.Element => {
 
+    const arcRef = useRef<SVGCircleElement>(null);
+
     let unit: string = '';
     if(nutrient) unit = nutrient.unit;
     if(text === 'Calories') unit = '';
-
-    const arcRef = useRef<SVGCircleElement>(null);
     const circumreference: number = radius * 2 * Math.PI;
 
     useEffect(() => {
@@ -49,36 +49,36 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
         if(arc) {
             arcRef.current.animate(keyframes, options);
         }
-    }, [daily])
+    }, [daily]);
 
     const styleProgress = () => {
 
         return {
             strokeDasharray: circumreference,
             strokeDashoffset: circumreference,
-        }
+        };
     }
 
     const styleArc = () => {
 
         return {
             strokeDasharray: circumreference / 2,
-        }
+        };
     }
 
     const styleText = () => {
         if(text === 'Calories') {
             return {
                 fontSize: '1rem',
-            } 
+            }; 
         } else {
             return {
                 fontSize: '0.8rem',
-            }
+            };
         }
     }
 
-    if(!nutrient) return <></>
+    if(!nutrient) return <></>;
 
     const widthHeight = radius * 2 + strokeWidth * 2;
 
@@ -98,7 +98,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
                 </p>
             </div>
         </div>
-    )
+    );
 }
 
-export default HalfCircle
+export default HalfCircle;

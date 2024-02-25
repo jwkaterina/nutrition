@@ -38,6 +38,6 @@ export const SlideProvider = ({ children }: any) => {
         }}>
             {children}
         </SlideContext.Provider>
-    )
+    );
 }
 

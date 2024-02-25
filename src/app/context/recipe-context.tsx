@@ -29,9 +29,9 @@ export const CurrentRecipeProvider = ({ children }: any) => {
         setCurrentRecipe
     }), [currentRecipe, setCurrentRecipe]);
 
-  return (
-    <CurrentRecipeContext.Provider value={contextValue}>
-        {children}
-    </CurrentRecipeContext.Provider>
-  );
+    return (
+        <CurrentRecipeContext.Provider value={contextValue}>
+            {children}
+        </CurrentRecipeContext.Provider>
+    );
 }

@@ -1,19 +1,16 @@
-import Slide from './slide'
-import Button from '@/app/components/slider/button'
-import { LoadedRecipe } from '@/app/types/types'
-import RecipeCard from '../../cards/recipe-cards/recipe-card'
-import { useHttpClient } from '@/app/hooks/http-hook';
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react';
+import Button from '@/app/components/slider/button';
+import RecipeCard from '../../cards/recipe-cards/recipe-card';
+import Slide from './slide';
 import { AuthContext } from '@/app/context/auth-context';
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { LoadedRecipe } from '@/app/types/types';
 
-interface RecipeSlideProps {
-}
+const RecipeSlide = (): JSX.Element => {
 
-const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
-
+    const { token } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [recipeList, setRecipeList] = useState<JSX.Element[]>([]);
-    const { token } = useContext(AuthContext);
 
     useEffect(() => {
         if(!token) {
@@ -38,12 +35,12 @@ const RecipeSlide = ({ }: RecipeSlideProps): JSX.Element => {
         fetchRecipes();
     }, [token]);
 
-    return (<>
+    return (
          <Slide>
             {recipeList.length > 0 && recipeList}
             <Button search={'analysis/recipe-analysis'}/>
         </Slide>  
-    </>)
+    );
 }
 
-export default RecipeSlide
+export default RecipeSlide;
