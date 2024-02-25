@@ -6,17 +6,17 @@ const usersController = require('../db-controllers/users-controllers');
 const router = express.Router();
 
 router.post(
-  '/signup',
-  [
-    check('name')
-      .not()
-      .isEmpty(),
-    check('email')
-      .normalizeEmail()
-      .isEmail(),
-    check('password').isLength({ min: 5 })
-  ], 
-  usersController.signup
+    '/signup',
+    [
+        check('name')
+        .not()
+        .isEmpty(),
+        check('email')
+        .normalizeEmail()
+        .isEmail(),
+        check('password').isLength({ min: 5 })
+    ], 
+    usersController.signup
 );
 
 router.post('/login', usersController.login);

@@ -9,7 +9,7 @@ router.use(checkAuth);
 router.get('/', menuControllers.getMenus);
 
 router.post(
-  '/', menuControllers.createMenu
+    '/', menuControllers.createMenu
 );
 
 router.patch('/:pid', menuControllers.updateMenu);

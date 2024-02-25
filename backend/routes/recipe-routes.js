@@ -10,7 +10,7 @@ router.use(checkAuth);
 router.get('/', recipeControllers.getRecipes);
 
 router.post(
-  '/', fileUpload.single('image'), recipeControllers.createRecipe
+    '/', fileUpload.single('image'), recipeControllers.createRecipe
 );
 
 router.patch('/:pid', fileUpload.single('image'), recipeControllers.updateRecipe);

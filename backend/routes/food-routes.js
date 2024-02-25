@@ -9,7 +9,7 @@ router.use(checkAuth);
 router.get('/', foodControllers.getFoods);
 
 router.post(
-  '/', foodControllers.createFood
+    '/', foodControllers.createFood
 );
 
 router.delete('/:pid', foodControllers.deleteFood);
