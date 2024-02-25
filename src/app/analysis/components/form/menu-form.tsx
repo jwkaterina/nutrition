@@ -111,7 +111,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const fetchNutrients = async(ingredientsArray: string[]): Promise<Nutrients> => {
         try {
             const ingredientsContent: Nutrients = await sendRequest(
-                `http://localhost:5001/api/recipe`,
+                `/api/recipe`,
                 'POST',
                 JSON.stringify({
                     ingredients: ingredientsArray
@@ -133,7 +133,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const deleteMenu = async () => {
         try {
             await sendRequest(
-                `http://localhost:5001/menus/${currentMenu.id}`,
+                `/menus/${currentMenu.id}`,
                 'DELETE', null, {
                     Authorization: 'Bearer ' + token
                 }

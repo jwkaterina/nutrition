@@ -69,7 +69,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
 
         try {
             const recipeContent: Nutrients = await sendRequest(
-                `http://localhost:5001/api/recipe`,
+                `/api/recipe`,
                 'POST',
                 JSON.stringify({
                     ingredients: ingredientsArray
@@ -107,7 +107,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const deleteRecipe = async () => {
         try {
             await sendRequest(
-                `http://localhost:5001/recipes/${currentRecipe.id}`,
+                `/recipes/${currentRecipe.id}`,
                 'DELETE', null, {
                     Authorization: 'Bearer ' + token
                 }

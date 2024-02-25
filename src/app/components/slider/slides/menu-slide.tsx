@@ -21,7 +21,7 @@ const MenuSlide = (): JSX.Element => {
         const fetchMenus = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5001/menus`,'GET', null, {
+                    `/menus`,'GET', null, {
                         Authorization: 'Bearer ' + token
                       }
                 );

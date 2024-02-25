@@ -50,7 +50,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         }
         try {
             await sendRequest(
-                'http://localhost:5001/foods',
+                '/foods',
                 'POST',
                 JSON.stringify({food: Food}),
                 { 'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             formData.append('recipe', recipeString);
             formData.append('image', file);
             await sendRequest(
-                'http://localhost:5001/recipes',
+                '/recipes',
                 'POST',
                 formData, {
                     Authorization: 'Bearer ' + token
@@ -96,7 +96,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         }
         try {
             await sendRequest(
-                'http://localhost:5001/menus',
+                '/menus',
                 'POST',
                 JSON.stringify({menu: Menu}),
                 { 'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             formData.append('recipeString', recipeString);
             formData.append('image', file);
             await sendRequest(
-                `http://localhost:5001/recipes/${currentRecipe.id}`,
+                `/recipes/${currentRecipe.id}`,
                 'PATCH',
                 formData,
                 { Authorization: 'Bearer ' + token }
@@ -134,7 +134,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         const Menu: MenuProp | null = currentMenu!.menu;
         try {
             await sendRequest(
-                `http://localhost:5001/menus/${currentMenu.id}`,
+                `/menus/${currentMenu.id}`,
                 'PATCH',
                 JSON.stringify({
                 updatedMenu: Menu

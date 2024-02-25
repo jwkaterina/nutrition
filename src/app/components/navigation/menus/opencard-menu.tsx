@@ -29,7 +29,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const deleteFood = async () => {
         try {
             await sendRequest(
-                `http://localhost:5001/foods/${currentFood.id}`,
+                `/foods/${currentFood.id}`,
                 'DELETE', null, {
                     Authorization: 'Bearer ' + token
                 }

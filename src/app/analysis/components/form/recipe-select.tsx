@@ -26,7 +26,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
         const fetchRecipes = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5001/recipes`, 'GET', null, {
+                    `/recipes`, 'GET', null, {
                         Authorization: 'Bearer ' + token
                     }
                 );

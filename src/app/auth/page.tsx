@@ -35,7 +35,7 @@ const Auth = (): JSX.Element => {
                     password
                 })
                 const responseData = await sendRequest(
-                    'http://localhost:5001/users/login',
+                    '/users/login',
                     'POST',
                     body,
                     {
@@ -51,7 +51,7 @@ const Auth = (): JSX.Element => {
             const name: string = formName.value;
             try {
                 const responseData = await sendRequest(
-                    'http://localhost:5001/users/signup',
+                    '/users/signup',
                     'POST',
                     JSON.stringify({
                         name,

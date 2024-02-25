@@ -25,7 +25,7 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
         const fetchFood = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5001/foods`, 'GET', null, {
+                    `/foods`, 'GET', null, {
                         Authorization: 'Bearer ' + token
                       }
                 );

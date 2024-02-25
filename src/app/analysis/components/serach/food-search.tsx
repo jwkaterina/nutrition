@@ -66,7 +66,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		if(inputValue.length == 0) return;
 		try {
 			const query: string[] = await sendRequest(
-			`http://localhost:5001/api/query/${inputValue}`,
+			`/api/query/${inputValue}`,
 			'GET', null, {}, false
 			);
 			setShowOptions(true);
@@ -82,7 +82,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 
 		try {
 			const result = await sendRequest(
-				`http://localhost:5001/api/ingr/${option.innerText}`,
+				`/api/ingr/${option.innerText}`,
 				'GET'
 			);
 			if(result) setHintsArr(result.hints);
@@ -98,7 +98,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 			setShowOptions(false);
 			try {
 				const result = await sendRequest(
-					`http://localhost:5001/api/ingr/${input}`,
+					`/api/ingr/${input}`,
 					'GET'
 				);
 				if(result) setHintsArr(result.hints);    

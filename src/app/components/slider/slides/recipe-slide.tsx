@@ -20,13 +20,13 @@ const RecipeSlide = (): JSX.Element => {
         const fetchRecipes = async () => {
             try {
                 const responseData = await sendRequest(
-                    `http://localhost:5001/recipes`,'GET', null, {
+                    `/recipes`,'GET', null, {
                         Authorization: 'Bearer ' + token
                       }
                 );
                 const recipeList = responseData.recipe.map((recipe: LoadedRecipe, index: number) => {
                     return (
-                        <RecipeCard recipe={recipe.recipe} image={recipe.image && `http://localhost:5001/${recipe.image}`} index={index + 1} key={index + 1} id={recipe.id} open={false}/>
+                        <RecipeCard recipe={recipe.recipe} image={recipe.image && `/${recipe.image}`} index={index + 1} key={index + 1} id={recipe.id} open={false}/>
                     )
                 })
                 setRecipeList(recipeList);

@@ -33,7 +33,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
             for(let i = 0; i < food.measures.length; i++) {
                 try {
                     const nutrients: Nutrients = await sendRequest(
-                        `http://localhost:5001/api/nutrients`,
+                        `/api/nutrients`,
                         'POST',
                         JSON.stringify({
                             foodId: food.food.foodId, 

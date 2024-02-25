@@ -30,7 +30,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
             if(selectedOption === 'grams') {
                 try {
                     const nutrients: Nutrients = await sendRequest(
-                        `http://localhost:5001/api/nutrients`,
+                        `/api/nutrients`,
                         'POST',
                         JSON.stringify({
                             foodId: food.food.foodId, 
@@ -46,7 +46,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
             if(selectedOption === 'Value pre 100g') {
                 try {
                     const nutrients: Nutrients = await sendRequest(
-                        `http://localhost:5001/api/nutrients`,
+                        `/api/nutrients`,
                         'POST',
                         JSON.stringify({
                             foodId: food.food.foodId, 
@@ -61,7 +61,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
             }
             try {
                 const nutrients: Nutrients = await sendRequest(
-                    `http://localhost:5001/api/nutrients`,
+                    `/api/nutrients`,
                     'POST',
                     JSON.stringify({
                         foodId: food.food.foodId, 
