@@ -38,6 +38,7 @@
 .form {
     margin-top: 1rem;
     width: 80%;
+    position: relative;
 }
 
 .form .short_input, .form select, .form .long_input {
@@ -66,6 +67,37 @@
 
 .form input:focus, .form select:focus {
     outline: none;
+}
+
+.spinner {
+    position: absolute;
+    top: 4px;
+    right: 15px;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    z-index: 3;
+}
+  
+.spinner:after {
+    content: ' ';
+    display: block;
+    width: 23px;
+    height: 23px;
+    margin: 1px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    border-color: var(--primary-color) transparent var(--primary-color) transparent;
+    animation: spinner 1.2s linear infinite;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .title {

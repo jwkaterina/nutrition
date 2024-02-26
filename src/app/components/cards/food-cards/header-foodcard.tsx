@@ -19,6 +19,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
     const { sendRequest } = useHttpClient();
     const [measures, setMeasures] = useState<MeasureProp[]>([]);
     const [customWeight, setCustomWeight] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const { image } = food.food;
     const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
@@ -32,6 +33,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
         const fetchMeasuresWeight = async() => {
             for(let i = 0; i < food.measures.length; i++) {
                 try {
+                    setIsLoading(true);
                     const nutrients: Nutrients = await sendRequest(
                         `/api/nutrients`,
                         'POST',
@@ -43,8 +45,10 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
                         { 'Content-Type': 'application/json' },
                         false, false
                     );
+                    setIsLoading(false);
                     measureNutrients.push(nutrients);
                 } catch (err) {
+                    setIsLoading(false);
                     setMessage('Could not find measures');
                 }
             } 
@@ -126,6 +130,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
                     onChange={(e) => handleOptionChange(e)}>
                     {calculateOptions()}
                 </select>
+                {isLoading &&  <div className={styles.spinner}></div>}
             </div>
         </div>
     );
