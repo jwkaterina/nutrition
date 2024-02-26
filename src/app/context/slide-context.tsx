@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo } from "react";
+import { createContext, useState } from "react";
 import { SlideType } from '@/app/types/types';
 
 type ScrollBehavior = 'auto' | 'smooth';
@@ -27,17 +27,15 @@ export const SlideProvider = ({ children }: any) => {
     const [blockScroll, setBlockScroll] = useState<boolean>(false);
     const [scrollBehavior, setScrollBehavior] = useState<ScrollBehavior>('smooth');
 
-    const contextValue = useMemo(() => ({
-        slide,
-        setSlide,
-        blockScroll,
-        setBlockScroll,
-        scrollBehavior,
-        setScrollBehavior
-    }), [slide, setSlide, blockScroll, setBlockScroll, scrollBehavior, setScrollBehavior]);
-
     return (
-        <SlideContext.Provider value={contextValue}>
+        <SlideContext.Provider value={{
+            slide,
+            setSlide,
+            blockScroll,
+            setBlockScroll,
+            scrollBehavior,
+            setScrollBehavior
+        }}>
             {children}
         </SlideContext.Provider>
     );
