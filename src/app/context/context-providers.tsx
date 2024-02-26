@@ -9,15 +9,20 @@ import { StatusProvider } from './status-context'
 export default function ContextProviders({ children }: any) {
 
     return (
-        <>
-            <CurrentRecipeProvider/>
-            <CurrentMenuProvider/>
-            <CardOpenProvider/>
-            <CurrentFoodProvider/>
-            <SlideProvider/>
-            <AuthProvider/>
-            <StatusProvider/>
-            {children}             
-        </>
+        <CurrentRecipeProvider>
+            <CurrentMenuProvider>
+                <CardOpenProvider>
+                    <CurrentFoodProvider>
+                        <SlideProvider>
+                            <AuthProvider>
+                                <StatusProvider>
+                                    {children} 
+                                </StatusProvider>
+                            </AuthProvider>
+                        </SlideProvider>
+                    </CurrentFoodProvider>
+                </CardOpenProvider>
+            </CurrentMenuProvider>
+        </CurrentRecipeProvider>
     );
 }
