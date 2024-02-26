@@ -4,21 +4,21 @@ import styles from './utils.module.css';
 
 
 interface BarColumnProps {
-    vitamin: Nutrient,
-    vitaminPercent: Nutrient,
+    nutrient: Nutrient,
+    nutrientPercent: Nutrient,
     label: string,
     color: string,
     lightColor: string
 }
 
-const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarColumnProps): JSX.Element => {    
+const BarColumn = ({ nutrient, nutrientPercent, label, color, lightColor }: BarColumnProps): JSX.Element => {    
 
     const barRef = useRef<HTMLDivElement>(null);
 
     const barHeight: number = 100;
     let percentHeight: number = 0;
-    if(vitaminPercent && vitaminPercent.quantity < 100) percentHeight = vitaminPercent.quantity / 100 * barHeight;
-    if(vitaminPercent && vitaminPercent.quantity >= 100) percentHeight = barHeight;
+    if(nutrientPercent && nutrientPercent.quantity < 100) percentHeight = nutrientPercent.quantity / 100 * barHeight;
+    if(nutrientPercent && nutrientPercent.quantity >= 100) percentHeight = barHeight;
 
 
     useEffect(() => {
@@ -38,19 +38,19 @@ const BarColumn = ({ vitamin, vitaminPercent, label, color, lightColor }: BarCol
     }, [percentHeight]);
     
 
-    if(!vitamin) return <></>;
+    if(!nutrient) return <></>;
 
     return (
         <div className={styles.bar_column}>
             <div className={styles.bar_label}>
-                {vitaminPercent ? <span>{`${vitaminPercent.quantity.toFixed(1)}${vitaminPercent.unit}`}</span> : <span>0%</span>}
+                {nutrientPercent ? <span>{`${nutrientPercent.quantity.toFixed(1)}${nutrientPercent.unit}`}</span> : <span>0%</span>}
             </div>   
             <div className={styles.bar} style={{height: `${barHeight}px`, backgroundColor: lightColor}}>
                 <div className={styles.percent_bar} ref={barRef} style={{backgroundColor: color}}></div>
             </div>        
             <div className={styles.bar_label}>
                 <p>{label}</p>
-                <span>{`${vitamin.quantity.toFixed(1)}${vitamin.unit}`}</span>
+                <span>{`${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
             </div>                      
         </div>
     );

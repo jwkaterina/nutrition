@@ -4,14 +4,14 @@ import styles from './utils.module.css';
 
 
 interface CircleRowProps {
-    vitamin: Nutrient,
-    vitaminPercent: Nutrient,
+    nutrient: Nutrient,
+    nutrientPercent: Nutrient,
     label: string,
     color: string,
     lightColor: string
 }
 
-const CircleRow = ({ vitamin, vitaminPercent, label, color, lightColor }: CircleRowProps): JSX.Element => {
+const CircleRow = ({ nutrient, nutrientPercent, label, color, lightColor }: CircleRowProps): JSX.Element => {
 
     const arcRef = useRef<SVGCircleElement>(null);
 
@@ -27,10 +27,10 @@ const CircleRow = ({ vitamin, vitaminPercent, label, color, lightColor }: Circle
         };
 
         const progressPercent = (): number => {
-            if(!vitaminPercent || vitaminPercent.quantity == 0) {
+            if(!nutrientPercent || nutrientPercent.quantity == 0) {
                 return circumreference
-            } else if(vitaminPercent && vitaminPercent.quantity <=100 ) {
-                return circumreference - (vitaminPercent.quantity / 100 * circumreference) 
+            } else if(nutrientPercent && nutrientPercent.quantity <=100 ) {
+                return circumreference - (nutrientPercent.quantity / 100 * circumreference) 
             } else {
                 return 0
             }
@@ -44,7 +44,7 @@ const CircleRow = ({ vitamin, vitaminPercent, label, color, lightColor }: Circle
         if(arc) {
             arcRef.current.animate(keyframes, options);
         }
-    }, [vitaminPercent]);
+    }, [nutrientPercent]);
 
     const styleProgress = () => {
 
@@ -66,17 +66,17 @@ const CircleRow = ({ vitamin, vitaminPercent, label, color, lightColor }: Circle
     const centerY = radius + strokeWidth;
     const widthHeight = radius * 2 + strokeWidth * 2;
 
-    if(!vitamin) return <></>;
+    if(!nutrient) return <></>;
 
     return (
         <div className={styles.circle_row}>
             <p>{label}</p>
-            <span>{`${vitamin.quantity.toFixed(1)}${vitamin.unit}`}</span>
+            <span>{`${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
             <svg width={widthHeight} height={widthHeight}>
                 <circle  style={styleArc()}  cx={centerX} cy={centerY} r={radius} stroke={lightColor} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
                 <circle ref={arcRef} style={styleProgress()}  cx={centerX} cy={centerY} r={radius} stroke={color} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
             </svg>     
-            {vitaminPercent ? <span>{`${vitaminPercent.quantity.toFixed(0)}${vitaminPercent.unit}`}</span> : <span>0%</span>}                
+            {nutrientPercent ? <span>{`${nutrientPercent.quantity.toFixed(0)}${nutrientPercent.unit}`}</span> : <span>0%</span>}                
         </div>
     );
 }

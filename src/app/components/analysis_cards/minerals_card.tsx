@@ -1,4 +1,5 @@
 import BarColumn from './utils/bar_column';
+import CircleRow from './utils/circle_row';
 import { Nutrient, Nutrients } from '@/app/types/types';
 import styles from './alanysis_card.module.css';
 
@@ -7,6 +8,12 @@ interface MineralsCardProps {
 }
 
 const MineralsCard = ({ content }: MineralsCardProps) => {
+
+    let mediaQuery: MediaQueryList | null = null;
+
+    if(typeof window !== 'undefined') {
+        mediaQuery = window.matchMedia('(max-width: 500px)');
+    }
 
    const sodium: Nutrient = content!.totalNutrients.NA;
    const calcium: Nutrient = content!.totalNutrients.CA;
@@ -23,50 +30,66 @@ const MineralsCard = ({ content }: MineralsCardProps) => {
    const ironPercent: Nutrient = content!.totalDaily.FE;
    const zincPercent: Nutrient = content!.totalDaily.ZN;
    const phosphorusPercent: Nutrient = content!.totalDaily.P;
+
+   if(mediaQuery && (mediaQuery as MediaQueryList).matches) 
+   return (
+       <div className={styles.container} style={{gridArea: 'vitamins', height: '100%'}}>
+           <h3 className={styles.title}>Vitamins</h3>
+           <div>
+               <CircleRow nutrient={sodium} nutrientPercent={sodiumPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+               <CircleRow nutrient={calcium} nutrientPercent={calciumPercent} label={'vitaminC'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+               <CircleRow nutrient={magnesium} nutrientPercent={magnesiumPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
+               <CircleRow nutrient={potassium} nutrientPercent={potassiumPercent} label={'riboflavin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+               <CircleRow nutrient={iron} nutrientPercent={ironPercent} label={'niacin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+               <CircleRow nutrient={zinc} nutrientPercent={zincPercent} label={'vitaminB6'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+               <CircleRow nutrient={phosphorus} nutrientPercent={phosphorusPercent} label={'folateDFE'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+           </div>
+       </div>
+   );
  
     return (
         <div className={styles.container} style={{gridArea: 'minerals'}}>
             <h3 className={styles.title}>Minerals</h3>
             <div className={styles.bar_chart}>
                 <BarColumn 
-                    vitamin={sodium} 
-                    vitaminPercent={sodiumPercent} 
+                    nutrient={sodium} 
+                    nutrientPercent={sodiumPercent} 
                     label={'sodium'} 
                     color={'var(--primary-color)'} 
                     lightColor='var(--primary-light-color)'/>
                 <BarColumn 
-                    vitamin={calcium} 
-                    vitaminPercent={calciumPercent} 
+                    nutrient={calcium} 
+                    nutrientPercent={calciumPercent} 
                     label={'calcium'} 
                     color={'var(--primary-color)'} 
                     lightColor='var(--primary-light-color)'/>
                 <BarColumn 
-                    vitamin={magnesium} 
-                    vitaminPercent={magnesiumPercent} 
+                    nutrient={magnesium} 
+                    nutrientPercent={magnesiumPercent} 
                     label={'magnesium'} 
                     color={'var(--primary-color)'} 
                     lightColor='var(--primary-light-color)' />
                 <BarColumn 
-                    vitamin={potassium} 
-                    vitaminPercent={potassiumPercent} 
+                    nutrient={potassium} 
+                    nutrientPercent={potassiumPercent} 
                     label={'potassium'} 
                     color={'var(--primary-color)'} 
                     lightColor='var(--primary-light-color)' />
                 <BarColumn 
-                    vitamin={iron} 
-                    vitaminPercent={ironPercent} 
+                    nutrient={iron} 
+                    nutrientPercent={ironPercent} 
                     label={'iron'} 
                     color={'var(--primary-color)'} 
                     lightColor='var(--primary-light-color)' />
                 <BarColumn 
-                    vitamin={zinc} 
-                    vitaminPercent={zincPercent} 
+                    nutrient={zinc} 
+                    nutrientPercent={zincPercent} 
                     label={'zinc'} 
                     color={'var(--primary-color)'} 
                     lightColor='var(--primary-light-color)' />
                 <BarColumn 
-                    vitamin={phosphorus} 
-                    vitaminPercent={phosphorusPercent} 
+                    nutrient={phosphorus} 
+                    nutrientPercent={phosphorusPercent} 
                     label={'phosphorus'} 
                     color={'var(--primary-color)'} 
                     lightColor='var(--primary-light-color)' />
