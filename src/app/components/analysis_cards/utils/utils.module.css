@@ -79,6 +79,10 @@
     margin: 0;
 }
 
+.daily_container p, .daily_container span, .composition_cell p, .composition_cell span, .bar-row p, .bar-row span, .circle_row p, .circle_row span {
+    font-size: 0.8rem;
+}
+
 .bar_column p, .bar_column span {
     font-size: 0.6rem;
 }
