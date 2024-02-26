@@ -6,21 +6,21 @@ import { SlideContext } from '@/app/context/slide-context';
 const AuthMenu = (): JSX.Element => {
 
 	const router = useRouter();
-    const { setBlockScroll } = useContext(SlideContext);
+    const { setScrollBehavior } = useContext(SlideContext);
 
     const backHandler = () => {
-        setBlockScroll(true);
+        setScrollBehavior('auto');
 		router.back();
 		setTimeout(() => {
-			setBlockScroll(false);
+			setScrollBehavior('smooth');
 		}, 500);
     }
 
 	const homeHandler = () => {
-		setBlockScroll(true);
+		setScrollBehavior('auto');
 		router.push('/');
 		setTimeout(() => {
-			setBlockScroll(false);
+			setScrollBehavior('smooth');
 		}, 500);
 	}
 
