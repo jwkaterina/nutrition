@@ -8,6 +8,7 @@ const signup = async (req, res, next) => {
 
 const errors = validationResult(req);
 if (!errors.isEmpty()) {
+    console.error('Validation failed.');
     return next(
     new HttpError('Invalid inputs passed, please check your data.', 422)
     );
@@ -19,6 +20,7 @@ let existingUser
 try {
     existingUser = await User.findOne({ email: email })
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Signing up failed, please try again later.',
         500
@@ -38,6 +40,7 @@ let hashedPassword;
 try {
     hashedPassword = await bcrypt.hash(password, 12);
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not create user, please try again.',
         500
@@ -55,6 +58,7 @@ const createdUser = new User({
 try {
     await createdUser.save();
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Signing up failed, please try again.',
         500
@@ -70,6 +74,7 @@ try {
         { expiresIn: '1h' }
     );
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Signing up failed, please try again later.',
         500
@@ -90,7 +95,7 @@ let existingUser;
 try {
     existingUser = await User.findOne({ email: email })
 } catch (err) {
-    console.log(err);
+    console.error(err);
     const error = new HttpError(
         'Logging in failed, please try again later.',
         500
@@ -99,6 +104,7 @@ try {
 }
 
 if (!existingUser) {
+    console.error('Could not find user by email.');
     const error = new HttpError(
         'Invalid credentials, could not log you in.',
         401
@@ -110,6 +116,7 @@ let isValidPassword = false;
 try {
     isValidPassword = await bcrypt.compare(password, existingUser.password);
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not log you in, please check your credentials and try again.',
         500
@@ -119,7 +126,7 @@ try {
 
 if (!isValidPassword) {
     const error = new HttpError(
-        'Invalid credentials, could not log you in.',
+        'Invalid password, could not log you in.',
         401
     );
     return next(error);
@@ -133,7 +140,7 @@ try {
         { expiresIn: '1h' }
     );
 } catch (err) {
-    console.log(err);
+    console.error(err);
     const error = new HttpError(
         'Logging in failed, please try again later.',
         500

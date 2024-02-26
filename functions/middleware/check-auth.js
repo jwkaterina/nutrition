@@ -10,13 +10,14 @@ module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1]; // Authorization: 'Bearer TOKEN'
     if (!token) {
-        throw new Error('Authentication failed!');
+        throw new Error('Logging in failed, please try again later.');
     }
     const decodedToken = jwt.verify(token, 'supersecret_dont_share');
     req.userData = { userId: decodedToken.userId };
     next();
     } catch (err) {
-        const error = new HttpError('Authentication failed!', 401);
+        console.error(err);
+        const error = new HttpError('Logging in failed, please try again later.', 401);
         return next(error);
     }
 };

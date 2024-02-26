@@ -13,6 +13,7 @@ let userWithRecipe;
 try {
     userWithRecipe = await User.findById(userId).populate('recipes');
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not find recipe. Try again later.',
         500
@@ -21,6 +22,7 @@ try {
 }
 
 if (!userWithRecipe) {
+    console.error('Could not find user by id.');
     return next(
     new HttpError('Could not find recipe. Try again later.', 404)
     );
@@ -48,11 +50,13 @@ let user;
 try {
     user = await User.findById(req.userData.userId);
 } catch (err) {
+    console.error(err);
     const error = new HttpError('Could not add recipe to favorites. Try again later.', 500);
     return next(error);
 }
 
 if (!user) {
+    console.error('Could not find user by id.');
     const error = new HttpError('Could not add recipe to favorites. Try again later.', 404);
     return next(error);
 }
@@ -61,6 +65,7 @@ let existingRecipe
 try {
     existingRecipe = await Recipe.findOne({ "recipe.name": parsedRecipe.name, "creator": req.userData.userId});
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not add recipe to favorites. Try again later.',
         500
@@ -84,6 +89,7 @@ try {
     await user.save({ session: sess });
     await sess.commitTransaction();
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Creating recipe failed, please try again.Could not add recipe to favorites. Try again later.',
     );
@@ -104,6 +110,7 @@ let recipe;
 try {
     recipe = await Recipe.findById(recipeId,);
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not update recipe in favorites. Try again later.',
         500
@@ -112,11 +119,13 @@ try {
 }
 
 if (!recipe) {
+    console.error('Could not find recipe by id.');
     const error = new HttpError('Could not update recipe in favorites. Try again later.', 404);
     return next(error);
 }
 
 if (recipe.creator.toString() !== req.userData.userId) {
+    console.error('Not authorized.');
     const error = new HttpError('You are not allowed to edit this recipe.', 401);
     return next(error);
 }
@@ -133,6 +142,7 @@ if(undatedImage) {
 try {
     await recipe.save();
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not update recipe in favorites. Try again later.',
         500
@@ -150,6 +160,7 @@ let recipe;
 try {
     recipe = await Recipe.findById(recipeId).populate('creator');
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not delete recipe. Try again later.',
         500
@@ -158,11 +169,13 @@ try {
 }
 
 if (!recipe) {
+    console.error('Could not find recipe by id.');
     const error = new HttpError('Could not delete recipe. Try again later.', 404);
     return next(error);
 }
 
 if (recipe.creator.id !== req.userData.userId) {
+    console.error('Not authorized.');
     const error = new HttpError(
         'You are not allowed to delete this recipe.',
         401
@@ -180,6 +193,7 @@ try {
     await recipe.creator.save({ session: sess });
     await sess.commitTransaction();
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not delete recipe. Try again later.',
         500

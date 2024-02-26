@@ -11,6 +11,7 @@ let userWithMenu;
 try {
     userWithMenu = await User.findById(userId).populate('menus');
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not find menu. Try again later.',
         500
@@ -19,6 +20,7 @@ try {
 }
 
 if (!userWithMenu) {
+    console.error('Could not find menu by id.')
     return next(
     new HttpError('Could not find menu. Try again later.', 404)
     );
@@ -46,14 +48,14 @@ let user;
 try {
     user = await User.findById(req.userData.userId);
 } catch (err) {
-    console.log('could not find user');
+    console.error(err);
     const error = new HttpError('Could not add menu to favorites. Try again later.', 500);
     return next(error);
 }
 
 if (!user) {
+    console.error('Could not find user by id.');
     const error = new HttpError('Could not add menu to favorites. Try again later.', 404);
-    console.log(error);
     return next(error);
 }
 
@@ -61,7 +63,7 @@ let existingMenu
 try {
     existingMenu = await Menu.findOne({ "menu.name": menu.name, "creator": req.userData.userId})
 } catch (err) {
-    console.log('could not find menu');
+    console.error(err);
     const error = new HttpError(
     'Could not add menu to favorites. Try again later.',
     500
@@ -74,7 +76,6 @@ if (existingMenu) {
     'Menu with this name exists already.',
     422
     );
-    console.log(error);
     return next(error);
 }
 
@@ -86,7 +87,7 @@ try {
     await user.save({ session: sess });
     await sess.commitTransaction();
 } catch (err) {
-    console.log(err)
+    console.error(err);
     const error = new HttpError(
     'Could not add menu to favorites. Try again later.',
     500
@@ -106,10 +107,9 @@ console.log(updatedMenu);
 let menu;
 try {
     menu = await Menu.findById(menuId);
-    // console.log(menu);
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
-    console.log('could not find menu'),
     'Could not update menu in favorites. Try again later.',
     500
     );
@@ -117,11 +117,13 @@ try {
 }
 
 if (!menu) {
+    console.error('Could not find menu by id.');
     const error = new HttpError('Could not update menu in favorites. Try again later.', 404);
     return next(error);
 }
 
 if (menu.creator.toString() !== req.userData.userId) {
+    console.error('Not authorized.');
     const error = new HttpError('You are not allowed to edit this menu.', 401);
     return next(error);
 }
@@ -132,7 +134,7 @@ menu.menu = updatedMenu;
 try {
     await menu.save();
 } catch (err) {
-    console.log('could not save menu')
+    console.error(err);
     const error = new HttpError(
         'Could not update menu in favorites. Try again later.',
         500
@@ -150,6 +152,7 @@ let menu;
 try {
     menu = await Menu.findById(menuId).populate('creator');
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not delete menu. Try again later.',
         500
@@ -158,11 +161,13 @@ try {
 }
 
 if (!menu) {
+    console.error('Could not find menu by id.');
     const error = new HttpError('Could not delete menu. Try again later.', 404);
     return next(error);
 }
 
 if (menu.creator.id !== req.userData.userId) {
+    console.error('Not authorized');
     const error = new HttpError(
         'You are not allowed to delete this menu.',
         401
@@ -178,6 +183,7 @@ try {
     await menu.creator.save({ session: sess });
     await sess.commitTransaction();
 } catch (err) {
+    console.error(err);
     const error = new HttpError(
         'Could not delete menu. Try again later.',
         500

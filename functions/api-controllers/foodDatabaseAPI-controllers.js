@@ -43,9 +43,10 @@ const parseQuery = async (req, res, next) => {
         const response = await fetch(url, options);
         const result = await response.json();
         res.status(200).json(result);
-    } catch (error) {
-        console.error(error);
-        throw new HttpError('Could not find any results', 404);
+    } catch (err) {
+        console.error(err);
+        const error = HttpError('Could not find any results', 404);
+        return next(error);
     }
 }
 
@@ -74,9 +75,10 @@ const findNutrients = async (req, res, next) => {
         const response = await fetch(url, options);
         const result = await response.json();
         res.status(200).json(result);
-    } catch (error) {
-        console.error(error);
-        throw new HttpError('Could not fetch nutrients', 404);
+    } catch (err) {
+        console.error(err);
+        const error = new HttpError('Could not fetch nutrients', 404);
+        return next(error);
     }
 }
 
