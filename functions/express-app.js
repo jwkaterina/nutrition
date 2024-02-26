@@ -68,4 +68,6 @@ mongoose
         console.log(err);
     });
 
-exports.app = app;
+exports.expressApp = {
+    configured: app
+};
