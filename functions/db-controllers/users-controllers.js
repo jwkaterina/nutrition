@@ -90,7 +90,7 @@ let existingUser;
 try {
     existingUser = await User.findOne({ email: email })
 } catch (err) {
-    console.log('Didnt find user');
+    console.log(err);
     const error = new HttpError(
         'Logging in failed, please try again later.',
         500
@@ -133,7 +133,7 @@ try {
         { expiresIn: '1h' }
     );
 } catch (err) {
-    console.log('Token is not found');
+    console.log(err);
     const error = new HttpError(
         'Logging in failed, please try again later.',
         500

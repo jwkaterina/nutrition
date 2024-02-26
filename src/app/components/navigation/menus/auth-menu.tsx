@@ -16,12 +16,20 @@ const AuthMenu = (): JSX.Element => {
 		}, 500);
     }
 
+	const homeHandler = () => {
+		setBlockScroll(true);
+		router.push('/');
+		setTimeout(() => {
+			setBlockScroll(false);
+		}, 500);
+	}
+
 	return (
 		<Menu 
 		   leftText="Back" 
-		   rightText= 'Auhtentication'
+		   rightText= 'Home'
 		   onLeftclick={backHandler} 
-		   onRightclick={() => {}}  
+		   onRightclick={homeHandler}  
 		/>
 	);
 }

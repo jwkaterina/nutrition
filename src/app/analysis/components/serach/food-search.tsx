@@ -121,7 +121,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	}
 
     const style = () => {
-        if(cardOpen == CardState.OPENING) {
+        if(cardOpen == CardState.OPEN) {
             return {overflow: 'hidden'};
         } else {
             return {overflow: 'auto'};
