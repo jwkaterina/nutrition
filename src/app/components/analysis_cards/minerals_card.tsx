@@ -31,6 +31,13 @@ const MineralsCard = ({ content }: MineralsCardProps) => {
    const zincPercent: Nutrient = content!.totalDaily.ZN;
    const phosphorusPercent: Nutrient = content!.totalDaily.P;
 
+   if(!sodium && !calcium && !magnesium && !potassium && !iron && !zinc && !phosphorus) return (
+        <div className={styles.container} style={{gridArea: 'minerals', height: '100%'}}>
+            <h3 className={styles.title}>Minerals</h3>
+            <div className={styles.info}>No information available.</div>
+        </div>
+   )
+
    if(mediaQuery && (mediaQuery as MediaQueryList).matches) 
    return (
        <div className={styles.container} style={{gridArea: 'minerals', height: '100%'}}>

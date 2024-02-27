@@ -79,7 +79,7 @@
     margin: 0;
 }
 
-.daily_container p, .daily_container span, .composition_cell p, .composition_cell span, .bar-row p, .bar-row span, .circle_row p, .circle_row span {
+.daily_container p, .daily_container span, .composition_cell p, .composition_cell span, .bar_row p, .bar_row span, .circle_row p, .circle_row span {
     font-size: 0.8rem;
 }
 

@@ -42,6 +42,13 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
     const vitaminDPercent: Nutrient = content!.totalDaily.VITD;
     const vitaminEPercent: Nutrient = content!.totalDaily.TOCPHA;
     const vitaminKPercent: Nutrient = content!.totalDaily.VITK1;
+
+    if(!vitaminA && !vitaminC && !thiamin && !riboflavin && !niacin && !vitaminB6 && !folateDFE && !folateFood && !folicAcid && !vitaminB12 && !vitaminD && !vitaminE && !vitaminK) return (
+        <div className={styles.container} style={{gridArea: 'vitamins', height: '100%'}}>
+            <h3 className={styles.title}>Vitamins</h3>
+            <div className={styles.info}>No information available.</div>
+        </div>
+   )
   
     if(mediaQuery && (mediaQuery as MediaQueryList).matches) 
     return (

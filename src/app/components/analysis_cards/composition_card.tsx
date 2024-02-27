@@ -35,7 +35,12 @@ const CompositionCard = ({ protein, carbs, fat }: CompositionCardProps): JSX.Ele
     const strokeWidth: number = 20;
     const widthHeight: number = 2 * radius + 2 * strokeWidth;
     
-    if(!waterPercent || !proteinPercent || !carbsPercent || !fatPercent) return <></>;
+    if(!waterPercent || !proteinPercent || !carbsPercent || !fatPercent) return (
+        <div className={styles.container} style={{gridArea: 'composition'}}>
+            <h3 className={styles.title}>Composition</h3>
+            <div className={styles.info}>No information available.</div>
+        </div>
+    );
 
     return (
         <div className={styles.container} style={{gridArea: 'composition'}}>

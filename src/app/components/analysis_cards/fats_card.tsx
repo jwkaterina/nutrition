@@ -47,7 +47,12 @@ const FatsCard = ({ content }: FatsCardProps) => {
     const strokeWidth: number = 15;
     const widthHeight: number = 2 * radius + 2 * strokeWidth;
 
-    if(!polyunsatfatPercent || !satfatPercent || !transfatPercent || !monounsatfatPercent || !restPercent) return <></>;
+    if(!polyunsatfatPercent || !satfatPercent || !transfatPercent || !monounsatfatPercent || !restPercent) return (
+        <div className={styles.container} style={{gridArea: 'fats'}}>
+            <h3  className={styles.title}>Fatty acids</h3>
+            <div className={styles.info}>No information available.</div>
+        </div>
+    );
 
     return (
         <div className={styles.container} style={{gridArea: 'fats'}}>

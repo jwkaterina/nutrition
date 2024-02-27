@@ -152,9 +152,15 @@
 
 .container p {
     color: var(--gray-darker);
+    
 }
 
 .container span {
+    color: var(--gray);
+}
+
+.info {
+    font-size: 0.8rem;
     color: var(--gray);
 }
 
