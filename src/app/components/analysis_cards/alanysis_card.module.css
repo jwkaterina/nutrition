@@ -171,6 +171,11 @@
 }
 
 @media (max-width: 500px) {
+
+    .container {
+        height: 100%;
+    }
+    
     .fats_grid {
         justify-items: normal;
     }
