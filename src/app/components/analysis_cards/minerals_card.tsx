@@ -36,13 +36,13 @@ const MineralsCard = ({ content }: MineralsCardProps) => {
        <div className={styles.container} style={{gridArea: 'minerals', height: '100%'}}>
            <h3 className={styles.title}>Minerals</h3>
            <div>
-               <CircleRow nutrient={sodium} nutrientPercent={sodiumPercent} label={'sodium'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-               <CircleRow nutrient={calcium} nutrientPercent={calciumPercent} label={'calcium'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-               <CircleRow nutrient={magnesium} nutrientPercent={magnesiumPercent} label={'magnesium'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
-               <CircleRow nutrient={potassium} nutrientPercent={potassiumPercent} label={'potassium'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-               <CircleRow nutrient={iron} nutrientPercent={ironPercent} label={'iron'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-               <CircleRow nutrient={zinc} nutrientPercent={zincPercent} label={'zinc'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-               <CircleRow nutrient={phosphorus} nutrientPercent={phosphorusPercent} label={'phosphorus'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
+               <CircleRow nutrient={sodium} nutrientPercent={sodiumPercent} label={'sodium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
+               <CircleRow nutrient={calcium} nutrientPercent={calciumPercent} label={'calcium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
+               <CircleRow nutrient={magnesium} nutrientPercent={magnesiumPercent} label={'magnesium'} color={'var(--secondary-color-color)'} lightColor='var(--primary-light-color)'/>
+               <CircleRow nutrient={potassium} nutrientPercent={potassiumPercent} label={'potassium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
+               <CircleRow nutrient={iron} nutrientPercent={ironPercent} label={'iron'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
+               <CircleRow nutrient={zinc} nutrientPercent={zincPercent} label={'zinc'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
+               <CircleRow nutrient={phosphorus} nutrientPercent={phosphorusPercent} label={'phosphorus'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
            </div>
        </div>
    );
