@@ -20,6 +20,13 @@ const BigNutrientsCard = ({ content }: BigNutrientsCardProps): JSX.Element => {
     const dailySugar: Nutrient = content!.totalDaily.SUGAR;
     const dailySodium: Nutrient = content!.totalDaily.NA;
 
+    if(!satFat && !cholesterol && !fiber && !sugar && !sodium) return (
+        <div className={styles.container} style={{gridArea: 'bigNutrients'}}>
+            <h3 className={styles.title}>Big Nutrients</h3>
+            <div className={styles.infl}>No information available.</div>
+        </div>
+    )
+
     return (
         <div className={styles.container} style={{gridArea: 'bigNutrients'}}>
             <h3 className={styles.title}>Big Nutrients</h3>
