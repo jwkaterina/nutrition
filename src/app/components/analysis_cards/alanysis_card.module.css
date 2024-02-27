@@ -49,7 +49,8 @@
     border: 1px solid var(--primary-color);
     border-radius: 0.2rem;
     cursor: pointer;
-    padding: 0.7rem;
+    height: 2.4rem;
+    text-indent: 15px;
 }
 
 .form select, .form .long_input {
