@@ -45,7 +45,7 @@ const parseQuery = async (req, res, next) => {
         res.status(200).json(result);
     } catch (err) {
         console.error(err);
-        const error = HttpError('Could not find any results', 404);
+        const error = new HttpError('Could not find any results', 404);
         return next(error);
     }
 }
@@ -77,7 +77,7 @@ const findNutrients = async (req, res, next) => {
         res.status(200).json(result);
     } catch (err) {
         console.error(err);
-        const error = new HttpError('Could not fetch nutrients', 404);
+        const error = new HttpError('Could analyze food, wait 1 munit and try again', 404);
         return next(error);
     }
 }

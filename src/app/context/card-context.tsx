@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useMemo } from "react";
 import { CardState } from "../types/types";
 
 interface CardContextProps {
@@ -15,11 +15,14 @@ export const CardOpenProvider = ({ children }: any) => {
 
     const [cardOpen, setCardOpen] = useState<CardState>(CardState.CLOSED);
 
-    return (
-        <CardOpenContext.Provider value={{
+    const contextValue = useMemo(() => ({
             cardOpen,
             setCardOpen
-        }}>
+        }), [cardOpen, setCardOpen]
+    )
+
+    return (
+        <CardOpenContext.Provider value={contextValue}>
             {children}
         </CardOpenContext.Provider>
     );
