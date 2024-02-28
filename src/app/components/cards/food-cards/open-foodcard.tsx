@@ -61,9 +61,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                     );
                     setContent(nutrients);
                     return;
-                } catch (err) {
-                    console.log(err);
-                }
+                } catch (err) {}
             }
             try {
                 const nutrients: Nutrients = await sendRequest(
@@ -88,7 +86,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
         setCardOpen(CardState.CLOSED);
         console.error('Too many request');
         setStatus(StatusType.ERROR);
-        setMessage('Could not analyse food, wait 1 minut and try again.');
+        setMessage('Could not analyse food, wait 1 minute and try again.');
         return <></>;
     }
 

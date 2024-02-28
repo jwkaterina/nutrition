@@ -77,7 +77,7 @@ const findNutrients = async (req, res, next) => {
         res.status(200).json(result);
     } catch (err) {
         console.error(err);
-        const error = new HttpError('Could analyze food, wait 1 munit and try again', 404);
+        const error = new HttpError('Could not analyse food, wait 1 munite and try again', 404);
         return next(error);
     }
 }
