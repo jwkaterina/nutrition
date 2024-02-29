@@ -27,7 +27,7 @@ const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
                 const responseData = await sendRequest(
                     `/foods`, 'GET', null, {
                         Authorization: 'Bearer ' + token
-                      }
+                    }, true, false
                 );
                 const foodList = responseData.foods.map((food: LoadedFood, index: number) => {
                     return (

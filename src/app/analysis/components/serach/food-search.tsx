@@ -67,11 +67,13 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		try {
 			const query: string[] = await sendRequest(
 			`/api/query/${inputValue}`,
-			'GET', null, {}, false
+			'GET', null, {}, false, false
 			);
 			setShowOptions(true);
 			setQueryOptions(query);
-		} catch (err) {}
+		} catch (err) {
+			setMessage(null);
+		}
 	}
 
 	const handleOptionClick = async(option: HTMLLIElement) => {
@@ -83,7 +85,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		try {
 			const result = await sendRequest(
 				`/api/ingr/${option.innerText}`,
-				'GET'
+				'GET', null, {}, true, false
 			);
 			if(result) setHintsArr(result.hints);
 			if(result.hints.length == 0) {
@@ -99,7 +101,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 			try {
 				const result = await sendRequest(
 					`/api/ingr/${input}`,
-					'GET'
+					'GET', null, {}, true, false
 				);
 				if(result) setHintsArr(result.hints);    
 				if(result.hints.length == 0) {

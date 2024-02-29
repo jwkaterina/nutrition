@@ -22,7 +22,7 @@ const RecipeSlide = (): JSX.Element => {
                 const responseData = await sendRequest(
                     `/recipes`,'GET', null, {
                         Authorization: 'Bearer ' + token
-                      }
+                    }, true, false
                 );
                 const recipeList = responseData.recipe.map((recipe: LoadedRecipe, index: number) => {
                     return (

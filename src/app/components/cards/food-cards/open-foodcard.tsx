@@ -40,7 +40,8 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                             measure: gramUri, 
                             quantity: quantity
                         }),
-                        { 'Content-Type': 'application/json' }
+                        { 'Content-Type': 'application/json' },
+                        true, false
                     );
                     setContent(nutrients);
                     return;
@@ -72,7 +73,8 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                         measure: measureUri, 
                         quantity: quantity
                     }),
-                    { 'Content-Type': 'application/json' }
+                    { 'Content-Type': 'application/json' },
+                    true, false
                 );
                 setContent(nutrients);
                 return;

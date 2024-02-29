@@ -23,7 +23,7 @@ const MenuSlide = (): JSX.Element => {
                 const responseData = await sendRequest(
                     `/menus`,'GET', null, {
                         Authorization: 'Bearer ' + token
-                      }
+                    }, true, false
                 );
                 const menuList = responseData.menus.map((menu: LoadedMenu, index: number) => {
                     return (
