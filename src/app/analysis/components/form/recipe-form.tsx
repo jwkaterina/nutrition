@@ -74,7 +74,8 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                 JSON.stringify({
                     ingredients: ingredientsArray
                 }),
-                { 'Content-Type': 'application/json' }
+                { 'Content-Type': 'application/json' },
+                true, false
             );
        
             const nutrients: Nutrients = RecipeNutrientsCalculator({

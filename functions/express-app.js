@@ -40,7 +40,7 @@ app.use('/menus', menuRoutes);
 
 app.use((req, res, next) => {
     console.error('Could not find this route.')
-    const error = new HttpError('Could not find this route.', 404);
+    const error = new HttpError('Oops, something went wrong.', 404);
     throw error;
 });
 
