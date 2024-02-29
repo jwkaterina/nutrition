@@ -47,6 +47,7 @@
     flex-direction: column;
     width: 100%;
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .form_group label, .select_group label, .number_group label{

@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import SmallSpinner from '../../utilities/loading/small-spinner';
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { Food, MeasureProp, Nutrients } from '@/app/types/types';
@@ -130,7 +131,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
                     onChange={(e) => handleOptionChange(e)}>
                     {calculateOptions()}
                 </select>
-                {isLoading &&  <div className={styles.spinner}></div>}
+                {isLoading &&  <SmallSpinner/>}
             </div>
         </div>
     );
