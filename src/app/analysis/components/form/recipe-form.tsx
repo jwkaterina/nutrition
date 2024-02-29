@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState, useRef } from 'react';
 import { useRouter} from 'next/navigation';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
-import { RecipeNutrientsCalculator } from './nutrients-calculator';
+import { RecipeNutrientsCalculator } from './utils/nutrients-calculator';
 import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
