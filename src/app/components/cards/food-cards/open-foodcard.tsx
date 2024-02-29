@@ -39,7 +39,7 @@ const OpenFoodCard  = ({ food, initialNutrients }: OpenFoodCardProps): JSX.Eleme
                             quantity: quantity
                         }),
                         { 'Content-Type': 'application/json' },
-                        true, false
+                        false, false
                     );
                     setContent(nutrients);
                     return;
@@ -58,7 +58,7 @@ const OpenFoodCard  = ({ food, initialNutrients }: OpenFoodCardProps): JSX.Eleme
                             quantity: 100
                         }),
                         { 'Content-Type': 'application/json' },
-                        true, false
+                        false, false
                     );
                     setContent(nutrients);
                     return;
@@ -76,7 +76,7 @@ const OpenFoodCard  = ({ food, initialNutrients }: OpenFoodCardProps): JSX.Eleme
                         quantity: quantity
                     }),
                     { 'Content-Type': 'application/json' },
-                    true, false
+                    false, false
                 );
                 setContent(nutrients);
                 return;
