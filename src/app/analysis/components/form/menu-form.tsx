@@ -176,8 +176,13 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             );
             setIsLoading(false);
             const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
-            setLoadedRecipes(recipes);
-            setInputsnumber(inputsnumber + 1);
+            if(recipes.length == 0) {
+                setStatus(StatusType.ERROR);
+                setMessage('You do not have any favorite recipes.');
+            } else {
+                setLoadedRecipes(recipes);
+                setInputsnumber(inputsnumber + 1);
+            }
         } catch (err) {
             setIsLoading(false);
             setMessage('Could not find recipes');
