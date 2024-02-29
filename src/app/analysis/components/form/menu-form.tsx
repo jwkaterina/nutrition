@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter} from 'next/navigation';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import RecipeSelect from './recipe-select';
+import SmallSpinner from '@/app/components/utilities/loading/small-spinner';
+import removeID from './removeID';
 import { MenuNutrientsCalculator, RecipeNutrientsCalculator } from './nutrients-calculator';
 import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
@@ -9,7 +11,7 @@ import { CurrentMenuContext } from '@/app/context/menu-context';
 import { SlideContext } from "@/app/context/slide-context";
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { CardState, Nutrients, RecipeWithServings, AnalysisMode, StatusType } from '@/app/types/types';
+import { CardState, Nutrients, RecipeWithServings, AnalysisMode, StatusType, LoadedRecipe } from '@/app/types/types';
 import styles from './form.module.css';
 
 interface MenuFormProps {
@@ -27,8 +29,10 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const {sendRequest} = useHttpClient();
     const [name, setName] = useState<string>('');
     const [ingredientsString, setIngredientsString] = useState<string>('');
-    const [recipes, setRecipes] = useState<RecipeWithServings[]>([]);
+    const [currentRecipes, setCurrentRecipes] = useState<RecipeWithServings[]>([]);
+    const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
     const [inputsnumber, setInputsnumber] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const router = useRouter();
 
@@ -44,7 +48,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         setIngredientsString('');
         setClearSearch(false);
         setInputsnumber(0);
-        setRecipes([]);
+        setCurrentRecipes([]);
     }, [searchCleared]);
 
     useEffect(() => {
@@ -52,7 +56,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             setName(currentMenu.menu.name);
             setIngredientsString(currentMenu.menu.ingredients.join('\n'));
             setInputsnumber(currentMenu.menu.recipes.length);
-            setRecipes(currentMenu.menu.recipes);
+            setCurrentRecipes(currentMenu.menu.recipes);
         }
     }, [currentMenu]);
 
@@ -71,7 +75,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                 name,
                 nutrients: nutrients,
                 ingredients: ingredientsArray,
-                recipes: recipes
+                recipes: currentRecipes
             };
             setCardOpen(CardState.OPEN);
             setCurrentMenu({
@@ -85,7 +89,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     }
 
     const calculateNutrients = async (ingredientsArray: string[]): Promise<Nutrients | null> => {
-        const recipesArr = recipes.map((recipe) => { 
+        const recipesArr = currentRecipes.map((recipe) => { 
             return {
                 nutrients: recipe.selectedRecipe.nutrients,
                 selectedServings: recipe.selectedServings
@@ -116,7 +120,8 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                 JSON.stringify({
                     ingredients: ingredientsArray
                 }),
-                { 'Content-Type': 'application/json' }
+                { 'Content-Type': 'application/json' },
+                true, false
             );
             const ingredientsNutrients: Nutrients = RecipeNutrientsCalculator({
                 nutrients: ingredientsContent, 
@@ -156,13 +161,27 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         setIngredientsString(e.currentTarget.value);
     }
 
-    const handleAddRecipe = () => {
+    const handleAddRecipe = async() => {
         if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You need to be logged in to add a recipe');
             return;
         }
-        setInputsnumber(inputsnumber + 1);
+        try {
+            setIsLoading(true);
+            const responseData = await sendRequest(
+                `/recipes`, 'GET', null, {
+                    Authorization: 'Bearer ' + token
+                }, false, false
+            );
+            setIsLoading(false);
+            const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
+            setLoadedRecipes(recipes);
+            setInputsnumber(inputsnumber + 1);
+        } catch (err) {
+            setIsLoading(false);
+            setMessage('Could not find recipes');
+        }
     }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
@@ -186,9 +205,10 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         <textarea id="menu-ingredients" name="menu-ingredients"
                         placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredientsString} onInput={e => handleIngredientsInput(e)}/>
                     </div>
-                    <RecipeSelect inputs={inputsnumber} setRecipes={setRecipes} recipes={recipes}/>
+                    <RecipeSelect inputs={inputsnumber} setCurrentRecipes={setCurrentRecipes} currentRecipes={currentRecipes} loadedRecipes={loadedRecipes}/>
                     <div className={styles.form_group}>
                         <button type="button" className={styles.add_button} onClick={handleAddRecipe}>Add Recipe</button>
+                        {isLoading && <SmallSpinner/>}
                     </div>
                     <div className={styles.form_group}>
                         <button type="submit">Analyze</button>

@@ -1,62 +1,35 @@
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '@/app/context/auth-context';
-import { StatusContext } from '@/app/context/status-context';
-import { useHttpClient } from '@/app/hooks/http-hook';
-import { LoadedRecipe, RecipeWithServings, NutrientsProp } from '@/app/types/types';
+import { useEffect } from 'react';
+import { LoadedRecipe, RecipeWithServings } from '@/app/types/types';
 
 import styles from './form.module.css';
 
 interface RecipeSelectProps {
     inputs: number,
-    setRecipes: (recipes: RecipeWithServings[]) => void,
-    recipes: RecipeWithServings[]
+    setCurrentRecipes: (recipes: RecipeWithServings[]) => void,
+    currentRecipes: RecipeWithServings[],
+    loadedRecipes: LoadedRecipe[]
 }
 
-const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
-
-    const { token } = useContext(AuthContext);
-    const { setMessage } = useContext(StatusContext);
-    const { sendRequest } = useHttpClient();
-    const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
-
-    useEffect(() => {
-        if(!token) {
-            return;
-        }
-        const fetchRecipes = async () => {
-            try {
-                const responseData = await sendRequest(
-                    `/recipes`, 'GET', null, {
-                        Authorization: 'Bearer ' + token
-                    }
-                );
-                const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
-                setLoadedRecipes(recipes);
-            } catch (err) {
-                setMessage('Could not find recipes');
-            }
-        }
-        fetchRecipes();
-    }, []);
+const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes }: RecipeSelectProps) => {
 
     useEffect(() => {
         if (loadedRecipes && loadedRecipes.length > 0) {
-            if (inputs > recipes.length) {
-                const newRecipes: RecipeWithServings[] = Array(inputs - recipes.length).fill({
+            if (inputs > currentRecipes.length) {
+                const newRecipes: RecipeWithServings[] = Array(inputs - currentRecipes.length).fill({
                     selectedRecipe: loadedRecipes[0].recipe,
                     selectedServings: 1
                 });
-                const newRecipesArray: RecipeWithServings[] = [...recipes, ...newRecipes];
-                setRecipes(newRecipesArray);
+                const newRecipesArray: RecipeWithServings[] = [...currentRecipes, ...newRecipes];
+                setCurrentRecipes(newRecipesArray);
             }
         }
-    }, [inputs, loadedRecipes, recipes.length]);
+    }, [inputs, loadedRecipes, currentRecipes.length]);
 
     const SelectInputs = () => {
 
         const handleInputChange = (index: number, id: string) => {
             const newRecipe = loadedRecipes.find(recipe => recipe.id === id)!.recipe;
-            setRecipes(recipes.map((recipe, i) => i === index ? {
+            setCurrentRecipes(currentRecipes.map((recipe, i) => i === index ? {
                 selectedRecipe: newRecipe,
                 selectedServings: recipe.selectedServings
             } : recipe));
@@ -70,14 +43,14 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
                 );
             });
             selectInputs.push(
-            <select 
-                name="recipe"
-                id="recipe" 
-                key={i} 
-                value={recipes[i] && recipes[i].selectedRecipe.name} 
-                onChange={(e) => handleInputChange(i, e.target.options[e.target.selectedIndex].id)}
-            >{options}
-            </select>);
+                <select 
+                    name="recipe"
+                    id="recipe" 
+                    key={i} 
+                    value={currentRecipes[i] && currentRecipes[i].selectedRecipe.name} 
+                    onChange={(e) => handleInputChange(i, e.target.options[e.target.selectedIndex].id)}
+                >{options}
+                </select>);
         };
         return selectInputs;
     }
@@ -85,7 +58,7 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
     const NumberInputs = () => {
  
         const handleInputChange = (index: number, newValue: number) => {
-            setRecipes(recipes.map((recipe, i) => i === index ? {
+            setCurrentRecipes(currentRecipes.map((recipe, i) => i === index ? {
                 selectedRecipe: recipe.selectedRecipe,
                 selectedServings: newValue
             } : recipe));
@@ -93,44 +66,9 @@ const RecipeSelect = ({ inputs, recipes, setRecipes }: RecipeSelectProps) => {
 
         let numberInputs = [];
         for(let i = 0; i < inputs; i++) {
-            numberInputs.push( <input type="number" id="servings" name="servings" value={recipes[i] ? recipes[i].selectedServings : 1} required min={1} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
+            numberInputs.push( <input type="number" id="servings" name="servings" value={currentRecipes[i] ? currentRecipes[i].selectedServings : 1} required min={1} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
         }
         return numberInputs;
-    }
-
-    const removeID = (recipe: LoadedRecipe) => {
-        const newTotalNutrients: NutrientsProp = Object.fromEntries(
-            Object.entries(recipe.recipe.nutrients.totalNutrients)
-                .filter(([key]) => key !== 'id' && key !== '_id')
-                .map(([key, value]) => [key, {
-                    label: value.label,
-                    quantity: value.quantity,
-                    unit: value.unit
-                }])
-        );
-        const newTotalDaily: NutrientsProp = Object.fromEntries(
-            Object.entries(recipe.recipe.nutrients.totalDaily)
-                .filter(([key]) => key !== 'id' && key !== '_id')
-                .map(([key, value]) => [key, {
-                    label: value.label,
-                    quantity: value.quantity,
-                    unit: value.unit
-                }])
-        );
-        return {
-            id: recipe.id,
-            recipe: {
-                name: recipe.recipe.name,
-                ingredients: recipe.recipe.ingredients,
-                nutrients: {
-                    calories: recipe.recipe.nutrients.calories,
-                    totalNutrients: newTotalNutrients,
-                    totalDaily: newTotalDaily,
-                    totalWeight: recipe.recipe.nutrients.totalWeight
-                },
-                servings: recipe.recipe.servings
-            }
-        };
     }
 
     return (
