@@ -22,6 +22,21 @@ const Toast = () => {
     });
 
     useEffect(() => {
+        const removeMessage = () => {
+            setOpen(false);
+            setTimeout(() => {
+                setMessage(null);
+            }, 500);
+        };
+		if(open) {
+            document.addEventListener("click", removeMessage);
+            return () => {
+                document.removeEventListener("click", removeMessage);
+            }
+        }
+	}, [open]);
+
+    useEffect(() => {
         clearTimeout(openTimeout!);
         clearTimeout(messageTimeout!);
         progress?.cancel();
