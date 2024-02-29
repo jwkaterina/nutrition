@@ -11,10 +11,11 @@ interface FoodHeaderCardProps {
     setOption: (option: string) => void,
     setMeasure: (measure: string) => void,
     quantity: number,
-    setQuantity: (quantity: number) => void
+    setQuantity: (quantity: number) => void,
+    blockSelect: boolean
 }
 
-const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantity }: FoodHeaderCardProps): JSX.Element => {
+const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQuantity, blockSelect }: FoodHeaderCardProps): JSX.Element => {
 
     const { setMessage} = useContext(StatusContext);
     const { sendRequest } = useHttpClient();
@@ -122,8 +123,16 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
                 <h1>{food.food.label}</h1>      
             </div>
             <div className={styles.form}>
-                {customWeight && <input className={styles.short_input} type="number" value={quantity} placeholder='100' onChange={(e) => hangleQuantityChange(e)}/>}
+                {customWeight && <input 
+                    disabled={blockSelect ? true : false}
+                    className={styles.short_input} 
+                    type="number" 
+                    value={quantity} 
+                    placeholder='100' 
+                    onChange={(e) => hangleQuantityChange(e)}
+                />}
                 <select 
+                    disabled={blockSelect ? true : false}
                     name="measure" 
                     id="measure" 
                     className={customWeight ? styles.short_select : ''} 

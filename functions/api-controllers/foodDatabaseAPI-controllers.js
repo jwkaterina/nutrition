@@ -74,6 +74,9 @@ const findNutrients = async (req, res, next) => {
     try {
         const response = await fetch(url, options);
         const result = await response.json();
+        
+        if(result.status == 'error') throw new Error(result.message);
+
         res.status(200).json(result);
     } catch (err) {
         console.error(err);

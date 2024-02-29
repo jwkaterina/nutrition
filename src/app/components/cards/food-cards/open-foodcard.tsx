@@ -6,25 +6,23 @@ import FatsCard from '../../analysis_cards/fats_card';
 import FoodHeaderCard from './header-foodcard';
 import MineralsCard from '../../analysis_cards/minerals_card';
 import VitaminsCard from '../../analysis_cards/vitamins_card';
-import { CardOpenContext } from '@/app/context/card-context';
-import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { CardState, Food, Nutrients, StatusType } from '@/app/types/types';
+import { Food, Nutrients } from '@/app/types/types';
 import styles from '../card.module.css';
 
 interface OpenFoodCardProps {
-    food: Food
+    food: Food,
+    initialNutrients: Nutrients | null;
 }
 
-const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
+const OpenFoodCard  = ({ food, initialNutrients }: OpenFoodCardProps): JSX.Element => {
 
     const { sendRequest } = useHttpClient();
-    const { setStatus, setMessage } = useContext(StatusContext);
-    const { setCardOpen } = useContext(CardOpenContext);
-    const [content, setContent] = useState<Nutrients | null>(null);
+    const [content, setContent] = useState<Nutrients | null>(initialNutrients);
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedOption, setSelectedOption] = useState<string>('Value pre 100g');
     const [measureUri, setMeasureUri] = useState<string>(food.measures[0].uri);
+    const [blockSelect, setBlockSelect] = useState<boolean>(false);
 
     const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
 
@@ -45,7 +43,9 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                     );
                     setContent(nutrients);
                     return;
-                } catch (err) {}
+                } catch (err) {
+                    setBlockSelect(true);
+                }
             } 
             if(selectedOption === 'Value pre 100g') {
                 try {
@@ -62,7 +62,9 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                     );
                     setContent(nutrients);
                     return;
-                } catch (err) {}
+                } catch (err) {
+                    setBlockSelect(true);
+                }
             }
             try {
                 const nutrients: Nutrients = await sendRequest(
@@ -78,19 +80,13 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                 );
                 setContent(nutrients);
                 return;
-            } catch (err) {}
+            } catch (err) {
+                setBlockSelect(true);
+            }
         }
         fetchContent();
 
     }, [quantity, selectedOption]);
-
-    if(!content || content.totalDaily || !content.totalNutrients) {
-        setCardOpen(CardState.CLOSED);
-        console.error('Too many request');
-        setStatus(StatusType.ERROR);
-        setMessage('Could not analyse food, wait 1 minute and try again.');
-        return <></>;
-    }
 
     return (
         <div className={styles.card_grid}>
@@ -101,6 +97,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
                 setMeasure={setMeasureUri} 
                 quantity={quantity}
                 setQuantity={setQuantity}
+                blockSelect={blockSelect}
             />
             <DailyValueCard content={content} />
             <CompositionCard 
@@ -113,7 +110,7 @@ const OpenFoodCard  = ({ food }: OpenFoodCardProps): JSX.Element => {
             <MineralsCard content={content} />
             <FatsCard content={content} />
         </div>
-    );
+    ); 
 }
 
 export default OpenFoodCard;

@@ -4,7 +4,8 @@ import ClosedCard from '../closed-card';
 import OpenFoodCard from './open-foodcard';
 import { CardOpenContext } from '@/app/context/card-context';
 import { CurrentFoodContext } from '@/app/context/food-context';
-import { Food, CardState } from '@/app/types/types';
+import { useHttpClient } from '@/app/hooks/http-hook';
+import { Food, CardState, Nutrients } from '@/app/types/types';
 
 interface FoodCardProps {
     food: Food,
@@ -17,19 +18,37 @@ const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
 
     const { setCardOpen } = useContext(CardOpenContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
+    const { sendRequest } = useHttpClient();
     const [isOpen, setIsOpen] = useState<boolean>(open);
+    const [nutrients, setNutrients] = useState<Nutrients | null>(null);
 
-    const handleCardClick = () => {
+    const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
+
+    const handleCardClick = async() => {
         if(isOpen) {
             return;
         }
-        setCardOpen(CardState.OPENING);
-        setIsOpen(true); 
-
-        setCurrentFood({
-            food: food,
-            id: id ? id : null
-        });
+        try {
+            const nutrients: Nutrients = await sendRequest(
+                `/api/nutrients`,
+                'POST',
+                JSON.stringify({
+                    foodId: food.food.foodId, 
+                    measure: gramUri, 
+                    quantity: 100
+                }),
+                { 'Content-Type': 'application/json' },
+                true, false
+            );
+            setNutrients(nutrients);
+            setCardOpen(CardState.OPENING);
+            setIsOpen(true); 
+    
+            setCurrentFood({
+                food: food,
+                id: id ? id : null
+            });
+        } catch (err) {}
     }
 
     const isImage = () => {
@@ -38,7 +57,7 @@ const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
 
     return (
         <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
-            {isOpen ? <OpenFoodCard food={food}/> : 
+            {isOpen ? <OpenFoodCard food={food} initialNutrients={nutrients}/> : 
             <ClosedCard 
                 title={food.food.label}
                 image={isImage() ? food.food.image : ''}
