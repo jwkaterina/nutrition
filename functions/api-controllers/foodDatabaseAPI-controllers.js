@@ -16,6 +16,9 @@ const autocomplete = async (req, res, next) => {
     };
     try {
         const response = await fetch(url, options);
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
         const result = await response.json();
         res.status(200).json(result);
     } catch (err) {
@@ -41,6 +44,9 @@ const parseQuery = async (req, res, next) => {
     };
     try {
         const response = await fetch(url, options);
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
         const result = await response.json();
         res.status(200).json(result);
     } catch (err) {
@@ -73,10 +79,11 @@ const findNutrients = async (req, res, next) => {
     };
     try {
         const response = await fetch(url, options);
-        const result = await response.json();
-        
-        if(result.status == 'error') throw new Error(result.message);
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
 
+        const result = await response.json();
         res.status(200).json(result);
     } catch (err) {
         console.error(err);
