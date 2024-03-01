@@ -7,10 +7,9 @@ import styles from './toast.module.css';
 
 const Toast = () => {
 
-    const { message, setMessage, status } = useContext(StatusContext);
+    const { message, status } = useContext(StatusContext);
     const [open, setOpen] = useState(false);
     const [openTimeout, setOpenTimeout] = useState<NodeJS.Timeout | null>(null);
-    const [messageTimeout, setMessageTimeout] = useState<NodeJS.Timeout | null>(null);
     const progressRef = useRef<HTMLDivElement>(null);
 
     const progress: Animation | undefined = progressRef.current?.animate([
@@ -24,21 +23,12 @@ const Toast = () => {
     useEffect(() => {
         const removeMessage = () => {
             setOpen(false);
-            setTimeout(() => {
-                setMessage(null);
-            }, 500);
         };
-		if(open) {
-            document.addEventListener("click", removeMessage);
-            return () => {
-                document.removeEventListener("click", removeMessage);
-            }
-        }
-	}, [open]);
+        document.addEventListener("click", removeMessage);
+	}, []);
 
     useEffect(() => {
         clearTimeout(openTimeout!);
-        clearTimeout(messageTimeout!);
         progress?.cancel();
 
         if (message) {
@@ -51,19 +41,12 @@ const Toast = () => {
                     setOpen(false);
                 }, 4000);
                 setOpenTimeout(openTimeout);
-                const messageTimeout = setTimeout(() => {
-                    setMessage(null);
-                }, 4500);
-                setMessageTimeout(messageTimeout);
             }
         }
     }, [message, status]);
 
     const onClose = () => {
         setOpen(false);
-        setTimeout(() => {
-            setMessage(null);
-        }, 500);
     }
 
     return (
