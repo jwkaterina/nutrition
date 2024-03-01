@@ -117,6 +117,10 @@
     width: 150px;
 }
 
+.sort_select select {
+    appearance: none;
+}
+
 .sort_select select, .sort_select select:focus {
     border: none;
     outline: none;
