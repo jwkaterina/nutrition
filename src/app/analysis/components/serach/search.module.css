@@ -119,6 +119,7 @@
 
 .sort_select select {
     appearance: none;
+    background-color: white;
 }
 
 .sort_select select, .sort_select select:focus {
