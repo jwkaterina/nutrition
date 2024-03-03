@@ -31,7 +31,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 	const searchRef = useRef<HTMLDivElement>(null);
 
-	const showFilter: boolean = cardOpen !== CardState.OPEN && !showOptions;
+	const showFilter: boolean = cardOpen == CardState.CLOSED && !showOptions;
 
 	useEffect(() => {
 		if(searchCleared) {

@@ -52,12 +52,14 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
     ];
 
     const keyframesReverse: Keyframe[] = [
-        { top: `${top}rem`, left: `${left}rem`, width: '100vw', height: `calc(100vh - ${headerHeight}px)`, zIndex: 2, transform: `translate(${translateX}px, ${translateY}px)`},
+        { top: `${-gridGap}rem`, left: `${-gridGap}rem`, width: '100vw', height: `calc(100vh - 2 * ${headerHeight}px)`, zIndex: 2},
         { top: 0, left: 0, width: '100%', height: `${cardHeight}px`, zIndex: 1, transform: `translate(0px, 0px)` }
     ];
 
+    const animationDuration = 300;
+
     const animationOptions: KeyframeAnimationOptions  = {
-        duration: 300,
+        duration: animationDuration,
         easing: 'ease-in-out',
         fill: 'forwards'
     };
@@ -80,14 +82,16 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
         }
         if(cardRef.current && cardOpen == CardState.OPENING) {
             cardRef.current.animate(keyframes, animationOptions);
-            setCardOpen(CardState.OPEN);
-
+            setTimeout(() => {
+                setCardOpen(CardState.OPEN);
+            }, animationDuration);
         } 
         if(cardOpen == CardState.CLOSING) {
             cardRef.current?.animate(keyframesReverse, animationOptions);
             setIsOpen(false);
-            setCardOpen(CardState.CLOSED);
-
+            setTimeout(() => {
+                setCardOpen(CardState.CLOSED);
+            }, animationDuration);
         }
         if(cardOpen == CardState.CLOSED) {
             cardRef.current?.animate(keyframesReverse, styleOptions);

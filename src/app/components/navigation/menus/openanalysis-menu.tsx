@@ -29,7 +29,6 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
     const { sendRequest } = useHttpClient();
     const [rightText, setRightText] = useState<string>('Add To Favorites');
 
-
     useEffect(() => {
         if(currentRecipe.mode == AnalysisMode.EDIT || currentMenu.mode == AnalysisMode.EDIT) setRightText('Update Favorites');
     }, [currentRecipe.mode, currentMenu.mode]);
@@ -170,8 +169,9 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         if(currentFood.food) {
             setCardOpen(CardState.CLOSING);
             setCurrentFood({id: null, food: null});
+        } else { 
+            setCardOpen(CardState.CLOSED);
         }
-        setCardOpen(CardState.CLOSED);
     }
 
     return (
