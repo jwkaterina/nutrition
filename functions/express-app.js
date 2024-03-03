@@ -60,7 +60,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-    .connect('mongodb+srv://jwkaterina:jw0507015599@cluster0.ajgjgkk.mongodb.net/nutrition?retryWrites=true&w=majority')
+    .connect(process.env.MONGODB_URL)
     .then(() => {
         app.listen(5001);
     })

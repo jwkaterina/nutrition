@@ -4,7 +4,7 @@
   "scripts": {
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
-    "start": "nodemon app.js",
+    "start": "nodemon --env-file=.env express-app.js",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
