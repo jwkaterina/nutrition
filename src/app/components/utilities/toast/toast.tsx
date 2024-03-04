@@ -7,9 +7,10 @@ import styles from './toast.module.css';
 
 const Toast = () => {
 
-    const { message, status } = useContext(StatusContext);
+    const { message, setMessage, status } = useContext(StatusContext);
     const [open, setOpen] = useState(false);
     const [openTimeout, setOpenTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [messageTimeout, setMessageTimeout] = useState<NodeJS.Timeout | null>(null);
     const progressRef = useRef<HTMLDivElement>(null);
 
     const progress: Animation | undefined = progressRef.current?.animate([
@@ -21,14 +22,8 @@ const Toast = () => {
     });
 
     useEffect(() => {
-        const removeMessage = () => {
-            setOpen(false);
-        };
-        document.addEventListener("click", removeMessage);
-	}, []);
-
-    useEffect(() => {
         clearTimeout(openTimeout!);
+        clearTimeout(messageTimeout!);
         progress?.cancel();
 
         if (message) {
@@ -36,17 +31,22 @@ const Toast = () => {
                 setOpen(true);
                 progress?.play();
             }, 100);
-            if(status == StatusType.SUCCESS) {
-                const openTimeout = setTimeout(() => {
-                    setOpen(false);
-                }, 4000);
-                setOpenTimeout(openTimeout);
-            }
+            const openTimeout = setTimeout(() => {
+                setOpen(false);
+            }, 4000);
+            setOpenTimeout(openTimeout);
+            const messageTimeout = setTimeout(() => {
+                setMessage(null);
+            }, 4500);
+            setMessageTimeout(messageTimeout);
         }
     }, [message, status]);
 
     const onClose = () => {
         setOpen(false);
+        setTimeout(() => {
+            setMessage(null);
+        }, 500);
     }
 
     return (
@@ -62,7 +62,7 @@ const Toast = () => {
                 </div>
             </div>
             <FontAwesomeIcon icon={faXmark} className={styles.close} onClick={onClose}/>
-            {status == StatusType.SUCCESS && <div ref={progressRef} className={styles.progress}></div>}
+            <div ref={progressRef} className={styles.progress}></div>
         </div>
     );
 }
