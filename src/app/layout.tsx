@@ -1,6 +1,7 @@
 'use client'
 
 import { Inter } from 'next/font/google';
+import ConfigureAmplifyClientSide from "@/app/components/amplify/configure_amplify";
 import ContextProviders from '@/app/context/context-providers';
 import LoadingSpinner from './components/utilities/loading/loading-spinner';
 import Toast from './components/utilities/toast/toast';
@@ -29,6 +30,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
             <meta name="theme-color" content="#ffffff"></meta>
             </head>
             <body className={inter.className}>
+                <ConfigureAmplifyClientSide />
                 <ContextProviders>
                     <LoadingSpinner/>
                     <Toast />

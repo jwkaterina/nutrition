@@ -40,3 +40,7 @@ next-env.d.ts
 ui-debug.log
 functions/firebase-debug.log
 functions/.env
+
+# amplify
+.amplify
+amplifyconfiguration*
