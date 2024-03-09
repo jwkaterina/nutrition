@@ -34,7 +34,7 @@ const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
             setMessage('Logged out');  
         } else {
             setCardOpen(CardState.CLOSED);
-            router.push('/auth')
+            router.push('/auth/basic_auth');
         }
     }
 
