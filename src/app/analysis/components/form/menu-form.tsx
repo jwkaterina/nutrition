@@ -36,6 +36,29 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
     const router = useRouter();
 
+    const fetchRecipes = async() => {
+        try {
+            setIsLoading(true);
+            const responseData = await sendRequest(
+                `/recipes`, 'GET', null, {
+                    Authorization: 'Bearer ' + token
+                }, false, false
+            );
+            setIsLoading(false);
+            const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
+            if(recipes.length == 0) {
+                setStatus(StatusType.ERROR);
+                setMessage('You do not have any favorite recipes.');
+            } else {
+                setLoadedRecipes(recipes);
+                setInputsnumber(inputsnumber + 1);
+            }
+        } catch (err) {
+            setIsLoading(false);
+            setMessage('Could not find recipes');
+        }
+    }
+
     useEffect(() => {
         if(searchCleared) {
             setCurrentMenu({
@@ -58,6 +81,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             setInputsnumber(currentMenu.menu.recipes.length);
             setCurrentRecipes(currentMenu.menu.recipes);
         }
+        if(currentMenu.menu && currentMenu.mode == AnalysisMode.EDIT && currentMenu.menu.recipes.length > 0) fetchRecipes();
     }, [currentMenu]);
 
     const ArrayfromString = (string: string): string[] => {
@@ -167,26 +191,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             setMessage('You need to be logged in to add a recipe');
             return;
         }
-        try {
-            setIsLoading(true);
-            const responseData = await sendRequest(
-                `/recipes`, 'GET', null, {
-                    Authorization: 'Bearer ' + token
-                }, false, false
-            );
-            setIsLoading(false);
-            const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
-            if(recipes.length == 0) {
-                setStatus(StatusType.ERROR);
-                setMessage('You do not have any favorite recipes.');
-            } else {
-                setLoadedRecipes(recipes);
-                setInputsnumber(inputsnumber + 1);
-            }
-        } catch (err) {
-            setIsLoading(false);
-            setMessage('Could not find recipes');
-        }
+        fetchRecipes();
     }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
