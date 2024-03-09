@@ -31,5 +31,13 @@ module.exports = (phase, { defaultConfig }) => {
     }
   }
  
-  return defaultConfig
+  return {
+    ...defaultConfig,
+    output: "export",
+    reactStrictMode: true,
+    swcMinify: true,
+    images: {
+      unoptimized: true,
+    },
+  }
 }
