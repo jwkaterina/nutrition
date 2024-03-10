@@ -30,6 +30,7 @@ const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
     const handleAuthClick = () => {
         if (isLoggedIn) {
             logout();   
+            setCardOpen(CardState.CLOSED);
             setStatus(StatusType.SUCCESS);
             setMessage('Logged out');  
         } else {

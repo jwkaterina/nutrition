@@ -8,7 +8,7 @@ import { CurrentRecipeContext } from '@/app/context/recipe-context';
 import { SlideContext } from "@/app/context/slide-context";
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { CardState, Nutrients, AnalysisMode, Recipe } from '@/app/types/types';
+import { CardState, Nutrients, AnalysisMode, Recipe, StatusType } from '@/app/types/types';
 import styles from './form.module.css';
 
 interface RecipeFormProps {
@@ -22,7 +22,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
-    const { setMessage } = useContext(StatusContext);
+    const { setMessage, setStatus, setIsLoading } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const {sendRequest} = useHttpClient();
     const [name, setName] = useState<string>('');
@@ -106,6 +106,13 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     }
 
     const deleteRecipe = async () => {
+        if(!token) {
+            setStatus(StatusType.ERROR);
+            setMessage('You must be logged in to delete recipe.');
+            setIsLoading(false);
+            return;
+        }
+        //TODO: check if menus with this recipe exist
         try {
             await sendRequest(
                 `/recipes/${currentRecipe.id}`,

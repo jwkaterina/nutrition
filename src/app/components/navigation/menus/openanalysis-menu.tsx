@@ -64,7 +64,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         const Recipe: Recipe | null = currentRecipe!.recipe;
         if(!token) {
             setStatus(StatusType.ERROR);
-            setMessage('You must be logged in to add food to favorites.');
+            setMessage('You must be logged in to add recipe to favorites.');
             setIsLoading(false);
             return;
         }
@@ -89,7 +89,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         const Menu: MenuProp | null = currentMenu!.menu;
         if(!token) {
             setStatus(StatusType.ERROR);
-            setMessage('You must be logged in to add food to favorites.');
+            setMessage('You must be logged in to add menu to favorites.');
             setIsLoading(false);
             return;
         }
@@ -113,6 +113,12 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
 
     const updateRecipe = async () => {
         const Recipe: Recipe | null = currentRecipe!.recipe;
+        if(!token) {
+            setStatus(StatusType.ERROR);
+            setMessage('You must be logged in to update recipe.');
+            setIsLoading(false);
+            return;
+        }
         try {
             const formData = new FormData();
             const recipeString = JSON.stringify(Recipe);
@@ -131,6 +137,12 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
 
     const updateMenu = async () => {
         const Menu: MenuProp | null = currentMenu!.menu;
+        if(!token) {
+            setStatus(StatusType.ERROR);
+            setMessage('You must be logged in to update menu.');
+            setIsLoading(false);
+            return;
+        }
         try {
             await sendRequest(
                 `/menus/${currentMenu.id}`,

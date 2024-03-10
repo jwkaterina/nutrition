@@ -160,6 +160,12 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     }
 
     const deleteMenu = async () => {
+        if(!token) {
+            setStatus(StatusType.ERROR);
+            setMessage('You must be logged in to delete menu.');
+            setIsLoading(false);
+            return;
+        }
         try {
             await sendRequest(
                 `/menus/${currentMenu.id}`,
