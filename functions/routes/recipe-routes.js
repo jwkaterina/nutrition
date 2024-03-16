@@ -1,4 +1,5 @@
 const express = require('express');
+const {multer} = require('../middleware/multer');
 
 const recipeControllers = require('../db-controllers/recipe-controllers');
 const fileUpload = require('../middleware/file-upload');
@@ -9,11 +10,16 @@ router.use(checkAuth);
 
 router.get('/', recipeControllers.getRecipes);
 
+// router.post(
+//     '/', fileUpload.single('image'), recipeControllers.createRecipe
+// );
+
 router.post(
-    '/', fileUpload.single('image'), recipeControllers.createRecipe
+    '/', multer.single,
+    recipeControllers.createRecipe
 );
 
-router.patch('/:pid', fileUpload.single('image'), recipeControllers.updateRecipe);
+// router.patch('/:pid', fileUpload.single('image'), recipeControllers.updateRecipe);
 
 router.delete('/:pid', recipeControllers.deleteRecipe);
 

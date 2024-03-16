@@ -42,7 +42,7 @@ const parsedRecipe = JSON.parse(recipe);
 
 const createdRecipe = new Recipe({
     recipe: parsedRecipe,
-    image: req.file ? req.file.path : null,
+    image: req.image ? req.image.path : null,
     creator: req.userData.userId
 });
 

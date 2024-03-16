@@ -13,13 +13,14 @@ const recipeRoutes = require('./routes/recipe-routes');
 const menuRoutes = require('./routes/menu-routes');
 const apiRoutes = require('./routes/api-routes');
 const HttpError = require('./models/http-error');
+require('dotenv').config();
 
 const app = express();
 app.use(cors);
 
 app.use(bodyParser.json());
 
-app.use('/uploads/images', express.static(path.join('uploads', 'images')));
+// app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -37,6 +38,7 @@ app.use('/foods', foodRoutes);
 app.use('/recipes', recipeRoutes);
 app.use('/users', usersRoutes);
 app.use('/menus', menuRoutes);
+app.use('/uploads/images', imagesRoutes);
 
 app.use((req, res, next) => {
     console.error('Could not find this route.')
@@ -62,7 +64,7 @@ app.use((error, req, res, next) => {
 mongoose
     .connect(process.env.MONGODB_URL)
     .then(() => {
-        app.listen(5001);
+        // app.listen(5001);
     })
     .catch(err => {
         console.log(err);
