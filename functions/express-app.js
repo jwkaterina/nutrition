@@ -38,7 +38,6 @@ app.use('/foods', foodRoutes);
 app.use('/recipes', recipeRoutes);
 app.use('/users', usersRoutes);
 app.use('/menus', menuRoutes);
-app.use('/uploads/images', imagesRoutes);
 
 app.use((req, res, next) => {
     console.error('Could not find this route.')

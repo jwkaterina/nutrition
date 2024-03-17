@@ -40,7 +40,5 @@ next-env.d.ts
 ui-debug.log
 functions/firebase-debug.log
 functions/.env
-
-# amplify
-.amplify
-amplifyconfiguration*
+functions/service-account-key.json
+functions/firebase-config.json

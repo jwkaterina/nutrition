@@ -1,7 +1,8 @@
 const express = require('express');
-const {multer} = require('../middleware/multer');
+const multer = require('../middleware/multer');
 
 const recipeControllers = require('../db-controllers/recipe-controllers');
+const gcpStorageControllers = require('../storage-controllers/gcpStorage-controllers');
 const fileUpload = require('../middleware/file-upload');
 const checkAuth = require('../middleware/check-auth');
 
@@ -10,16 +11,19 @@ router.use(checkAuth);
 
 router.get('/', recipeControllers.getRecipes);
 
-// router.post(
-//     '/', fileUpload.single('image'), recipeControllers.createRecipe
-// );
-
 router.post(
-    '/', multer.single,
+    '/', 
+    multer.all,
+    gcpStorageControllers.putImage,
     recipeControllers.createRecipe
 );
 
-// router.patch('/:pid', fileUpload.single('image'), recipeControllers.updateRecipe);
+router.patch(
+    '/:pid', 
+    multer.all,
+    gcpStorageControllers.putImage,
+    recipeControllers.updateRecipe
+);
 
 router.delete('/:pid', recipeControllers.deleteRecipe);
 

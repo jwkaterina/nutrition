@@ -42,7 +42,7 @@ const parsedRecipe = JSON.parse(recipe);
 
 const createdRecipe = new Recipe({
     recipe: parsedRecipe,
-    image: req.image ? req.image.path : null,
+    image: req.image ? req.image.url : null,
     creator: req.userData.userId
 });
 
@@ -103,7 +103,7 @@ const updateRecipe = async (req, res, next) => {
 const { recipeString } = req.body;
 const updatedRecipe = JSON.parse(recipeString);
 
-const undatedImage = req.file ? req.file.path : null;
+const undatedImage = req.image ? req.image.url : null;
 const recipeId = req.params.pid;
 
 let recipe;
@@ -132,12 +132,12 @@ if (recipe.creator.toString() !== req.userData.userId) {
 
 
 recipe.recipe = updatedRecipe;
-if(undatedImage) {
-    fs.unlink(recipe.image, err => {
-        console.log(err);
-    });
-    recipe.image = undatedImage;
-}
+// if(undatedImage) {
+//     fs.unlink(recipe.image, err => {
+//         console.log(err);
+//     });
+//     recipe.image = undatedImage;
+// }
 
 try {
     await recipe.save();
@@ -201,9 +201,9 @@ try {
     return next(error);
 }
 
-if(recipe.image) fs.unlink(imagePath, err => {
-    console.log(err);
-});
+// if(recipe.image) fs.unlink(imagePath, err => {
+//     console.log(err);
+// });
 
 res.status(200).json({ message: 'Deleted recipe.' });
 };

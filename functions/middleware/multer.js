@@ -3,14 +3,24 @@ const os = require('os');
 const fs = require('fs');
 
 const Busboy = require('busboy');
+const tmpdir = os.tmpdir();
 
-const single = async (req, res, next) => {
-    if (req.method !== 'POST') {
+const getFile = (req, res) => {
+    if(!req.params.path) {
+        res.status(400);
+        res.json({ message: 'path param not defined' });
+        return;
+    }
+    const filepath = path.join(tmpdir, req.params.path);
+    res.sendFile(filepath);
+}
+
+const all = async (req, res, next) => {
+    if (req.method !== 'POST' && req.method !== 'PATCH') {
         // Return a "method not allowed" error
         return res.status(405).end();
     }
     const busboy = Busboy({headers: req.headers});
-    const tmpdir = os.tmpdir();
 
     // This object will accumulate all the fields, keyed by their name
     const fields = {};
@@ -43,6 +53,14 @@ const single = async (req, res, next) => {
         const writeStream = fs.createWriteStream(filepath);
         file.pipe(writeStream);
 
+        file.on('data', (data) => {
+            if (!uploads[fieldname].data) {
+                uploads[fieldname].data = data;
+            } else {
+                uploads[fieldname].data = Buffer.concat([uploads[fieldname].data, data]);
+            }
+        });
+
         // File was processed by Busboy; wait for it to be written.
         // Note: GCF may not persist saved files across invocations.
         // Persistent files must be kept in other locations
@@ -63,7 +81,7 @@ const single = async (req, res, next) => {
         await Promise.all(fileWrites);
 
         for (const file in uploads) {
-            fs.unlinkSync(uploads[file].path);
+            // fs.unlinkSync(uploads[file].path);
             req[file] = uploads[file];
         }
         for (const field in fields) {
@@ -75,4 +93,5 @@ const single = async (req, res, next) => {
     busboy.end(req.rawBody);
 };
 
-exports.multer = {single};
+exports.all = all;
+exports.getFile = getFile;
