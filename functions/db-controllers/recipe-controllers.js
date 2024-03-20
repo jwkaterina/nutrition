@@ -43,8 +43,8 @@ const createRecipe = async (req, res, next) => {
 
     const createdRecipe = new Recipe({
         recipe: parsedRecipe,
-        image: req.image ? req.image.url : null,
-        imageName: req.image.fileName,
+        image: req.image && req.image.url,
+        imageName: req.image && req.image.fileName,
         creator: req.userData.userId
     });
 
@@ -105,7 +105,7 @@ const updateRecipe = async (req, res, next) => {
     const { recipeString } = req.body;
     const updatedRecipe = JSON.parse(recipeString);
 
-    const updatedImage = req.image ? req.image.url : null;
+    const updatedImage = req.image && req.image.url;
     const recipeId = req.params.pid;
 
     let recipe;
@@ -132,13 +132,15 @@ const updateRecipe = async (req, res, next) => {
         return next(error);
     }
 
-
     recipe.recipe = updatedRecipe;
     if(updatedImage) {
-        // fs.unlink(recipe.image, err => {
-        //     console.log(err);
-        // });
+        try{
+            gcpStorage.deleteImage(recipe.imageName);
+        } catch(err) {
+            next(err);
+        }
         recipe.image = updatedImage;
+        recipe.imageName = req.image.fileName
     }
 
     try {
@@ -184,8 +186,6 @@ const deleteRecipe = async (req, res, next) => {
         );
         return next(error);
     }
-
-    // const imagePath = recipe.image;
 
     try {
         const sess = await mongoose.startSession();

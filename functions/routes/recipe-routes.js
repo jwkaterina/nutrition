@@ -3,7 +3,6 @@ const multer = require('../middleware/multer');
 
 const recipeControllers = require('../db-controllers/recipe-controllers');
 const gcpStorageControllers = require('../storage-controllers/gcpStorage-controllers');
-const fileUpload = require('../middleware/file-upload');
 const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
