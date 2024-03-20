@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const HttpError = require('../models/http-error');
 const Recipe = require('../models/recipe');
 const User = require('../models/user');
+const gcpStorage = require('../storage-controllers/gcpStorage-controllers');
 
 const getRecipes = async (req, res, next) => {
     const userId = req.userData.userId;
@@ -43,6 +44,7 @@ const createRecipe = async (req, res, next) => {
     const createdRecipe = new Recipe({
         recipe: parsedRecipe,
         image: req.image ? req.image.url : null,
+        imageName: req.image.fileName,
         creator: req.userData.userId
     });
 
@@ -201,9 +203,13 @@ const deleteRecipe = async (req, res, next) => {
         return next(error);
     }
 
-    // if(recipe.image) fs.unlink(imagePath, err => {
-    //     console.log(err);
-    // });
+    if(recipe.image) {
+        try{
+            gcpStorage.deleteImage(recipe.imageName);
+        } catch(err) {
+            next(err);
+        }
+    }
 
     res.status(200).json({ message: 'Deleted recipe.' });
 };

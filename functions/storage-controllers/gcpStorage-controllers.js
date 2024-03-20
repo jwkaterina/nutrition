@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+const uuid = require('uuidv1');
 const { initializeApp } = require('firebase/app');
 const firebaseConfig = require('../firebase-config.json');
-const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage');
+const { getStorage, ref, uploadBytes, deleteObject, getDownloadURL } = require('firebase/storage');
 
 const HttpError = require('../models/http-error');
 
@@ -33,11 +33,13 @@ const putImage = async (req, res, next) => {
         return next(error);
     }
 
-    const imagesRef = ref(storage, `images/${req.image.filename}`);
+    const fileName = uuid();
+    const imageRef = ref(storage, `images/${fileName}`);
     try {
         console.log('Trying to upload an image...');
-        await uploadBytes(imagesRef, req.image.data);
-        req.image.url = await getDownloadURL(imagesRef);
+        await uploadBytes(imageRef, req.image.data);
+        req.image.fileName = fileName;
+        req.image.url = await getDownloadURL(imageRef);
         console.log('Iimage Uploaded! Download url:', req.image.url);
         next();
     } catch(err) {
@@ -48,5 +50,18 @@ const putImage = async (req, res, next) => {
     }
 };
 
+const deleteImage = async (fileName) => {
+    const imageRef = ref(storage, `images/${fileName}`);
+    try {
+        await deleteObject(imageRef);
+        console.log(`Iimage deleted: ${fileName}`);
+    } catch(err) {
+        throw new HttpError(
+            err.message, 500
+        );
+    }
+};
+
 exports.getImage = getImage;
 exports.putImage = putImage;
+exports.deleteImage = deleteImage;
