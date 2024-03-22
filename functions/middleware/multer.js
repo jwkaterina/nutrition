@@ -4,7 +4,8 @@ const all = async (req, res, next) => {
     if (req.method !== 'POST' && req.method !== 'PATCH') {
         return res.status(405).end();
     }
-    const busboy = Busboy({headers: req.headers, limits: {fileSize: 500000}});
+
+    const busboy = Busboy({headers: req.headers, limits: {fileSize: 50000000}});
 
     const fields = {};
 
@@ -15,13 +16,14 @@ const all = async (req, res, next) => {
         if(val !== 'null') fields[fieldname] = val;
     });
 
-    busboy.on('file', (fieldname, file, {filename}) => {
+    busboy.on('file', (fieldname, file, {filename, mimeType}) => {
         console.log(`Processed file ${filename}`);
         dataContainer = {};
 
         file.on('data', (data) => {
             if (!dataContainer.data) {
                 dataContainer.data = data;
+                dataContainer.mimeType = mimeType;
             } else {
                 dataContainer.data = Buffer.concat([dataContainer.data, data]);
             }

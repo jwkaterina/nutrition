@@ -19,7 +19,8 @@
     "firebase": "^10.8.1",
     "next": "14.0.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^0.13.0-beta.4",
