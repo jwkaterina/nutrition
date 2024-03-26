@@ -1,0 +1,425 @@
+{
+    "recipe": {
+        "nutrients": {
+            "calories": 94,
+            "totalNutrients": {
+                "CA": {
+                    "label": "Calcium, Ca",
+                    "quantity": 10.92,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865dee7",
+                    "id": "65fda23e9941feaae865dee7"
+                },
+                "CHOCDF": {
+                    "label": "Carbohydrate, by difference",
+                    "quantity": 25.116000000000003,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865dee8",
+                    "id": "65fda23e9941feaae865dee8"
+                },
+                "CHOLE": {
+                    "label": "Cholesterol",
+                    "quantity": 0,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865dee9",
+                    "id": "65fda23e9941feaae865dee9"
+                },
+                "ENERC_KCAL": {
+                    "label": "Energy",
+                    "quantity": 94.64,
+                    "unit": "kcal",
+                    "_id": "65fda23e9941feaae865deea",
+                    "id": "65fda23e9941feaae865deea"
+                },
+                "FAMS": {
+                    "label": "Fatty acids, total monounsaturated",
+                    "quantity": 0.012740000000000001,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865deeb",
+                    "id": "65fda23e9941feaae865deeb"
+                },
+                "FAPU": {
+                    "label": "Fatty acids, total polyunsaturated",
+                    "quantity": 0.09282,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865deec",
+                    "id": "65fda23e9941feaae865deec"
+                },
+                "FASAT": {
+                    "label": "Fatty acids, total saturated",
+                    "quantity": 0.050960000000000005,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865deed",
+                    "id": "65fda23e9941feaae865deed"
+                },
+                "FAT": {
+                    "label": "Total lipid (fat)",
+                    "quantity": 0.3094,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865deee",
+                    "id": "65fda23e9941feaae865deee"
+                },
+                "FATRN": {
+                    "label": "Fatty acids, total trans",
+                    "quantity": 0,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865deef",
+                    "id": "65fda23e9941feaae865deef"
+                },
+                "FE": {
+                    "label": "Iron, Fe",
+                    "quantity": 0.2184,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865def0",
+                    "id": "65fda23e9941feaae865def0"
+                },
+                "FIBTG": {
+                    "label": "Fiber, total dietary",
+                    "quantity": 4.368,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865def1",
+                    "id": "65fda23e9941feaae865def1"
+                },
+                "FOLAC": {
+                    "label": "Folic acid",
+                    "quantity": 0,
+                    "unit": "µg",
+                    "_id": "65fda23e9941feaae865def2",
+                    "id": "65fda23e9941feaae865def2"
+                },
+                "FOLDFE": {
+                    "label": "Folate, DFE",
+                    "quantity": 5.46,
+                    "unit": "µg",
+                    "_id": "65fda23e9941feaae865def3",
+                    "id": "65fda23e9941feaae865def3"
+                },
+                "FOLFD": {
+                    "label": "Folate, food",
+                    "quantity": 5.46,
+                    "unit": "µg",
+                    "_id": "65fda23e9941feaae865def4",
+                    "id": "65fda23e9941feaae865def4"
+                },
+                "K": {
+                    "label": "Potassium, K",
+                    "quantity": 194.74,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865def5",
+                    "id": "65fda23e9941feaae865def5"
+                },
+                "MG": {
+                    "label": "Magnesium, Mg",
+                    "quantity": 9.1,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865def6",
+                    "id": "65fda23e9941feaae865def6"
+                },
+                "NA": {
+                    "label": "Sodium, Na",
+                    "quantity": 1.82,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865def7",
+                    "id": "65fda23e9941feaae865def7"
+                },
+                "NIA": {
+                    "label": "Niacin",
+                    "quantity": 0.16562,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865def8",
+                    "id": "65fda23e9941feaae865def8"
+                },
+                "P": {
+                    "label": "Phosphorus, P",
+                    "quantity": 20.02,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865def9",
+                    "id": "65fda23e9941feaae865def9"
+                },
+                "PROCNT": {
+                    "label": "Protein",
+                    "quantity": 0.4732,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865defa",
+                    "id": "65fda23e9941feaae865defa"
+                },
+                "RIBF": {
+                    "label": "Riboflavin",
+                    "quantity": 0.04732,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865defb",
+                    "id": "65fda23e9941feaae865defb"
+                },
+                "SUGAR": {
+                    "label": "Sugars, total including NLEA",
+                    "quantity": 18.928,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865defc",
+                    "id": "65fda23e9941feaae865defc"
+                },
+                "THIA": {
+                    "label": "Thiamin",
+                    "quantity": 0.030940000000000002,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865defd",
+                    "id": "65fda23e9941feaae865defd"
+                },
+                "TOCPHA": {
+                    "label": "Vitamin E (alpha-tocopherol)",
+                    "quantity": 0.3276,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865defe",
+                    "id": "65fda23e9941feaae865defe"
+                },
+                "VITA_RAE": {
+                    "label": "Vitamin A, RAE",
+                    "quantity": 5.46,
+                    "unit": "µg",
+                    "_id": "65fda23e9941feaae865deff",
+                    "id": "65fda23e9941feaae865deff"
+                },
+                "VITB12": {
+                    "label": "Vitamin B-12",
+                    "quantity": 0,
+                    "unit": "µg",
+                    "_id": "65fda23e9941feaae865df00",
+                    "id": "65fda23e9941feaae865df00"
+                },
+                "VITB6A": {
+                    "label": "Vitamin B-6",
+                    "quantity": 0.07462,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865df01",
+                    "id": "65fda23e9941feaae865df01"
+                },
+                "VITC": {
+                    "label": "Vitamin C, total ascorbic acid",
+                    "quantity": 8.372,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865df02",
+                    "id": "65fda23e9941feaae865df02"
+                },
+                "VITD": {
+                    "label": "Vitamin D (D2 + D3)",
+                    "quantity": 0,
+                    "unit": "µg",
+                    "_id": "65fda23e9941feaae865df03",
+                    "id": "65fda23e9941feaae865df03"
+                },
+                "VITK1": {
+                    "label": "Vitamin K (phylloquinone)",
+                    "quantity": 4.0040000000000004,
+                    "unit": "µg",
+                    "_id": "65fda23e9941feaae865df04",
+                    "id": "65fda23e9941feaae865df04"
+                },
+                "WATER": {
+                    "label": "Water",
+                    "quantity": 155.792,
+                    "unit": "g",
+                    "_id": "65fda23e9941feaae865df05",
+                    "id": "65fda23e9941feaae865df05"
+                },
+                "ZN": {
+                    "label": "Zinc, Zn",
+                    "quantity": 0.0728,
+                    "unit": "mg",
+                    "_id": "65fda23e9941feaae865df06",
+                    "id": "65fda23e9941feaae865df06"
+                },
+                "_id": "65fda23e9941feaae865dee6",
+                "id": "65fda23e9941feaae865dee6"
+            },
+            "totalDaily": {
+                "CA": {
+                    "label": "Calcium",
+                    "quantity": 1.092,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df08",
+                    "id": "65fda23e9941feaae865df08"
+                },
+                "CHOCDF": {
+                    "label": "Carbs",
+                    "quantity": 8.372000000000002,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df09",
+                    "id": "65fda23e9941feaae865df09"
+                },
+                "CHOLE": {
+                    "label": "Cholesterol",
+                    "quantity": 0,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df0a",
+                    "id": "65fda23e9941feaae865df0a"
+                },
+                "ENERC_KCAL": {
+                    "label": "Energy",
+                    "quantity": 4.732,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df0b",
+                    "id": "65fda23e9941feaae865df0b"
+                },
+                "FASAT": {
+                    "label": "Saturated",
+                    "quantity": 0.2548,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df0c",
+                    "id": "65fda23e9941feaae865df0c"
+                },
+                "FAT": {
+                    "label": "Fat",
+                    "quantity": 0.47600000000000003,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df0d",
+                    "id": "65fda23e9941feaae865df0d"
+                },
+                "FE": {
+                    "label": "Iron",
+                    "quantity": 1.2133333333333334,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df0e",
+                    "id": "65fda23e9941feaae865df0e"
+                },
+                "FIBTG": {
+                    "label": "Fiber",
+                    "quantity": 17.472,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df0f",
+                    "id": "65fda23e9941feaae865df0f"
+                },
+                "FOLDFE": {
+                    "label": "Folate equivalent (total)",
+                    "quantity": 1.365,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df10",
+                    "id": "65fda23e9941feaae865df10"
+                },
+                "K": {
+                    "label": "Potassium",
+                    "quantity": 4.143404255319149,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df11",
+                    "id": "65fda23e9941feaae865df11"
+                },
+                "MG": {
+                    "label": "Magnesium",
+                    "quantity": 2.1666666666666665,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df12",
+                    "id": "65fda23e9941feaae865df12"
+                },
+                "NA": {
+                    "label": "Sodium",
+                    "quantity": 0.07583333333333334,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df13",
+                    "id": "65fda23e9941feaae865df13"
+                },
+                "NIA": {
+                    "label": "Niacin (B3)",
+                    "quantity": 1.0351249999999999,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df14",
+                    "id": "65fda23e9941feaae865df14"
+                },
+                "P": {
+                    "label": "Phosphorus",
+                    "quantity": 2.86,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df15",
+                    "id": "65fda23e9941feaae865df15"
+                },
+                "PROCNT": {
+                    "label": "Protein",
+                    "quantity": 0.9464,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df16",
+                    "id": "65fda23e9941feaae865df16"
+                },
+                "RIBF": {
+                    "label": "Riboflavin (B2)",
+                    "quantity": 3.64,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df17",
+                    "id": "65fda23e9941feaae865df17"
+                },
+                "THIA": {
+                    "label": "Thiamin (B1)",
+                    "quantity": 2.5783333333333336,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df18",
+                    "id": "65fda23e9941feaae865df18"
+                },
+                "TOCPHA": {
+                    "label": "Vitamin E",
+                    "quantity": 2.1839999999999997,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df19",
+                    "id": "65fda23e9941feaae865df19"
+                },
+                "VITA_RAE": {
+                    "label": "Vitamin A",
+                    "quantity": 0.6066666666666667,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df1a",
+                    "id": "65fda23e9941feaae865df1a"
+                },
+                "VITB12": {
+                    "label": "Vitamin B12",
+                    "quantity": 0,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df1b",
+                    "id": "65fda23e9941feaae865df1b"
+                },
+                "VITB6A": {
+                    "label": "Vitamin B6",
+                    "quantity": 5.74,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df1c",
+                    "id": "65fda23e9941feaae865df1c"
+                },
+                "VITC": {
+                    "label": "Vitamin C",
+                    "quantity": 9.302222222222223,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df1d",
+                    "id": "65fda23e9941feaae865df1d"
+                },
+                "VITD": {
+                    "label": "Vitamin D",
+                    "quantity": 0,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df1e",
+                    "id": "65fda23e9941feaae865df1e"
+                },
+                "VITK1": {
+                    "label": "Vitamin K",
+                    "quantity": 3.336666666666667,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df1f",
+                    "id": "65fda23e9941feaae865df1f"
+                },
+                "ZN": {
+                    "label": "Zinc",
+                    "quantity": 0.6618181818181819,
+                    "unit": "%",
+                    "_id": "65fda23e9941feaae865df20",
+                    "id": "65fda23e9941feaae865df20"
+                },
+                "_id": "65fda23e9941feaae865df07",
+                "id": "65fda23e9941feaae865df07"
+            },
+            "totalWeight": 182
+        },
+        "name": "Recipe 40",
+        "servings": 1,
+        "ingredients": [
+            "1 apple"
+        ],
+        "image": "null"
+    },
+    "image": "https://firebasestorage.googleapis.com/v0/b/nutrition-3236d.appspot.com/o/images%2F03e6b5e0-e860-11ee-89ef-16e60f7851ca.png?alt=media&token=e3a7f30d-0f73-4d46-b92e-d0632628f132",
+    "imageName": "03e6b5e0-e860-11ee-89ef-16e60f7851ca.png",
+    "creator": "65d5d4c36f6b0302a7942d36",
+    "id": "65fda23e9941feaae865dee5"
+}
