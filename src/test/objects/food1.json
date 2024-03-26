@@ -1,0 +1,75 @@
+{
+    "food": {
+        "nutrients": {
+            "ENERC_KCAL": 52,
+            "PROCNT": 0.26,
+            "FAT": 0.17,
+            "CHOCDF": 13.8,
+            "FIBTG": 2.4
+        },
+        "category": "Generic foods",
+        "categoryLabel": "food",
+        "foodId": "food_a1gb9ubb72c7snbuxr3weagwv0dd",
+        "image": "https://www.edamam.com/food-img/42c/42c006401027d35add93113548eeaae6.jpg",
+        "knownAs": "apple",
+        "label": "Apple"
+    },
+    "measures": [
+        {
+            "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_serving",
+            "label": "Serving",
+            "weight": 242,
+            "_id": "65d75c266e3ebd01d1b65673",
+            "id": "65d75c266e3ebd01d1b65673"
+        },
+        {
+            "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_unit",
+            "label": "Whole",
+            "weight": 182,
+            "_id": "65d75c266e3ebd01d1b65674",
+            "id": "65d75c266e3ebd01d1b65674"
+        },
+        {
+            "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_apple",
+            "label": "Apple",
+            "weight": 182,
+            "_id": "65d75c266e3ebd01d1b65675",
+            "id": "65d75c266e3ebd01d1b65675"
+        },
+        {
+            "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_gram",
+            "label": "Gram",
+            "weight": 1,
+            "_id": "65d75c266e3ebd01d1b65676",
+            "id": "65d75c266e3ebd01d1b65676"
+        },
+        {
+            "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce",
+            "label": "Ounce",
+            "weight": 28.349523125,
+            "_id": "65d75c266e3ebd01d1b65677",
+            "id": "65d75c266e3ebd01d1b65677"
+        },
+        {
+            "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_pound",
+            "label": "Pound",
+            "weight": 453.59237,
+            "_id": "65d75c266e3ebd01d1b65678",
+            "id": "65d75c266e3ebd01d1b65678"
+        },
+        {
+            "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_kilogram",
+            "label": "Kilogram",
+            "weight": 1000,
+            "_id": "65d75c266e3ebd01d1b65679",
+            "id": "65d75c266e3ebd01d1b65679"
+        },
+        {
+            "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_cup",
+            "label": "Cup",
+            "weight": 109,
+            "_id": "65d75c266e3ebd01d1b6567a",
+            "id": "65d75c266e3ebd01d1b6567a"
+        }
+    ]
+}
