@@ -2,6 +2,10 @@ const sharp = require("sharp");
 
 const compressFile = async (req, res, next) => {
 
+    if(!req.image) {
+        return next();
+    }
+
     const size = (req.headers['content-length'] / 1024).toFixed(0);
     console.log('Size before compression:', size + 'KB');
     const mimeType = req.image.mimeType;
