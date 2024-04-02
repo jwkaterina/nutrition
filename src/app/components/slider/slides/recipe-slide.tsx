@@ -28,7 +28,7 @@ const RecipeSlide = (): JSX.Element => {
                     return (
                         <RecipeCard recipe={recipe.recipe} image={recipe.image && `${recipe.image}`} index={index + 1} key={index + 1} id={recipe.id} open={false}/>
                     )
-                })
+                });
                 setRecipeList(recipeList);
             } catch (err) {}
         };

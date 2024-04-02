@@ -1,26 +1,29 @@
-import { LoadedRecipe, NutrientsProp } from "@/app/types/types";
+import { Nutrient, LoadedRecipe } from "@/app/types/types";
 
-const removeID = (recipe: any) => {
+const removeID = (recipe: any): LoadedRecipe => {
     const newTotalNutrients = Object.fromEntries(
         Object.entries(recipe.recipe.nutrients.totalNutrients)
             .filter(([key]) => key !== 'id' && key !== '_id')
             .map(([key, value]) => [key, {
-                label: (value as NutrientsProp).label,
-                quantity: (value as NutrientsProp).quantity,
-                unit: (value as NutrientsProp).unit
+                label: (value as Nutrient).label,
+                quantity: (value as Nutrient).quantity,
+                unit: (value as Nutrient).unit
             }])
     );
     const newTotalDaily = Object.fromEntries(
         Object.entries(recipe.recipe.nutrients.totalDaily)
             .filter(([key]) => key !== 'id' && key !== '_id')
             .map(([key, value]) => [key, {
-                label: (value as NutrientsProp).label,
-                quantity: (value as NutrientsProp).quantity,
-                unit: (value as NutrientsProp).unit
+                label: (value as Nutrient).label,
+                quantity: (value as Nutrient).quantity,
+                unit: (value as Nutrient).unit
             }])
     );
     return {
         id: recipe.id,
+        creator: recipe.creator,
+        image: recipe.image,
+        imageName: recipe.imageName,
         recipe: {
             name: recipe.recipe.name,
             ingredients: recipe.recipe.ingredients,

@@ -54,7 +54,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             setName(currentRecipe.recipe.name);
             setServings(currentRecipe.recipe.servings);
             setIngredientsString(currentRecipe.recipe.ingredients.join('\n'));
-            setPreviewUrl(currentRecipe.recipe.image);
+            setPreviewUrl(currentRecipe.image);
         }
     }, [currentRecipe]);
 
@@ -87,8 +87,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                 name,
                 servings,
                 nutrients,
-                ingredients: ingredientsArray,
-                image: ''
+                ingredients: ingredientsArray
             };
             setCurrentRecipe({
                 recipe: newRecipe,

@@ -40,7 +40,6 @@ export type MeasureProp = {
 
 export interface Recipe {
     name: string,
-    image: string,
     servings: number,
     ingredients: string[],
     nutrients: Nutrients,
