@@ -1,5 +1,5 @@
-import recipe1 from '../../../../objects/recipe1.json';
-import recipe2 from '../../../../objects/recipe2.json';
+import nutrients1 from '../../../../objects/nutrients1.json';
+import nutrients2 from '../../../../objects/nutrients2.json';
 import { RecipeNutrientsCalculator, MenuNutrientsCalculator } from '../../../../../app/analysis/components/form/utils/nutrients-calculator';
 
 describe("nutrients-calculator", () => {
@@ -7,7 +7,7 @@ describe("nutrients-calculator", () => {
     it('should calculate nutrients for a recipe', () => {
 
         const recipe = {
-            nutrients: recipe1,
+            nutrients: nutrients1,
             totalServings: 3,
             selectedServings: 2
         }
@@ -23,21 +23,11 @@ describe("nutrients-calculator", () => {
     it('should calculate nutrients for a menu', () => {
 
         const recipe_1 = {
-            nutrients: {
-                calories: recipe1.calories,
-                totalNutrients: recipe1.totalNutrients,
-                totalDaily: recipe1.totalDaily,
-                totalWeight: recipe1.totalWeight
-            },
+            nutrients: nutrients1,
             selectedServings: 1
         }
         const recipe_2 = {
-            nutrients: {
-                calories: recipe2.calories,
-                totalNutrients: recipe2.totalNutrients,
-                totalDaily: recipe2.totalDaily,
-                totalWeight: recipe2.totalWeight
-            },          
+            nutrients: nutrients2,          
             selectedServings: 2
         }
         const recipesArr = [recipe_1, recipe_2]

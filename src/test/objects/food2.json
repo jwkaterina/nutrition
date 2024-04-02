@@ -17,58 +17,42 @@
         {
             "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_unit",
             "label": "Whole",
-            "weight": 24.375,
-            "_id": "65d793b4ce5a3ae30afae20c",
-            "id": "65d793b4ce5a3ae30afae20c"
+            "weight": 24.375
         },
         {
             "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_grain",
             "label": "Grain",
-            "weight": 0.2,
-            "_id": "65d793b4ce5a3ae30afae20d",
-            "id": "65d793b4ce5a3ae30afae20d"
+            "weight": 0.2
         },
         {
             "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_gram",
             "label": "Gram",
-            "weight": 1,
-            "_id": "65d793b4ce5a3ae30afae20e",
-            "id": "65d793b4ce5a3ae30afae20e"
+            "weight": 1
         },
         {
             "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_ounce",
             "label": "Ounce",
-            "weight": 28.349523125,
-            "_id": "65d793b4ce5a3ae30afae20f",
-            "id": "65d793b4ce5a3ae30afae20f"
+            "weight": 28.349523125
         },
         {
             "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_pound",
             "label": "Pound",
-            "weight": 453.59237,
-            "_id": "65d793b4ce5a3ae30afae210",
-            "id": "65d793b4ce5a3ae30afae210"
+            "weight": 453.59237
         },
         {
             "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_kilogram",
             "label": "Kilogram",
-            "weight": 1000,
-            "_id": "65d793b4ce5a3ae30afae211",
-            "id": "65d793b4ce5a3ae30afae211"
+            "weight": 1000
         },
         {
             "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_handful",
             "label": "Handful",
-            "weight": 24.375,
-            "_id": "65d793b4ce5a3ae30afae212",
-            "id": "65d793b4ce5a3ae30afae212"
+            "weight": 24.375
         },
         {
             "uri": "http://www.edamam.com/ontologies/edamam.owl#Measure_cup",
             "label": "Cup",
-            "weight": 195,
-            "_id": "65d793b4ce5a3ae30afae213",
-            "id": "65d793b4ce5a3ae30afae213"
+            "weight": 195
         }
     ]
 }
