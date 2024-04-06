@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';
-import RecipeSelect from '../../../../app/analysis/components/form/recipe-select';
-import loadedRecipe from '../../../objects/loaded-recipe.json';
+import RecipeSelect from './recipe-select';
+import loadedRecipe from '../../../test_objects/loaded-recipe.json';
 
 describe('recipe-select', () => {
 
