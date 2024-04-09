@@ -1,7 +1,7 @@
 import { createContext, useState, useMemo } from 'react';
 import { CurrentRecipe, AnalysisMode } from '@/app/types/types';
 
-interface CurrentRecipeContextProps {
+export interface CurrentRecipeContextProps {
     currentRecipe: CurrentRecipe,
     setCurrentRecipe: React.SetStateAction<any>
 }

@@ -167,7 +167,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     return (
         <div className={styles.container}>
             <div className={styles.form_container}>
-                <form className={styles.form} onSubmit={handleSubmit}>
+                <form aria-label="form" className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.form_group}>
                         <label htmlFor="recipe-name">Recipe Name</label>
                         <input type="text" id="recipe-name" name="recipe-name" required value={name} onInput={e => handleNameInput(e)}/>
