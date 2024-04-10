@@ -52,7 +52,6 @@ describe('recipe-form', () => {
         }
         renderComponentWithCurrentRecipeContext(false, contextValue);
         
-        screen.logTestingPlaygroundURL();
         const name = screen.getByRole('textbox', {
             name: /recipe name/i
         });
@@ -92,7 +91,6 @@ describe('recipe-form', () => {
         }
         renderComponentWithCurrentRecipeContext(false, contextValue);
         
-        screen.logTestingPlaygroundURL();
         const name = screen.getByRole('textbox', {
             name: /recipe name/i
         });
@@ -134,7 +132,6 @@ describe('recipe-form', () => {
 
         renderComponentWithCurrentRecipeContext(false, contextValue);
 
-        screen.logTestingPlaygroundURL();
         const name = screen.getByRole('textbox', {
             name: /recipe name/i
         });
@@ -192,7 +189,7 @@ describe('recipe-form', () => {
             setFile: jest.fn()
         };
         
-        render(
+        const { container } = render(
             <CurrentRecipeContext.Provider value={{
                 currentRecipe: {
                     recipe: loadedRecipe.recipe,
@@ -211,11 +208,14 @@ describe('recipe-form', () => {
             </CurrentRecipeContext.Provider>
         );
 
+        screen.logTestingPlaygroundURL();
         const form = screen.queryByRole('form', {
             name: /form/i
         });
+        const cardContainer = container.querySelector('.card_container');
 
         expect(form).not.toBeInTheDocument();
+        expect(cardContainer).toBeInTheDocument();
         
     });
 
