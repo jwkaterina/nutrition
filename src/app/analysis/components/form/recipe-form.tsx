@@ -8,7 +8,7 @@ import { CurrentRecipeContext } from '@/app/context/recipe-context';
 import { SlideContext } from "@/app/context/slide-context";
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { CardState, Nutrients, AnalysisMode, Recipe, StatusType } from '@/app/types/types';
+import { CardState, Nutrients, AnalysisMode, Recipe, StatusType, RecipeWithServings, MenuProp } from '@/app/types/types';
 import styles from './form.module.css';
 
 interface RecipeFormProps {
@@ -29,6 +29,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const [servings, setServings] = useState<number>(1);
     const [ingredientsString, setIngredientsString] = useState<string>('');
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [deleteReady, setDeleteReady] =useState<boolean>(false);
     const filePickerRef = useRef<HTMLInputElement | null>(null);
     const router = useRouter();
 
@@ -111,7 +112,8 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             setIsLoading(false);
             return;
         }
-        //TODO: check if menus with this recipe exist
+        if(await menusWithRecipe()) return;
+        
         try {
             await sendRequest(
                 `/recipes/${currentRecipe.id}`,
@@ -126,7 +128,39 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             }, 500);            
             setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
             setMessage("Recipe deleted successfully");
+            setDeleteReady(false);
         } catch (err) {}
+    }
+
+    const menusWithRecipe = async() => {
+        if(deleteReady) return false;
+    
+        const responseData = await sendRequest(
+            `/menus`,'GET', null, {
+                Authorization: 'Bearer ' + token
+            }, true, false
+        );
+        const menus = () => {
+            if (!responseData.menus || !responseData.menus.length) {
+                return null; 
+            }
+            for (const menu of responseData.menus) {
+                if (menu.menu.recipes.length > 0) {
+                    const matchingRecipe = menu.menu.recipes.find((recipe: RecipeWithServings) => recipe.selectedRecipe.name === currentRecipe.recipe?.name);
+                    if (matchingRecipe) {
+                        return menu; 
+                    }
+                }
+            }
+            //TODO: delete menu
+            return null;
+        }
+        if(!menus()) return false;
+    
+        setStatus(StatusType.ERROR);
+        setMessage('Menus with this recipe will be deleted as well. If you agree press delete button again');
+        setDeleteReady(true);
+        return true;
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
