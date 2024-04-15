@@ -1,5 +1,5 @@
-import BarColumn from './utils/bar_column';
-import CircleRow from './utils/circle_row';
+import BarColumn from './figures/bar_column';
+import CircleRow from './figures/circle_row';
 import { Nutrients, Nutrient } from '@/app/types/types';
 import styles from './alanysis_card.module.css';
 

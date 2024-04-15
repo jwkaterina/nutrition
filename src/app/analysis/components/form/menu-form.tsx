@@ -4,13 +4,13 @@ import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import RecipeSelect from './recipe-select';
 import SmallSpinner from '@/app/components/utilities/loading/small-spinner';
 import removeID from './utils/removeID';
-import { MenuNutrientsCalculator, RecipeNutrientsCalculator } from './utils/nutrients-calculator';
 import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
 import { CurrentMenuContext } from '@/app/context/menu-context';
 import { SlideContext } from "@/app/context/slide-context";
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
+import { useMenuFetch } from '@/app/hooks/menu-hook';
 import { CardState, Nutrients, RecipeWithServings, AnalysisMode, StatusType, LoadedRecipe } from '@/app/types/types';
 import styles from './form.module.css';
 
@@ -26,7 +26,8 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
     const { setMessage, setStatus } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
-    const {sendRequest} = useHttpClient();
+    const { sendRequest } = useHttpClient();
+    const { fetchMenuNutrients } = useMenuFetch(); 
     const [name, setName] = useState<string>('');
     const [ingredientsString, setIngredientsString] = useState<string>('');
     const [currentRecipes, setCurrentRecipes] = useState<RecipeWithServings[]>([]);
@@ -92,7 +93,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         e.preventDefault();
 
         const ingredientsArray = ArrayfromString(ingredientsString);
-        const nutrients: Nutrients | null = await calculateNutrients(ingredientsArray);
+        const nutrients: Nutrients | null = await fetchMenuNutrients(ingredientsArray, currentRecipes);
 
         if(nutrients) {
             const newMenu = {
@@ -109,53 +110,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             });
             // at the end of analysis set ingredients state to the formatted string in order to avoid unnecessary re-rendering
             setIngredientsString(ingredientsArray.join('\n'));
-        }
-    }
-
-    const calculateNutrients = async (ingredientsArray: string[]): Promise<Nutrients | null> => {
-        const recipesArr = currentRecipes.map((recipe) => { 
-            return {
-                nutrients: recipe.selectedRecipe.nutrients,
-                selectedServings: recipe.selectedServings
-            };
-        })
-        if(ingredientsArray && ingredientsArray.length > 0) {
-            const ingredientsNutrients = await fetchNutrients(ingredientsArray);
-                if(ingredientsNutrients) recipesArr.push({
-                    nutrients: ingredientsNutrients,
-                    selectedServings: 1
-                }); 
-        }
-        if(recipesArr.length > 0) {
-            const nutrients: Nutrients = MenuNutrientsCalculator(recipesArr);
-            return nutrients;
-        } else {
-            setStatus(StatusType.ERROR);
-            setMessage('Could not analyse menu. Choose at least one recipe or ingredient and try again.');
-            return null;
-        }
-    }
-
-    const fetchNutrients = async(ingredientsArray: string[]): Promise<Nutrients> => {
-        try {
-            const ingredientsContent: Nutrients = await sendRequest(
-                `/api/recipe`,
-                'POST',
-                JSON.stringify({
-                    ingredients: ingredientsArray
-                }),
-                { 'Content-Type': 'application/json' },
-                true, false
-            );
-            const ingredientsNutrients: Nutrients = RecipeNutrientsCalculator({
-                nutrients: ingredientsContent, 
-                totalServings: 1, 
-                selectedServings: 1
-            });
-            return ingredientsNutrients;
-        } catch (error) {
-            setMessage('Could not analyse menu. Ensure that all ingredients are spelled correctly and try again.');
-            throw error;
         }
     }
 
@@ -192,6 +146,8 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     }
 
     const handleAddRecipe = async() => {
+        console.log(loadedRecipes);
+        console.log(currentRecipes);
         if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You need to be logged in to add a recipe');
@@ -221,7 +177,12 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         <textarea id="menu-ingredients" name="menu-ingredients"
                         placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredientsString} onInput={e => handleIngredientsInput(e)}/>
                     </div>
-                    <RecipeSelect inputs={inputsnumber} setCurrentRecipes={setCurrentRecipes} currentRecipes={currentRecipes} loadedRecipes={loadedRecipes}/>
+                    <RecipeSelect 
+                        inputs={inputsnumber} 
+                        setCurrentRecipes={setCurrentRecipes} 
+                        currentRecipes={currentRecipes} 
+                        loadedRecipes={loadedRecipes}
+                    />
                     <div className={styles.form_group}>
                         <button type="button" className={styles.add_button} onClick={handleAddRecipe}>Add Recipe</button>
                         {isLoading && <SmallSpinner/>}

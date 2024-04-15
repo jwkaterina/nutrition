@@ -1,5 +1,5 @@
-import Arc from './utils/arc';
-import SmallCircle from './utils/small_circle';
+import Arc from './figures/arc';
+import SmallCircle from './figures/small_circle';
 import styles from './alanysis_card.module.css';
 
 interface CompositionCardProps {

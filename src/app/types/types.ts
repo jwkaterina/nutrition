@@ -42,7 +42,7 @@ export interface Recipe {
     name: string,
     servings: number,
     ingredients: string[],
-    nutrients: Nutrients,
+    nutrients: Nutrients
 }
 
 export interface MenuProp {
@@ -70,6 +70,7 @@ export type Nutrient = {
 }
 
 export interface RecipeWithServings {
+    selectedRecipeId: string,
     selectedRecipe: Recipe,
     selectedServings: number
 }

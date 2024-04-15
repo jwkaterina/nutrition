@@ -1,4 +1,4 @@
-import BarRow from './utils/bar_row';
+import BarRow from './figures/bar_row';
 import { Nutrient, Nutrients } from '@/app/types/types';
 import styles from './alanysis_card.module.css';
 

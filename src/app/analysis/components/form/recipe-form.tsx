@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState, useRef } from 'react';
 import { useRouter} from 'next/navigation';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
-import { RecipeNutrientsCalculator } from './utils/nutrients-calculator';
 import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
 import { SlideContext } from "@/app/context/slide-context";
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { CardState, Nutrients, AnalysisMode, Recipe, StatusType, RecipeWithServings, MenuProp } from '@/app/types/types';
+import { useRecipeFetch } from '@/app/hooks/recipe-hook';
+import { CardState, AnalysisMode, Recipe, StatusType, RecipeWithServings } from '@/app/types/types';
 import styles from './form.module.css';
 
 interface RecipeFormProps {
@@ -25,6 +25,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const { setMessage, setStatus, setIsLoading } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const {sendRequest} = useHttpClient();
+    const { fetchRecipeNutrients } = useRecipeFetch();
     const [name, setName] = useState<string>('');
     const [servings, setServings] = useState<number>(1);
     const [ingredientsString, setIngredientsString] = useState<string>('');
@@ -69,21 +70,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         const ingredientsArray = ArrayfromString(ingredientsString);
 
         try {
-            const recipeContent: Nutrients = await sendRequest(
-                `/api/recipe`,
-                'POST',
-                JSON.stringify({
-                    ingredients: ingredientsArray
-                }),
-                { 'Content-Type': 'application/json' },
-                true, false
-            );
-       
-            const nutrients: Nutrients = RecipeNutrientsCalculator({
-                nutrients: recipeContent, 
-                totalServings: servings, 
-                selectedServings: 1
-            });
+            const nutrients = await fetchRecipeNutrients(ingredientsArray);
             const newRecipe: Recipe = {
                 name,
                 servings,

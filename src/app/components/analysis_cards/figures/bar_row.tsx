@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Nutrient } from '@/app/types/types';
-import styles from './utils.module.css';
+import styles from './figures.module.css';
 
 interface BarRowProps {
     nutrient: Nutrient;

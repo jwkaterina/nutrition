@@ -1,4 +1,4 @@
-import HalfCircle from './utils/half_circle';
+import HalfCircle from './figures/half_circle';
 import { Nutrients, Nutrient } from '@/app/types/types';
 import styles from './alanysis_card.module.css';
 

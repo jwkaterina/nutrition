@@ -1,4 +1,4 @@
-import styles from './utils.module.css';
+import styles from './figures.module.css';
 
 interface SmallCircleProps {
     percent: number,

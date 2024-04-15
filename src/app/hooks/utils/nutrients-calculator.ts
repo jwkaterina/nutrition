@@ -45,7 +45,7 @@ export const RecipeNutrientsCalculator = (recipe: RecipeCalculatorProps): Nutrie
 
 RecipeNutrientsCalculator;
 
-interface MenuCalculatorProps {
+export interface MenuCalculatorProps {
     nutrients: Nutrients, 
     selectedServings: number
 }
