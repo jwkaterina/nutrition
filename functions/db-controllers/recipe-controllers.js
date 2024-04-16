@@ -7,7 +7,7 @@ const Recipe = require('../models/recipe');
 const User = require('../models/user');
 const gcpStorage = require('../storage-controllers/gcpStorage-controllers');
 
-const getRecipes = async (req, res, next) => {
+const getAllRecipes = async (req, res, next) => {
     const userId = req.userData.userId;
 
     let userWithRecipe;
@@ -35,6 +35,33 @@ const getRecipes = async (req, res, next) => {
         )
     });
 };
+
+const getRecipesById = async (req, res, next) => {
+    const recipeID = req.params.id;
+    let recipe;
+    try {
+        recipe = await Recipe.findById(recipeID);
+    } catch (err) {
+        console.error(err);
+        const error = new HttpError(
+            'Could not find recipe. Try again later.',
+            500
+        );
+        return next(error);
+    }
+
+    if (!recipe) {
+        console.error('Could not find recipe by id.');
+        return next(
+        new HttpError('Could not find recipe. Try again later.', 404)
+        );
+    }
+
+    res.json({
+        recipe: recipe.toObject({ getters: true }) 
+    });
+
+}
 
 const createRecipe = async (req, res, next) => {
 
@@ -106,7 +133,7 @@ const updateRecipe = async (req, res, next) => {
     const updatedRecipe = JSON.parse(recipeString);
 
     const updatedImage = req.image && req.image.url;
-    const recipeId = req.params.pid;
+    const recipeId = req.params.id;
 
     let recipe;
     try {
@@ -158,7 +185,7 @@ const updateRecipe = async (req, res, next) => {
 };
 
 const deleteRecipe = async (req, res, next) => {
-    const recipeId = req.params.pid;
+    const recipeId = req.params.id;
 
     let recipe;
     try {
@@ -211,10 +238,78 @@ const deleteRecipe = async (req, res, next) => {
         }
     }
 
+    try {
+        await modifyMenus(recipeId, recipe.creator, next);
+    } catch(err) {
+        console.error(err);
+        const error = new HttpError(
+            'Could not modify menu. Try again later.',
+            500
+        );
+        return next(error);
+    }
+
     res.status(200).json({ message: 'Deleted recipe.' });
 };
 
-exports.getRecipes = getRecipes;
+const modifyMenus = async(recipeId, user, next) => {
+    let userWithMenu;
+    try {
+        userWithMenu = await User.findById(user.id).populate('menus');
+    } catch (err) {
+        console.error(err);
+        const error = new HttpError(
+            'Could not find menu. Try again later.',
+            500
+        );
+        return next(error);
+    }
+
+    if (!userWithMenu) {
+        console.error('Could not find menu by id.')
+        return next(
+        new HttpError('Could not find menu. Try again later.', 404)
+        );
+    }
+    userWithMenu.menus.forEach(async(menu) => {
+        menu.menu.recipes = menu.menu.recipes.filter(recipe => recipe.selectedRecipe != recipeId);
+        if(menu.menu.recipes.length == 0 && menu.menu.ingredients.length == 0) {
+            console.log('empty menu');
+            try {
+                const sess = await mongoose.startSession();
+                sess.startTransaction();
+                await menu.deleteOne({ session: sess });
+                user.menus.pull(menu);
+                await user.save({ session: sess });
+                await sess.commitTransaction();
+                return next();
+
+            } catch (err) {
+                console.error(err);
+                const error = new HttpError(
+                    'Could not delete empty menu. Try again later.',
+                    500
+                );
+                return next(error);
+            }
+        }
+        try {
+            await menu.save();
+        } catch (err) {
+            console.error(err);
+            const error = new HttpError(
+                'Could not update menu in favorites. Try again later.',
+                500
+            );
+            return next(error);
+        }
+    });
+
+    next();
+}
+
+exports.getAllRecipes = getAllRecipes;
+exports.getRecipesById = getRecipesById;
 exports.createRecipe = createRecipe;
 exports.updateRecipe = updateRecipe;
 exports.deleteRecipe = deleteRecipe;

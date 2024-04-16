@@ -16,6 +16,7 @@ const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes
         if (loadedRecipes && loadedRecipes.length > 0) {
             if (inputs > currentRecipes.length) {
                 const newRecipes: RecipeWithServings[] = Array(inputs - currentRecipes.length).fill({
+                    selectedRecipeId: loadedRecipes[0].id,
                     selectedRecipe: loadedRecipes[0].recipe,
                     selectedServings: 1
                 });
@@ -28,9 +29,10 @@ const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes
     const SelectInputs = () => {
 
         const handleInputChange = (index: number, id: string) => {
-            const newRecipe = loadedRecipes.find(recipe => recipe.id === id)!.recipe;
+            const newRecipe = loadedRecipes.find(recipe => recipe.id === id)!;
             setCurrentRecipes(currentRecipes.map((recipe, i) => i === index ? {
-                selectedRecipe: newRecipe,
+                selectedRecipeId: newRecipe.id,
+                selectedRecipe: newRecipe.recipe,
                 selectedServings: recipe.selectedServings
             } : recipe));
         }
@@ -59,6 +61,7 @@ const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes
  
         const handleInputChange = (index: number, newValue: number) => {
             setCurrentRecipes(currentRecipes.map((recipe, i) => i === index ? {
+                selectedRecipeId: recipe.selectedRecipeId,
                 selectedRecipe: recipe.selectedRecipe,
                 selectedServings: newValue
             } : recipe));

@@ -12,6 +12,6 @@ router.post(
     '/', foodControllers.createFood
 );
 
-router.delete('/:pid', foodControllers.deleteFood);
+router.delete('/:id', foodControllers.deleteFood);
 
 module.exports = router;

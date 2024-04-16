@@ -86,7 +86,16 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
     }
 
     const addMenuToFavorites = async () => {
-        const Menu: MenuProp | null = currentMenu!.menu;
+        const menuRecipes = currentMenu!.menu?.recipes.map(recipe => {
+            return {
+            selectedRecipe: recipe.selectedRecipeId,
+            selectedServings: recipe.selectedServings
+        }});
+        const Menu = {
+            name: currentMenu!.menu?.name,
+            ingredients: currentMenu!.menu?.ingredients,
+            recipes: menuRecipes
+        };
         if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You must be logged in to add menu to favorites.');
@@ -136,7 +145,16 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
     }
 
     const updateMenu = async () => {
-        const Menu: MenuProp | null = currentMenu!.menu;
+        const menuRecipes = currentMenu!.menu?.recipes.map(recipe => {
+            return {
+            selectedRecipe: recipe.selectedRecipeId,
+            selectedServings: recipe.selectedServings
+        }});
+        const Menu = {
+            name: currentMenu!.menu?.name,
+            ingredients: currentMenu!.menu?.ingredients,
+            recipes: menuRecipes
+        };
         if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You must be logged in to update menu.');

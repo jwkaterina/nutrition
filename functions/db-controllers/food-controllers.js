@@ -96,7 +96,7 @@ const createFood = async (req, res, next) => {
 };
 
 const deleteFood = async (req, res, next) => {
-    const foodId = req.params.pid;
+    const foodId = req.params.id;
 
     let food;
     try {

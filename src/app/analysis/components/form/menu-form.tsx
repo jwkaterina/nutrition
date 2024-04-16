@@ -52,7 +52,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                 setMessage('You do not have any favorite recipes.');
             } else {
                 setLoadedRecipes(recipes);
-                setInputsnumber(inputsnumber + 1);
             }
         } catch (err) {
             setIsLoading(false);
@@ -82,7 +81,9 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             setInputsnumber(currentMenu.menu.recipes.length);
             setCurrentRecipes(currentMenu.menu.recipes);
         }
-        if(currentMenu.menu && currentMenu.mode == AnalysisMode.EDIT && currentMenu.menu.recipes.length > 0) fetchRecipes();
+        if(currentMenu.menu && currentMenu.mode == AnalysisMode.EDIT && currentMenu.menu.recipes.length > 0) {
+            fetchRecipes();
+        }
     }, [currentMenu]);
 
     const ArrayfromString = (string: string): string[] => {
@@ -146,14 +147,13 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     }
 
     const handleAddRecipe = async() => {
-        console.log(loadedRecipes);
-        console.log(currentRecipes);
         if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You need to be logged in to add a recipe');
             return;
         }
         fetchRecipes();
+        setInputsnumber(inputsnumber + 1);
     }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (

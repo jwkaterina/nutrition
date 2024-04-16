@@ -99,7 +99,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             setIsLoading(false);
             return;
         }
-        if(await menusWithRecipe()) return;
+        if(!confirmed()) return;
         
         try {
             await sendRequest(
@@ -119,35 +119,13 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         } catch (err) {}
     }
 
-    const menusWithRecipe = async() => {
-        if(deleteReady) return false;
-    
-        const responseData = await sendRequest(
-            `/menus`,'GET', null, {
-                Authorization: 'Bearer ' + token
-            }, true, false
-        );
-        const menus = () => {
-            if (!responseData.menus || !responseData.menus.length) {
-                return null; 
-            }
-            for (const menu of responseData.menus) {
-                if (menu.menu.recipes.length > 0) {
-                    const matchingRecipe = menu.menu.recipes.find((recipe: RecipeWithServings) => recipe.selectedRecipe.name === currentRecipe.recipe?.name);
-                    if (matchingRecipe) {
-                        return menu; 
-                    }
-                }
-            }
-            //TODO: delete menu
-            return null;
-        }
-        if(!menus()) return false;
+    const confirmed = () => {
+        if(deleteReady) return true;
     
         setStatus(StatusType.ERROR);
-        setMessage('Menus with this recipe will be deleted as well. If you agree press delete button again');
+        setMessage('Menus with this recipe will be modified. If you agree press delete button again');
         setDeleteReady(true);
-        return true;
+        return false;
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {

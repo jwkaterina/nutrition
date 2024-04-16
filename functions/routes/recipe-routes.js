@@ -8,7 +8,9 @@ const checkAuth = require('../middleware/check-auth');
 const router = express.Router();
 router.use(checkAuth);
 
-router.get('/', recipeControllers.getRecipes);
+router.get('/', recipeControllers.getAllRecipes);
+
+router.get('/:id', recipeControllers.getRecipesById);
 
 router.post(
     '/', 
@@ -19,13 +21,13 @@ router.post(
 );
 
 router.patch(
-    '/:pid', 
+    '/:id', 
     multer.all,
     compress.compressFile,
     gcpStorageControllers.putImage,
     recipeControllers.updateRecipe
 );
 
-router.delete('/:pid', recipeControllers.deleteRecipe);
+router.delete('/:id', recipeControllers.deleteRecipe);
 
 module.exports = router;

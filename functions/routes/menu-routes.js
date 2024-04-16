@@ -12,8 +12,8 @@ router.post(
     '/', menuControllers.createMenu
 );
 
-router.patch('/:pid', menuControllers.updateMenu);
+router.patch('/:id', menuControllers.updateMenu);
 
-router.delete('/:pid', menuControllers.deleteMenu);
+router.delete('/:id', menuControllers.deleteMenu);
 
 module.exports = router;

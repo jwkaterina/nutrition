@@ -101,7 +101,7 @@ const createMenu = async (req, res, next) => {
 const updateMenu = async (req, res, next) => {
 
     const { updatedMenu } = req.body;
-    const menuId = req.params.pid;
+    const menuId = req.params.id;
     console.log(updatedMenu);
 
     let menu;
@@ -146,7 +146,7 @@ const updateMenu = async (req, res, next) => {
 };
 
 const deleteMenu = async (req, res, next) => {
-    const menuId = req.params.pid;
+    const menuId = req.params.id;
 
     let menu;
     try {
