@@ -1,6 +1,6 @@
-import nutrients1 from '../../../../test_objects/nutrients1.json';
-import nutrients2 from '../../../../test_objects/nutrients2.json';
-import { RecipeNutrientsCalculator, MenuNutrientsCalculator } from '../../../../hooks/utils/nutrients-calculator';
+import nutrients1 from '../../test_objects/nutrients1.json';
+import nutrients2 from '../../test_objects/nutrients2.json';
+import { RecipeNutrientsCalculator, MenuNutrientsCalculator } from './nutrients-calculator';
 
 describe("nutrients-calculator", () => {
 

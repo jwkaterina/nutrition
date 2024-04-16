@@ -11,6 +11,7 @@ describe('recipe-select', () => {
             inputs: 1,
             setCurrentRecipes: jest.fn(),
             currentRecipes: [{
+                selectedRecipeId: loadedRecipe.id,
                 selectedRecipe: loadedRecipe.recipe,
                 selectedServings: 2
             }],
@@ -25,11 +26,10 @@ describe('recipe-select', () => {
 
         await user.type(numberInput, '5');
         expect(props.setCurrentRecipes).toHaveBeenCalledWith([{
+            selectedRecipeId: loadedRecipe.id,
             selectedRecipe: loadedRecipe.recipe,
             selectedServings: 25
         }]);
-
-        screen.logTestingPlaygroundURL();
 
     });
 
@@ -38,6 +38,7 @@ describe('recipe-select', () => {
             inputs: 1,
             setCurrentRecipes: jest.fn(),
             currentRecipes: [{
+                selectedRecipeId: loadedRecipe.id,
                 selectedRecipe: loadedRecipe.recipe,
                 selectedServings: 2
             }],
@@ -46,16 +47,14 @@ describe('recipe-select', () => {
         
         render(<RecipeSelect {...props} />);
 
-
         const selectInput = screen.getByRole('combobox');
 
         await user.selectOptions(selectInput, 'Recipe 40');
         expect(props.setCurrentRecipes).toHaveBeenCalledWith([{
+            selectedRecipeId: loadedRecipe.id,
             selectedRecipe: loadedRecipe.recipe,
             selectedServings: 2
         }]);
-
-        screen.logTestingPlaygroundURL();
 
     });
 });
