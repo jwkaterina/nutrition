@@ -10,8 +10,11 @@ interface TogglerProps {
 const Toggler = ({ foodType, setFilter, filter }: TogglerProps): JSX.Element => {
 
     const handleCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(e.target.checked) setFilter([...filter, foodType]);
-        else setFilter(filter.filter(item => item !== foodType));
+        if(e.target.checked) {
+            setFilter([...filter, foodType])
+        } else {
+            setFilter(filter.filter(item => item !== foodType));
+        }
     }
 
     return (
