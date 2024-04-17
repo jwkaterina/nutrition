@@ -2,7 +2,7 @@ import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } fro
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import FoodList from './food-list';
-import SortButtons from './sort_buttons';
+import SortButtons from './sort-buttons';
 import Options from './options';
 import { CardOpenContext } from '@/app/context/card-context';
 import { useHttpClient} from '@/app/hooks/http-hook';

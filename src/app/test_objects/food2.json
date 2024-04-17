@@ -4,7 +4,8 @@
             "ENERC_KCAL": 360,
             "PROCNT": 6.61,
             "FAT": 0.58,
-            "CHOCDF": 79.3
+            "CHOCDF": 79.3,
+            "FIBTG": 35
         },
         "category": "Generic foods",
         "categoryLabel": "food",

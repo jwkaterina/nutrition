@@ -9,7 +9,6 @@ import { CardOpenContext } from '@/app/context/card-context';
 import { AnalysisMode, CardState } from '@/app/types/types';
 import menu from '@/app/test_objects/menu1.json';
 import loadedRecipeWithID from '@/app/test_objects/loaded-recipe-withIDs.json';
-import loadedRecipe from '@/app/test_objects/loaded-recipe.json';
 import { useHttpClient } from '@/app/hooks/http-hook';
 
 jest.mock('next/navigation', () => ({
