@@ -1,29 +1,33 @@
 import { render, screen } from '@testing-library/react';
+import React from 'react';
 import '@testing-library/jest-dom';
 import user from '@testing-library/user-event';
 import RecipeForm from './recipe-form';
 import { CurrentRecipeContext, CurrentRecipeContextProps } from '@/app/context/recipe-context';
+import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
 import { AnalysisMode, CardState } from '@/app/types/types';
 import loadedRecipe from '@/app/test_objects/loaded-recipe.json';
+import { useHttpClient } from '@/app/hooks/http-hook';
 
 jest.mock('next/navigation', () => ({
-    useRouter() {
-        return {
-            push: '',
-        };
-    },
+    useRouter: jest.fn(),
 }));
 
 jest.mock('../../../components/cards/recipe-cards/recipe-card', () => jest.fn());
 
 jest.mock('../../../hooks/http-hook', () => ({
-    useHttpClient: jest.fn().mockReturnValue({
-      sendRequest: () => loadedRecipe.recipe.nutrients,
+    useHttpClient: jest.fn()
+}));
+
+jest.mock('../../../hooks/recipe-hook', () => ({
+    useRecipeFetch: jest.fn().mockReturnValue({
+        fetchRecipeNutrients: () => loadedRecipe.recipe.nutrients,
     }),
 }));
 
 describe('recipe-form', () => {
+    const mockeduseHttpClient = useHttpClient as jest.Mock;
 
     const renderComponentWithCurrentRecipeContext = (searchCleared: boolean, contextValue: CurrentRecipeContextProps) => {
 
@@ -40,7 +44,8 @@ describe('recipe-form', () => {
     }
 
     it('should render recipe-form in view mode', () => {
- 
+        mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn()});
+
         const contextValue = {
             currentRecipe: {
                 recipe: null,
@@ -79,6 +84,7 @@ describe('recipe-form', () => {
     });
 
     it('should render recipe-form in edit mode', () => {
+        mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn()});
    
         const contextValue = {
             currentRecipe: {
@@ -119,6 +125,7 @@ describe('recipe-form', () => {
     });
 
     it('should sumbit new recipe', async() => {
+        mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn()});
    
         const contextValue = {
             currentRecipe: {
@@ -157,6 +164,137 @@ describe('recipe-form', () => {
             image: null,
             mode: AnalysisMode.VIEW
         });
+    });
+
+    it('should not delete recipe if not logged in', async() => {
+   
+        mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn()});
+
+        const props = {
+            searchCleared: false, 
+            setClearSearch: jest.fn(), 
+            setFile: jest.fn()
+        };
+        
+        const contextValue = {
+            currentRecipe: {
+                recipe: loadedRecipe.recipe,
+                id: loadedRecipe.id,
+                image: loadedRecipe.image,
+                mode: AnalysisMode.EDIT
+            },
+            setCurrentRecipe: jest.fn()
+        }
+        render(
+            <CurrentRecipeContext.Provider value={contextValue}>
+                <AuthContext.Provider value={{
+                    isLoggedIn: false,
+                    token: null,
+                    login: jest.fn(),
+                    logout: jest.fn()
+                }}>
+                    <RecipeForm {...props} />
+                </AuthContext.Provider>
+            </CurrentRecipeContext.Provider>
+        );
+
+        const deleteButton = screen.getByRole('button', {
+            name: /delete/i
+        });
+
+        await user.click(deleteButton);
+
+        expect(contextValue.setCurrentRecipe).not.toHaveBeenCalled();
+    });
+
+    it('should delete recipe when request is sent successfulle', async() => {
+   
+        mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn().mockResolvedValueOnce});
+        
+        const props = {
+            searchCleared: false, 
+            setClearSearch: jest.fn(), 
+            setFile: jest.fn()
+        };
+        
+        const contextValue = {
+            currentRecipe: {
+                recipe: loadedRecipe.recipe,
+                id: loadedRecipe.id,
+                image: loadedRecipe.image,
+                mode: AnalysisMode.EDIT
+            },
+            setCurrentRecipe: jest.fn()
+        }
+        render(
+            <CurrentRecipeContext.Provider value={contextValue}>
+                <AuthContext.Provider value={{
+                    isLoggedIn: true,
+                    token: '123',
+                    login: jest.fn(),
+                    logout: jest.fn()
+                }}>
+                    <RecipeForm {...props} />
+                </AuthContext.Provider>
+            </CurrentRecipeContext.Provider>
+        );
+
+        const deleteButton = screen.getByRole('button', {
+            name: /delete/i
+        });
+
+        await user.click(deleteButton);
+        expect(contextValue.setCurrentRecipe).not.toHaveBeenCalled();
+
+        // Comment "router.push('/');" in code in order to run test successfully
+
+        await user.click(deleteButton);
+        expect(contextValue.setCurrentRecipe).toHaveBeenCalledWith({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
+    });
+
+    it('should not delete recipe when request returns an error', async() => {
+   
+        mockeduseHttpClient.mockReturnValue({sendRequest: async() => {
+            throw new Error
+        }});
+        
+        const props = {
+            searchCleared: false, 
+            setClearSearch: jest.fn(), 
+            setFile: jest.fn()
+        };
+        
+        const contextValue = {
+            currentRecipe: {
+                recipe: loadedRecipe.recipe,
+                id: loadedRecipe.id,
+                image: loadedRecipe.image,
+                mode: AnalysisMode.EDIT
+            },
+            setCurrentRecipe: jest.fn()
+        }
+        render(
+            <CurrentRecipeContext.Provider value={contextValue}>
+                <AuthContext.Provider value={{
+                    isLoggedIn: true,
+                    token: '123',
+                    login: jest.fn(),
+                    logout: jest.fn()
+                }}>
+                    <RecipeForm {...props} />
+                </AuthContext.Provider>
+            </CurrentRecipeContext.Provider>
+        );
+
+        const deleteButton = screen.getByRole('button', {
+            name: /delete/i
+        });
+
+        await user.click(deleteButton);
+        expect(contextValue.setCurrentRecipe).not.toHaveBeenCalled();
+
+        await user.click(deleteButton);
+        expect(contextValue.setCurrentRecipe).not.toHaveBeenCalled();
     });
 
     it('should reset recipe', () => {

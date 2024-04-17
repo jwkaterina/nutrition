@@ -30,7 +30,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const [servings, setServings] = useState<number>(1);
     const [ingredientsString, setIngredientsString] = useState<string>('');
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [deleteReady, setDeleteReady] =useState<boolean>(false);
+    const [deleteReady, setDeleteReady] = useState<boolean>(false);
     const filePickerRef = useRef<HTMLInputElement | null>(null);
     const router = useRouter();
 
@@ -100,7 +100,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             return;
         }
         if(!confirmed()) return;
-        
+
         try {
             await sendRequest(
                 `/recipes/${currentRecipe.id}`,
