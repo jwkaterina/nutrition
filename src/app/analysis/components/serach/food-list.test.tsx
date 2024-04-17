@@ -49,7 +49,6 @@ describe('food-list', () => {
     }
     
     const { container } = render(<FoodList {...props} />);
-    screen.logTestingPlaygroundURL();
 
     it('should render food list in caloreis ascending order', () => {
         const cards = container.querySelectorAll('.card');
