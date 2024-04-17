@@ -1,7 +1,7 @@
 import { createContext, useState, useMemo } from 'react';
 import { CurrentMenu, AnalysisMode } from '@/app/types/types';
 
-interface CurrentMenuContextProps {
+export interface CurrentMenuContextProps {
     currentMenu: CurrentMenu,
     setCurrentMenu: React.SetStateAction<any>
 }
