@@ -1,6 +1,6 @@
-import Arc from './figures/arc';
-import SmallCircle from './figures/small_circle';
-import styles from './alanysis_card.module.css';
+import Arc from './diagrams/arc';
+import SmallCircle from './diagrams/small-circle';
+import styles from './alanysis-card.module.css';
 
 interface CompositionCardProps {
     protein: number | null;

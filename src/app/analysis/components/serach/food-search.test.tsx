@@ -82,7 +82,7 @@ describe('food search', () => {
         expect(input).toHaveValue('banana');
     });
 
-    it('should display cards on enter key', async() => {
+    it('should clear search', async() => {
 
         const { container } = render(<FoodSearch {...props} />);
 

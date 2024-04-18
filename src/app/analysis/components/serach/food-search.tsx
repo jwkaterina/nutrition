@@ -88,6 +88,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 				'GET', null, {}, true, false
 			);
 			if(result) setHintsArr(result.hints);
+			console.log(result.hints);
 			if(result.hints.length == 0) {
 				setMessage('Food not found.');
 				setStatus(StatusType.ERROR);

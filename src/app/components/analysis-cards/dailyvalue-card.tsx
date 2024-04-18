@@ -1,6 +1,6 @@
-import HalfCircle from './figures/half_circle';
+import HalfCircle from './diagrams/half-circle';
 import { Nutrients, Nutrient } from '@/app/types/types';
-import styles from './alanysis_card.module.css';
+import styles from './alanysis-card.module.css';
 
 interface DailyValueCardProps {
     content: Nutrients | null;

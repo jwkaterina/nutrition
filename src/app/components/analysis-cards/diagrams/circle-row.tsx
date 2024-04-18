@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Nutrient } from '@/app/types/types';
-import styles from './figures.module.css';
+import styles from './diagrams.module.css';
 
 
 interface CircleRowProps {

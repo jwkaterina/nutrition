@@ -1,5 +1,5 @@
 import { MenuProp } from '@/app/types/types';
-import styles from '../../analysis_cards/alanysis_card.module.css';
+import styles from '../../analysis-cards/alanysis-card.module.css';
 
 interface MenuHeaderCardProps {
     menu: MenuProp

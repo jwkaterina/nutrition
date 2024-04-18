@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import BigNutrientsCard from '../../analysis_cards/bignutrients_card';
-import CompositionCard from '../../analysis_cards/composition_card';
-import DailyValueCard from '../../analysis_cards/dailyvalue_card';
-import FatsCard from '../../analysis_cards/fats_card';
+import BigNutrientsCard from '../../analysis-cards/bignutrients-card';
+import CompositionCard from '../../analysis-cards/composition-card';
+import DailyValueCard from '../../analysis-cards/dailyvalue-card';
+import FatsCard from '../../analysis-cards/fats-card';
 import FoodHeaderCard from './header-foodcard';
-import MineralsCard from '../../analysis_cards/minerals_card';
-import VitaminsCard from '../../analysis_cards/vitamins_card';
+import MineralsCard from '../../analysis-cards/minerals-card';
+import VitaminsCard from '../../analysis-cards/vitamins-card';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { Food, Nutrients } from '@/app/types/types';
 import styles from '../card.module.css';

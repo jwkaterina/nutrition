@@ -3,7 +3,7 @@ import SmallSpinner from '../../utilities/loading/small-spinner';
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { Food, MeasureProp, Nutrients } from '@/app/types/types';
-import styles from '../../analysis_cards/alanysis_card.module.css';
+import styles from '../../analysis-cards/alanysis-card.module.css';
 
 interface FoodHeaderCardProps {
     food: Food,

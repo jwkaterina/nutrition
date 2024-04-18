@@ -1,7 +1,7 @@
-import Arc from './figures/arc';
-import SmallCircle from './figures/small_circle';
+import Arc from './diagrams/arc';
+import SmallCircle from './diagrams/small-circle';
 import { Nutrients, Nutrient } from '@/app/types/types';
-import styles from './alanysis_card.module.css';
+import styles from './alanysis-card.module.css';
 
 interface FatsCardProps {
     content: Nutrients | null;

@@ -1,6 +1,6 @@
-import BarRow from './figures/bar_row';
+import BarRow from './diagrams/bar-row';
 import { Nutrient, Nutrients } from '@/app/types/types';
-import styles from './alanysis_card.module.css';
+import styles from './alanysis-card.module.css';
 
 interface BigNutrientsCardProps {
     content: Nutrients | null;
