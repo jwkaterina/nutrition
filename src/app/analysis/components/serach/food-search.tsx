@@ -80,7 +80,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 
 		setShowOptions(false);
 		setQueryOptions(null);
-		setInput(option.innerText);
+		setInput(option.innerHTML);
 
 		try {
 			const result = await sendRequest(
@@ -165,7 +165,8 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 				setFilter={setFilter} 
 				filter={filter} 
 				isOpen={isFilterOpen} 
-				setOpen={setIsFilterOpen}/>}
+				setOpen={setIsFilterOpen}
+			/>}
             {foodArr.length > 0 && <FoodList foodArr={foodArr} sort={sort}/>}
         </div>
     );

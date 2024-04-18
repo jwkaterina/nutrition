@@ -7,16 +7,7 @@ import food_2 from '@/app/test_objects/food2.json';
 
 describe('food-list', () => {
 
-    Object.defineProperty(window, 'matchMedia', {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-            matches: query === '(max-width: 500px)',
-            media: query,
-            addListener: jest.fn(),
-            removeListener: jest.fn(),
-            dispatchEvent: jest.fn(),
-        }))
-    });
+    Object.defineProperty(window, 'matchMedia', {value: jest.fn()});
 
     const food1 = {
         food: {
