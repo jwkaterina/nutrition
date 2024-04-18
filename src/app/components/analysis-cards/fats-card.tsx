@@ -9,11 +9,11 @@ interface FatsCardProps {
 
 const FatsCard = ({ content }: FatsCardProps) => {
 
-    const totalFat: Nutrient = content!.totalNutrients.FAT;
-    const satFat: Nutrient = content!.totalNutrients.FASAT;
-    const transFat: Nutrient = content!.totalNutrients.FATRN;
-    const monounsatFat: Nutrient = content!.totalNutrients.FAMS;
-    const polyunsatFat: Nutrient = content!.totalNutrients.FAPU;
+    const totalFat: Nutrient | undefined = content?.totalNutrients.FAT;
+    const satFat: Nutrient | undefined = content?.totalNutrients.FASAT;
+    const transFat: Nutrient | undefined = content?.totalNutrients.FATRN;
+    const monounsatFat: Nutrient | undefined = content?.totalNutrients.FAMS;
+    const polyunsatFat: Nutrient | undefined = content?.totalNutrients.FAPU;
 
     let  transfatPercent: number | null = null, 
     satfatPercent: number | null = null, 

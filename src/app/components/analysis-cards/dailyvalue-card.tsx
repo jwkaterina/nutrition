@@ -8,15 +8,15 @@ interface DailyValueCardProps {
 
 const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
 
-    const calories: Nutrient = content!.totalNutrients.ENERC_KCAL;
-    const protein: Nutrient = content!.totalNutrients.PROCNT;
-    const carbs: Nutrient = content!.totalNutrients.CHOCDF;
-    const fat: Nutrient = content!.totalNutrients.FAT;
+    const calories: Nutrient | undefined = content?.totalNutrients.ENERC_KCAL;
+    const protein: Nutrient | undefined = content?.totalNutrients.PROCNT;
+    const carbs: Nutrient | undefined = content?.totalNutrients.CHOCDF;
+    const fat: Nutrient | undefined = content?.totalNutrients.FAT;
 
-    const dailyCalories: Nutrient = content!.totalDaily.ENERC_KCAL;
-    const dailyProtein: Nutrient = content!.totalDaily.PROCNT;
-    const dailyCarbs: Nutrient = content!.totalDaily.CHOCDF;
-    const dailyFat: Nutrient = content!.totalDaily.FAT;
+    const dailyCalories: Nutrient | undefined = content?.totalDaily.ENERC_KCAL;
+    const dailyProtein: Nutrient | undefined = content?.totalDaily.PROCNT;
+    const dailyCarbs: Nutrient | undefined = content?.totalDaily.CHOCDF;
+    const dailyFat: Nutrient | undefined = content?.totalDaily.FAT;
 
     return (
         <div className={styles.container} style={{gridArea: 'dailyValue'}}>

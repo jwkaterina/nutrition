@@ -8,17 +8,17 @@ interface BigNutrientsCardProps {
 
 const BigNutrientsCard = ({ content }: BigNutrientsCardProps): JSX.Element => {
 
-    const satFat: Nutrient = content!.totalNutrients.FASAT;
-    const cholesterol: Nutrient = content!.totalNutrients.CHOLE;
-    const fiber: Nutrient = content!.totalNutrients.FIBTG;
-    const sugar: Nutrient = content!.totalNutrients.SUGAR;
-    const sodium: Nutrient = content!.totalNutrients.NA;
+    const satFat: Nutrient | undefined = content?.totalNutrients.FASAT;
+    const cholesterol: Nutrient | undefined = content?.totalNutrients.CHOLE;
+    const fiber: Nutrient | undefined = content?.totalNutrients.FIBTG;
+    const sugar: Nutrient | undefined = content?.totalNutrients.SUGAR;
+    const sodium: Nutrient | undefined = content?.totalNutrients.NA;
 
-    const dailySatFat: Nutrient = content!.totalDaily.FASAT;
-    const dailyCholesterol: Nutrient = content!.totalDaily.CHOLE;
-    const dailyFiber: Nutrient = content!.totalDaily.FIBTG;
-    const dailySugar: Nutrient = content!.totalDaily.SUGAR;
-    const dailySodium: Nutrient = content!.totalDaily.NA;
+    const dailySatFat: Nutrient | undefined = content?.totalDaily.FASAT;
+    const dailyCholesterol: Nutrient | undefined = content?.totalDaily.CHOLE;
+    const dailyFiber: Nutrient | undefined = content?.totalDaily.FIBTG;
+    const dailySugar: Nutrient | undefined = content?.totalDaily.SUGAR;
+    const dailySodium: Nutrient | undefined = content?.totalDaily.NA;
 
     if(!satFat && !cholesterol && !fiber && !sugar && !sodium) return (
         <div className={styles.container} style={{gridArea: 'bigNutrients'}}>

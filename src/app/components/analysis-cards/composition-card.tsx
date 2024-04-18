@@ -15,12 +15,13 @@ const CompositionCard = ({ protein, carbs, fat }: CompositionCardProps): JSX.Ele
     fatPercent: number | null = null, 
     waterPercent: number | null = null;
     if(protein) proteinPercent = protein;
-    if(protein && protein == 0) proteinPercent = 0.1;
+    if(protein == 0) proteinPercent = 0.1;
     if(carbs) carbsPercent = carbs;
-    if(carbs && carbs == 0) carbsPercent = 0.1;
+    if(carbs == 0) carbsPercent = 0.1;
     if(fat) fatPercent = fat;
-    if(fat && fat == 0) fatPercent = 0.1;
-    if(protein && carbs && fat) waterPercent = 100 - (protein + carbs + fat);
+    if(fat == 0) fatPercent = 0.1;
+    if(proteinPercent && carbsPercent && fatPercent) waterPercent = 100 - (proteinPercent + carbsPercent + fatPercent);
+    console.log('proteinPercent:', proteinPercent, 'carbsPercent:', carbsPercent, 'fatPercent:', fatPercent, 'waterPercent:', waterPercent)
 
     let waterDeg: number | null = null, 
     proteinDeg: number | null = null, 

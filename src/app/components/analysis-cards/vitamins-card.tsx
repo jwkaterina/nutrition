@@ -15,33 +15,33 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
         mediaQuery = window.matchMedia('(max-width: 500px)');
     }
 
-    const vitaminA: Nutrient = content!.totalNutrients.VITA_RAE;
-    const vitaminC: Nutrient = content!.totalNutrients.VITC;
-    const thiamin: Nutrient = content!.totalNutrients.THIA;
-    const riboflavin: Nutrient = content!.totalNutrients.RIBF;
-    const niacin: Nutrient = content!.totalNutrients.NIA;
-    const vitaminB6: Nutrient = content!.totalNutrients.VITB6A;
-    const folateDFE: Nutrient = content!.totalNutrients.FOLDFE;
-    const folateFood: Nutrient = content!.totalNutrients.FOLFD;
-    const folicAcid: Nutrient = content!.totalNutrients.FOLAC;
-    const vitaminB12: Nutrient = content!.totalNutrients.VITB12;
-    const vitaminD: Nutrient = content!.totalNutrients.VITD;
-    const vitaminE: Nutrient = content!.totalNutrients.TOCPHA;
-    const vitaminK: Nutrient = content!.totalNutrients.VITK1;
+    const vitaminA: Nutrient | undefined = content?.totalNutrients.VITA_RAE;
+    const vitaminC: Nutrient | undefined = content?.totalNutrients.VITC;
+    const thiamin: Nutrient | undefined = content?.totalNutrients.THIA;
+    const riboflavin: Nutrient | undefined = content?.totalNutrients.RIBF;
+    const niacin: Nutrient | undefined = content?.totalNutrients.NIA;
+    const vitaminB6: Nutrient | undefined = content?.totalNutrients.VITB6A;
+    const folateDFE: Nutrient | undefined = content?.totalNutrients.FOLDFE;
+    const folateFood: Nutrient | undefined = content?.totalNutrients.FOLFD;
+    const folicAcid: Nutrient | undefined = content?.totalNutrients.FOLAC;
+    const vitaminB12: Nutrient | undefined = content?.totalNutrients.VITB12;
+    const vitaminD: Nutrient | undefined = content?.totalNutrients.VITD;
+    const vitaminE: Nutrient | undefined = content?.totalNutrients.TOCPHA;
+    const vitaminK: Nutrient | undefined = content?.totalNutrients.VITK1;
 
-    const vitaminAPercent: Nutrient = content!.totalDaily.VITA_RAE;
-    const vitaminCPercent: Nutrient = content!.totalDaily.VITC;
-    const thiaminPercent: Nutrient = content!.totalDaily.THIA;
-    const riboflavinPercent: Nutrient = content!.totalDaily.RIBF;
-    const niacinPercent: Nutrient = content!.totalDaily.NIA;
-    const vitaminB6Percent: Nutrient = content!.totalDaily.VITB6A;
-    const folateDFEPercent: Nutrient = content!.totalDaily.FOLDFE;
-    const folateFoodPercent: Nutrient = content!.totalDaily.FOLFD;
-    const folicAcidPercent: Nutrient = content!.totalDaily.FOLAC;
-    const vitaminB12Percent: Nutrient = content!.totalDaily.VITB12;
-    const vitaminDPercent: Nutrient = content!.totalDaily.VITD;
-    const vitaminEPercent: Nutrient = content!.totalDaily.TOCPHA;
-    const vitaminKPercent: Nutrient = content!.totalDaily.VITK1;
+    const vitaminAPercent: Nutrient | undefined = content?.totalDaily.VITA_RAE;
+    const vitaminCPercent: Nutrient | undefined = content?.totalDaily.VITC;
+    const thiaminPercent: Nutrient | undefined = content?.totalDaily.THIA;
+    const riboflavinPercent: Nutrient | undefined = content?.totalDaily.RIBF;
+    const niacinPercent: Nutrient | undefined = content?.totalDaily.NIA;
+    const vitaminB6Percent: Nutrient | undefined = content?.totalDaily.VITB6A;
+    const folateDFEPercent: Nutrient | undefined = content?.totalDaily.FOLDFE;
+    const folateFoodPercent: Nutrient | undefined = content?.totalDaily.FOLFD;
+    const folicAcidPercent: Nutrient | undefined = content?.totalDaily.FOLAC;
+    const vitaminB12Percent: Nutrient | undefined = content?.totalDaily.VITB12;
+    const vitaminDPercent: Nutrient | undefined = content?.totalDaily.VITD;
+    const vitaminEPercent: Nutrient | undefined = content?.totalDaily.TOCPHA;
+    const vitaminKPercent: Nutrient | undefined = content?.totalDaily.VITK1;
 
     if(!vitaminA && !vitaminC && !thiamin && !riboflavin && !niacin && !vitaminB6 && !folateDFE && !folateFood && !folicAcid && !vitaminB12 && !vitaminD && !vitaminE && !vitaminK) return (
         <div className={styles.container} style={{gridArea: 'vitamins', height: '100%'}}>

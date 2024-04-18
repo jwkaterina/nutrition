@@ -32,8 +32,7 @@ const BarColumn = ({ nutrient, nutrientPercent, label, color, lightColor }: BarC
         ];
 
         if(barRef.current) {
-            console.log(barRef.current);
-            // barRef.current.animate(keyframes, options);
+            barRef.current.animate(keyframes, options);
         }
     }, [percentHeight]);
     

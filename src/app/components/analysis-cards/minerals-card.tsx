@@ -15,21 +15,21 @@ const MineralsCard = ({ content }: MineralsCardProps) => {
         mediaQuery = window.matchMedia('(max-width: 500px)');
     }
 
-   const sodium: Nutrient = content!.totalNutrients.NA;
-   const calcium: Nutrient = content!.totalNutrients.CA;
-   const magnesium: Nutrient = content!.totalNutrients.MG;
-   const potassium: Nutrient = content!.totalNutrients.K;
-   const iron: Nutrient = content!.totalNutrients.FE;
-   const zinc: Nutrient = content!.totalNutrients.ZN;
-   const phosphorus: Nutrient = content!.totalNutrients.P;
+   const sodium: Nutrient | undefined = content?.totalNutrients.NA;
+   const calcium: Nutrient | undefined = content?.totalNutrients.CA;
+   const magnesium: Nutrient | undefined = content?.totalNutrients.MG;
+   const potassium: Nutrient | undefined = content?.totalNutrients.K;
+   const iron: Nutrient | undefined = content?.totalNutrients.FE;
+   const zinc: Nutrient | undefined = content?.totalNutrients.ZN;
+   const phosphorus: Nutrient | undefined = content?.totalNutrients.P;
 
-   const sodiumPercent: Nutrient = content!.totalDaily.NA;
-   const calciumPercent: Nutrient = content!.totalDaily.CA;
-   const magnesiumPercent: Nutrient = content!.totalDaily.MG;
-   const potassiumPercent: Nutrient = content!.totalDaily.K;
-   const ironPercent: Nutrient = content!.totalDaily.FE;
-   const zincPercent: Nutrient = content!.totalDaily.ZN;
-   const phosphorusPercent: Nutrient = content!.totalDaily.P;
+   const sodiumPercent: Nutrient | undefined = content?.totalDaily.NA;
+   const calciumPercent: Nutrient | undefined = content?.totalDaily.CA;
+   const magnesiumPercent: Nutrient | undefined = content?.totalDaily.MG;
+   const potassiumPercent: Nutrient | undefined = content?.totalDaily.K;
+   const ironPercent: Nutrient | undefined = content?.totalDaily.FE;
+   const zincPercent: Nutrient | undefined = content?.totalDaily.ZN;
+   const phosphorusPercent: Nutrient | undefined = content?.totalDaily.P;
 
    if(!sodium && !calcium && !magnesium && !potassium && !iron && !zinc && !phosphorus) return (
         <div className={styles.container} style={{gridArea: 'minerals', height: '100%'}}>
