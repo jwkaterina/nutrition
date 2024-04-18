@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { Nutrient } from '@/app/types/types';
 import styles from './diagrams.module.css';
 
-
 interface BarColumnProps {
     nutrient: Nutrient,
     nutrientPercent: Nutrient,
@@ -33,7 +32,8 @@ const BarColumn = ({ nutrient, nutrientPercent, label, color, lightColor }: BarC
         ];
 
         if(barRef.current) {
-            barRef.current.animate(keyframes, options);
+            console.log(barRef.current);
+            // barRef.current.animate(keyframes, options);
         }
     }, [percentHeight]);
     

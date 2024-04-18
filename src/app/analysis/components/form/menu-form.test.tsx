@@ -10,12 +10,13 @@ import { AnalysisMode, CardState } from '@/app/types/types';
 import menu from '@/app/test_objects/menu1.json';
 import loadedRecipeWithID from '@/app/test_objects/loaded-recipe-withIDs.json';
 import { useHttpClient } from '@/app/hooks/http-hook';
+import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
 }));
 
-jest.mock('../../../components/cards/menu-cards/menu-card', () => jest.fn());
+jest.mock('../../../components/cards/menu-cards/menu-card');
 
 jest.mock('../../../hooks/http-hook', () => ({
     useHttpClient: jest.fn()
@@ -361,10 +362,9 @@ describe('menu-form', () => {
         const form = screen.queryByRole('form', {
             name: /form/i
         });
-        const cardContainer = container.querySelector('.card_container');
 
         expect(form).not.toBeInTheDocument();
-        expect(cardContainer).toBeInTheDocument();
+        expect(MenuCard).toHaveBeenCalled();
         
     });
 

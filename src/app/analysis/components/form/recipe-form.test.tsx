@@ -9,12 +9,13 @@ import { CardOpenContext } from '@/app/context/card-context';
 import { AnalysisMode, CardState } from '@/app/types/types';
 import loadedRecipe from '@/app/test_objects/loaded-recipe.json';
 import { useHttpClient } from '@/app/hooks/http-hook';
+import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card'
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
 }));
 
-jest.mock('../../../components/cards/recipe-cards/recipe-card', () => jest.fn());
+jest.mock('../../../components/cards/recipe-cards/recipe-card');
 
 jest.mock('../../../hooks/http-hook', () => ({
     useHttpClient: jest.fn()
@@ -320,6 +321,8 @@ describe('recipe-form', () => {
 
     it('should render recipe card instead of form', () => {
 
+        mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn()});
+
         const props = {
             searchCleared: false, 
             setClearSearch: jest.fn(), 
@@ -348,10 +351,11 @@ describe('recipe-form', () => {
         const form = screen.queryByRole('form', {
             name: /form/i
         });
-        const cardContainer = container.querySelector('.card_container');
+        // const cardContainer = container.querySelector('.card_container');
 
         expect(form).not.toBeInTheDocument();
-        expect(cardContainer).toBeInTheDocument();
+        // expect(cardContainer).toBeInTheDocument();
+        expect(RecipeCard).toHaveBeenCalled();
         
     });
 
