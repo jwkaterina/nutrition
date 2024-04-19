@@ -3,8 +3,8 @@ import { Nutrient } from '@/app/types/types';
 import styles from './diagrams.module.css';
 
 interface HalfCircleProps {
-    nutrient: Nutrient;
-    daily: Nutrient;
+    nutrient: Nutrient | undefined;
+    daily: Nutrient | undefined;
     text: string;
     color: string;
     lighterColor: string,
@@ -43,7 +43,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
 
         const keyframes: Keyframe[] = [
             { strokeDashoffset: circumreference },
-            { strokeDashoffset: `${progressPercent()}` }
+            { strokeDashoffset: progressPercent() }
         ];
 
         if(arc) {
@@ -78,7 +78,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
         }
     }
 
-    if(!nutrient) return <></>;
+    if(!nutrient || !daily) return <></>;
 
     const widthHeight = radius * 2 + strokeWidth * 2;
 

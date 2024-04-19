@@ -22,19 +22,6 @@ const CompositionCard = ({ protein, carbs, fat }: CompositionCardProps): JSX.Ele
     if(fat == 0) fatPercent = 0.1;
     if(proteinPercent && carbsPercent && fatPercent) waterPercent = 100 - (proteinPercent + carbsPercent + fatPercent);
     console.log('proteinPercent:', proteinPercent, 'carbsPercent:', carbsPercent, 'fatPercent:', fatPercent, 'waterPercent:', waterPercent)
-
-    let waterDeg: number | null = null, 
-    proteinDeg: number | null = null, 
-    carbsDeg: number | null = null, 
-    fatDeg: number | null = null;
-    waterDeg = 0;
-    if(waterPercent ) proteinDeg = waterPercent / 100 * 360;
-    if(proteinPercent && waterPercent) carbsDeg = (proteinPercent + waterPercent!) / 100 * 360;
-    if(proteinPercent && carbsPercent && waterPercent) fatDeg = (carbsPercent + proteinPercent + waterPercent) / 100 * 360;
-
-    const radius: number = 60;
-    const strokeWidth: number = 20;
-    const widthHeight: number = 2 * radius + 2 * strokeWidth;
     
     if(!waterPercent || !proteinPercent || !carbsPercent || !fatPercent) return (
         <div className={styles.container} style={{gridArea: 'composition'}}>
@@ -43,6 +30,16 @@ const CompositionCard = ({ protein, carbs, fat }: CompositionCardProps): JSX.Ele
         </div>
     );
 
+ 
+    const waterDeg: number = 0;
+    const proteinDeg: number = waterPercent / 100 * 360;
+    const carbsDeg: number = (proteinPercent + waterPercent) / 100 * 360;
+    const fatDeg: number = (carbsPercent + proteinPercent + waterPercent) / 100 * 360;
+
+    const radius: number = 60;
+    const strokeWidth: number = 20;
+    const widthHeight: number = 2 * radius + 2 * strokeWidth;
+    
     return (
         <div className={styles.container} style={{gridArea: 'composition'}}>
             <h3 className={styles.title}>Composition</h3>

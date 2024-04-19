@@ -3,8 +3,8 @@ import { Nutrient } from '@/app/types/types';
 import styles from './diagrams.module.css';
 
 interface BarRowProps {
-    nutrient: Nutrient;
-    daily: Nutrient;
+    nutrient: Nutrient | undefined;
+    daily: Nutrient | undefined;
     title: string;
     color: string;
 }
@@ -23,7 +23,7 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
             fill: 'forwards'
         };
 
-        const progressPercent = () => {
+        const progressPercent = (): number => {
             if(!daily || daily.quantity == 0) {
                 return length
             } else if(daily.quantity <=100 ) {
@@ -35,7 +35,7 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
 
         const keyframes: Keyframe[] = [
             { strokeDashoffset: length },
-            { strokeDashoffset: `${progressPercent()}` }
+            { strokeDashoffset: progressPercent() }
         ];
 
         if(line) {
@@ -58,7 +58,11 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
         };
     }
 
-    if(!nutrient) return <></>;
+    if(!nutrient || !daily) 
+    {
+        console.log('empty')
+        return <></>;
+    }
 
     return (
         <div className={styles.bar_row}>

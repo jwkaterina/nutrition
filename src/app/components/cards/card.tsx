@@ -17,10 +17,10 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
     const [style, setStyle] = useState({} as React.CSSProperties);
     const cardRef = useRef<HTMLDivElement>(null);
 
-    let mediaQuery600: MediaQueryList | null = null;
+    let mediaQuery500: MediaQueryList | null = null;
     let mediaQuery1000: MediaQueryList | null = null;
     if(typeof window !== 'undefined') {
-        mediaQuery600 = window.matchMedia('(max-width: 500px)');
+        mediaQuery500 = window.matchMedia('(max-width: 500px)');
         mediaQuery1000 = window.matchMedia('(max-width: 1000px)');
     }
 
@@ -30,7 +30,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
     const cardWidth: number = cardRef.current ? cardRef.current.clientWidth : 0;
 
     let column: number, row: number;
-    if(mediaQuery600 && (mediaQuery600 as MediaQueryList).matches) {
+    if(mediaQuery500 && (mediaQuery500 as MediaQueryList).matches) {
         column = 1;
         row = Math.ceil(index);
     } else if(mediaQuery1000 && (mediaQuery1000 as MediaQueryList).matches) {

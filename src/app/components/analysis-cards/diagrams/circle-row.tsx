@@ -4,8 +4,8 @@ import styles from './diagrams.module.css';
 
 
 interface CircleRowProps {
-    nutrient: Nutrient,
-    nutrientPercent: Nutrient,
+    nutrient: Nutrient |  undefined,
+    nutrientPercent: Nutrient | undefined,
     label: string,
     color: string,
     lightColor: string
@@ -38,7 +38,7 @@ const CircleRow = ({ nutrient, nutrientPercent, label, color, lightColor }: Circ
 
         const keyframes: Keyframe[] = [
             { strokeDashoffset: circumreference },
-            { strokeDashoffset: `${progressPercent()}` }
+            { strokeDashoffset: progressPercent() }
         ];
 
         if(arc) {
@@ -66,7 +66,7 @@ const CircleRow = ({ nutrient, nutrientPercent, label, color, lightColor }: Circ
     const centerY = radius + strokeWidth;
     const widthHeight = radius * 2 + strokeWidth * 2;
 
-    if(!nutrient) return <></>;
+    if(!nutrient || !nutrientPercent) return <></>;
 
     return (
         <div className={styles.circle_row}>

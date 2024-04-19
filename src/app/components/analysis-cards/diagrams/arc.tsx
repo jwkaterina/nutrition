@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 interface ArcProps {
-    degree: number | null,
+    degree: number,
     percent: number,
     color: string,
     radius: number,

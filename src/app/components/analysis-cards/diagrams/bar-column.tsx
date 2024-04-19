@@ -3,8 +3,8 @@ import { Nutrient } from '@/app/types/types';
 import styles from './diagrams.module.css';
 
 interface BarColumnProps {
-    nutrient: Nutrient,
-    nutrientPercent: Nutrient,
+    nutrient: Nutrient | undefined,
+    nutrientPercent: Nutrient | undefined,
     label: string,
     color: string,
     lightColor: string
@@ -37,7 +37,7 @@ const BarColumn = ({ nutrient, nutrientPercent, label, color, lightColor }: BarC
     }, [percentHeight]);
     
 
-    if(!nutrient) return <></>;
+    if(!nutrient || !nutrientPercent) return <></>;
 
     return (
         <div className={styles.bar_column}>
