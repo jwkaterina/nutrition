@@ -26,6 +26,7 @@ const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
 
     const handleCardClick = async() => {
         if(isOpen) {
+            // setCurrentFood({});
             return;
         }
         try {

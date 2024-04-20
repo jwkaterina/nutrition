@@ -60,7 +60,6 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
 
     if(!nutrient || !daily) 
     {
-        console.log('empty')
         return <></>;
     }
 

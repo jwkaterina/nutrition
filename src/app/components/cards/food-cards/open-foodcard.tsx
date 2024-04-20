@@ -12,7 +12,7 @@ import styles from '../card.module.css';
 
 interface OpenFoodCardProps {
     food: Food,
-    initialNutrients: Nutrients | null;
+    initialNutrients: Nutrients | null
 }
 
 const OpenFoodCard  = ({ food, initialNutrients }: OpenFoodCardProps): JSX.Element => {
