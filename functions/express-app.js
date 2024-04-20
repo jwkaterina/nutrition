@@ -63,7 +63,7 @@ app.use((error, req, res, next) => {
 mongoose
     .connect(process.env.MONGODB_URL)
     .then(() => {
-        // app.listen(5001);
+        app.listen(5001);
     })
     .catch(err => {
         console.log(err);

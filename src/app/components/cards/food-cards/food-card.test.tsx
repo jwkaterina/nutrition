@@ -4,9 +4,10 @@ import '@testing-library/jest-dom';
 import FoodCard from './food-card';
 import food from '@/app/test_objects/food1.json';
 import nutrients from '@/app/test_objects/nutrients1.json'
-import { FoodType } from '@/app/types/types';
+import { FoodType, CardState } from '@/app/types/types';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { CurrentFoodContext } from '@/app/context/food-context';
+import { CardOpenContext } from '@/app/context/card-context';
 import OpenFoodCard from './open-foodcard';
 
 jest.mock('./open-foodcard');
@@ -49,9 +50,9 @@ describe('food card', () => {
 
         render(<FoodCard {... props} />);
 
-        const img = screen.getByRole('img');
+        const closedCardImg = screen.getByRole('img');
 
-        expect(img).toBeInTheDocument();
+        expect(closedCardImg).toBeInTheDocument();
         expect(OpenFoodCard).not.toHaveBeenCalled();
     })
 
@@ -78,14 +79,14 @@ describe('food card', () => {
 
         render(<FoodCard {... props} />);
 
-        const img = screen.queryByRole('img');
+        const closedCardImg = screen.queryByRole('img');
 
-        expect(img).not.toBeInTheDocument();
+        expect(closedCardImg).not.toBeInTheDocument();
         expect(OpenFoodCard).not.toHaveBeenCalled();
 
     })
 
-    it('should render open food card when is open', async() => {
+    it('should render open food card when is open and do not handle click', async() => {
 
         HTMLElement.prototype.animate = jest.fn();
         mockeduseHttpClient.mockReturnValue({sendRequest: nutrients});
@@ -109,16 +110,22 @@ describe('food card', () => {
         };
 
         const setCurrentFood = jest.fn();
+        const setCardOpen = jest.fn();
         const { container } = render(
-            <CurrentFoodContext.Provider value={{
-                currentFood: {
-                    food: null,
-                    id: null
-                },
-                setCurrentFood: setCurrentFood
+            <CardOpenContext.Provider value={{
+                cardOpen: CardState.OPEN,
+                setCardOpen: setCardOpen
             }}>
-                <FoodCard {... props} />
-            // </CurrentFoodContext.Provider>
+                <CurrentFoodContext.Provider value={{
+                    currentFood: {
+                        food: null,
+                        id: null
+                    },
+                    setCurrentFood: setCurrentFood
+                }}>
+                    <FoodCard {... props} />
+                </CurrentFoodContext.Provider>
+            </CardOpenContext.Provider>
         );
 
         const card = container.querySelector('.card');
@@ -128,6 +135,7 @@ describe('food card', () => {
 
         await user.click(card!);
         expect(setCurrentFood).not.toHaveBeenCalled();
+        expect(setCardOpen).not.toHaveBeenCalled();
     })
 
     it('should open card on click', async() => {
@@ -154,16 +162,22 @@ describe('food card', () => {
         };
 
         const setCurrentFood = jest.fn();
+        const setCardOpen = jest.fn();
         const { container } = render(
-            <CurrentFoodContext.Provider value={{
-                currentFood: {
-                    food: null,
-                    id: null
-                },
-                setCurrentFood: setCurrentFood
+            <CardOpenContext.Provider value={{
+                cardOpen: CardState.CLOSED,
+                setCardOpen: setCardOpen
             }}>
-                <FoodCard {... props} />
-            </CurrentFoodContext.Provider>
+                <CurrentFoodContext.Provider value={{
+                    currentFood: {
+                        food: null,
+                        id: null
+                    },
+                    setCurrentFood: setCurrentFood
+                }}>
+                    <FoodCard {... props} />
+                </CurrentFoodContext.Provider>
+            </CardOpenContext.Provider>
         );
 
         const card = container.querySelector('.card');
@@ -174,6 +188,7 @@ describe('food card', () => {
         screen.logTestingPlaygroundURL();
 
         expect(setCurrentFood).toHaveBeenCalledWith({food: props.food, id: props.id});
+        expect(setCardOpen).toHaveBeenCalledWith(CardState.OPENING);
         expect(OpenFoodCard).toHaveBeenCalledWith({food: props.food, initialNutrients: nutrients}, {});
 
     })
