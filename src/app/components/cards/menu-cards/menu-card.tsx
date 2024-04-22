@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import Card from '../card';
 import ClosedCard from '../closed-card';
-import OpenMenuCard from './open-manucard';
+import OpenMenuCard from './open-menucard';
 import { CardOpenContext } from '@/app/context/card-context';
 import { CurrentMenuContext } from '@/app/context/menu-context';
 import { MenuProp, CardState, AnalysisMode } from '@/app/types/types';

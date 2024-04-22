@@ -84,7 +84,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
         return options;
     }
 
-    const hangleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuantity(parseInt(e.target.value));
     }
 
@@ -109,7 +109,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
     }
 
     const style = () => {
-        if(image) {
+        if(isImage(image)) {
             return { gridTemplateColumns: '1fr 3fr' };
         } else {
             return { gridTemplateColumns: '1fr' };
@@ -129,7 +129,7 @@ const FoodHeaderCard = ({ food, option, setOption, setMeasure, quantity,  setQua
                     type="number" 
                     value={quantity} 
                     placeholder='100' 
-                    onChange={(e) => hangleQuantityChange(e)}
+                    onChange={(e) => handleQuantityChange(e)}
                 />}
                 <select 
                     disabled={blockSelect ? true : false}
