@@ -13,7 +13,9 @@ import { useHttpClient } from '@/app/hooks/http-hook';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 
 jest.mock('next/navigation', () => ({
-    useRouter: jest.fn(),
+    useRouter: jest.fn().mockReturnValue({
+        push: jest.fn()
+    })
 }));
 
 jest.mock('../../../components/cards/menu-cards/menu-card');
@@ -229,7 +231,7 @@ describe('menu-form', () => {
         expect(contextValue.setCurrentMenu).not.toHaveBeenCalled();
     });
 
-    it('should delete menu when request is sent successfulle', async() => {
+    it('should delete menu when request is sent successfully', async() => {
    
         mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn().mockResolvedValueOnce});
         
@@ -262,8 +264,6 @@ describe('menu-form', () => {
         const deleteButton = screen.getByRole('button', {
             name: /delete/i
         });
-
-        // Comment "router.push('/');" in code in order to run test successfully
 
         await user.click(deleteButton);
         expect(contextValue.setCurrentMenu).toHaveBeenCalledWith({id: null, menu: null, mode: AnalysisMode.VIEW});

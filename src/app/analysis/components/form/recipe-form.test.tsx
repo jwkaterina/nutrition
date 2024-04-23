@@ -12,7 +12,9 @@ import { useHttpClient } from '@/app/hooks/http-hook';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card'
 
 jest.mock('next/navigation', () => ({
-    useRouter: jest.fn(),
+    useRouter: jest.fn().mockReturnValue({
+        push: jest.fn()
+    })
 }));
 
 jest.mock('../../../components/cards/recipe-cards/recipe-card');
@@ -245,8 +247,6 @@ describe('recipe-form', () => {
 
         await user.click(deleteButton);
         expect(contextValue.setCurrentRecipe).not.toHaveBeenCalled();
-
-        // Comment "router.push('/');" in code in order to run test successfully
 
         await user.click(deleteButton);
         expect(contextValue.setCurrentRecipe).toHaveBeenCalledWith({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
