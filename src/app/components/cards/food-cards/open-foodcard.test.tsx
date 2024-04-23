@@ -11,6 +11,7 @@ import BigNutrientsCard from '../../analysis-cards/bignutrients-card';
 import VitaminsCard from '../../analysis-cards/vitamins-card';
 import MineralsCard from '../../analysis-cards/minerals-card';
 import FatsCard from '../../analysis-cards/fats-card';
+import { useHttpClient } from '@/app/hooks/http-hook';
 
 jest.mock('./header-foodcard');
 jest.mock('../../analysis-cards/dailyvalue-card');
@@ -21,13 +22,16 @@ jest.mock('../../analysis-cards/minerals-card');
 jest.mock('../../analysis-cards/fats-card');
 
 jest.mock('../../../hooks/http-hook', () => ({
-    useHttpClient: jest.fn().mockReturnValue({
-        sendRequest: () => nutrients
-    }),
+    useHttpClient: jest.fn()
 }));
 
 describe('open food card', () => {
 
+    const sendRequest = jest.fn();
+
+    (useHttpClient as jest.Mock).mockReturnValue({
+        sendRequest: sendRequest
+    });
     it('should render open food care', async() => {
 
         const props = {
@@ -48,12 +52,24 @@ describe('open food card', () => {
 
         render(<OpenFoodCard {...props} />);
 
+        const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
+
         expect(FoodHeaderCard).toHaveBeenCalled();
         expect(DailyValueCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
         expect(BigNutrientsCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
         expect(VitaminsCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
         expect(MineralsCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
         expect(FatsCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
-        expect(CompositionCard).toHaveBeenCalledWith({protein: props.food.food.nutrients.PROCNT, carbs: props.food.food.nutrients.CHOCDF, fat: props.food.food.nutrients.FAT}, {})
+        expect(CompositionCard).toHaveBeenCalledWith({protein: props.food.food.nutrients.PROCNT, carbs: props.food.food.nutrients.CHOCDF, fat: props.food.food.nutrients.FAT}, {});
+        expect(sendRequest).toHaveBeenCalledWith(      
+            `/api/nutrients`,
+            'POST',
+            JSON.stringify({
+                foodId: food.food.foodId, 
+                measure: gramUri, 
+                quantity: 100
+            }),
+            { 'Content-Type': 'application/json' },
+            false, false);
     });
 })
