@@ -14,34 +14,37 @@ interface SliderProps {
 
 const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
 
-    const slidesRef = useRef(null);
+    const slidesRef = useRef<HTMLDivElement | null>(null);
     const { cardOpen } = useContext(CardOpenContext);
     const { slide, setSlide, blockScroll, scrollBehavior } = useContext(SlideContext);
 
     useEffect(() => {
 		scrollTo(0, 0);
-        if(!slidesRef.current) return;
-        (slidesRef.current as HTMLElement).scrollTo({
-            top: 0,
-            left: (slidesRef.current as HTMLElement).clientWidth * slide,
-            behavior: scrollBehavior,
-        });
+        if (slidesRef.current) {
+            slidesRef.current.scrollTo({
+                top: 0,
+                left: slidesRef.current.clientWidth * slide,
+                behavior: scrollBehavior
+            });
+        }
       }, [slide]);
 
 	useEffect(() => {
 		if(slidesRef.current && cardOpen == CardState.OPENING) {
-			(slidesRef.current as HTMLElement).scrollTo({
+			slidesRef.current.scrollTo({
                 top: 0,
-                left: (slidesRef.current as HTMLElement).clientWidth * slide,
+                left: slidesRef.current.clientWidth * slide,
                 behavior: "auto",
             });
 		}
 	}, [cardOpen]);
 
     const handleScroll = () => {
-      if(blockScroll || !slidesRef.current) return;
-        const scrollLeft = (slidesRef.current as HTMLElement).scrollLeft;
-        const width = (slidesRef.current as HTMLElement).clientWidth;
+        if(blockScroll || !slidesRef.current) return;
+        const scrollLeft = slidesRef.current.scrollLeft;
+        const width = slidesRef.current.clientWidth;
+        console.log('scrollLeft:', scrollLeft, 'width:', width);
+
         if(scrollLeft - 5 <= 0 && slide != SlideType.FOOD) {
             setSlide(SlideType.FOOD)
         } else if(scrollLeft + 5 >= width && scrollLeft - 5 <= width  && slide != SlideType.RECIPE) {
