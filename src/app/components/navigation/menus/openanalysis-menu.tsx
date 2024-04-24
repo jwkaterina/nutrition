@@ -12,7 +12,7 @@ import { useHttpClient } from '@/app/hooks/http-hook';
 import { CardState, Food, Recipe, MenuProp, AnalysisMode, StatusType } from "@/app/types/types";
 
 interface OpenAnalysisMenuProps {
-    file?: any;
+    file?: Blob | null;
     setFile?: (file: any) => void;
 }
 
@@ -72,7 +72,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             const formData = new FormData();
             const recipeString = JSON.stringify(Recipe);
             formData.append('recipe', recipeString);
-            formData.append('image', file);
+            formData.append('image', file as Blob);
             await sendRequest(
                 '/recipes',
                 'POST',
@@ -132,7 +132,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             const formData = new FormData();
             const recipeString = JSON.stringify(Recipe);
             formData.append('recipeString', recipeString);
-            formData.append('image', file);
+            formData.append('image', file as Blob);
             await sendRequest(
                 `/recipes/${currentRecipe.id}`,
                 'PATCH',
