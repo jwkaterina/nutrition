@@ -1,5 +1,4 @@
-import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import Slider from './slider';
@@ -26,6 +25,7 @@ Object.defineProperty(HTMLElement.prototype, 'clientWidth', {
 
 HTMLElement.prototype.scrollTo = jest.fn();
 const mockElementScroll = HTMLElement.prototype.scrollTo;
+
 describe('slider', () => {
 
     const props = {
