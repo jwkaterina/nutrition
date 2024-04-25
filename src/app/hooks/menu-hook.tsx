@@ -5,6 +5,7 @@ import { StatusContext } from '@/app/context/status-context';
 import { Nutrients, StatusType, RecipeWithServings } from '@/app/types/types';
 
 export const useMenuFetch = () => {
+    
     const { fetchRecipeNutrients } = useRecipeFetch();
     const { setMessage, setStatus } = useContext(StatusContext);
 

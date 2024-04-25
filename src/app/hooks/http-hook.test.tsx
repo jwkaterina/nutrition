@@ -37,7 +37,7 @@ describe('http-hook', () => {
         expect(status.setStatus).toHaveBeenCalledWith(StatusType.SUCCESS);
     })
 
-    it('should render hook with error', async() => {
+    it('should render hook with backend error', async() => {
 
         global.fetch = jest.fn().mockResolvedValue({
             ok: false,
@@ -66,6 +66,36 @@ describe('http-hook', () => {
         expect(status.setIsLoading).toHaveBeenNthCalledWith(2, false);    
         expect(status.setStatus).toHaveBeenCalledWith(StatusType.ERROR);
         expect(status.setMessage).toHaveBeenCalledWith('Backend error');
+    })
+
+    it('should render hook with error', async() => {
+
+        global.fetch = jest.fn().mockReturnValue(() => {
+            throw new Error()
+        });
+
+        const status = {
+            isLoading: false,
+            setIsLoading: jest.fn(),
+            status: StatusType.SUCCESS,
+            setStatus: jest.fn(),
+            message: null,
+            setMessage: jest.fn()
+        };
+        const { result } = renderHook(() => useHttpClient(), {
+            wrapper: ({ children }) => <StatusContext.Provider value={status}>{children}</StatusContext.Provider>,
+          });
+
+        const sendRequest =  result.current.sendRequest;
+        await expect(sendRequest(
+            `/recipes`, 'GET', null, {
+                Authorization: 'Bearer ' + 'token'
+            }, true, true
+        )).rejects.toThrow(Error);
+        expect(status.setIsLoading).toHaveBeenNthCalledWith(1, true);    
+        expect(status.setIsLoading).toHaveBeenNthCalledWith(2, false);    
+        expect(status.setStatus).toHaveBeenCalledWith(StatusType.ERROR);
+        expect(status.setMessage).toHaveBeenCalledWith('Oops, something went wrong.');
     })
 
 })
