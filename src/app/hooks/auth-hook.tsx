@@ -13,11 +13,11 @@ export const useAuth = () => {
         expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
         setTokenExpirationDate(tokenExpirationDate);
         setToLocalStorage(
-        'userData',
-        JSON.stringify({
-            token: token,
-            expiration: tokenExpirationDate.toISOString()
-        })
+            'userData',
+            JSON.stringify({
+                token: token,
+                expiration: tokenExpirationDate.toISOString()
+            })
         );
     }, []);
 
@@ -29,21 +29,21 @@ export const useAuth = () => {
 
     useEffect(() => {
         if (token && tokenExpirationDate) {
-        const remainingTime = tokenExpirationDate.getTime() - new Date().getTime();
-        logoutTimer = setTimeout(logout, remainingTime);
+            const remainingTime = tokenExpirationDate.getTime() - new Date().getTime();
+            logoutTimer = setTimeout(logout, remainingTime);
         } else {
-        clearTimeout(logoutTimer);
+            clearTimeout(logoutTimer);
         }
     }, [token, logout, tokenExpirationDate]);
 
     useEffect(() => {
         const storedData = JSON.parse(getItemFromLocalStorage('userData'));
         if (
-        storedData &&
-        storedData.token &&
-        new Date(storedData.expiration) > new Date()
+            storedData &&
+            storedData.token &&
+            new Date(storedData.expiration) > new Date()
         ) {
-        login(storedData.token, new Date(storedData.expiration));
+            login(storedData.token, new Date(storedData.expiration));
         }
     }, [login]);
 

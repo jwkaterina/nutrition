@@ -43,8 +43,6 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
         if(blockScroll || !slidesRef.current) return;
         const scrollLeft = slidesRef.current.scrollLeft;
         const width = slidesRef.current.clientWidth;
-        console.log('scrollLeft:', scrollLeft, 'width:', width);
-
         if(scrollLeft - 5 <= 0 && slide != SlideType.FOOD) {
             setSlide(SlideType.FOOD)
         } else if(scrollLeft + 5 >= width && scrollLeft - 5 <= width  && slide != SlideType.RECIPE) {

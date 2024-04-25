@@ -1,0 +1,36 @@
+{
+    "menus": [
+        {
+            "menu": {
+                "name": "My menu",
+                "ingredients": [
+                    "1 mango",
+                    "200 g non-fat cottage cheese",
+                    "100ml skim milk",
+                    "10 g chocolate 90%"
+                ],
+                "recipes": [
+                    {
+                        "selectedRecipe": "661fc3c7962ca0a8a9068733",
+                        "selectedServings": 1,
+                        "_id": "6628171ed37db1e7848eae9a",
+                        "id": "6628171ed37db1e7848eae9a"
+                    }
+                ]
+            },
+            "creator": "661e9d38c3ac8b6c01912e92",
+            "id": "661e9f25c3ac8b6c01913004"
+        },
+        {
+            "menu": {
+                "name": "apple",
+                "ingredients": [
+                    "1 apple"
+                ],
+                "recipes": []
+            },
+            "creator": "661e9d38c3ac8b6c01912e92",
+            "id": "6628fcb7eddee304422f6139"
+        }
+    ]
+}
