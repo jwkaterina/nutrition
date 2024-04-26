@@ -59,17 +59,32 @@ const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes
 
     const NumberInputs = () => {
  
-        const handleInputChange = (index: number, newValue: number) => {
+        const handlePlusClick = (index: number) => {
             setCurrentRecipes(currentRecipes.map((recipe, i) => i === index ? {
                 selectedRecipeId: recipe.selectedRecipeId,
                 selectedRecipe: recipe.selectedRecipe,
-                selectedServings: newValue
+                selectedServings: recipe.selectedServings + 1
+            } : recipe));
+        };
+
+        const handleMinusClick = (index: number) => {
+            if(currentRecipes[index].selectedServings === 0) return;
+            setCurrentRecipes(currentRecipes.map((recipe, i) => i === index ? {
+                selectedRecipeId: recipe.selectedRecipeId,
+                selectedRecipe: recipe.selectedRecipe,
+                selectedServings: recipe.selectedServings - 1
             } : recipe));
         };
 
         let numberInputs = [];
         for(let i = 0; i < inputs; i++) {
-            numberInputs.push( <input type="number" id="servings" name="servings" value={currentRecipes[i] ? currentRecipes[i].selectedServings : 0} required min={0} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
+            numberInputs.push( 
+                <div key={i} className={styles.number_input_group}>
+                    <div className={styles.minus_button} onClick={() => handleMinusClick(i)}>-</div>
+                    <div className={styles.number} key={i}>{currentRecipes[i] ? currentRecipes[i].selectedServings : 0}</div>
+                    <div className={styles.plus_button} onClick={() => handlePlusClick(i)}>+</div>
+                </div>
+            )
         }
         return numberInputs;
     }

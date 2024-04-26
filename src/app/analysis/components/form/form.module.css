@@ -56,7 +56,7 @@
     margin-bottom: 0.5rem;
 }
 
-.form_group input, .form_group button, .select_group select, .number_group input {
+.form_group input, .form_group button, .select_group select, .number, .minus_button, .plus_button{
     height: 2.5rem;
     padding: 0.5rem;
     border-radius: 0.2rem;
@@ -64,18 +64,47 @@
     font-weight: 400;
 }
 
-.form_group input, .select_group select, .number_group input{
+.form_group input, .select_group select {
     width: 100%;
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.form_group input:focus, .form_group textarea:focus, .select_group select:focus, .number_group input:focus{
+.form_group input:focus, .form_group textarea:focus, .select_group select:focus, .number:focus{
     outline: none;
     border: 1px solid var(--secondary-color);
 }
 
-.select_group select, .number_group input {
+.select_group select, .number_input_group {
     margin-bottom: 1rem;
+}
+
+.number_input_group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.number {
+    width: 2.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.minus_button, .plus_button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: none;
+    background-color: var(--secondary-color);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form_group button {
