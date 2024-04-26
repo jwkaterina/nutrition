@@ -20,15 +20,13 @@ describe('recipe-select', () => {
         
         render(<RecipeSelect {...props} />);
    
-        const numberInput = screen.getByRole('spinbutton', {
-            name: /servings/i
-        });
+        const plusButton = screen.getByText(/\+/i);
 
-        await user.type(numberInput, '5');
+        await user.click(plusButton);
         expect(props.setCurrentRecipes).toHaveBeenCalledWith([{
             selectedRecipeId: loadedRecipe.id,
             selectedRecipe: loadedRecipe.recipe,
-            selectedServings: 25
+            selectedServings: 3
         }]);
 
     });
