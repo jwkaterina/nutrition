@@ -1,25 +1,16 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[![cov](https://jwkaterina.github.io/nutrition/badges/coverage.svg)](https://github.com/jwkaterina/nutrition/actions)
 
-## Getting Started
+## Nutrition
 
-First, run the development server:
+This app allows you to analyse nutritional value of any food, recipe or your diet.
 
+### Run locally
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
 ## Deploy on Firebase
 
-The project is deployed on Firebase [Click Me](https://nutrition-3236d.web.app)
+The project is deployed on [Firebase](https://nutrition-3236d.web.app)
