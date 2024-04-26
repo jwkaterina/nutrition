@@ -18,7 +18,7 @@ const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes
                 const newRecipes: RecipeWithServings[] = Array(inputs - currentRecipes.length).fill({
                     selectedRecipeId: loadedRecipes[0].id,
                     selectedRecipe: loadedRecipes[0].recipe,
-                    selectedServings: 1
+                    selectedServings: 0
                 });
                 const newRecipesArray: RecipeWithServings[] = [...currentRecipes, ...newRecipes];
                 setCurrentRecipes(newRecipesArray);
@@ -69,7 +69,7 @@ const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes
 
         let numberInputs = [];
         for(let i = 0; i < inputs; i++) {
-            numberInputs.push( <input type="number" id="servings" name="servings" value={currentRecipes[i] ? currentRecipes[i].selectedServings : 1} required min={1} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
+            numberInputs.push( <input type="number" id="servings" name="servings" value={currentRecipes[i] ? currentRecipes[i].selectedServings : 0} required min={0} key={i} onChange={(e) => handleInputChange(i, Number(e.target.value))}/>)
         }
         return numberInputs;
     }

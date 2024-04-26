@@ -4,6 +4,7 @@ import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import RecipeSelect from './recipe-select';
 import SmallSpinner from '@/app/components/utilities/loading/small-spinner';
 import removeID from './utils/removeID';
+import { combineRecipes } from './utils/combine-recipes';
 import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
 import { CurrentMenuContext } from '@/app/context/menu-context';
@@ -93,15 +94,16 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const recipesArray = combineRecipes(currentRecipes);
         const ingredientsArray = ArrayfromString(ingredientsString);
-        const nutrients: Nutrients | null = await fetchMenuNutrients(ingredientsArray, currentRecipes);
+        const nutrients: Nutrients | null = await fetchMenuNutrients(ingredientsArray, recipesArray);
 
         if(nutrients) {
             const newMenu = {
                 name,
-                nutrients: nutrients,
+                nutrients,
                 ingredients: ingredientsArray,
-                recipes: currentRecipes
+                recipes: recipesArray
             };
             setCardOpen(CardState.OPEN);
             setCurrentMenu({
