@@ -104,9 +104,7 @@ describe('menu-form', () => {
             name: /add recipe/i
         });
         const inputs = screen.getAllByRole('combobox');
-        const numbers = screen.getAllByRole('spinbutton', {
-            name: /servings/i
-        });
+        const plusButtons = screen.getAllByText(/\+/i);
         const analyseButton = screen.getByRole('button', {
             name: /analyze/i
         });
@@ -117,7 +115,7 @@ describe('menu-form', () => {
         expect(ingredients).toHaveTextContent(menu.menu.ingredients.join('\n'));
         expect(addRecipe).toBeInTheDocument();
         expect(inputs).toHaveLength(1);
-        expect(numbers).toHaveLength(1);
+        expect(plusButtons).toHaveLength(1);
         expect(analyseButton).toBeInTheDocument();
         expect(deleteButton).toBeInTheDocument();
     });
@@ -167,22 +165,19 @@ describe('menu-form', () => {
             name: /analyze/i
         });
        
-
         await user.type(name, menu.menu.name);
         await user.type(ingredients, menu.menu.ingredients.toString());
         await user.click(addRecipe);
-        screen.logTestingPlaygroundURL();
 
         const input = screen.getByRole('combobox');
-        const number = screen.getByRole('spinbutton', {
-            name: /servings/i
-        });
+        const plusButton = screen.getByText(/\+/i);
         expect(input).toBeInTheDocument();
-        expect(number).toBeInTheDocument();
-        await user.selectOptions(input, loadedRecipeWithID.recipe.name);
+        expect(plusButton).toBeInTheDocument();
 
-        await user.clear(number);
-        await user.type(number, '1');
+        await user.selectOptions(input, loadedRecipeWithID.recipe.name);
+        for (let i = 0; i < loadedRecipeWithID.recipe.servings; i++) {
+            await user.click(plusButton);
+        }
         await user.click(analyseButton);
 
         expect(contextValue.setCurrentMenu).toHaveBeenCalledWith({
