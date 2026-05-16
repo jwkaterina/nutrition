@@ -26,7 +26,8 @@ const Arc = ({ degree, percent, color, radius, strokeWidth }: ArcProps): JSX.Ele
         ];
 
         if(arcRef.current) {
-            arcRef.current.animate(keyframes, options);
+            const arc = arcRef.current;
+            arc.animate(keyframes, options);
         }
     }, []);
 

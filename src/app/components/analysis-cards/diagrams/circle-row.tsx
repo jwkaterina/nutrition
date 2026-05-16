@@ -42,7 +42,7 @@ const CircleRow = ({ nutrient, nutrientPercent, label, color, lightColor }: Circ
         ];
 
         if(arc) {
-            arcRef.current.animate(keyframes, options);
+            arc.animate(keyframes, options);
         }
     }, [nutrientPercent]);
 

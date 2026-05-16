@@ -47,7 +47,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
         ];
 
         if(arc) {
-            arcRef.current.animate(keyframes, options);
+            arc.animate(keyframes, options);
         }
     }, [daily]);
 
