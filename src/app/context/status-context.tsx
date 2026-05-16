@@ -1,9 +1,9 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback } from "react";
 import { StatusType } from "@/app/types/types";
 
 interface StatusContextProps {
     isLoading: boolean,
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setIsLoading: (loading: boolean) => void,
     status: StatusType,
     setStatus: React.Dispatch<React.SetStateAction<StatusType>>,
     message: string | null,
@@ -21,13 +21,17 @@ export const StatusContext = createContext<StatusContextProps>({
 
 export const StatusProvider = ({ children }: any) => {
 
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [loadingCount, setLoadingCount] = useState<number>(0);
     const [status, setStatus] = useState<StatusType>(StatusType.SUCCESS);
     const [message, setMessage] = useState<string | null>(null);
 
+    const setIsLoading = useCallback((loading: boolean) => {
+        setLoadingCount(count => loading ? count + 1 : Math.max(0, count - 1));
+    }, []);
+
     return (
         <StatusContext.Provider value={{
-            isLoading,
+            isLoading: loadingCount > 0,
             setIsLoading,
             status,
             setStatus,
