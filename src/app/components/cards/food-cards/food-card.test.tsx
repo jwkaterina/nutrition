@@ -50,7 +50,7 @@ describe('food card', () => {
 
         render(<FoodCard {... props} />);
 
-        const closedCardImg = screen.getByRole('img');
+        const closedCardImg = screen.getByAltText('');
 
         expect(closedCardImg).toBeInTheDocument();
         expect(OpenFoodCard).not.toHaveBeenCalled();
@@ -79,7 +79,7 @@ describe('food card', () => {
 
         render(<FoodCard {... props} />);
 
-        const closedCardImg = screen.queryByRole('img');
+        const closedCardImg = screen.queryByAltText('');
 
         expect(closedCardImg).not.toBeInTheDocument();
         expect(OpenFoodCard).not.toHaveBeenCalled();
@@ -131,7 +131,7 @@ describe('food card', () => {
         const card = container.querySelector('.card');
         expect(card).toBeInTheDocument();
         expect(OpenFoodCard).toHaveBeenCalledTimes(1);
-        expect(OpenFoodCard).toHaveBeenCalledWith({food: props.food, initialNutrients: null}, {});
+        expect(OpenFoodCard).toHaveBeenCalledWith({food: props.food, initialNutrients: null}, undefined);
 
         await user.click(card!);
         expect(setCurrentFood).not.toHaveBeenCalled();
@@ -189,7 +189,7 @@ describe('food card', () => {
 
         expect(setCurrentFood).toHaveBeenCalledWith({food: props.food, id: props.id});
         expect(setCardOpen).toHaveBeenCalledWith(CardState.OPENING);
-        expect(OpenFoodCard).toHaveBeenCalledWith({food: props.food, initialNutrients: nutrients}, {});
+        expect(OpenFoodCard).toHaveBeenCalledWith({food: props.food, initialNutrients: nutrients}, undefined);
 
     })
 })

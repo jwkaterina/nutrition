@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import FoodSearch from './food-search';
@@ -60,9 +60,7 @@ describe('food search', () => {
         expect(listItems[2]).toHaveTextContent(/bangda/i); 
 
         await user.click(listItems[1]);
-        const cards = container.querySelectorAll('.card');
-
-        expect(cards).toHaveLength(hints.length);
+        await waitFor(() => expect(container.querySelectorAll('.card')).toHaveLength(hints.length));
         expect(input).toHaveValue('banana');
 
     });
@@ -75,10 +73,7 @@ describe('food search', () => {
         await user.click(input);
         await user.type(input, 'banana');
         await user.keyboard('{Enter}');
-
-        const cards = container.querySelectorAll('.card');
-
-        expect(cards).toHaveLength(hints.length);
+        await waitFor(() => expect(container.querySelectorAll('.card')).toHaveLength(hints.length));
         expect(input).toHaveValue('banana');
     });
 

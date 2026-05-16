@@ -16,7 +16,7 @@ describe('closed card', () => {
 
         render(<ClosedCard {... props} />);
 
-        const img = screen.getByRole('img');
+        const img = screen.getByAltText('');
         const calories = screen.getByText(/56/i);
         const protein = screen.getByText(/23/i);
         const fat = screen.getByText(/12/i);

@@ -55,12 +55,12 @@ describe('open food card', () => {
         const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
 
         expect(FoodHeaderCard).toHaveBeenCalled();
-        expect(DailyValueCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
-        expect(BigNutrientsCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
-        expect(VitaminsCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
-        expect(MineralsCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
-        expect(FatsCard).toHaveBeenCalledWith({content: props.initialNutrients}, {});
-        expect(CompositionCard).toHaveBeenCalledWith({protein: props.food.food.nutrients.PROCNT, carbs: props.food.food.nutrients.CHOCDF, fat: props.food.food.nutrients.FAT}, {});
+        expect(DailyValueCard).toHaveBeenCalledWith({content: props.initialNutrients}, undefined);
+        expect(BigNutrientsCard).toHaveBeenCalledWith({content: props.initialNutrients}, undefined);
+        expect(VitaminsCard).toHaveBeenCalledWith({content: props.initialNutrients}, undefined);
+        expect(MineralsCard).toHaveBeenCalledWith({content: props.initialNutrients}, undefined);
+        expect(FatsCard).toHaveBeenCalledWith({content: props.initialNutrients}, undefined);
+        expect(CompositionCard).toHaveBeenCalledWith({protein: props.food.food.nutrients.PROCNT, carbs: props.food.food.nutrients.CHOCDF, fat: props.food.food.nutrients.FAT}, undefined);
         expect(sendRequest).toHaveBeenCalledWith(      
             `/api/nutrients`,
             'POST',

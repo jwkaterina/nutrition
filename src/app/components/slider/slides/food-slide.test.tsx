@@ -73,8 +73,7 @@ describe('food slide', () => {
         const slideContainer = renderWithAuth(token);
         const slide = slideContainer.querySelector('.slide');
 
-        await waitFor(() => expect(slide).toBeInTheDocument());
-        expect(FoodCard).toHaveBeenCalledTimes(foodArray.foods.length);
+        await waitFor(() => expect(FoodCard).toHaveBeenCalledTimes(foodArray.foods.length));
 
     })
        

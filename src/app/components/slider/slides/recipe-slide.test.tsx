@@ -70,9 +70,7 @@ describe('recipe slide', () => {
         const slideContainer = renderWithAuth(token);
         const slide = slideContainer.querySelector('.slide');
 
-        await waitFor(() => expect(slide).toBeInTheDocument());
-        screen.logTestingPlaygroundURL();
-        expect(RecipeCard).toHaveBeenCalledTimes(recipesArray.recipe.length);
+        await waitFor(() => expect(RecipeCard).toHaveBeenCalledTimes(recipesArray.recipe.length));
 
     })
        

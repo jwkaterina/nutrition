@@ -65,7 +65,7 @@ describe('slider', () => {
 
         const slider = container.querySelector('.container');
         expect(slider).toHaveStyle({overflow: 'hidden'});
-        expect(FoodSlide).toHaveBeenCalledWith({foodDeleted: false}, {});
+        expect(FoodSlide).toHaveBeenCalledWith({foodDeleted: false}, undefined);
         expect(RecipeSlide).toHaveBeenCalled();
         expect(MenuSlide).toHaveBeenCalled();
         expect(mockWindowScroll).toHaveBeenCalledWith(0, 0);

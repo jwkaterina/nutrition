@@ -69,7 +69,7 @@ describe('recipe card', () => {
 
         const card = container.querySelector('.card');
         expect(card).toBeInTheDocument();
-        expect(OpenRecipeCard).toHaveBeenCalledWith({recipe: props.recipe, image: props.image}, {});
+        expect(OpenRecipeCard).toHaveBeenCalledWith({recipe: props.recipe, image: props.image}, undefined);
 
         await user.click(card!);
         expect(setCurrentRecipe).not.toHaveBeenCalled();
@@ -116,7 +116,7 @@ describe('recipe card', () => {
 
         expect(setCurrentRecipe).toHaveBeenCalledWith({recipe: props.recipe, id: props.id, image: props.image, mode: AnalysisMode.VIEW});
         expect(setCardOpen).toHaveBeenCalledWith(CardState.OPENING)
-        expect(OpenRecipeCard).toHaveBeenCalledWith({recipe: props.recipe, image: props.image}, {});
+        expect(OpenRecipeCard).toHaveBeenCalledWith({recipe: props.recipe, image: props.image}, undefined);
 
     })
 })

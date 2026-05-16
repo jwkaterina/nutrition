@@ -36,11 +36,11 @@ describe('open recipe card', () => {
         render(<OpenRecipeCard {...props} />);
 
         expect(RecipeHeaderCard).toHaveBeenCalled();
-        expect(DailyValueCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, {});
-        expect(BigNutrientsCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, {});
-        expect(VitaminsCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, {});
-        expect(MineralsCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, {});
-        expect(FatsCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, {});
-        expect(CompositionCard).toHaveBeenCalledWith({protein: proteinPer100gram, carbs: carbsPer100gram, fat: fatPer100gram}, {})
+        expect(DailyValueCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, undefined);
+        expect(BigNutrientsCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, undefined);
+        expect(VitaminsCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, undefined);
+        expect(MineralsCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, undefined);
+        expect(FatsCard).toHaveBeenCalledWith({content: props.recipe.nutrients}, undefined);
+        expect(CompositionCard).toHaveBeenCalledWith({protein: proteinPer100gram, carbs: carbsPer100gram, fat: fatPer100gram}, undefined)
     });
 })
