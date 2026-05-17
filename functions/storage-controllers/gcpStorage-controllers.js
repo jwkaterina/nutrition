@@ -1,12 +1,15 @@
 const uuid = require('uuidv1');
-const { initializeApp } = require('firebase/app');
-const firebaseConfig = require('../firebase-config.json');
-const { getStorage, ref, uploadBytes, deleteObject, getDownloadURL, getMetadata } = require('firebase/storage');
-
 const HttpError = require('../models/http-error');
 
-const firebaseApp = initializeApp(firebaseConfig);
-const storage = getStorage(firebaseApp);
+let storage = null;
+try {
+    const { initializeApp } = require('firebase/app');
+    const firebaseConfig = require('../firebase-config.json');
+    const { getStorage } = require('firebase/storage');
+    storage = getStorage(initializeApp(firebaseConfig));
+} catch (_) {
+    console.warn('Firebase config missing — image upload disabled.');
+}
 
 const MIME_TYPE_MAP = {
     'image/png': 'png',
@@ -20,10 +23,15 @@ const putImage = async (req, res, next) => {
         return next();
     }
 
+    if (!storage) {
+        return next(new HttpError('Image upload not configured.', 503));
+    }
+
     const mimeType = req.image.mimeType;
     const ext = MIME_TYPE_MAP[mimeType];
     const fileName = uuid() + '.' + ext;
 
+    const { ref, uploadBytes, getDownloadURL, getMetadata } = require('firebase/storage');
     const imageRef = ref(storage, `images/${fileName}`);
     try {
         console.log('Trying to upload an image...');
@@ -44,6 +52,8 @@ const putImage = async (req, res, next) => {
 };
 
 const deleteImage = async (fileName) => {
+    if (!storage) return;
+    const { ref, deleteObject } = require('firebase/storage');
     const imageRef = ref(storage, `images/${fileName}`);
     try {
         await deleteObject(imageRef);
