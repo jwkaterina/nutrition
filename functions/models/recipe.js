@@ -47,7 +47,7 @@ const recipeSchema = new Schema({
     recipe:{
         name: { type: String, required: true },
         servings: { type: Number, required: true },
-        ingredients: [{ type: String, required: true }],
+        ingredients: { type: mongoose.Schema.Types.Mixed, required: false },
         nutrients: {
             calories: { type: Number, required: true },
             totalNutrients: { type: Nutrients, required: true },

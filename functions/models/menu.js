@@ -10,7 +10,7 @@ const MenuRecipe = new Schema({
 const menuSchema = new Schema({
     menu:{
         name: { type: String, required: true },
-        ingredients: [{ type: String, required: false }],
+        ingredients: { type: mongoose.Schema.Types.Mixed, required: false },
         recipes: [{ type: MenuRecipe, required: false}],
         nutrients: { type: mongoose.Schema.Types.Mixed, required: false }
     },
