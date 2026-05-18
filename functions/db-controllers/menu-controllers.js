@@ -9,7 +9,10 @@ const getMenus = async (req, res, next) => {
 
     let userWithMenu;
     try {
-        userWithMenu = await User.findById(userId).populate('menus');
+        userWithMenu = await User.findById(userId).populate({
+            path: 'menus',
+            populate: { path: 'menu.recipes.selectedRecipe' }
+        });
     } catch (err) {
         console.error(err);
         const error = new HttpError(

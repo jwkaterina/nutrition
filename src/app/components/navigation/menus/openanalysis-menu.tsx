@@ -106,6 +106,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         const Menu = {
             name: currentMenu!.menu?.name,
             ingredients: currentMenu!.menu?.ingredients,
+            nutrients: currentMenu!.menu?.nutrients,
             recipes: menuRecipes
         };
         if(!token) {
@@ -165,6 +166,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         const Menu = {
             name: currentMenu!.menu?.name,
             ingredients: currentMenu!.menu?.ingredients,
+            nutrients: currentMenu!.menu?.nutrients,
             recipes: menuRecipes
         };
         if(!token) {
