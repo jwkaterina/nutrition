@@ -273,7 +273,9 @@ const modifyMenus = async(recipeId, user, next) => {
     }
     userWithMenu.menus.forEach(async(menu) => {
         menu.menu.recipes = menu.menu.recipes.filter(recipe => recipe.selectedRecipe != recipeId);
-        if(menu.menu.recipes.length == 0 && menu.menu.ingredients.length == 0) {
+        const ingredients = menu.menu.ingredients;
+        const ingredientsEmpty = !ingredients || ingredients.length === 0;
+        if(menu.menu.recipes.length == 0 && ingredientsEmpty) {
             console.log('empty menu');
             try {
                 const sess = await mongoose.startSession();

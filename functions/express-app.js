@@ -18,7 +18,7 @@ require('dotenv').config();
 const app = express();
 app.use(cors);
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '5mb' }));
 
 // app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
