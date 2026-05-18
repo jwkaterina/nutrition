@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState, useRef } from 'react';
 import { useRouter} from 'next/navigation';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
+import IngredientSearch from './ingredient-search';
 import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
 import { SlideContext } from "@/app/context/slide-context";
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { useRecipeFetch } from '@/app/hooks/recipe-hook';
-import { CardState, AnalysisMode, Recipe, StatusType, RecipeWithServings } from '@/app/types/types';
+import { combineIngredientNutrients } from '@/app/hooks/utils/nutrients-calculator';
+import { CardState, AnalysisMode, Recipe, StatusType, StructuredIngredient } from '@/app/types/types';
 import styles from './form.module.css';
 
 interface RecipeFormProps {
@@ -24,11 +25,10 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
     const { setMessage, setStatus, setIsLoading } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
-    const {sendRequest} = useHttpClient();
-    const { fetchRecipeNutrients } = useRecipeFetch();
+    const { sendRequest } = useHttpClient();
     const [name, setName] = useState<string>('');
     const [servings, setServings] = useState<number>(1);
-    const [ingredientsString, setIngredientsString] = useState<string>('');
+    const [ingredients, setIngredients] = useState<StructuredIngredient[]>([]);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [deleteReady, setDeleteReady] = useState<boolean>(false);
     const filePickerRef = useRef<HTMLInputElement | null>(null);
@@ -45,7 +45,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         }
         setName('');
         setServings(1);
-        setIngredientsString('');
+        setIngredients([]);
         setClearSearch(false);
         setPreviewUrl(null);
         setFile(null);
@@ -55,47 +55,44 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         if(currentRecipe.recipe) {
             setName(currentRecipe.recipe.name);
             setServings(currentRecipe.recipe.servings);
-            setIngredientsString(currentRecipe.recipe.ingredients.join('\n'));
+            // Support both new structured format and legacy string arrays
+            const ings = currentRecipe.recipe.ingredients as any[];
+            if (ings.length > 0 && typeof ings[0] === 'object') {
+                setIngredients(ings as StructuredIngredient[]);
+            } else {
+                setIngredients([]);
+            }
             setPreviewUrl(currentRecipe.image);
         }
     }, [currentRecipe]);
 
-    const ArrayfromString = (string: string): string[] => {
-        return string.split('\n').map((ingredient) => ingredient.trim()).filter((ingredient) => ingredient !== '');
-    };
-
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const ingredientsArray = ArrayfromString(ingredientsString);
-
-        const ingredientsUnchanged = currentRecipe.mode === AnalysisMode.EDIT &&
-            currentRecipe.recipe?.nutrients &&
-            JSON.stringify(ingredientsArray) === JSON.stringify(currentRecipe.recipe.ingredients);
-
-        try {
-            const nutrients = ingredientsUnchanged
-                ? currentRecipe.recipe!.nutrients
-                : await fetchRecipeNutrients(ingredientsArray);
-            const newRecipe: Recipe = {
-                name,
-                servings,
-                nutrients,
-                ingredients: ingredientsArray
-            };
-            setCurrentRecipe({
-                recipe: newRecipe,
-                id: currentRecipe.mode === AnalysisMode.EDIT ? currentRecipe.id : null,
-                image: previewUrl ? previewUrl : currentRecipe.image,
-                mode: currentRecipe.mode
-            });
-            setCardOpen(CardState.OPEN);
-            // at the end of analysis set ingredients state to the formatted string in order to avoid unnecessary re-rendering
-            setIngredientsString(ingredientsArray.join('\n'));
-        } 
-        catch(error) {
-            setMessage('Could not analyse recipe. Ensure that all ingredients are spelled correctly and try again.');
+        let nutrients;
+        if (ingredients.length > 0) {
+            nutrients = combineIngredientNutrients(ingredients);
+        } else if (currentRecipe.mode === AnalysisMode.EDIT && currentRecipe.recipe?.nutrients) {
+            nutrients = currentRecipe.recipe.nutrients;
+        } else {
+            setStatus(StatusType.ERROR);
+            setMessage('Add at least one ingredient.');
+            return;
         }
+
+        const newRecipe: Recipe = {
+            name,
+            servings,
+            nutrients,
+            ingredients
+        };
+        setCurrentRecipe({
+            recipe: newRecipe,
+            id: currentRecipe.mode === AnalysisMode.EDIT ? currentRecipe.id : null,
+            image: previewUrl ? previewUrl : currentRecipe.image,
+            mode: currentRecipe.mode
+        });
+        setCardOpen(CardState.OPEN);
     }
 
     const deleteRecipe = async () => {
@@ -113,12 +110,12 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                 'DELETE', null, {
                     Authorization: 'Bearer ' + token
                 }
-            );            
+            );
             setScrollBehavior('auto');
             router.push('/');
             setTimeout(() => {
                 setScrollBehavior('smooth');
-            }, 500);            
+            }, 500);
             setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
             setMessage("Recipe deleted successfully");
             setDeleteReady(false);
@@ -127,7 +124,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
 
     const confirmed = () => {
         if(deleteReady) return true;
-    
+
         setStatus(StatusType.ERROR);
         setMessage('Menus with this recipe will be modified. If you agree press delete button again');
         setDeleteReady(true);
@@ -136,10 +133,6 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
-    }
-
-    const handleIngredientsInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
-        setIngredientsString(e.currentTarget.value);
     }
 
     const handleServingsInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -156,7 +149,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             fileReader.readAsDataURL(event.target.files[0]);
         }
     };
-        
+
     const pickImageHandler = () => {
         (filePickerRef.current! as HTMLElement).click();
     };
@@ -165,7 +158,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         return (
             <div className={styles.card_container}>
                 <RecipeCard recipe={currentRecipe.recipe} image={currentRecipe.image} index={0} id={null} open={true}/>
-            </div> 
+            </div>
         );
     }
 
@@ -187,13 +180,11 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                         />
                         <button type="button" className={styles.add_button} onClick={pickImageHandler}>{currentRecipe.mode == AnalysisMode.VIEW ? 'Add Image' : 'Change Image'}</button>
                     </div>
-                    <div className={styles.form_group}>
-                        <label htmlFor="recipe-ingredients">Ingredients
-                            <span>(Enter each ingredient on a new line)</span>
-                        </label>
-                        <textarea id="recipe-ingredients" name="recipe-ingredients" required
-                        placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredientsString} onInput={e => handleIngredientsInput(e)}/>
-                    </div>
+                    <IngredientSearch
+                        ingredients={ingredients}
+                        onAdd={ing => setIngredients(prev => [...prev, ing])}
+                        onRemove={i => setIngredients(prev => prev.filter((_, idx) => idx !== i))}
+                    />
                     <div className={styles.form_group}>
                         <label htmlFor="recipe-servings">Number of Servings</label>
                         <input type="number" id="recipe-servings" name="recipe-servings" required min='1' value={servings} onInput={e => handleServingsInput(e)}/>

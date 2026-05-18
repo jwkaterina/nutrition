@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter} from 'next/navigation';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import RecipeSelect from './recipe-select';
+import IngredientSearch from './ingredient-search';
 import SmallSpinner from '@/app/components/utilities/loading/small-spinner';
 import removeID from './utils/removeID';
 import { combineRecipes } from './utils/combine-recipes';
@@ -11,8 +12,9 @@ import { CurrentMenuContext } from '@/app/context/menu-context';
 import { SlideContext } from "@/app/context/slide-context";
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { useMenuFetch } from '@/app/hooks/menu-hook';
-import { CardState, Nutrients, RecipeWithServings, AnalysisMode, StatusType, LoadedRecipe } from '@/app/types/types';
+import { combineIngredientNutrients } from '@/app/hooks/utils/nutrients-calculator';
+import { MenuNutrientsCalculator } from '@/app/hooks/utils/nutrients-calculator';
+import { CardState, Nutrients, RecipeWithServings, AnalysisMode, StatusType, LoadedRecipe, StructuredIngredient } from '@/app/types/types';
 import styles from './form.module.css';
 
 interface MenuFormProps {
@@ -28,9 +30,8 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const { setMessage, setStatus } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const { sendRequest } = useHttpClient();
-    const { fetchMenuNutrients } = useMenuFetch(); 
     const [name, setName] = useState<string>('');
-    const [ingredientsString, setIngredientsString] = useState<string>('');
+    const [ingredients, setIngredients] = useState<StructuredIngredient[]>([]);
     const [currentRecipes, setCurrentRecipes] = useState<RecipeWithServings[]>([]);
     const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
     const [inputsnumber, setInputsnumber] = useState<number>(0);
@@ -69,7 +70,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             });
         }
         setName('');
-        setIngredientsString('');
+        setIngredients([]);
         setClearSearch(false);
         setInputsnumber(0);
         setCurrentRecipes([]);
@@ -78,49 +79,55 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     useEffect(() => {
         if(currentMenu.menu) {
             setName(currentMenu.menu.name);
-            setIngredientsString(currentMenu.menu.ingredients.join('\n'));
             setInputsnumber(currentMenu.menu.recipes.length);
             setCurrentRecipes(currentMenu.menu.recipes);
+            // Support both new structured format and legacy string arrays
+            const ings = currentMenu.menu.ingredients as any[];
+            if (ings.length > 0 && typeof ings[0] === 'object') {
+                setIngredients(ings as StructuredIngredient[]);
+            } else {
+                setIngredients([]);
+            }
         }
         if(currentMenu.menu && currentMenu.mode == AnalysisMode.EDIT && currentMenu.menu.recipes.length > 0) {
             fetchRecipes();
         }
     }, [currentMenu]);
 
-    const ArrayfromString = (string: string): string[] => {
-        return string.split('\n').map((ingredient) => ingredient.trim()).filter((ingredient) => ingredient !== '');
-    }
-
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const recipesArray = combineRecipes(currentRecipes);
-        const ingredientsArray = ArrayfromString(ingredientsString);
 
-        const ingredientsUnchanged = currentMenu.mode === AnalysisMode.EDIT &&
-            currentMenu.menu?.nutrients &&
-            JSON.stringify(ingredientsArray) === JSON.stringify(currentMenu.menu.ingredients);
+        const ingredientsPart = ingredients.length > 0
+            ? [{ nutrients: combineIngredientNutrients(ingredients), selectedServings: 1 }]
+            : [];
+        const recipesPart = recipesArray.map(r => ({
+            nutrients: r.selectedRecipe.nutrients,
+            selectedServings: r.selectedServings
+        }));
+        const all = [...ingredientsPart, ...recipesPart];
 
-        const nutrients: Nutrients | null = ingredientsUnchanged
-            ? currentMenu.menu!.nutrients
-            : await fetchMenuNutrients(ingredientsArray, recipesArray);
-
-        if(nutrients) {
-            const newMenu = {
-                name,
-                nutrients,
-                ingredients: ingredientsArray,
-                recipes: recipesArray
-            };
-            setCardOpen(CardState.OPEN);
-            setCurrentMenu({
-                menu: newMenu,
-                id: currentMenu.mode == AnalysisMode.EDIT ? currentMenu.id : null,
-                mode: currentMenu.mode
-            });
-            // at the end of analysis set ingredients state to the formatted string in order to avoid unnecessary re-rendering
-            setIngredientsString(ingredientsArray.join('\n'));
+        if (all.length === 0) {
+            setStatus(StatusType.ERROR);
+            setMessage('Choose at least one recipe or ingredient and try again.');
+            return;
         }
+
+        const nutrients: Nutrients = MenuNutrientsCalculator(all);
+
+        const newMenu = {
+            name,
+            nutrients,
+            ingredients,
+            recipes: recipesArray
+        };
+        setCardOpen(CardState.OPEN);
+        setCurrentMenu({
+            menu: newMenu,
+            id: currentMenu.mode == AnalysisMode.EDIT ? currentMenu.id : null,
+            mode: currentMenu.mode
+        });
     }
 
     const deleteMenu = async () => {
@@ -141,7 +148,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             router.push('/');
             setTimeout(() => {
                 setScrollBehavior('smooth');
-            }, 500);            
+            }, 500);
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
             setMessage("Menu deleted successfully");
         } catch (err) {}
@@ -149,10 +156,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
-    }
-
-    const handleIngredientsInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
-        setIngredientsString(e.currentTarget.value);
     }
 
     const handleAddRecipe = async() => {
@@ -179,17 +182,15 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         <label htmlFor="menu-name">Menu Name</label>
                         <input type="text" id="menu-name" name="menu-name" required value={name} onInput={e => handleNameInput(e)}/>
                     </div>
-                    <div className={styles.form_group}>
-                        <label htmlFor="menu-ingredients">Ingredients
-                            <span>(Enter each ingredient on a new line)</span>
-                        </label>
-                        <textarea id="menu-ingredients" name="menu-ingredients"
-                        placeholder={'1 cup rice' + '\n' + '10 oz chickpeas' + '\n' + '3 medium carrots' + '\n' + '1 tablespoon olive oil'} value={ingredientsString} onInput={e => handleIngredientsInput(e)}/>
-                    </div>
-                    <RecipeSelect 
-                        inputs={inputsnumber} 
-                        setCurrentRecipes={setCurrentRecipes} 
-                        currentRecipes={currentRecipes} 
+                    <IngredientSearch
+                        ingredients={ingredients}
+                        onAdd={ing => setIngredients(prev => [...prev, ing])}
+                        onRemove={i => setIngredients(prev => prev.filter((_, idx) => idx !== i))}
+                    />
+                    <RecipeSelect
+                        inputs={inputsnumber}
+                        setCurrentRecipes={setCurrentRecipes}
+                        currentRecipes={currentRecipes}
                         loadedRecipes={loadedRecipes}
                     />
                     <div className={styles.form_group}>
@@ -209,4 +210,3 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 }
 
 export default MenuForm;
-
