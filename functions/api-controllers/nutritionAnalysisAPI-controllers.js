@@ -7,7 +7,7 @@ const appKey= "198f749fbaa82a2129cf6aba6d0b93f0";
 const analyseRecipe = async (req, res, next) => {
 
     const ingredients = req.body.ingredients;
-    
+
     const url = `https://api.edamam.com/api/nutrition-details?app_id=${appId}&app_key=${appKey}`;
     const options = {
         method: 'POST',

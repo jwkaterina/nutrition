@@ -18,7 +18,8 @@ const foodSchema = new Schema({
                 FAT: { type: Number, required: true },
                 CHOCDF: { type: Number, required: true },
                 FIBTG: { type: Number, required: false }
-            }
+            },
+            nutrients100g: { type: mongoose.Schema.Types.Mixed, required: false }
         },
         measures: [{
             uri: { type: String, required: true },

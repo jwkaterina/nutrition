@@ -25,17 +25,24 @@ const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
     const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
 
     const handleCardClick = async() => {
-        if(isOpen) {
-            // setCurrentFood({});
+        if(isOpen) return;
+
+        if(food.food.nutrients100g) {
+            setNutrients(food.food.nutrients100g);
+            setCardOpen(CardState.OPENING);
+            setIsOpen(true);
+            setCurrentFood({ food, id: id ?? null });
             return;
         }
+
         try {
+            console.log(`[Edamam] findNutrients (card open): foodId=${food.food.foodId}`);
             const nutrients: Nutrients = await sendRequest(
                 `/api/nutrients`,
                 'POST',
                 JSON.stringify({
-                    foodId: food.food.foodId, 
-                    measure: gramUri, 
+                    foodId: food.food.foodId,
+                    measure: gramUri,
                     quantity: 100
                 }),
                 { 'Content-Type': 'application/json' },
@@ -43,12 +50,8 @@ const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
             );
             setNutrients(nutrients);
             setCardOpen(CardState.OPENING);
-            setIsOpen(true); 
-    
-            setCurrentFood({
-                food: food,
-                id: id ? id : null
-            });
+            setIsOpen(true);
+            setCurrentFood({ food, id: id ?? null });
         } catch (err) {}
     }
 

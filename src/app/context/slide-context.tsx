@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useState, useMemo } from "react";
 import { SlideType } from '@/app/types/types';
 
@@ -9,7 +10,9 @@ interface SlideContextProps {
     blockScroll: boolean,
     setBlockScroll: React.Dispatch<React.SetStateAction<boolean>>,
     scrollBehavior: ScrollBehavior,
-    setScrollBehavior: React.Dispatch<React.SetStateAction<ScrollBehavior>>
+    setScrollBehavior: React.Dispatch<React.SetStateAction<ScrollBehavior>>,
+    scrollRatio: number,
+    setScrollRatio: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const SlideContext = createContext<SlideContextProps>({
@@ -18,7 +21,9 @@ export const SlideContext = createContext<SlideContextProps>({
     blockScroll: false,
     setBlockScroll: () => {},
     scrollBehavior: 'smooth',
-    setScrollBehavior: () => {}
+    setScrollBehavior: () => {},
+    scrollRatio: 0,
+    setScrollRatio: () => {}
 });
 
 export const SlideProvider = ({ children }: any) => {
@@ -26,6 +31,7 @@ export const SlideProvider = ({ children }: any) => {
     const [slide, setSlide] = useState<SlideType>(SlideType.FOOD);
     const [blockScroll, setBlockScroll] = useState<boolean>(false);
     const [scrollBehavior, setScrollBehavior] = useState<ScrollBehavior>('smooth');
+    const [scrollRatio, setScrollRatio] = useState<number>(0);
 
     const contextVaue = useMemo(() => ({
         slide,
@@ -33,8 +39,10 @@ export const SlideProvider = ({ children }: any) => {
         blockScroll,
         setBlockScroll,
         scrollBehavior,
-        setScrollBehavior
-    }), [slide, setSlide, blockScroll, setBlockScroll, scrollBehavior, setScrollBehavior]);
+        setScrollBehavior,
+        scrollRatio,
+        setScrollRatio
+    }), [slide, setSlide, blockScroll, setBlockScroll, scrollBehavior, setScrollBehavior, scrollRatio, setScrollRatio]);
 
     return (
         <SlideContext.Provider value={contextVaue}>

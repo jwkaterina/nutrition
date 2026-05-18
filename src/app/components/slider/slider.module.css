@@ -1,11 +1,16 @@
 .container {
     height: var(--container-height);
-
     display: flex;
     flex: 1;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-snap-stop: always;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
 }
 
 .slide {
@@ -15,6 +20,7 @@
     border-left: 1px solid var(--primary-color);
     border-right: 1px solid var(--primary-color);
     position: relative;
+    overflow-y: auto;
 }
 
 .grid {

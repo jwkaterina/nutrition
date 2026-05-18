@@ -65,6 +65,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		setInput(inputValue);
 		if(inputValue.length == 0) return;
 		try {
+			console.log(`[Edamam] autocomplete: "${inputValue}"`);
 			const query: string[] = await sendRequest(
 			`/api/query/${inputValue}`,
 			'GET', null, {}, false, false
@@ -83,6 +84,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		setInput(option.innerHTML);
 
 		try {
+			console.log(`[Edamam] parseQuery (click): "${option.innerText}"`);
 			const result = await sendRequest(
 				`/api/ingr/${option.innerText}`,
 				'GET', null, {}, true, false
@@ -99,6 +101,7 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		if (e.key === 'Enter') {
 			setShowOptions(false);
 			try {
+				console.log(`[Edamam] parseQuery (enter): "${input}"`);
 				const result = await sendRequest(
 					`/api/ingr/${input}`,
 					'GET', null, {}, true, false

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BigNutrientsCard from '../../analysis-cards/bignutrients-card';
 import CompositionCard from '../../analysis-cards/composition-card';
 import DailyValueCard from '../../analysis-cards/dailyvalue-card';
@@ -7,13 +7,27 @@ import FoodHeaderCard from './header-foodcard';
 import MineralsCard from '../../analysis-cards/minerals-card';
 import VitaminsCard from '../../analysis-cards/vitamins-card';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { Food, Nutrients } from '@/app/types/types';
+import { Food, Nutrients, NutrientsProp } from '@/app/types/types';
 import styles from '../card.module.css';
 
 interface OpenFoodCardProps {
     food: Food,
     initialNutrients: Nutrients | null
 }
+
+const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
+
+const scaleNutrients = (base: Nutrients, totalGrams: number): Nutrients => {
+    const scale = totalGrams / 100;
+    const scaleProps = (props: NutrientsProp): NutrientsProp =>
+        Object.fromEntries(Object.entries(props).map(([k, n]) => [k, { ...n, quantity: n.quantity * scale }]));
+    return {
+        calories: base.calories * scale,
+        totalWeight: base.totalWeight * scale,
+        totalNutrients: scaleProps(base.totalNutrients),
+        totalDaily: scaleProps(base.totalDaily),
+    };
+};
 
 const OpenFoodCard  = ({ food, initialNutrients }: OpenFoodCardProps): JSX.Element => {
 
@@ -24,66 +38,57 @@ const OpenFoodCard  = ({ food, initialNutrients }: OpenFoodCardProps): JSX.Eleme
     const [measureUri, setMeasureUri] = useState<string>(food.measures[0].uri);
     const [blockSelect, setBlockSelect] = useState<boolean>(false);
 
-    const gramUri: string = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
+    const nutrients100g = food.food.nutrients100g;
 
     useEffect(() => {
+        if (nutrients100g) {
+            if (selectedOption === 'Value pre 100g') {
+                setContent(nutrients100g);
+            } else if (selectedOption === 'grams') {
+                setContent(scaleNutrients(nutrients100g, quantity));
+            } else {
+                const measure = food.measures.find(m => m.uri === measureUri);
+                const measureWeight = measure ? measure.weight : 1;
+                setContent(scaleNutrients(nutrients100g, measureWeight * quantity));
+            }
+            return;
+        }
+
         const fetchContent = async() => {
             if(selectedOption === 'grams') {
                 try {
+                    console.log(`[Edamam] findNutrients (grams): foodId=${food.food.foodId}, quantity=${quantity}g`);
                     const nutrients: Nutrients = await sendRequest(
-                        `/api/nutrients`,
-                        'POST',
-                        JSON.stringify({
-                            foodId: food.food.foodId, 
-                            measure: gramUri, 
-                            quantity: quantity
-                        }),
-                        { 'Content-Type': 'application/json' },
-                        false, false
+                        `/api/nutrients`, 'POST',
+                        JSON.stringify({ foodId: food.food.foodId, measure: gramUri, quantity }),
+                        { 'Content-Type': 'application/json' }, false, false
                     );
                     setContent(nutrients);
                     return;
-                } catch (err) {
-                    setBlockSelect(true);
-                }
-            } 
+                } catch (err) { setBlockSelect(true); }
+            }
             if(selectedOption === 'Value pre 100g') {
                 try {
+                    console.log(`[Edamam] findNutrients (per 100g): foodId=${food.food.foodId}`);
                     const nutrients: Nutrients = await sendRequest(
-                        `/api/nutrients`,
-                        'POST',
-                        JSON.stringify({
-                            foodId: food.food.foodId, 
-                            measure: gramUri, 
-                            quantity: 100
-                        }),
-                        { 'Content-Type': 'application/json' },
-                        false, false
+                        `/api/nutrients`, 'POST',
+                        JSON.stringify({ foodId: food.food.foodId, measure: gramUri, quantity: 100 }),
+                        { 'Content-Type': 'application/json' }, false, false
                     );
                     setContent(nutrients);
                     return;
-                } catch (err) {
-                    setBlockSelect(true);
-                }
+                } catch (err) { setBlockSelect(true); }
             }
             try {
+                console.log(`[Edamam] findNutrients (measure): foodId=${food.food.foodId}, quantity=${quantity}, measure=${measureUri}`);
                 const nutrients: Nutrients = await sendRequest(
-                    `/api/nutrients`,
-                    'POST',
-                    JSON.stringify({
-                        foodId: food.food.foodId, 
-                        measure: measureUri, 
-                        quantity: quantity
-                    }),
-                    { 'Content-Type': 'application/json' },
-                    false, false
+                    `/api/nutrients`, 'POST',
+                    JSON.stringify({ foodId: food.food.foodId, measure: measureUri, quantity }),
+                    { 'Content-Type': 'application/json' }, false, false
                 );
                 setContent(nutrients);
-                return;
-            } catch (err) {
-                setBlockSelect(true);
-            }
-        }
+            } catch (err) { setBlockSelect(true); }
+        };
         fetchContent();
 
     }, [quantity, selectedOption]);

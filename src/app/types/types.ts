@@ -29,7 +29,8 @@ export type FoodProp = {
         FAT: number,
         CHOCDF: number,
         FIBTG: number
-    }
+    },
+    nutrients100g?: Nutrients
 }
 
 export type MeasureProp = {

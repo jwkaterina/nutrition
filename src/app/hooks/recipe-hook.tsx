@@ -11,6 +11,7 @@ export const useRecipeFetch = () => {
     const fetchRecipeNutrients = async(ingredientsArray: string[]): Promise<Nutrients> => {
 
         try {
+            console.log(`[Edamam] analyseRecipe: ${ingredientsArray.length} ingredients`);
             const ingredientsContent: Nutrients = await sendRequest(
                 `/api/recipe`,
                 'POST',

@@ -1,5 +1,4 @@
-
-import { useEffect, useRef, useContext } from 'react';
+import { useRef, useContext, useCallback, useEffect } from 'react';
 import FoodSlide from '@/app/components/slider/slides/food-slide';
 import RecipeSlide from '@/app/components/slider/slides/recipe-slide';
 import MenuSlide from '@/app/components/slider/slides/menu-slide';
@@ -16,61 +15,50 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
 
     const slidesRef = useRef<HTMLDivElement | null>(null);
     const { cardOpen } = useContext(CardOpenContext);
-    const { slide, setSlide, blockScroll, scrollBehavior } = useContext(SlideContext);
+    const { slide, setSlide, blockScroll, scrollBehavior, setScrollRatio } = useContext(SlideContext);
+
+    const scrollToSlide = useCallback((targetSlide: number, animated: boolean) => {
+        const container = slidesRef.current;
+        if (!container) return;
+        container.scrollTo({
+            left: container.clientWidth * targetSlide,
+            behavior: animated ? 'smooth' : 'instant',
+        });
+    }, []);
 
     useEffect(() => {
-		scrollTo(0, 0);
-        if (slidesRef.current) {
-            slidesRef.current.scrollTo({
-                top: 0,
-                left: slidesRef.current.clientWidth * slide,
-                behavior: scrollBehavior
-            });
-        }
-      }, [slide]);
+        scrollToSlide(slide, scrollBehavior === 'smooth');
+    }, [slide, scrollBehavior]);
 
-	useEffect(() => {
-		if(slidesRef.current && cardOpen == CardState.OPENING) {
-			slidesRef.current.scrollTo({
-                top: 0,
-                left: slidesRef.current.clientWidth * slide,
-                behavior: "auto",
-            });
-		}
-	}, [cardOpen]);
+    useEffect(() => {
+        if (cardOpen === CardState.OPENING) scrollToSlide(slide, false);
+    }, [cardOpen]);
 
     const handleScroll = () => {
-        if(blockScroll || !slidesRef.current) return;
-        const scrollLeft = slidesRef.current.scrollLeft;
-        const width = slidesRef.current.clientWidth;
-        if(scrollLeft - 5 <= 0 && slide != SlideType.FOOD) {
-            setSlide(SlideType.FOOD)
-        } else if(scrollLeft + 5 >= width && scrollLeft - 5 <= width  && slide != SlideType.RECIPE) {
-            setSlide(SlideType.RECIPE)
-        } else if(scrollLeft + 5 >= 2 * width && slide != SlideType.MENU) {
-            setSlide(SlideType.MENU)
+        if (!slidesRef.current) return;
+        const { scrollLeft, clientWidth } = slidesRef.current;
+        setScrollRatio(Math.min(2, Math.max(0, scrollLeft / clientWidth)));
+        if (blockScroll) return;
+        if (scrollLeft - 5 <= 0 && slide !== SlideType.FOOD) {
+            setSlide(SlideType.FOOD);
+        } else if (scrollLeft + 5 >= clientWidth && scrollLeft - 5 <= clientWidth && slide !== SlideType.RECIPE) {
+            setSlide(SlideType.RECIPE);
+        } else if (scrollLeft + 5 >= 2 * clientWidth && slide !== SlideType.MENU) {
+            setSlide(SlideType.MENU);
         }
-    }
-
-    const style = () => {
-        if(cardOpen == CardState.OPEN) {
-            return {overflow: 'hidden'};
-        } else {
-            return {overflow: 'auto'};
-        }
-    }
+    };
 
     return (
-        <div 
-            className={styles.container} 
-            ref={slidesRef} 
-            onScroll={handleScroll} 
-            style={style()}
+        <div
+            className={styles.container}
+            ref={slidesRef}
+            onScroll={handleScroll}
+            style={cardOpen === CardState.OPEN ? { overflow: 'hidden' } : undefined}
         >
-            <FoodSlide foodDeleted={foodDeleted}/>
+            <FoodSlide foodDeleted={foodDeleted} />
             <RecipeSlide />
             <MenuSlide />
-      </div>
+        </div>
     );
 }
 

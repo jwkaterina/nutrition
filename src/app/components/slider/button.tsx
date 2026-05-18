@@ -9,10 +9,12 @@ interface ButtonProps {
 export const Button = ({ search }: ButtonProps): JSX.Element => {
     
     return (
-        <div className={cardStyles.card}>
-            <Link href={`/${search}`}className={styles.link}>
-                <div className={styles.add__icon}>+</div>
-            </Link> 
+        <div className={cardStyles.placeholder}>
+            <div className={cardStyles.card}>
+                <Link href={`/${search}`} className={styles.link}>
+                    <div className={styles.add__icon}>+</div>
+                </Link>
+            </div>
         </div>
     );
 }

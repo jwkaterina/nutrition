@@ -9,7 +9,7 @@ import { CurrentRecipeContext } from "@/app/context/recipe-context";
 import { CurrentMenuContext } from "@/app/context/menu-context";
 import { SlideContext } from "@/app/context/slide-context";
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { CardState, Food, Recipe, MenuProp, AnalysisMode, StatusType } from "@/app/types/types";
+import { CardState, Food, Nutrients, Recipe, MenuProp, AnalysisMode, StatusType } from "@/app/types/types";
 
 interface OpenAnalysisMenuProps {
     file?: Blob | null;
@@ -40,7 +40,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
     }
 
     const addFoodToFavorites = async () => {
-        const Food: Food | null = currentFood!.food;
+        const food: Food | null = currentFood!.food;
         if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You must be logged in to add food to favorites.');
@@ -48,12 +48,24 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             return;
         }
         try {
+            const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
+            console.log(`[Edamam] findNutrients (save): foodId=${food!.food.foodId}`);
+            const nutrients100g: Nutrients = await sendRequest(
+                '/api/nutrients',
+                'POST',
+                JSON.stringify({ foodId: food!.food.foodId, measure: gramUri, quantity: 100 }),
+                { 'Content-Type': 'application/json' },
+                false, false
+            );
+            const foodWithNutrients: Food = {
+                ...food!,
+                food: { ...food!.food, nutrients100g }
+            };
             await sendRequest(
                 '/foods',
                 'POST',
-                JSON.stringify({food: Food}),
-                { 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token }
+                JSON.stringify({ food: foodWithNutrients }),
+                { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token }
             );
             setRightText('Go To Favorites');
             setMessage('Food added to favorites.');
