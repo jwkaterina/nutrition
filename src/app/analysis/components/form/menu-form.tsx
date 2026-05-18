@@ -32,6 +32,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const { sendRequest } = useHttpClient();
     const [name, setName] = useState<string>('');
     const [ingredients, setIngredients] = useState<StructuredIngredient[]>([]);
+    const [legacyIngredients, setLegacyIngredients] = useState<string[]>([]);
     const [currentRecipes, setCurrentRecipes] = useState<RecipeWithServings[]>([]);
     const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
     const [inputsnumber, setInputsnumber] = useState<number>(0);
@@ -71,6 +72,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         }
         setName('');
         setIngredients([]);
+        setLegacyIngredients([]);
         setClearSearch(false);
         setInputsnumber(0);
         setCurrentRecipes([]);
@@ -85,8 +87,10 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
             const ings = currentMenu.menu.ingredients as any[];
             if (ings.length > 0 && typeof ings[0] === 'object') {
                 setIngredients(ings as StructuredIngredient[]);
+                setLegacyIngredients([]);
             } else {
                 setIngredients([]);
+                setLegacyIngredients(ings as string[]);
             }
         }
         if(currentMenu.menu && currentMenu.mode == AnalysisMode.EDIT && currentMenu.menu.recipes.length > 0) {
@@ -187,6 +191,14 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         onAdd={ing => setIngredients(prev => [...prev, ing])}
                         onRemove={i => setIngredients(prev => prev.filter((_, idx) => idx !== i))}
                     />
+                    {legacyIngredients.length > 0 && (
+                        <div className={styles.form_group}>
+                            <label>Previous ingredients <span>(for reference — re-add using search above)</span></label>
+                            <ul className={styles.legacy_list}>
+                                {legacyIngredients.map((ing, i) => <li key={i}>{ing}</li>)}
+                            </ul>
+                        </div>
+                    )}
                     <RecipeSelect
                         inputs={inputsnumber}
                         setCurrentRecipes={setCurrentRecipes}

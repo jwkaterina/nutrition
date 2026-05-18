@@ -29,6 +29,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const [name, setName] = useState<string>('');
     const [servings, setServings] = useState<number>(1);
     const [ingredients, setIngredients] = useState<StructuredIngredient[]>([]);
+    const [legacyIngredients, setLegacyIngredients] = useState<string[]>([]);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [deleteReady, setDeleteReady] = useState<boolean>(false);
     const filePickerRef = useRef<HTMLInputElement | null>(null);
@@ -46,6 +47,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         setName('');
         setServings(1);
         setIngredients([]);
+        setLegacyIngredients([]);
         setClearSearch(false);
         setPreviewUrl(null);
         setFile(null);
@@ -59,8 +61,10 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
             const ings = currentRecipe.recipe.ingredients as any[];
             if (ings.length > 0 && typeof ings[0] === 'object') {
                 setIngredients(ings as StructuredIngredient[]);
+                setLegacyIngredients([]);
             } else {
                 setIngredients([]);
+                setLegacyIngredients(ings as string[]);
             }
             setPreviewUrl(currentRecipe.image);
         }
@@ -185,6 +189,14 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                         onAdd={ing => setIngredients(prev => [...prev, ing])}
                         onRemove={i => setIngredients(prev => prev.filter((_, idx) => idx !== i))}
                     />
+                    {legacyIngredients.length > 0 && (
+                        <div className={styles.form_group}>
+                            <label>Previous ingredients <span>(for reference — re-add using search above)</span></label>
+                            <ul className={styles.legacy_list}>
+                                {legacyIngredients.map((ing, i) => <li key={i}>{ing}</li>)}
+                            </ul>
+                        </div>
+                    )}
                     <div className={styles.form_group}>
                         <label htmlFor="recipe-servings">Number of Servings</label>
                         <input type="number" id="recipe-servings" name="recipe-servings" required min='1' value={servings} onInput={e => handleServingsInput(e)}/>

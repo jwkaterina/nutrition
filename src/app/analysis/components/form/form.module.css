@@ -141,6 +141,20 @@
     font-size: 0.8rem;
 }
 
+.legacy_list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.legacy_list li {
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 .ingredient_list {
     list-style: none;
     padding: 0;
