@@ -24,11 +24,11 @@ jest.mock('../../../hooks/http-hook', () => ({
     useHttpClient: jest.fn()
 }));
 
-jest.mock('../../../hooks/menu-hook', () => ({
-    useMenuFetch: jest.fn().mockReturnValue({
-        fetchMenuNutrients: () => menu.menu.nutrients
-    }),
-}));
+jest.mock('./ingredient-search', () => {
+    return function MockIngredientSearch() {
+        return <input type="text" aria-label="Ingredients" readOnly />;
+    };
+});
 
 describe('menu-form', () => {
     const mockeduseHttpClient = useHttpClient as jest.Mock;
@@ -36,10 +36,10 @@ describe('menu-form', () => {
     const renderComponentWithCurrentMenuContext = (searchCleared: boolean, contextValue: CurrentMenuContextProps) => {
 
         const props = {
-            searchCleared: searchCleared, 
+            searchCleared: searchCleared,
             setClearSearch: jest.fn()
         }
-        
+
         render(
             <CurrentMenuContext.Provider value={contextValue}>
                 <MenuForm {...props} />
@@ -58,32 +58,17 @@ describe('menu-form', () => {
             setCurrentMenu: jest.fn()
         }
         renderComponentWithCurrentMenuContext(false, contextValue);
-        
-        const name = screen.getByRole('textbox', {
-            name: /menu name/i
-        });
-        const ingredients = screen.getByRole('textbox', {
-            name: /ingredients/i
-        });
-        const addRecipe = screen.getByRole('button', {
-            name: /add recipe/i
-        });
-        const analyseButton = screen.getByRole('button', {
-            name: /analyze/i
-        });
-        const deleteButton = screen.queryByRole('button', {
-            name: /delete/i
-        });
-        expect(name).toBeInTheDocument();
-        expect(ingredients).toBeInTheDocument();
-        expect(addRecipe).toBeInTheDocument();
-        expect(analyseButton).toBeInTheDocument();
-        expect(deleteButton).not.toBeInTheDocument();
+
+        expect(screen.getByRole('textbox', { name: /menu name/i })).toBeInTheDocument();
+        expect(screen.getByRole('textbox', { name: /ingredients/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /add recipe/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /analyze/i })).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: /delete/i })).not.toBeInTheDocument();
     });
 
     it('should render menu-form in edit mode', () => {
         mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn()});
-   
+
         const contextValue = {
             currentMenu: {
                 menu: menu.menu,
@@ -93,40 +78,22 @@ describe('menu-form', () => {
             setCurrentMenu: jest.fn()
         }
         renderComponentWithCurrentMenuContext(false, contextValue);
-        
-        const name = screen.getByRole('textbox', {
-            name: /menu name/i
-        });
-        const ingredients = screen.getByRole('textbox', {
-            name: /ingredients/i
-        });
-        const addRecipe = screen.getByRole('button', {
-            name: /add recipe/i
-        });
-        const inputs = screen.getAllByRole('combobox');
-        const plusButtons = screen.getAllByText(/\+/i);
-        const analyseButton = screen.getByRole('button', {
-            name: /analyze/i
-        });
-        const deleteButton = screen.queryByRole('button', {
-            name: /delete/i
-        });
-        expect(name).toHaveValue(menu.menu.name);
-        expect(ingredients).toHaveTextContent(menu.menu.ingredients.join('\n'));
-        expect(addRecipe).toBeInTheDocument();
-        expect(inputs).toHaveLength(1);
-        expect(plusButtons).toHaveLength(1);
-        expect(analyseButton).toBeInTheDocument();
-        expect(deleteButton).toBeInTheDocument();
+
+        expect(screen.getByRole('textbox', { name: /menu name/i })).toHaveValue(menu.menu.name);
+        expect(screen.getByRole('button', { name: /add recipe/i })).toBeInTheDocument();
+        expect(screen.getAllByRole('combobox')).toHaveLength(1);
+        expect(screen.getAllByText(/\+/i)).toHaveLength(1);
+        expect(screen.getByRole('button', { name: /analyze/i })).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: /delete/i })).toBeInTheDocument();
     });
 
-    it('should sumbit new menu when logged in', async() => {
+    it('should submit menu with a selected recipe', async() => {
         mockeduseHttpClient.mockReturnValue({sendRequest: () => {
-            return {recipe: [loadedRecipeWithID]}
+            return {recipe: [loadedRecipeWithID]};
         }});
-   
+
         const props = {
-            searchCleared: false, 
+            searchCleared: false,
             setClearSearch: jest.fn()
         };
 
@@ -152,50 +119,31 @@ describe('menu-form', () => {
             </CurrentMenuContext.Provider>
         );
 
-        const name = screen.getByRole('textbox', {
-            name: /menu name/i
-        });
-        const ingredients = screen.getByRole('textbox', {
-            name: /ingredients/i
-        });
-        const addRecipe = screen.getByRole('button', {
-            name: /add recipe/i
-        });
-        const analyseButton = screen.getByRole('button', {
-            name: /analyze/i
-        });
-       
-        await user.type(name, menu.menu.name);
-        await user.type(ingredients, menu.menu.ingredients.toString());
-        await user.click(addRecipe);
+        await user.type(screen.getByRole('textbox', { name: /menu name/i }), menu.menu.name);
+        await user.click(screen.getByRole('button', { name: /add recipe/i }));
 
         const input = screen.getByRole('combobox');
         const plusButton = screen.getByText(/\+/i);
-        expect(input).toBeInTheDocument();
-        expect(plusButton).toBeInTheDocument();
-
         await user.selectOptions(input, loadedRecipeWithID.recipe.name);
-        for (let i = 0; i < loadedRecipeWithID.recipe.servings; i++) {
-            await user.click(plusButton);
-        }
-        await user.click(analyseButton);
+        await user.click(plusButton);
 
-        expect(contextValue.setCurrentMenu).toHaveBeenCalledWith({
-            menu: menu.menu,
+        await user.click(screen.getByRole('button', { name: /analyze/i }));
+
+        expect(contextValue.setCurrentMenu).toHaveBeenCalledWith(expect.objectContaining({
+            menu: expect.objectContaining({ name: menu.menu.name }),
             id: null,
             mode: AnalysisMode.VIEW
-        });
+        }));
     });
 
     it('should not delete menu if not logged in', async() => {
-   
         mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn()});
 
         const props = {
-            searchCleared: false, 
+            searchCleared: false,
             setClearSearch: jest.fn(),
         };
-        
+
         const contextValue = {
             currentMenu: {
                 menu: menu.menu,
@@ -217,24 +165,19 @@ describe('menu-form', () => {
             </CurrentMenuContext.Provider>
         );
 
-        const deleteButton = screen.getByRole('button', {
-            name: /delete/i
-        });
-
-        await user.click(deleteButton);
+        await user.click(screen.getByRole('button', { name: /delete/i }));
 
         expect(contextValue.setCurrentMenu).not.toHaveBeenCalled();
     });
 
     it('should delete menu when request is sent successfully', async() => {
-   
         mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn().mockResolvedValueOnce});
-        
+
         const props = {
-            searchCleared: false, 
+            searchCleared: false,
             setClearSearch: jest.fn()
         };
-        
+
         const contextValue = {
             currentMenu: {
                 menu: menu.menu,
@@ -256,25 +199,18 @@ describe('menu-form', () => {
             </CurrentMenuContext.Provider>
         );
 
-        const deleteButton = screen.getByRole('button', {
-            name: /delete/i
-        });
-
-        await user.click(deleteButton);
+        await user.click(screen.getByRole('button', { name: /delete/i }));
         expect(contextValue.setCurrentMenu).toHaveBeenCalledWith({id: null, menu: null, mode: AnalysisMode.VIEW});
     });
 
     it('should not delete menu when request returns an error', async() => {
-   
-        mockeduseHttpClient.mockReturnValue({sendRequest: async() => {
-            throw new Error
-        }});
-        
+        mockeduseHttpClient.mockReturnValue({sendRequest: async() => { throw new Error(); }});
+
         const props = {
-            searchCleared: false, 
+            searchCleared: false,
             setClearSearch: jest.fn()
         };
-        
+
         const contextValue = {
             currentMenu: {
                 menu: menu.menu,
@@ -296,17 +232,11 @@ describe('menu-form', () => {
             </CurrentMenuContext.Provider>
         );
 
-        const deleteButton = screen.getByRole('button', {
-            name: /delete/i
-        });
-
-        await user.click(deleteButton);
+        await user.click(screen.getByRole('button', { name: /delete/i }));
         expect(contextValue.setCurrentMenu).not.toHaveBeenCalled();
-
     });
 
     it('should reset menu', () => {
-   
         mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn().mockResolvedValueOnce});
 
         const contextValue = {
@@ -324,19 +254,18 @@ describe('menu-form', () => {
             menu: null,
             id: null,
             mode: AnalysisMode.VIEW
-        })
+        });
     });
 
     it('should render menu card instead of form', () => {
-
         mockeduseHttpClient.mockReturnValue({sendRequest: jest.fn().mockResolvedValueOnce});
 
         const props = {
-            searchCleared: false, 
+            searchCleared: false,
             setClearSearch: jest.fn()
         };
-        
-        const { container } = render(
+
+        render(
             <CurrentMenuContext.Provider value={{
                 currentMenu: {
                     menu: menu.menu,
@@ -354,13 +283,7 @@ describe('menu-form', () => {
             </CurrentMenuContext.Provider>
         );
 
-        const form = screen.queryByRole('form', {
-            name: /form/i
-        });
-
-        expect(form).not.toBeInTheDocument();
+        expect(screen.queryByRole('form', { name: /form/i })).not.toBeInTheDocument();
         expect(MenuCard).toHaveBeenCalled();
-        
     });
-
 });

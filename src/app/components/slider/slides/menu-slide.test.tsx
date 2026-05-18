@@ -6,18 +6,11 @@ import { useHttpClient } from '@/app/hooks/http-hook';
 import MenuCard from '../../cards/menu-cards/menu-card';
 import menuArray from '@/app/test_objects/menusArray.json';
 import recipe from '@/app/test_objects/loaded-recipe.json';
-import nutrients from '@/app/test_objects/nutrients1.json';
 
 jest.mock('../../cards/menu-cards/menu-card');
 
 jest.mock('../../../hooks/http-hook', () => ({
     useHttpClient: jest.fn()
-}));
-
-jest.mock('../../../hooks/menu-hook', () => ({
-    useMenuFetch: jest.fn().mockReturnValue({
-        fetchMenuNutrients: () => nutrients
-    }),
 }));
 
 describe('menu slide', () => {
