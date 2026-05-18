@@ -39,6 +39,8 @@ next-env.d.ts
 .firebase
 ui-debug.log
 functions/firebase-debug.log
+firebase-debug.log
+.idea/
 functions/.env
 functions/service-account-key.json
 functions/firebase-config.json
