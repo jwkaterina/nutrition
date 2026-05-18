@@ -51,13 +51,15 @@ describe('food search', () => {
         expect(options).toBeInTheDocument();
 
         await user.type(input, 'ban');
+        // wait for the 300ms debounce to fire; Options renders default text until queryOptions loads
+        await waitFor(() => expect(screen.getAllByRole('listitem')[0]).toHaveTextContent(/banket/i));
         const listItems = screen.getAllByRole('listitem');
 
         expect(input).toHaveValue('ban');
         expect(listItems).toHaveLength(3);
         expect(listItems[0]).toHaveTextContent(/banket/i);
         expect(listItems[1]).toHaveTextContent(/banana/i);
-        expect(listItems[2]).toHaveTextContent(/bangda/i); 
+        expect(listItems[2]).toHaveTextContent(/bangda/i);
 
         await user.click(listItems[1]);
         await waitFor(() => expect(container.querySelectorAll('.card')).toHaveLength(hints.length));

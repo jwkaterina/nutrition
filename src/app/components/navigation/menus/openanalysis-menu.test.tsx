@@ -330,6 +330,7 @@ describe('openanalysis menu', () => {
         const Menu = {
             name: currentMenu!.menu?.name,
             ingredients: currentMenu!.menu?.ingredients,
+            nutrients: currentMenu!.menu?.nutrients,
             recipes: menuRecipes
         };
         expect(sendRequest).toHaveBeenCalledWith(

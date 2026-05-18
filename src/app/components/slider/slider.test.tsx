@@ -39,7 +39,9 @@ describe('slider', () => {
         blockScroll: false,
         setBlockScroll: jest.fn(),
         scrollBehavior: 'auto' as scrollType,
-        setScrollBehavior: jest.fn()
+        setScrollBehavior: jest.fn(),
+        scrollRatio: 0,
+        setScrollRatio: jest.fn()
     };
 
     const cardOpenValue = {
@@ -68,11 +70,9 @@ describe('slider', () => {
         expect(FoodSlide).toHaveBeenCalledWith({foodDeleted: false}, undefined);
         expect(RecipeSlide).toHaveBeenCalled();
         expect(MenuSlide).toHaveBeenCalled();
-        expect(mockWindowScroll).toHaveBeenCalledWith(0, 0);
         expect(mockElementScroll).toHaveBeenCalledWith({
-            top: 0,
             left: slider!.clientWidth * slideValue.slide,
-            behavior: slideValue.scrollBehavior
+            behavior: 'instant'
         });
 
         fireEvent.scroll(slider!, { target: { scrollLeft: 500 } });

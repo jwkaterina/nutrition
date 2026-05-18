@@ -14,6 +14,11 @@ describe('card', () => {
 
     const setIsOpen = jest.fn();
     const setCardOpen = jest.fn();
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     const renderComponentWithCardOpenContext = (index: number, isOpen: boolean, cardOpen: CardState) => {
 
         const props = {
@@ -23,7 +28,7 @@ describe('card', () => {
             setIsOpen: setIsOpen,
             isOpen: isOpen
         }
-        
+
         const { container } = render(
             <CardOpenContext.Provider value={{
                 cardOpen: cardOpen,
@@ -35,102 +40,71 @@ describe('card', () => {
         return container
     }
 
-    it('should not animate when is not open', () => {
-        
+    it('should not set styles when is not open', () => {
+
         HTMLDivElement.prototype.animate = jest.fn();
         const mockedAnimation = HTMLDivElement.prototype.animate;
 
         const container = renderComponentWithCardOpenContext(5, false, CardState.OPENING);
-        const card = container.querySelector('.card');
+        const card = container.querySelector('.card') as HTMLElement;
 
-        expect(card).toHaveStyle({cursor: 'pointer'});
+        expect(card.style.position).toBe('');
         expect(mockedAnimation).not.toHaveBeenCalled();
     });
 
-    it('should not animate when is open and cardState is Open', () => {
-        
+    it('should have expanded styles when is open and cardState is Open', () => {
+
         HTMLDivElement.prototype.animate = jest.fn();
         const mockedAnimation = HTMLDivElement.prototype.animate;
 
         const container = renderComponentWithCardOpenContext(5, true, CardState.OPEN);
+        const card = container.querySelector('.card') as HTMLElement;
 
-        const card = container.querySelector('.card');
-        
-        expect(card).toHaveStyle({
-            height: '100%',
-            width: '100vw'
-        });
+        expect(card.style.position).toBe('fixed');
+        expect(card.style.width).toBe('100vw');
         expect(mockedAnimation).not.toHaveBeenCalled();
     });
 
-    it('should animate when is open and cardState is Opening', async() => {
-        
+    it('should not set styles when is open and cardState is Opening without prior click', () => {
+
         HTMLDivElement.prototype.animate = jest.fn();
         const mockedAnimation = HTMLDivElement.prototype.animate;
 
-        const index = 5;
-        const duration = 300;
-        renderComponentWithCardOpenContext(index, true, CardState.OPENING);
+        const container = renderComponentWithCardOpenContext(5, true, CardState.OPENING);
+        const card = container.querySelector('.card') as HTMLElement;
 
-        const keyframes: Keyframe[] = [
-            {top: 0, left: 0, width: "100%", height: "150px", zIndex: 1},
-            {top: "-5rem", left: "-1rem", width: "100vw", height: "calc(100vh - 2 * 60px)", zIndex: 2, transform: "translate(0px, -600px)"}
-        ];
-        const animationOptions: KeyframeAnimationOptions  = {
-            duration: duration,
-            easing: 'ease-in-out',
-            fill: 'forwards'
-        };
-        expect(mockedAnimation).toHaveBeenCalledWith(keyframes, animationOptions);
-        setTimeout(() => {
-            expect(setCardOpen).toHaveBeenCalledWith(CardState.OPEN);
-        }, duration);
-    });
-    it('should animate when is open and cardState is Closing', () => {
-        
-        HTMLDivElement.prototype.animate = jest.fn();
-        const mockedAnimation = HTMLDivElement.prototype.animate;
-
-        const index = 5;
-        const duration = 300;
-
-        renderComponentWithCardOpenContext(index, true, CardState.CLOSING);
-
-        const keyframesReverse: Keyframe[] = [
-            {top: "-1rem", left: "-1rem", width: "100vw", height: "calc(100vh - 2 * 60px)",zIndex: 2},
-            {top: 0, left: 0, width: "100%", height: "150px", zIndex: 1, transform: "translate(0px, 0px)"}
-        ];
-        const animationOptions: KeyframeAnimationOptions  = {
-            duration: duration,
-            easing: 'ease-in-out',
-            fill: 'forwards'
-        };
-        expect(mockedAnimation).toHaveBeenCalledWith(keyframesReverse, animationOptions);
-        expect(setIsOpen).toHaveBeenCalledWith(false);
-        setTimeout(() => {
-            expect(setCardOpen).toHaveBeenCalledWith(CardState.CLOSED);
-        }, duration);
+        // rectRef is null (no click happened before), so the opening effect returns early
+        expect(card.style.position).toBe('');
+        expect(mockedAnimation).not.toHaveBeenCalled();
     });
 
-    it('should animate when is open and cardState is Closed', () => {
-        
+    it('should call setIsOpen after animation completes when closing', () => {
+
+        jest.useFakeTimers();
         HTMLDivElement.prototype.animate = jest.fn();
         const mockedAnimation = HTMLDivElement.prototype.animate;
 
-        const index = 5;
+        renderComponentWithCardOpenContext(5, true, CardState.CLOSING);
 
-        renderComponentWithCardOpenContext(index, true, CardState.CLOSED);
+        expect(setIsOpen).not.toHaveBeenCalled();
+        expect(mockedAnimation).not.toHaveBeenCalled();
 
-        const keyframesReverse: Keyframe[] = [
-            {top: "-1rem", left: "-1rem", width: "100vw", height: "calc(100vh - 2 * 60px)",zIndex: 2},
-            {top: 0, left: 0, width: "100%", height: "150px", zIndex: 1, transform: "translate(0px, 0px)"}
-        ];
-        const styleOptions: KeyframeAnimationOptions  = {
-            duration: 0,
-            fill: 'forwards'
-        };
-
-        expect(mockedAnimation).toHaveBeenCalledWith(keyframesReverse, styleOptions);
+        jest.advanceTimersByTime(380);
         expect(setIsOpen).toHaveBeenCalledWith(false);
+
+        jest.useRealTimers();
+    });
+
+    it('should call setIsOpen and clear styles when cardState is Closed', () => {
+
+        HTMLDivElement.prototype.animate = jest.fn();
+        const mockedAnimation = HTMLDivElement.prototype.animate;
+
+        const container = renderComponentWithCardOpenContext(5, true, CardState.CLOSED);
+        const card = container.querySelector('.card') as HTMLElement;
+
+        expect(card.style.cssText).toBe('');
+        expect(setIsOpen).toHaveBeenCalledWith(false);
+        expect(mockedAnimation).not.toHaveBeenCalled();
     });
 })

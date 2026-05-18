@@ -17,7 +17,7 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove }: IngredientSearchProp
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [foods, setFoods] = useState<Food[]>([]);
     const [selectedFood, setSelectedFood] = useState<Food | null>(null);
-    const [quantity, setQuantity] = useState<number>(1);
+    const [quantityStr, setQuantityStr] = useState<string>('1');
     const [measureUri, setMeasureUri] = useState<string>('');
     const [showSuggestions, setShowSuggestions] = useState(false);
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -53,7 +53,7 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove }: IngredientSearchProp
         setSelectedFood(food);
         setFoods([]);
         setQuery('');
-        setQuantity(1);
+        setQuantityStr('1');
         setMeasureUri(food.measures[0]?.uri ?? '');
     };
 
@@ -72,6 +72,8 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove }: IngredientSearchProp
                 );
             } catch { return; }
         }
+
+        const quantity = Math.max(0.01, parseFloat(quantityStr) || 1);
 
         onAdd({
             food: { ...selectedFood, food: { ...selectedFood.food, nutrients100g } },
@@ -140,8 +142,8 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove }: IngredientSearchProp
                                 type="number"
                                 min="0.01"
                                 step="0.01"
-                                value={quantity}
-                                onInput={e => setQuantity(parseFloat((e.target as HTMLInputElement).value) || 1)}
+                                value={quantityStr}
+                                onChange={e => setQuantityStr(e.target.value)}
                             />
                         </div>
                         <div className={styles.select_group}>
