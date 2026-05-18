@@ -17,7 +17,7 @@ interface RecipeCardProps {
 const RecipeCard = ({ recipe, index, id, open, image }: RecipeCardProps): JSX.Element => {
 
     const [isOpen, setIsOpen] = useState<boolean>(open);
-    const { setCardOpen } = useContext(CardOpenContext);
+    const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { setCurrentRecipe } = useContext(CurrentRecipeContext);
 
     const handleCardClick = () => {
@@ -37,8 +37,8 @@ const RecipeCard = ({ recipe, index, id, open, image }: RecipeCardProps): JSX.El
 
     return (
         <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
-            {isOpen ? <OpenRecipeCard recipe={recipe} image={image}/> : 
-            <ClosedCard 
+            {isOpen && cardOpen !== CardState.CLOSING ? <OpenRecipeCard recipe={recipe} image={image}/> :
+            <ClosedCard
                 title={recipe.name}
                 image={image && image}
                 calories={recipe.nutrients.calories}

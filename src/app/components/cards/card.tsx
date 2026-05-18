@@ -24,6 +24,15 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
     const placeholderRef = useRef<HTMLDivElement>(null);
     const cardRef = useRef<HTMLDivElement>(null);
     const rectRef = useRef<DOMRect | null>(null);
+    const needsStyleReset = useRef(false);
+
+    // Reset card styles after React re-renders with closed content
+    useEffect(() => {
+        if (!isOpen && cardRef.current && needsStyleReset.current) {
+            cardRef.current.style.cssText = '';
+            needsStyleReset.current = false;
+        }
+    }, [isOpen]);
 
     const handleClick = () => {
         if (isOpen) return;
@@ -102,7 +111,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             card.style.borderRadius = '0.2rem';
 
             const timer = setTimeout(() => {
-                card.style.cssText = '';
+                needsStyleReset.current = true;
                 setIsOpen(false);
                 setCardOpen(CardState.CLOSED);
             }, ANIM_DURATION);

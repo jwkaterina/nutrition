@@ -16,7 +16,7 @@ interface FoodCardProps {
 
 const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
 
-    const { setCardOpen } = useContext(CardOpenContext);
+    const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
     const { sendRequest } = useHttpClient();
     const [isOpen, setIsOpen] = useState<boolean>(open);
@@ -61,8 +61,8 @@ const FoodCard = ({ food, index, id, open }: FoodCardProps): JSX.Element => {
 
     return (
         <Card index={index} onCardClick={handleCardClick} setIsOpen={setIsOpen} isOpen={isOpen}> 
-            {isOpen ? <OpenFoodCard food={food} initialNutrients={nutrients}/> : 
-            <ClosedCard 
+            {isOpen && cardOpen !== CardState.CLOSING ? <OpenFoodCard food={food} initialNutrients={nutrients}/> :
+            <ClosedCard
                 title={food.food.label}
                 image={isImage() ? food.food.image : ''}
                 calories={food.food.nutrients.ENERC_KCAL}
