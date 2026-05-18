@@ -96,7 +96,14 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
         const recipesArray = combineRecipes(currentRecipes);
         const ingredientsArray = ArrayfromString(ingredientsString);
-        const nutrients: Nutrients | null = await fetchMenuNutrients(ingredientsArray, recipesArray);
+
+        const ingredientsUnchanged = currentMenu.mode === AnalysisMode.EDIT &&
+            currentMenu.menu?.nutrients &&
+            JSON.stringify(ingredientsArray) === JSON.stringify(currentMenu.menu.ingredients);
+
+        const nutrients: Nutrients | null = ingredientsUnchanged
+            ? currentMenu.menu!.nutrients
+            : await fetchMenuNutrients(ingredientsArray, recipesArray);
 
         if(nutrients) {
             const newMenu = {

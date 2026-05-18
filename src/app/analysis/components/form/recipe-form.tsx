@@ -69,8 +69,14 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
 
         const ingredientsArray = ArrayfromString(ingredientsString);
 
+        const ingredientsUnchanged = currentRecipe.mode === AnalysisMode.EDIT &&
+            currentRecipe.recipe?.nutrients &&
+            JSON.stringify(ingredientsArray) === JSON.stringify(currentRecipe.recipe.ingredients);
+
         try {
-            const nutrients = await fetchRecipeNutrients(ingredientsArray);
+            const nutrients = ingredientsUnchanged
+                ? currentRecipe.recipe!.nutrients
+                : await fetchRecipeNutrients(ingredientsArray);
             const newRecipe: Recipe = {
                 name,
                 servings,

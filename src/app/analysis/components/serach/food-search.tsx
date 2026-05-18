@@ -60,21 +60,26 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		};
 	}, [cardOpen]);
 
-	const handleInput = async(e: FormEvent) => {
+	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	const handleInput = (e: FormEvent) => {
 		const inputValue = (e.target as HTMLInputElement).value;
 		setInput(inputValue);
+		if(debounceRef.current) clearTimeout(debounceRef.current);
 		if(inputValue.length == 0) return;
-		try {
-			console.log(`[Edamam] autocomplete: "${inputValue}"`);
-			const query: string[] = await sendRequest(
-			`/api/query/${inputValue}`,
-			'GET', null, {}, false, false
-			);
-			setShowOptions(true);
-			setQueryOptions(query);
-		} catch (err) {
-			setMessage(null);
-		}
+		debounceRef.current = setTimeout(async () => {
+			try {
+				console.log(`[Edamam] autocomplete: "${inputValue}"`);
+				const query: string[] = await sendRequest(
+					`/api/query/${inputValue}`,
+					'GET', null, {}, false, false
+				);
+				setShowOptions(true);
+				setQueryOptions(query);
+			} catch (err) {
+				setMessage(null);
+			}
+		}, 300);
 	}
 
 	const handleOptionClick = async(option: HTMLLIElement) => {
