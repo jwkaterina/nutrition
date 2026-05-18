@@ -7,7 +7,8 @@ import FoodHeaderCard from './header-foodcard';
 import MineralsCard from '../../analysis-cards/minerals-card';
 import VitaminsCard from '../../analysis-cards/vitamins-card';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { Food, Nutrients, NutrientsProp } from '@/app/types/types';
+import { scaleNutrients } from '@/app/hooks/utils/nutrients-calculator';
+import { Food, Nutrients } from '@/app/types/types';
 import styles from '../card.module.css';
 
 interface OpenFoodCardProps {
@@ -16,18 +17,6 @@ interface OpenFoodCardProps {
 }
 
 const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
-
-const scaleNutrients = (base: Nutrients, totalGrams: number): Nutrients => {
-    const scale = totalGrams / 100;
-    const scaleProps = (props: NutrientsProp): NutrientsProp =>
-        Object.fromEntries(Object.entries(props).map(([k, n]) => [k, { ...n, quantity: n.quantity * scale }]));
-    return {
-        calories: base.calories * scale,
-        totalWeight: base.totalWeight * scale,
-        totalNutrients: scaleProps(base.totalNutrients),
-        totalDaily: scaleProps(base.totalDaily),
-    };
-};
 
 const OpenFoodCard  = ({ food, initialNutrients }: OpenFoodCardProps): JSX.Element => {
 

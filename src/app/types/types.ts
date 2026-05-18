@@ -39,16 +39,25 @@ export type MeasureProp = {
     weight: number
 }
 
+export type StructuredIngredient = {
+    food: Food,
+    quantity: number,
+    measureUri: string,
+    measureLabel: string,
+    measureWeight: number,
+    nutrients100g: Nutrients
+}
+
 export interface Recipe {
     name: string,
     servings: number,
-    ingredients: string[],
+    ingredients: StructuredIngredient[],
     nutrients: Nutrients
 }
 
 export interface MenuProp {
     name: string,
-    ingredients: string[],
+    ingredients: StructuredIngredient[],
     nutrients: Nutrients,
     recipes: RecipeWithServings[]
 }

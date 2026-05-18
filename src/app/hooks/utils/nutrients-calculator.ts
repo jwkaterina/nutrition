@@ -1,4 +1,4 @@
-import { Nutrients, NutrientsProp } from "@/app/types/types";
+import { Nutrients, NutrientsProp, StructuredIngredient } from "@/app/types/types";
 
 interface RecipeCalculatorProps {
     nutrients: Nutrients, 
@@ -44,6 +44,25 @@ export const RecipeNutrientsCalculator = (recipe: RecipeCalculatorProps): Nutrie
 };
 
 RecipeNutrientsCalculator;
+
+export const scaleNutrients = (base: Nutrients, totalGrams: number): Nutrients => {
+    const scale = totalGrams / 100;
+    const scaleProps = (props: NutrientsProp): NutrientsProp =>
+        Object.fromEntries(Object.entries(props).map(([k, n]) => [k, { ...n, quantity: n.quantity * scale }]));
+    return {
+        calories: base.calories * scale,
+        totalWeight: base.totalWeight * scale,
+        totalNutrients: scaleProps(base.totalNutrients),
+        totalDaily: scaleProps(base.totalDaily),
+    };
+};
+
+export const combineIngredientNutrients = (ingredients: StructuredIngredient[]): Nutrients => {
+    const scaled = ingredients.map(ing =>
+        scaleNutrients(ing.nutrients100g, ing.quantity * ing.measureWeight)
+    );
+    return MenuNutrientsCalculator(scaled.map(n => ({ nutrients: n, selectedServings: 1 })));
+};
 
 export interface MenuCalculatorProps {
     nutrients: Nutrients, 
