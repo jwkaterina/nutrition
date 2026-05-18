@@ -1,3 +1,4 @@
+'use client';
 import { useState, useRef, FormEvent, KeyboardEvent } from 'react';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { Food, Nutrients, StructuredIngredient } from '@/app/types/types';
@@ -9,9 +10,12 @@ interface IngredientSearchProps {
     ingredients: StructuredIngredient[];
     onAdd: (ingredient: StructuredIngredient) => void;
     onRemove: (index: number) => void;
+    onUpdate: (index: number, ingredient: StructuredIngredient) => void;
+    label?: string;
+    placeholder?: string;
 }
 
-const IngredientSearch = ({ ingredients, onAdd, onRemove }: IngredientSearchProps): JSX.Element => {
+const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ingredients', placeholder = 'Search ingredient...' }: IngredientSearchProps): JSX.Element => {
     const { sendRequest } = useHttpClient();
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -20,6 +24,7 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove }: IngredientSearchProp
     const [quantityStr, setQuantityStr] = useState<string>('1');
     const [measureUri, setMeasureUri] = useState<string>('');
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [editIndex, setEditIndex] = useState<number | null>(null);
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const handleInput = (e: FormEvent) => {
@@ -57,6 +62,31 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove }: IngredientSearchProp
         setMeasureUri(food.measures[0]?.uri ?? '');
     };
 
+    const handleEdit = (index: number) => {
+        const ing = ingredients[index];
+        setEditIndex(index);
+        setQuantityStr(String(ing.quantity));
+        setMeasureUri(ing.measureUri);
+        setSelectedFood(null);
+        setFoods([]);
+        setQuery('');
+        setShowSuggestions(false);
+    };
+
+    const handleUpdate = (index: number) => {
+        const ing = ingredients[index];
+        const measure = ing.food.measures.find(m => m.uri === measureUri) ?? ing.food.measures[0];
+        const quantity = Math.max(0.01, parseFloat(quantityStr) || 1);
+        onUpdate(index, {
+            ...ing,
+            quantity,
+            measureUri: measure.uri,
+            measureLabel: measure.label,
+            measureWeight: measure.weight,
+        });
+        setEditIndex(null);
+    };
+
     const handleAdd = async () => {
         if (!selectedFood) return;
         const measure = selectedFood.measures.find(m => m.uri === measureUri) ?? selectedFood.measures[0];
@@ -90,24 +120,69 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove }: IngredientSearchProp
 
     return (
         <div className={styles.form_group}>
-            <label>Ingredients</label>
+            <label>{label}</label>
 
             {ingredients.length > 0 && (
                 <ul className={styles.ingredient_list}>
                     {ingredients.map((ing, i) => (
-                        <li key={i} className={styles.ingredient_item}>
-                            <span>{ing.quantity} {ing.measureLabel} {ing.food.food.label}</span>
-                            <button type="button" className={styles.remove_button} onClick={() => onRemove(i)}>✕</button>
-                        </li>
+                        editIndex === i ? (
+                            <li key={i} className={styles.ingredient_edit_inline}>
+                                <p className={styles.selected_food_label}>{ing.food.food.label}</p>
+                                <div className={styles.short_inputs_group}>
+                                    <div className={styles.number_group}>
+                                        <label>Quantity</label>
+                                        <input
+                                            type="number"
+                                            min="0.01"
+                                            step="0.01"
+                                            value={quantityStr}
+                                            onChange={e => setQuantityStr(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className={styles.select_group}>
+                                        <label>Measure</label>
+                                        <select value={measureUri} onChange={e => setMeasureUri(e.target.value)}>
+                                            {ing.food.measures.map((m, j) => (
+                                                <option key={j} value={m.uri}>{m.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className={styles.ingredient_actions}>
+                                    <button type="button" className={styles.add_button} onClick={() => setEditIndex(null)}>Cancel</button>
+                                    <button type="button" onClick={() => handleUpdate(i)}>Update</button>
+                                </div>
+                            </li>
+                        ) : (
+                            <li key={i} className={styles.ingredient_item}>
+                                <div>
+                                    <div className={styles.ingredient_name}>{ing.food.food.label}</div>
+                                    <div className={styles.ingredient_amount}>{ing.quantity} {ing.measureLabel}</div>
+                                </div>
+                                <div className={styles.ingredient_item_actions}>
+                                    <button type="button" className={styles.edit_button} onClick={() => handleEdit(i)}>✎</button>
+                                    <button type="button" className={styles.remove_button} onClick={() => onRemove(i)}>✕</button>
+                                </div>
+                            </li>
+                        )
                     ))}
                 </ul>
             )}
 
-            {!selectedFood && (
-                <div className={styles.ingredient_search_wrap}>
+            {!selectedFood && editIndex === null && (
+                <div
+                    className={styles.ingredient_search_wrap}
+                    onBlur={e => {
+                        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                            setShowSuggestions(false);
+                            setFoods([]);
+                            setQuery('');
+                        }
+                    }}
+                >
                     <input
                         type="text"
-                        placeholder="Search ingredient..."
+                        placeholder={placeholder}
                         value={query}
                         onInput={handleInput}
                         onKeyUp={(e: KeyboardEvent) => { if (e.key === 'Enter' && query) search(query); }}
@@ -122,7 +197,7 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove }: IngredientSearchProp
                     {foods.length > 0 && (
                         <ul className={styles.food_results}>
                             {foods.map((food, i) => (
-                                <li key={i} onClick={() => handleSelectFood(food)}>
+                                <li key={i} onMouseDown={() => handleSelectFood(food)}>
                                     <span>{food.food.label}</span>
                                     <span className={styles.food_kcal}>{Math.round(food.food.nutrients.ENERC_KCAL)} kcal/100g</span>
                                 </li>

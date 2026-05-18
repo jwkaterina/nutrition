@@ -56,7 +56,7 @@
     margin-bottom: 0.5rem;
 }
 
-.form_group input, .form_group button, .select_group select, .number, .minus_button, .plus_button{
+.form_group input, .form_group button:not(.remove_button), .select_group select, .number, .minus_button, .plus_button{
     height: 2.5rem;
     padding: 0.5rem;
     border-radius: 0.2rem;
@@ -107,7 +107,7 @@
     align-items: center;
 }
 
-.form_group button {
+.form_group button:not(.remove_button) {
     width: 100%;
     border: none;
     background-color: var(--secondary-color);
@@ -160,29 +160,63 @@
     padding: 0;
     margin: 0 0 0.75rem 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
 }
 
 .ingredient_item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.4rem 0.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    background-color: white;
+    border: 1px solid var(--gray-light);
+    border-radius: 0.2rem;
 }
 
-.remove_button {
+.ingredient_name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--gray-dark);
+}
+
+.ingredient_amount {
+    font-size: 0.8rem;
+    color: var(--gray);
+    margin-top: 0.1rem;
+}
+
+.ingredient_item_actions {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+.edit_button, .remove_button {
     background: none;
     border: none;
-    color: rgba(0, 0, 0, 0.4);
     cursor: pointer;
-    font-size: 0.85rem;
     padding: 0 0.25rem;
     line-height: 1;
 }
 
+.edit_button {
+    color: var(--gray-lighter);
+    font-size: 1rem;
+}
+
+.edit_button:hover {
+    color: var(--primary-color);
+}
+
+.remove_button {
+    color: var(--gray-lighter);
+    font-size: 0.85rem;
+}
+
 .remove_button:hover {
-    color: rgba(0, 0, 0, 0.8);
+    color: var(--gray-darker);
 }
 
 .ingredient_search_wrap {
@@ -238,6 +272,14 @@
 
 .ingredient_form {
     width: 100%;
+}
+
+.ingredient_edit_inline {
+    list-style: none;
+    padding: 0.75rem;
+    background-color: white;
+    border: 1px solid var(--secondary-lighter-color);
+    border-radius: 0.2rem;
 }
 
 .selected_food_label {

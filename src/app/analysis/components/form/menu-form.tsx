@@ -1,3 +1,4 @@
+'use client';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter} from 'next/navigation';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
@@ -190,6 +191,9 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         ingredients={ingredients}
                         onAdd={ing => setIngredients(prev => [...prev, ing])}
                         onRemove={i => setIngredients(prev => prev.filter((_, idx) => idx !== i))}
+                        onUpdate={(i, ing) => setIngredients(prev => prev.map((item, idx) => idx === i ? ing : item))}
+                        label="Food"
+                        placeholder="Search food..."
                     />
                     {legacyIngredients.length > 0 && (
                         <div className={styles.form_group}>

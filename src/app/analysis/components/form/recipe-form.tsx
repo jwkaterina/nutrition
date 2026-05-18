@@ -1,3 +1,4 @@
+'use client';
 import { useContext, useEffect, useState, useRef } from 'react';
 import { useRouter} from 'next/navigation';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
@@ -188,6 +189,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                         ingredients={ingredients}
                         onAdd={ing => setIngredients(prev => [...prev, ing])}
                         onRemove={i => setIngredients(prev => prev.filter((_, idx) => idx !== i))}
+                        onUpdate={(i, ing) => setIngredients(prev => prev.map((item, idx) => idx === i ? ing : item))}
                     />
                     {legacyIngredients.length > 0 && (
                         <div className={styles.form_group}>
