@@ -14,18 +14,18 @@ interface OpenMenuCardProps {
 
 const OpenMenuCard  = ({ menu }: OpenMenuCardProps): JSX.Element => {
 
-    const weight: number = menu.nutrients.totalWeight;
-    const devideBy: number = weight / 100;
+    const weight: number = menu.nutrients?.totalWeight ?? 0;
+    const devideBy: number = weight > 0 ? weight / 100 : 1;
 
-    const proteinPer100gram: number = menu.nutrients.totalNutrients.PROCNT.quantity / devideBy;
-    const carbsPer100gram: number = menu.nutrients.totalNutrients.CHOCDF.quantity / devideBy;
-    const fatPer100gram: number = menu.nutrients.totalNutrients.FAT.quantity / devideBy;
+    const proteinPer100gram: number = (menu.nutrients?.totalNutrients?.PROCNT?.quantity ?? 0) / devideBy;
+    const carbsPer100gram: number = (menu.nutrients?.totalNutrients?.CHOCDF?.quantity ?? 0) / devideBy;
+    const fatPer100gram: number = (menu.nutrients?.totalNutrients?.FAT?.quantity ?? 0) / devideBy;
 
     return (
         <div className={styles.card_grid}>
             <MenuHeaderCard menu={menu} />
             {menu.nutrients && <DailyValueCard content={menu.nutrients} />}
-            <CompositionCard 
+            <CompositionCard
                 protein={proteinPer100gram}
                 carbs={carbsPer100gram}
                 fat={fatPer100gram}
