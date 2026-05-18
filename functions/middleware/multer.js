@@ -46,7 +46,11 @@ const all = async (req, res, next) => {
         next();
     });
 
-    busboy.end(req.rawBody);
+    if (req.rawBody) {
+        busboy.end(req.rawBody);
+    } else {
+        req.pipe(busboy);
+    }
 };
 
 exports.all = all;
