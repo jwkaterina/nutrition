@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { useRouter} from 'next/navigation';
 import AuthMenu from '@/app/components/navigation/menus/auth-menu';
 import NavBar from '@/app/components/navigation/nav-bar';
@@ -14,10 +14,23 @@ const Auth = (): JSX.Element => {
 
     const { sendRequest } = useHttpClient();
     const { setScrollBehavior } = useContext(SlideContext);
-    const { login } = useContext(AuthContext);
+    const { login, token } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState<boolean>(true);
     const { setMessage } = useContext(StatusContext);
     const router = useRouter();
+    const shouldNavigate = useRef(false);
+
+    useEffect(() => {
+        if (!token || !shouldNavigate.current) return;
+        shouldNavigate.current = false;
+        setScrollBehavior('auto');
+        if (window.history.length > 1) {
+            router.back();
+        } else {
+            router.replace('/');
+        }
+        setTimeout(() => setScrollBehavior('smooth'), 500);
+    }, [token]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -39,9 +52,9 @@ const Auth = (): JSX.Element => {
                         'Content-Type': 'application/json'
                     }
                 );
+                shouldNavigate.current = true;
                 login(responseData.token);
                 setMessage('Logged in');
-                goBack();
             } catch (err) { }
         } else {
             const formName = form.name as unknown as HTMLInputElement;
@@ -60,23 +73,11 @@ const Auth = (): JSX.Element => {
                     }
                     );
 
+                shouldNavigate.current = true;
                 login(responseData.token);
-                goBack();
                 setMessage('Signed up');
               } catch (err) {}
         }
-    }
-
-    const goBack = () => {
-        setScrollBehavior('auto');
-        if (window.history.length > 1) {
-            router.back();
-        } else {
-            router.replace('/');
-        }
-        setTimeout(() => {
-            setScrollBehavior('smooth');
-        }, 500);
     }
 
     return (
