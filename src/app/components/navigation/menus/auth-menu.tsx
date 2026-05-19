@@ -10,7 +10,11 @@ const AuthMenu = (): JSX.Element => {
 
     const backHandler = () => {
         setScrollBehavior('auto');
-		router.back();
+        if (window.history.length > 1) {
+            router.back();
+        } else {
+            router.push('/');
+        }
 		setTimeout(() => {
 			setScrollBehavior('smooth');
 		}, 500);

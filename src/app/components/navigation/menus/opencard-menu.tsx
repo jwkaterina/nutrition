@@ -1,3 +1,4 @@
+'use client';
 import { useContext, useEffect, useState } from "react";
 import Menu from "./menu";
 import { useRouter} from 'next/navigation';
@@ -51,11 +52,11 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const handleRightClick = (): void => {
         if(rightText === 'Edit') {
             if(currentRecipe.recipe) {
-                router.push('/analysis/recipe-analysis');
+                router.push('/analysis/recipe-analysis?edit=1');
                 setCurrentRecipe({id: currentRecipe.id, recipe: currentRecipe.recipe, image: currentRecipe.image, mode: AnalysisMode.EDIT});
             }
             if(currentMenu.menu) {
-                router.push('/analysis/menu-analysis');
+                router.push('/analysis/menu-analysis?edit=1');
                 setCurrentMenu({id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT});
             }
             setCardOpen(CardState.CLOSED);

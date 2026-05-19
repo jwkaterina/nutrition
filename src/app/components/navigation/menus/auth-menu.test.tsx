@@ -17,6 +17,8 @@ describe('auth menu', () => {
 
     (useRouter as jest.Mock).mockReturnValue({push, back});
 
+    Object.defineProperty(window, 'history', { value: { length: 2 }, configurable: true });
+
     type scroll = 'auto' | 'smooth';
     const slideValue = {
         slide: SlideType.FOOD,

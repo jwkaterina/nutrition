@@ -1,23 +1,28 @@
 'use client'
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
 import Footer from '@/app/components/navigation/footer';
 import NavBar from '@/app/components/navigation/nav-bar';
 import OpenAnalysisMenu from '@/app/components/navigation/menus/openanalysis-menu';
 import RecipeForm from '../components/form/recipe-form';
 import { CardOpenContext } from '@/app/context/card-context';
+import { CurrentRecipeContext } from '@/app/context/recipe-context';
 import { CardState } from '@/app/types/types';
 
-interface RecipeAnalysisProps {
+const RecipeAnalysis = (): JSX.Element => {
 
-}
-
-const RecipeAnalysis = ({ }: RecipeAnalysisProps): JSX.Element => {
-
+	const router = useRouter();
 	const { cardOpen } = useContext(CardOpenContext);
+	const { currentRecipe } = useContext(CurrentRecipeContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	const [file, setFile] = useState<Blob | null>(null);
+
+	useEffect(() => {
+		const isEdit = new URLSearchParams(window.location.search).get('edit') === '1';
+		if (isEdit && !currentRecipe.recipe) router.replace('/');
+	}, []);
 
 	return (
 		<>
