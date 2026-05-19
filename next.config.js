@@ -34,7 +34,6 @@ module.exports = (phase, { defaultConfig }) => {
   return {
     ...defaultConfig,
     output: "export",
-    trailingSlash: true,
     reactStrictMode: true,
     images: {
       unoptimized: true,
