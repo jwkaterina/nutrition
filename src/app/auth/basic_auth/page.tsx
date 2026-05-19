@@ -69,13 +69,11 @@ const Auth = (): JSX.Element => {
 
     const goBack = () => {
         setScrollBehavior('auto');
-        setTimeout(() => {
-            if (window.history.length > 1) {
-                router.back();
-            } else {
-                router.replace('/');
-            }
-        }, 50);
+        if (window.history.length > 1) {
+            router.back();
+        } else {
+            router.replace('/');
+        }
         setTimeout(() => {
             setScrollBehavior('smooth');
         }, 500);
