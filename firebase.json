@@ -22,12 +22,9 @@
     "frameworksBackend": {
       "region": "europe-west1"
     },
-    "rewrites": [
-      { "source": "/api/**", "function": "app" },
-      { "source": "/foods/**", "function": "app" },
-      { "source": "/recipes/**", "function": "app" },
-      { "source": "/users/**", "function": "app" },
-      { "source": "/menus/**", "function": "app" }
-    ]
+    "rewrites": [ {
+      "source": "**",
+      "function": "app"
+    } ]
   }
 }
