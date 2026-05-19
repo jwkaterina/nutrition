@@ -117,7 +117,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                 }
             );
             setScrollBehavior('auto');
-            router.push('/');
+            router.replace('/?tab=recipe');
             setTimeout(() => {
                 setScrollBehavior('smooth');
             }, 500);
@@ -203,12 +203,14 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                         <label htmlFor="recipe-servings">Number of Servings</label>
                         <input type="number" id="recipe-servings" name="recipe-servings" required min='1' value={servings} onInput={e => handleServingsInput(e)}/>
                     </div>
-                    <div className={styles.form_group}>
-                        <button type="submit">Analyze</button>
+                    <div className={styles.form_actions_row}>
+                        <div className={styles.form_group}>
+                            <button type="submit">Analyze</button>
+                        </div>
+                        {currentRecipe.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
+                            <button type="button" className={styles.danger_button} onClick={deleteRecipe}>Delete</button>
+                        </div>}
                     </div>
-                    {currentRecipe.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
-                        <button type="button" className={styles.danger_button} onClick={deleteRecipe}>Delete</button>
-                    </div>}
                 </form>
             </div>
         </div>

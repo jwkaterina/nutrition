@@ -1,3 +1,4 @@
+'use client';
 import { useRef, useContext, useCallback, useEffect } from 'react';
 import FoodSlide from '@/app/components/slider/slides/food-slide';
 import RecipeSlide from '@/app/components/slider/slides/recipe-slide';
@@ -25,6 +26,20 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
             behavior: animated ? 'smooth' : 'instant',
         });
     }, []);
+
+    // Restore slide from URL on mount (browser refresh / direct link)
+    useEffect(() => {
+        const tab = new URLSearchParams(window.location.search).get('tab');
+        if (tab === 'recipe') setSlide(SlideType.RECIPE);
+        else if (tab === 'menu') setSlide(SlideType.MENU);
+        else if (tab === 'food') setSlide(SlideType.FOOD);
+    }, []);
+
+    // Keep URL in sync with active slide (no history entry)
+    useEffect(() => {
+        const names = { [SlideType.FOOD]: 'food', [SlideType.RECIPE]: 'recipe', [SlideType.MENU]: 'menu' };
+        window.history.replaceState(null, '', `?tab=${names[slide]}`);
+    }, [slide]);
 
     useEffect(() => {
         scrollToSlide(slide, scrollBehavior === 'smooth');

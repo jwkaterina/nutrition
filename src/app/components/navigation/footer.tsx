@@ -7,22 +7,24 @@ import { CurrentRecipeContext } from "@/app/context/recipe-context";
 import { CurrentMenuContext } from "@/app/context/menu-context";
 import { CurrentFoodContext } from "@/app/context/food-context";
 import { StatusContext } from "@/app/context/status-context";
-import { CardState, AnalysisMode, StatusType } from "@/app/types/types";
+import { CardState, AnalysisMode, StatusType, SlideType } from "@/app/types/types";
 import styles from "./nav-bar.module.css";
 
 interface FooterProps {
     color: string,
+    textColor?: string,
     setFile?: (file: any) => void
 }
 
-const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
+const Footer = ({ color, textColor, setFile }: FooterProps): JSX.Element => {
 
     const router = useRouter();
     const path = usePathname();
     const { isLoggedIn, logout } = useContext(AuthContext);
     const { setCurrentFood } = useContext(CurrentFoodContext);
     const { setCardOpen } = useContext(CardOpenContext);
-    const { setScrollBehavior } = useContext(SlideContext);
+    const { setScrollBehavior, slide } = useContext(SlideContext);
+    const tabNames = { [SlideType.FOOD]: 'food', [SlideType.RECIPE]: 'recipe', [SlideType.MENU]: 'menu' };
     const { setCurrentRecipe } = useContext(CurrentRecipeContext);
     const { setCurrentMenu } = useContext(CurrentMenuContext);
     const { setStatus, setMessage } = useContext(StatusContext);
@@ -45,7 +47,7 @@ const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
         } else {
             setCardOpen(CardState.CLOSED);
             setScrollBehavior('auto');
-            router.push('/');
+            router.push(`/?tab=${tabNames[slide]}`);
             setTimeout(() => {
                 setScrollBehavior('smooth');
             }, 500);
@@ -58,7 +60,7 @@ const Footer = ({ color, setFile }: FooterProps): JSX.Element => {
     }
 
     return (
-        <nav className={styles.footer} style={{background: color}}>
+        <nav className={styles.footer} style={{background: color, '--nav-link-color': textColor} as React.CSSProperties}>
             <div className={styles.footer_links}>
 				<a className={styles.link} onClick={handleHomeClick}>Home</a>
 				<a className={styles.link} onClick={handleAuthClick}>{isLoggedIn ? 'Logout' : 'Login'}</a>

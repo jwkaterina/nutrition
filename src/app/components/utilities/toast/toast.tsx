@@ -1,4 +1,5 @@
-import { useEffect, useContext,useState, useRef } from 'react';
+'use client';
+import { useEffect, useContext, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faCircleCheck, faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { StatusContext } from '@/app/context/status-context';
@@ -9,60 +10,51 @@ const Toast = () => {
 
     const { message, setMessage, status } = useContext(StatusContext);
     const [open, setOpen] = useState(false);
-    const [openTimeout, setOpenTimeout] = useState<NodeJS.Timeout | null>(null);
-    const [messageTimeout, setMessageTimeout] = useState<NodeJS.Timeout | null>(null);
-    const progressRef = useRef<HTMLDivElement>(null);
+    const timers = useRef<NodeJS.Timeout[]>([]);
 
-    const progress: Animation | undefined = progressRef.current?.animate([
-        {width: '0%'},
-        {width: '100%'}
-    ], {
-        duration: 4000,
-        fill: 'forwards'
-    });
+    const clearTimers = () => {
+        timers.current.forEach(clearTimeout);
+        timers.current = [];
+    };
 
     useEffect(() => {
-        clearTimeout(openTimeout!);
-        clearTimeout(messageTimeout!);
-        progress?.cancel();
-
-        if (message) {
-            setTimeout(() => {
-                setOpen(true);
-                progress?.play();
-            }, 100);
-            const openTimeout = setTimeout(() => {
-                setOpen(false);
-            }, 4000);
-            setOpenTimeout(openTimeout);
-            const messageTimeout = setTimeout(() => {
-                setMessage(null);
-            }, 4500);
-            setMessageTimeout(messageTimeout);
-        }
+        if (!message) return;
+        clearTimers();
+        setOpen(true);
+        timers.current.push(
+            setTimeout(() => setOpen(false), 4000),
+            setTimeout(() => setMessage(null), 4500)
+        );
+        return clearTimers;
     }, [message, status]);
 
     const onClose = () => {
+        clearTimers();
         setOpen(false);
-        setTimeout(() => {
-            setMessage(null);
-        }, 500);
-    }
+        setTimeout(() => setMessage(null), 500);
+    };
+
+    const isSuccess = status === StatusType.SUCCESS;
+    const toastClass = [
+        styles.toast,
+        open ? styles.active : '',
+        isSuccess ? styles.success : styles.error
+    ].join(' ');
 
     return (
-        <div className={open ? `${styles.toast} ${styles.active}` : `${styles.toast}`}>
+        <div className={toastClass}>
             <div className={styles.toast_content}>
-                {status ==  StatusType.SUCCESS ? 
-                    <FontAwesomeIcon icon={faCircleCheck} className={styles.check}/> :
-                    <FontAwesomeIcon icon={faCircleExclamation} className={styles.fail}/>
-                }
+                <FontAwesomeIcon
+                    icon={isSuccess ? faCircleCheck : faCircleExclamation}
+                    className={isSuccess ? styles.check : styles.fail}
+                />
                 <div className={styles.info}>
-                    <span className={`${styles.text} ${styles.status}`}>{status}</span>
-                    <span className={`${styles.text} ${styles.message}`}>{message}</span>
+                    <span className={styles.status_label}>{status}</span>
+                    <span className={styles.message}>{message}</span>
                 </div>
             </div>
-            <FontAwesomeIcon icon={faXmark} className={styles.close} onClick={onClose}/>
-            <div ref={progressRef} className={styles.progress}></div>
+            <FontAwesomeIcon icon={faXmark} className={styles.close} onClick={onClose} />
+            <div key={`${message}-${status}`} className={styles.progress} />
         </div>
     );
 }

@@ -150,7 +150,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                 }
             );
             setScrollBehavior('auto');
-            router.push('/');
+            router.replace('/?tab=menu');
             setTimeout(() => {
                 setScrollBehavior('smooth');
             }, 500);
@@ -208,17 +208,20 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         setCurrentRecipes={setCurrentRecipes}
                         currentRecipes={currentRecipes}
                         loadedRecipes={loadedRecipes}
+                        onRemoveRecipe={() => setInputsnumber(inputsnumber - 1)}
                     />
                     <div className={styles.form_group}>
                         <button type="button" className={styles.add_button} onClick={handleAddRecipe}>Add Recipe</button>
                         {isLoading && <SmallSpinner/>}
                     </div>
-                    <div className={styles.form_group}>
-                        <button type="submit">Analyze</button>
+                    <div className={styles.form_actions_row}>
+                        <div className={styles.form_group}>
+                            <button type="submit">Analyze</button>
+                        </div>
+                        {currentMenu.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
+                            <button type="button" className={styles.danger_button} onClick={deleteMenu}>Delete</button>
+                        </div>}
                     </div>
-                    {currentMenu.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
-                        <button type="button" className={styles.danger_button} onClick={deleteMenu}>Delete</button>
-                    </div>}
                 </form>
             </div>
         </div>

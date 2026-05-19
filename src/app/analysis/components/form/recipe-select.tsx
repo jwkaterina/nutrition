@@ -1,4 +1,7 @@
+'use client';
 import { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { LoadedRecipe, RecipeWithServings } from '@/app/types/types';
 
 import styles from './form.module.css';
@@ -7,10 +10,11 @@ interface RecipeSelectProps {
     inputs: number,
     setCurrentRecipes: (recipes: RecipeWithServings[]) => void,
     currentRecipes: RecipeWithServings[],
-    loadedRecipes: LoadedRecipe[]
+    loadedRecipes: LoadedRecipe[],
+    onRemoveRecipe: () => void
 }
 
-const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes }: RecipeSelectProps) => {
+const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes, onRemoveRecipe }: RecipeSelectProps) => {
 
     useEffect(() => {
         if (loadedRecipes && loadedRecipes.length > 0) {
@@ -18,7 +22,7 @@ const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes
                 const newRecipes: RecipeWithServings[] = Array(inputs - currentRecipes.length).fill({
                     selectedRecipeId: loadedRecipes[0].id,
                     selectedRecipe: loadedRecipes[0].recipe,
-                    selectedServings: 0
+                    selectedServings: 1
                 });
                 const newRecipesArray: RecipeWithServings[] = [...currentRecipes, ...newRecipes];
                 setCurrentRecipes(newRecipesArray);
@@ -68,7 +72,11 @@ const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes
         };
 
         const handleMinusClick = (index: number) => {
-            if(currentRecipes[index].selectedServings === 0) return;
+            if (currentRecipes[index].selectedServings <= 1) {
+                setCurrentRecipes(currentRecipes.filter((_, i) => i !== index));
+                onRemoveRecipe();
+                return;
+            }
             setCurrentRecipes(currentRecipes.map((recipe, i) => i === index ? {
                 selectedRecipeId: recipe.selectedRecipeId,
                 selectedRecipe: recipe.selectedRecipe,
@@ -80,14 +88,20 @@ const RecipeSelect = ({ inputs, currentRecipes, setCurrentRecipes, loadedRecipes
         for(let i = 0; i < inputs; i++) {
             numberInputs.push( 
                 <div key={i} className={styles.number_input_group}>
-                    <div className={styles.minus_button} onClick={() => handleMinusClick(i)}>-</div>
-                    <div className={styles.number} key={i}>{currentRecipes[i] ? currentRecipes[i].selectedServings : 0}</div>
+                    <div className={styles.minus_button} onClick={() => handleMinusClick(i)}>
+                        {currentRecipes[i]?.selectedServings <= 1
+                            ? <FontAwesomeIcon icon={faTrash} className="" />
+                            : '-'}
+                    </div>
+                    <div className={styles.number} key={i}>{currentRecipes[i] ? currentRecipes[i].selectedServings : 1}</div>
                     <div className={styles.plus_button} onClick={() => handlePlusClick(i)}>+</div>
                 </div>
             )
         }
         return numberInputs;
     }
+
+    if (inputs === 0) return null;
 
     return (
         <div className={styles.short_inputs_group}>

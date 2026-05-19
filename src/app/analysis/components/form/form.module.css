@@ -15,12 +15,20 @@
 }
 
 .form_container {
-    margin-top: 2rem;
+    margin: 2rem auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 90%;
+    max-width: 560px;
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    box-sizing: border-box;
 }
 
 .form {
@@ -28,7 +36,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 50%;
+    width: 100%;
     margin: 0;
     padding: 0;
 }
@@ -80,8 +88,8 @@
 
 .form_group input:focus, .form_group textarea:focus, .select_group select:focus, .number:focus{
     outline: none;
-    border: 1px solid var(--secondary-color);
-    box-shadow: 0 0 0 3px var(--secondary-light-color);
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light-color);
 }
 
 .select_group select, .number_input_group {
@@ -108,7 +116,7 @@
     width: 2.5rem;
     height: 2.5rem;
     border: none;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: white;
     font-weight: 600;
     cursor: pointer;
@@ -118,7 +126,7 @@
 }
 
 .minus_button:hover, .plus_button:hover {
-    background-color: var(--secondary-darker-color);
+    background-color: var(--primary-darker-color);
 }
 
 .minus_button:active, .plus_button:active {
@@ -135,12 +143,12 @@
 
 .form_group button:not(.remove_button, .edit_button, .add_button, .danger_button) {
     border: none;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: white;
 }
 
 .form_group button:not(.remove_button, .edit_button, .add_button, .danger_button):hover {
-    background-color: var(--secondary-darker-color);
+    background-color: var(--primary-darker-color);
 }
 
 .form_group button:not(.remove_button, .edit_button):active {
@@ -149,12 +157,12 @@
 
 .add_button {
     background-color: white;
-    border: 1px solid var(--secondary-color);
-    color: var(--secondary-color);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
 }
 
 .add_button:hover {
-    background-color: var(--secondary-light-color);
+    background-color: var(--primary-light-color);
 }
 
 .danger_button {
@@ -254,13 +262,13 @@
 }
 
 .edit_button {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     border: none;
     color: white;
 }
 
 .edit_button:hover {
-    background-color: var(--secondary-darker-color);
+    background-color: var(--primary-darker-color);
 }
 
 .remove_button {
@@ -291,8 +299,8 @@
 
 .ingredient_search_wrap input:focus {
     outline: none;
-    border: 1px solid var(--secondary-color);
-    box-shadow: 0 0 0 3px var(--secondary-light-color);
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light-color);
 }
 
 .suggestions, .food_results {
@@ -336,7 +344,7 @@
     list-style: none;
     padding: 0.75rem;
     background-color: white;
-    border: 1px solid var(--secondary-lighter-color);
+    border: 1px solid var(--primary-lighter-color);
     border-radius: var(--radius-sm);
 }
 
@@ -360,13 +368,13 @@
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: white;
     transition: background-color var(--transition);
 }
 
 .ingredient_actions button:not(.add_button):hover {
-    background-color: var(--secondary-darker-color);
+    background-color: var(--primary-darker-color);
 }
 
 .ingredient_actions button:active {
@@ -375,17 +383,28 @@
 
 .ingredient_actions .add_button {
     background-color: white;
-    border: var(--secondary-color) 1px solid;
-    color: var(--secondary-color);
+    border: var(--primary-color) 1px solid;
+    color: var(--primary-color);
 }
 
 .ingredient_actions .add_button:hover {
-    background-color: var(--secondary-light-color);
+    background-color: var(--primary-light-color);
+}
+
+.form_actions_row {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.form_actions_row .form_group {
+    flex: 1;
 }
 
 @media(max-width: 500px) {
-
-    .form {
-        width: 80%;
+    .form_container {
+        width: 95%;
+        padding: 1.25rem;
     }
 }

@@ -14,7 +14,7 @@ const FoodAnalysis = (): JSX.Element => {
 	const { cardOpen } = useContext(CardOpenContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	
-	const secondaryColor: string = "var(--secondary-glass)";
+	const secondaryColor: string = "var(--white-glass)";
 
 	return (
 		<>

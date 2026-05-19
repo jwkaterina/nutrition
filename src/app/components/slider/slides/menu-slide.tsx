@@ -1,62 +1,43 @@
-
-import { useEffect, useState, useContext } from 'react';
+import { useContext } from 'react';
+import useSWR from 'swr';
 import Button from '@/app/components/slider/button';
 import MenuCard from '../../cards/menu-cards/menu-card';
 import Slide from './slide';
 import { AuthContext } from '@/app/context/auth-context';
-import { useHttpClient } from '@/app/hooks/http-hook';
 import { LoadedMenu, RecipeWithServings, Recipe } from '@/app/types/types';
 
+const fetcher = ([url, token]: [string, string]) =>
+    fetch(url, { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json());
+
 const MenuSlide = (): JSX.Element => {
-
-    const { sendRequest } = useHttpClient();
-    const [menuList, setMenuList] = useState<JSX.Element[]>([]);
     const { token } = useContext(AuthContext);
+    const { data } = useSWR(token ? ['/menus', token] : null, fetcher);
 
-    useEffect(() => {
-        if(!token) {
-            setMenuList([]);
-            return;
-        }
-        const fetchMenus = async () => {
-            try {
-                const responseData = await sendRequest(
-                    `/menus`,'GET', null, {
-                        Authorization: 'Bearer ' + token
-                    }, true, false
-                );
-                const menus = responseData.menus.map((menu: any) => {
-                    const recipes: RecipeWithServings[] = menu.menu.recipes.map((r: any) => ({
-                        selectedRecipeId: r.selectedRecipe.id,
-                        selectedRecipe: r.selectedRecipe.recipe as Recipe,
-                        selectedServings: r.selectedServings
-                    }));
-                    return {
-                        menu: {
-                            name: menu.menu.name,
-                            ingredients: menu.menu.ingredients,
-                            nutrients: menu.menu.nutrients,
-                            recipes
-                        },
-                        id: menu.id
-                    };
-                });
-                const menuList = menus.map((menu: LoadedMenu, index: number) => {
-                    return (
-                        <MenuCard menu={menu.menu} index={index + 1} key={index + 1} id={menu.id} open={false}/>
-                    )
-                })
-                setMenuList(menuList);
-            } catch (err) {}
+    const menuList = data?.menus?.map((menu: any, index: number) => {
+        const recipes: RecipeWithServings[] = menu.menu.recipes.map((r: any) => ({
+            selectedRecipeId: r.selectedRecipe.id,
+            selectedRecipe: r.selectedRecipe.recipe as Recipe,
+            selectedServings: r.selectedServings
+        }));
+        const loaded: LoadedMenu = {
+            menu: {
+                name: menu.menu.name,
+                ingredients: menu.menu.ingredients,
+                nutrients: menu.menu.nutrients,
+                recipes
+            },
+            id: menu.id
         };
-        fetchMenus();
-    }, [token]);
+        return (
+            <MenuCard menu={loaded.menu} index={index + 1} key={index + 1} id={loaded.id} open={false}/>
+        );
+    }) ?? [];
 
     return (
-         <Slide>
+        <Slide>
             {menuList.length > 0 && menuList}
             <Button search={'analysis/menu-analysis'}/>
-        </Slide>  
+        </Slide>
     );
 }
 

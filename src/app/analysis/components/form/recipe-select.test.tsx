@@ -15,11 +15,12 @@ describe('recipe-select', () => {
                 selectedRecipe: loadedRecipe.recipe,
                 selectedServings: 2
             }],
-            loadedRecipes: [loadedRecipe]
+            loadedRecipes: [loadedRecipe],
+            onRemoveRecipe: jest.fn()
         }
-        
+
         render(<RecipeSelect {...props} />);
-   
+
         const plusButton = screen.getByText(/\+/i);
 
         await user.click(plusButton);
@@ -40,7 +41,8 @@ describe('recipe-select', () => {
                 selectedRecipe: loadedRecipe.recipe,
                 selectedServings: 2
             }],
-            loadedRecipes: [loadedRecipe]
+            loadedRecipes: [loadedRecipe],
+            onRemoveRecipe: jest.fn()
         }
         
         render(<RecipeSelect {...props} />);

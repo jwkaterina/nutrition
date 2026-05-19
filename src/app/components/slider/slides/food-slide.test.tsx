@@ -1,92 +1,57 @@
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import FoodSlide from './food-slide';
 import { AuthContext } from '@/app/context/auth-context';
-import { useHttpClient } from '@/app/hooks/http-hook';
 import FoodCard from '../../cards/food-cards/food-card';
 import foodArray from '@/app/test_objects/foodsArray.json';
+import useSWR from 'swr';
 
 jest.mock('../../cards/food-cards/food-card');
-
-jest.mock('../../../hooks/http-hook', () => ({
-    useHttpClient: jest.fn()
-}));
+jest.mock('swr');
 
 describe('food slide', () => {
 
-    const props = {
-        foodDeleted: false
-    }
+    const props = { foodDeleted: false };
 
     const renderWithAuth = (token: string | null) => {
-
         const { container } = render(
             <AuthContext.Provider value={{
                 isLoggedIn: true,
-                token: token,
+                token,
                 login: jest.fn(),
                 logout: jest.fn()
             }}>
-                <FoodSlide { ...props }/>
+                <FoodSlide {...props}/>
             </AuthContext.Provider>
         );
+        return container;
+    };
 
-            return container;
-
-    }
-       
-    it('should render food slide whithout token', async() => {
-
-        const sendRequest = jest.fn();
-        (useHttpClient as jest.Mock).mockReturnValue({
-            sendRequest: sendRequest
-        });
+    it('should render food slide whithout token', () => {
+        (useSWR as jest.Mock).mockReturnValue({ data: undefined });
         renderWithAuth(null);
-
+        expect(useSWR).toHaveBeenCalledWith(null, expect.any(Function));
         expect(FoodCard).not.toHaveBeenCalled();
-        expect(sendRequest).not.toHaveBeenCalled();
-    })
-       
-    it('should render food slide whith token', async() => {
+    });
 
-        const sendRequest = jest.fn();
-        (useHttpClient as jest.Mock).mockReturnValue({
-            sendRequest: sendRequest
-        });
+    it('should render food slide whith token', () => {
+        (useSWR as jest.Mock).mockReturnValue({ data: undefined });
         const token = 'token';
         renderWithAuth(token);
+        expect(useSWR).toHaveBeenCalledWith(['/foods', token, false], expect.any(Function));
+    });
 
-        expect(sendRequest).toHaveBeenCalledWith(
-            `/foods`, 'GET', null, {
-                Authorization: 'Bearer ' + token
-            }, true, false
-        );
-
-    })
-       
-    it('should render food slide whith token and foodlist', async() => {
-
-        (useHttpClient as jest.Mock).mockReturnValue({
-            sendRequest: () => {return foodArray}
-        });
-        const token = 'token';
-        const slideContainer = renderWithAuth(token);
-        const slide = slideContainer.querySelector('.slide');
-
-        await waitFor(() => expect(FoodCard).toHaveBeenCalledTimes(foodArray.foods.length));
-
-    })
-       
-    it('should render food slide whith error', async() => {
-
-        (useHttpClient as jest.Mock).mockReturnValue({
-            sendRequest: () => { throw new Error()}
-        });
+    it('should render food slide whith token and foodlist', () => {
+        (useSWR as jest.Mock).mockReturnValue({ data: foodArray });
         const token = 'token';
         renderWithAuth(token);
+        expect(FoodCard).toHaveBeenCalledTimes(foodArray.foods.length);
+    });
 
+    it('should render food slide whith error', () => {
+        (useSWR as jest.Mock).mockReturnValue({ data: undefined, error: new Error() });
+        const token = 'token';
+        renderWithAuth(token);
         expect(FoodCard).not.toHaveBeenCalled();
-
-    })
-
+    });
 })

@@ -19,7 +19,7 @@ const Auth = (): JSX.Element => {
     const { setMessage } = useContext(StatusContext);
     const router = useRouter();
 
-    const tertiaryColor: string = "var(--tertiary-glass)";
+    const tertiaryColor: string = "var(--white-glass)";
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

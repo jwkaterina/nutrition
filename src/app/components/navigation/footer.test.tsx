@@ -34,7 +34,9 @@ describe('footer', () => {
         blockScroll: false,
         setBlockScroll: jest.fn(),
         scrollBehavior: 'auto' as scrollType,
-        setScrollBehavior: jest.fn()
+        setScrollBehavior: jest.fn(),
+        scrollRatio: 0,
+        setScrollRatio: jest.fn()
     };
 
     const cardOpenValue = {
@@ -96,7 +98,7 @@ describe('footer', () => {
 
         await user.click(homeLink);
         expect(cardOpenValue.setCardOpen).toHaveBeenCalledWith(CardState.CLOSED);
-        expect(mockRouter.push).toHaveBeenCalledWith('/');
+        expect(mockRouter.push).toHaveBeenCalledWith('/?tab=food');
 
         await user.click(logLink);
         expect(cardOpenValue.setCardOpen).toHaveBeenCalledWith(CardState.CLOSED);

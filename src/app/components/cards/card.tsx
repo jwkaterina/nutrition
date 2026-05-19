@@ -14,7 +14,7 @@ interface CardProps {
 
 const ANIM_DURATION = 380;
 const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
-const TRANSITION = `top ${ANIM_DURATION}ms ${EASING}, left ${ANIM_DURATION}ms ${EASING}, width ${ANIM_DURATION}ms ${EASING}, height ${ANIM_DURATION}ms ${EASING}, border-radius ${ANIM_DURATION}ms ${EASING}`;
+const TRANSITION = `top ${ANIM_DURATION}ms ${EASING}, left ${ANIM_DURATION}ms ${EASING}, width ${ANIM_DURATION}ms ${EASING}, height ${ANIM_DURATION}ms ${EASING}, border-radius ${ANIM_DURATION}ms ${EASING}, padding-top ${ANIM_DURATION}ms ${EASING}, padding-bottom ${ANIM_DURATION}ms ${EASING}`;
 const EXPANDED_TOP = '0';
 const EXPANDED_HEIGHT = '100vh';
 
@@ -59,21 +59,26 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             card.style.zIndex = '2';
             card.style.borderRadius = '0.2rem';
             card.style.overflow = 'hidden';
+            card.style.paddingTop = '0';
+            card.style.paddingBottom = '0';
+            card.style.background = 'var(--card-bg)';
+            card.style.backdropFilter = 'none';
+            card.style.webkitBackdropFilter = 'none';
 
             void card.offsetHeight; // force reflow before transition
 
-            // Expand to fill the content area (between top and bottom nav)
+            // Expand to fill the viewport; padding animates in to avoid jump
             card.style.transition = TRANSITION;
             card.style.top = EXPANDED_TOP;
             card.style.left = '0';
             card.style.width = '100vw';
             card.style.height = EXPANDED_HEIGHT;
             card.style.borderRadius = '0';
+            card.style.paddingTop = 'calc(var(--header-height) + 1rem)';
+            card.style.paddingBottom = 'calc(var(--header-height) + 1rem)';
 
             const timer = setTimeout(() => {
                 card.style.overflow = 'auto';
-                card.style.paddingTop = 'calc(var(--header-height) + 1rem)';
-                card.style.paddingBottom = 'calc(var(--header-height) + 1rem)';
                 setCardOpen(CardState.OPEN);
             }, ANIM_DURATION);
             return () => clearTimeout(timer);
@@ -91,20 +96,25 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             card.style.overflow = 'auto';
             card.style.paddingTop = 'calc(var(--header-height) + 1rem)';
             card.style.paddingBottom = 'calc(var(--header-height) + 1rem)';
+            card.style.background = 'var(--card-bg)';
+            card.style.backdropFilter = 'none';
+            card.style.webkitBackdropFilter = 'none';
         }
 
         if (cardOpen === CardState.CLOSING) {
             const r = placeholderRef.current?.getBoundingClientRect();
             if (!r) return;
 
-            // Start from the expanded content-area position
+            // Jump top to var(--header-height) — invisible behind the fixed header (z-index:3).
+            // With paddingTop reverted to CSS 1rem, content sits at header-height+1rem,
+            // matching exactly where the open card's content appeared.
             card.style.transition = 'none';
-            card.style.paddingTop = '';
-            card.style.paddingBottom = '';
-            card.style.top = EXPANDED_TOP;
+            card.style.top = 'var(--header-height)';
             card.style.left = '0';
             card.style.width = '100vw';
-            card.style.height = EXPANDED_HEIGHT;
+            card.style.height = `calc(${EXPANDED_HEIGHT} - var(--header-height))`;
+            card.style.paddingTop = '';
+            card.style.paddingBottom = '';
             card.style.overflow = 'hidden';
 
             void card.offsetHeight;

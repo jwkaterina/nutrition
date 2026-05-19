@@ -13,7 +13,8 @@ import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn().mockReturnValue({
-        push: jest.fn()
+        push: jest.fn(),
+        replace: jest.fn()
     })
 }));
 

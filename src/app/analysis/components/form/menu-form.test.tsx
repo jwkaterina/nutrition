@@ -14,7 +14,8 @@ import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn().mockReturnValue({
-        push: jest.fn()
+        push: jest.fn(),
+        replace: jest.fn()
     })
 }));
 
@@ -29,6 +30,10 @@ jest.mock('./ingredient-search', () => {
         return <input type="text" aria-label="Ingredients" readOnly />;
     };
 });
+
+jest.mock('@fortawesome/react-fontawesome', () => ({
+    FontAwesomeIcon: () => null
+}));
 
 describe('menu-form', () => {
     const mockeduseHttpClient = useHttpClient as jest.Mock;

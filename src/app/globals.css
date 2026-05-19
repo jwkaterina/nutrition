@@ -29,6 +29,7 @@
   --primary-glass: rgba(126, 87, 194, 0.65);
   --secondary-glass: rgba(102, 187, 106, 0.65);
   --tertiary-glass: rgba(255, 167, 38, 0.65);
+  --white-glass: rgba(255, 255, 255, 0.55);
 
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -51,6 +52,12 @@
 body {
   font-family: 'Montserrat', sans-serif;
   line-height: 1.6;
-  background-color: var(--blue-gray);
+  background:
+    radial-gradient(ellipse at 15% 15%, var(--primary-lighter-color) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%, var(--secondary-lighter-color) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 10%, var(--tertiary-lightest) 0%, transparent 50%),
+    radial-gradient(ellipse at 10% 85%, #F8BBD0 0%, transparent 50%),
+    var(--blue-gray);
+  background-attachment: fixed;
   color: var(--text-primary);
 }
