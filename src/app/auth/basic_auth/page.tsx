@@ -8,12 +8,13 @@ import { AuthContext } from '@/app/context/auth-context';
 import { SlideContext } from '@/app/context/slide-context';
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
+import { SlideType } from '@/app/types/types';
 import styles from './page.module.css';
 
 const Auth = (): JSX.Element => {
 
     const { sendRequest } = useHttpClient();
-    const { setScrollBehavior } = useContext(SlideContext);
+    const { setScrollBehavior, slide } = useContext(SlideContext);
     const { login, token } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState<boolean>(true);
     const { setMessage } = useContext(StatusContext);
@@ -24,11 +25,8 @@ const Auth = (): JSX.Element => {
         if (!token || !shouldNavigate.current) return;
         shouldNavigate.current = false;
         setScrollBehavior('auto');
-        if (window.history.length > 1) {
-            router.back();
-        } else {
-            router.replace('/');
-        }
+        const tabNames = { [SlideType.FOOD]: 'food', [SlideType.RECIPE]: 'recipe', [SlideType.MENU]: 'menu' };
+        router.replace(`/?tab=${tabNames[slide]}`);
         setTimeout(() => setScrollBehavior('smooth'), 500);
     }, [token]);
 
