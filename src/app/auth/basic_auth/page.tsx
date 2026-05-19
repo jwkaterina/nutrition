@@ -19,9 +19,6 @@ const Auth = (): JSX.Element => {
     const { setMessage } = useContext(StatusContext);
     const router = useRouter();
 
-    const tertiaryColor: string = "var(--white-glass)";
-
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const form: HTMLFormElement = e.currentTarget;
@@ -72,7 +69,7 @@ const Auth = (): JSX.Element => {
 
     const goBack = () => {
         setScrollBehavior('auto');
-        router.back();
+        router.replace('/');
         setTimeout(() => {
             setScrollBehavior('smooth');
         }, 500);
@@ -80,7 +77,7 @@ const Auth = (): JSX.Element => {
 
     return (
         <>
-            <NavBar color={tertiaryColor}>
+            <NavBar color="var(--primary-glass)" textColor="white">
                 <AuthMenu />
             </NavBar>
             <div className={styles.container}>
