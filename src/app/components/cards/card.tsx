@@ -1,3 +1,4 @@
+'use client';
 import { useRef, useContext, useEffect } from 'react';
 import { CardOpenContext } from '@/app/context/card-context';
 import { CardState } from '@/app/types/types';
@@ -14,9 +15,8 @@ interface CardProps {
 const ANIM_DURATION = 380;
 const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
 const TRANSITION = `top ${ANIM_DURATION}ms ${EASING}, left ${ANIM_DURATION}ms ${EASING}, width ${ANIM_DURATION}ms ${EASING}, height ${ANIM_DURATION}ms ${EASING}, border-radius ${ANIM_DURATION}ms ${EASING}`;
-// Content area sits between top nav (60px) and bottom nav (60px)
-const EXPANDED_TOP = 'var(--header-height)';
-const EXPANDED_HEIGHT = 'var(--container-height)';
+const EXPANDED_TOP = '0';
+const EXPANDED_HEIGHT = '100vh';
 
 const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): JSX.Element => {
 
@@ -50,6 +50,7 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
 
             // Snap card to exact placeholder position (no visual jump)
             card.style.transition = 'none';
+            card.style.cursor = 'default';
             card.style.position = 'fixed';
             card.style.top = `${r.top}px`;
             card.style.left = `${r.left}px`;
@@ -71,6 +72,8 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
 
             const timer = setTimeout(() => {
                 card.style.overflow = 'auto';
+                card.style.paddingTop = 'calc(var(--header-height) + 1rem)';
+                card.style.paddingBottom = 'calc(var(--header-height) + 1rem)';
                 setCardOpen(CardState.OPEN);
             }, ANIM_DURATION);
             return () => clearTimeout(timer);
@@ -86,6 +89,8 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             card.style.zIndex = '2';
             card.style.borderRadius = '0';
             card.style.overflow = 'auto';
+            card.style.paddingTop = 'calc(var(--header-height) + 1rem)';
+            card.style.paddingBottom = 'calc(var(--header-height) + 1rem)';
         }
 
         if (cardOpen === CardState.CLOSING) {
@@ -94,6 +99,8 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
 
             // Start from the expanded content-area position
             card.style.transition = 'none';
+            card.style.paddingTop = '';
+            card.style.paddingBottom = '';
             card.style.top = EXPANDED_TOP;
             card.style.left = '0';
             card.style.width = '100vw';

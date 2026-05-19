@@ -19,7 +19,7 @@ const RecipeAnalysis = ({ }: RecipeAnalysisProps): JSX.Element => {
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	const [file, setFile] = useState<Blob | null>(null);
 
-	const secondaryColor: string = "var(--secondary-color)";
+	const secondaryColor: string = "var(--secondary-glass)";
 
 	return (
 		<>

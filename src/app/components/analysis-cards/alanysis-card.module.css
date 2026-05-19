@@ -5,9 +5,9 @@
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    border-radius: 0.2rem;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    background-color: var(--card-bg);
     position: relative;
     overflow: hidden;
 }
@@ -24,7 +24,7 @@
     height: 100px;
     width: 100px;
     object-fit: cover;
-    border-radius: 0.2rem;
+    border-radius: var(--radius-sm);
 }
 
 .container h1 {
@@ -47,11 +47,15 @@
     color: var(--primary-color);
     background-color: #fff;
     border: 1px solid var(--primary-color);
-    border-radius: 0.2rem;
-    cursor: pointer;
+    border-radius: var(--radius-sm);
     height: 2.4rem;
     text-indent: 15px;
     line-height: 2.4rem;
+    transition: box-shadow var(--transition);
+}
+
+.form select {
+    cursor: pointer;
 }
 
 .form select, .form .long_input {

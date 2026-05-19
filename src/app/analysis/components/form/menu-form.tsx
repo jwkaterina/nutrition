@@ -217,7 +217,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         <button type="submit">Analyze</button>
                     </div>
                     {currentMenu.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
-                        <button type="button" onClick={deleteMenu}>Delete</button>
+                        <button type="button" className={styles.danger_button} onClick={deleteMenu}>Delete</button>
                     </div>}
                 </form>
             </div>

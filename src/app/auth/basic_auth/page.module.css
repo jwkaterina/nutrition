@@ -10,9 +10,9 @@
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    border-radius: 0.2rem;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    background-color: var(--card-bg);
 }
 
 .form {
@@ -39,30 +39,41 @@
 }
 
 .form_group input {
-    height: 2rem;
+    height: 2.5rem;
     width: 100%;
     padding: 0.5rem;
-    border-radius: 0.2rem;
+    border-radius: var(--radius-sm);
     border: 1px solid rgba(0, 0, 0, 0.2);
     font-size: 0.8rem;
     font-weight: 400;
+    transition: box-shadow var(--transition);
 }
 
 .form_group input:focus {
     outline: none;
     border: 1px solid var(--tertiary-color);
+    box-shadow: 0 0 0 3px var(--tertiary-lightest);
 }
 
 .form_group button, .switch_button {
-    height: 2rem;
+    height: 2.5rem;
     width: 100%;
-    border-radius: 0.2rem;
+    border-radius: var(--radius-pill);
     border: none;
     background-color: var(--tertiary-color);
     color: white;
     font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
+    transition: background-color var(--transition);
+}
+
+.form_group button:not(.switch_button):hover {
+    background-color: var(--tertiary-darker);
+}
+
+.form_group button:active {
+    transform: translateY(1px);
 }
 
 .switch_button {
@@ -70,6 +81,10 @@
     background-color: white;
     border: var(--tertiary-color) 1px solid;
     color: var(--tertiary-color);
+}
+
+.switch_button:hover {
+    background-color: var(--tertiary-lightest-plus);
 }
 
 @media screen and (max-width: 500px) {

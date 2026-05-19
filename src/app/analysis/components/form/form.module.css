@@ -1,10 +1,16 @@
 .container {
-    height: var(--container-height);
+    height: 100vh;
+    padding-top: var(--header-height);
+    padding-bottom: var(--header-height);
+    box-sizing: border-box;
     overflow: auto;
 }
 
 .card_container {
-    height: var(--container-height);
+    height: 100vh;
+    padding-top: var(--header-height);
+    padding-bottom: var(--header-height);
+    box-sizing: border-box;
     overflow: hidden;
 }
 
@@ -51,17 +57,20 @@
 }
 
 .form_group label, .select_group label, .number_group label{
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 0.85rem;
+    font-weight: 500;
     margin-bottom: 0.5rem;
+    color: var(--gray-dark);
+    letter-spacing: 0.01em;
 }
 
-.form_group input, .form_group button:not(.remove_button), .select_group select, .number, .minus_button, .plus_button{
+.form_group input, .form_group button:not(.remove_button, .edit_button), .select_group select, .number, .minus_button, .plus_button{
     height: 2.5rem;
     padding: 0.5rem;
-    border-radius: 0.2rem;
+    border-radius: var(--radius-sm);
     font-size: 1rem;
     font-weight: 400;
+    transition: box-shadow var(--transition), background-color var(--transition);
 }
 
 .form_group input, .select_group select {
@@ -72,6 +81,7 @@
 .form_group input:focus, .form_group textarea:focus, .select_group select:focus, .number:focus{
     outline: none;
     border: 1px solid var(--secondary-color);
+    box-shadow: 0 0 0 3px var(--secondary-light-color);
 }
 
 .select_group select, .number_input_group {
@@ -107,20 +117,55 @@
     align-items: center;
 }
 
-.form_group button:not(.remove_button) {
+.minus_button:hover, .plus_button:hover {
+    background-color: var(--secondary-darker-color);
+}
+
+.minus_button:active, .plus_button:active {
+    transform: translateY(1px);
+}
+
+.form_group button:not(.remove_button, .edit_button) {
     width: 100%;
-    border: none;
-    background-color: var(--secondary-color);
-    color: white;
+    border-radius: var(--radius-pill);
     font-weight: 600;
     cursor: pointer;
     align-self: center;
 }
 
+.form_group button:not(.remove_button, .edit_button, .add_button, .danger_button) {
+    border: none;
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.form_group button:not(.remove_button, .edit_button, .add_button, .danger_button):hover {
+    background-color: var(--secondary-darker-color);
+}
+
+.form_group button:not(.remove_button, .edit_button):active {
+    transform: translateY(1px);
+}
+
 .add_button {
-    background-color: white!important;
-    border: var(--secondary-color) 1px solid!important;
-    color: var(--secondary-color)!important;
+    background-color: white;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.add_button:hover {
+    background-color: var(--secondary-light-color);
+}
+
+.danger_button {
+    background-color: white;
+    border: 1px solid #E57373;
+    color: #C62828;
+}
+
+.danger_button:hover {
+    background-color: #FFEBEE;
+    border-color: #C62828;
 }
 
 .form_group textarea {
@@ -172,7 +217,7 @@
     padding: 0.5rem 0.75rem;
     background-color: white;
     border: 1px solid var(--gray-light);
-    border-radius: 0.2rem;
+    border-radius: var(--radius-sm);
 }
 
 .ingredient_name {
@@ -194,29 +239,39 @@
 }
 
 .edit_button, .remove_button {
-    background: none;
-    border: none;
     cursor: pointer;
-    padding: 0 0.25rem;
-    line-height: 1;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .edit_button {
-    color: var(--gray-lighter);
-    font-size: 1rem;
+    background-color: var(--secondary-color);
+    border: none;
+    color: white;
 }
 
 .edit_button:hover {
-    color: var(--primary-color);
+    background-color: var(--secondary-darker-color);
 }
 
 .remove_button {
-    color: var(--gray-lighter);
-    font-size: 0.85rem;
+    background: none;
+    border: 1px solid #E57373;
+    color: #C62828;
 }
 
 .remove_button:hover {
-    color: var(--gray-darker);
+    background-color: #FFEBEE;
+    border-color: #C62828;
 }
 
 .ingredient_search_wrap {
@@ -228,14 +283,16 @@
     width: 100%;
     height: 2.5rem;
     padding: 0.5rem;
-    border-radius: 0.2rem;
+    border-radius: var(--radius-sm);
     font-size: 1rem;
     border: 1px solid rgba(0, 0, 0, 0.2);
+    transition: box-shadow var(--transition);
 }
 
 .ingredient_search_wrap input:focus {
     outline: none;
     border: 1px solid var(--secondary-color);
+    box-shadow: 0 0 0 3px var(--secondary-light-color);
 }
 
 .suggestions, .food_results {
@@ -245,11 +302,12 @@
     width: 100%;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-top: none;
-    border-radius: 0 0 0.2rem 0.2rem;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
     background: white;
     z-index: 10;
     max-height: 12rem;
     overflow-y: auto;
+    box-shadow: var(--shadow-sm);
 }
 
 .suggestions li, .food_results li {
@@ -262,7 +320,7 @@
 }
 
 .suggestions li:hover, .food_results li:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--primary-light-color);
 }
 
 .food_kcal {
@@ -279,7 +337,7 @@
     padding: 0.75rem;
     background-color: white;
     border: 1px solid var(--secondary-lighter-color);
-    border-radius: 0.2rem;
+    border-radius: var(--radius-sm);
 }
 
 .selected_food_label {
@@ -298,18 +356,31 @@
     flex: 1;
     height: 2.5rem;
     border: none;
-    border-radius: 0.2rem;
+    border-radius: var(--radius-pill);
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     background-color: var(--secondary-color);
     color: white;
+    transition: background-color var(--transition);
+}
+
+.ingredient_actions button:not(.add_button):hover {
+    background-color: var(--secondary-darker-color);
+}
+
+.ingredient_actions button:active {
+    transform: translateY(1px);
 }
 
 .ingredient_actions .add_button {
     background-color: white;
     border: var(--secondary-color) 1px solid;
     color: var(--secondary-color);
+}
+
+.ingredient_actions .add_button:hover {
+    background-color: var(--secondary-light-color);
 }
 
 @media(max-width: 500px) {

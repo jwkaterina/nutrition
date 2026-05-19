@@ -14,7 +14,7 @@ const MenuSearch = (): JSX.Element => {
 	const { cardOpen } = useContext(CardOpenContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 
-	const secondaryColor: string = "var(--secondary-color)";
+	const secondaryColor: string = "var(--secondary-glass)";
 
 	return (
 		<>

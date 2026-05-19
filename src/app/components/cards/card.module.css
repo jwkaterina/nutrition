@@ -1,6 +1,11 @@
 .placeholder {
     height: 150px;
     cursor: pointer;
+    transition: box-shadow var(--transition);
+}
+
+.placeholder:hover {
+    box-shadow: var(--shadow-lg);
 }
 
 .card {
@@ -10,12 +15,13 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 1rem;
-    border-radius: 0.2rem;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    background-color: var(--card-bg);
     overflow: hidden;
     line-height: 1.6;
     box-sizing: border-box;
+    transition: box-shadow var(--transition);
 }
 
 .card h2 {
@@ -35,7 +41,7 @@
     height: 50px;
     width: 50px;
     object-fit: cover;
-    border-radius: 0.2rem;
+    border-radius: var(--radius-sm);
 }
 
 .nutrients {

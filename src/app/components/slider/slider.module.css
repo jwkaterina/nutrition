@@ -1,5 +1,5 @@
 .container {
-    height: var(--container-height);
+    height: 100vh;
     display: flex;
     flex: 1;
     overflow-x: auto;
@@ -17,8 +17,6 @@
     width: 100vw;
     flex-shrink: 0;
     scroll-snap-align: start;
-    border-left: 1px solid var(--primary-color);
-    border-right: 1px solid var(--primary-color);
     position: relative;
     overflow-y: auto;
 }
@@ -27,8 +25,8 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 1rem;
-    margin: 1rem 0 0 0 ;
-    padding: 0 1rem 1rem 1rem;
+    margin: 0;
+    padding: calc(var(--header-height) + 1rem) 1rem calc(var(--header-height) + 1rem) 1rem;
 }
 
 .link {
@@ -40,11 +38,21 @@
     height: 100%;
     text-decoration: none;
     cursor: pointer;
+    transition: opacity var(--transition);
+}
+
+.link:hover {
+    opacity: 0.75;
+}
+
+.link:hover .add__icon {
+    color: var(--primary-darker-color);
 }
 
 .add__icon {
     font-size: 4rem;
     color: var(--primary-color);
+    transition: color var(--transition);
 }
 
 @media(max-width: 1000px) {

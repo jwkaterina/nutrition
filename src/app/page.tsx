@@ -14,7 +14,7 @@ export default function Home(): JSX.Element {
     const { cardOpen } = useContext(CardOpenContext);
     const [deletedFood, setDeletedFood] = useState<boolean>(false);
 
-    const primaryColor = "var(--primary-color)";
+    const primaryColor = "var(--primary-glass)";
 
     return (
         <>
