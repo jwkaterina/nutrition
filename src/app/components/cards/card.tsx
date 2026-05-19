@@ -12,6 +12,14 @@ interface CardProps {
     isOpen: boolean
 }
 
+const BODY_BACKGROUND = [
+    'radial-gradient(ellipse at 15% 15%, var(--primary-lighter-color) 0%, transparent 55%)',
+    'radial-gradient(ellipse at 85% 80%, var(--secondary-lighter-color) 0%, transparent 55%)',
+    'radial-gradient(ellipse at 80% 10%, var(--tertiary-lightest) 0%, transparent 50%)',
+    'radial-gradient(ellipse at 10% 85%, #F8BBD0 0%, transparent 50%)',
+    'var(--blue-gray)',
+].join(', ');
+
 const ANIM_DURATION = 380;
 const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
 const TRANSITION = `top ${ANIM_DURATION}ms ${EASING}, left ${ANIM_DURATION}ms ${EASING}, width ${ANIM_DURATION}ms ${EASING}, height ${ANIM_DURATION}ms ${EASING}, border-radius ${ANIM_DURATION}ms ${EASING}, padding-top ${ANIM_DURATION}ms ${EASING}, padding-bottom ${ANIM_DURATION}ms ${EASING}`;
@@ -61,7 +69,8 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             card.style.overflow = 'hidden';
             card.style.paddingTop = '0';
             card.style.paddingBottom = '0';
-            card.style.background = 'var(--card-bg)';
+            card.style.background = BODY_BACKGROUND;
+            card.style.backgroundAttachment = 'fixed';
             card.style.backdropFilter = 'none';
             card.style.webkitBackdropFilter = 'none';
 
@@ -96,7 +105,8 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             card.style.overflow = 'auto';
             card.style.paddingTop = 'calc(var(--header-height) + 1rem)';
             card.style.paddingBottom = 'calc(var(--header-height) + 1rem)';
-            card.style.background = 'var(--card-bg)';
+            card.style.background = BODY_BACKGROUND;
+            card.style.backgroundAttachment = 'fixed';
             card.style.backdropFilter = 'none';
             card.style.webkitBackdropFilter = 'none';
         }

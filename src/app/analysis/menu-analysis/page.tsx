@@ -14,21 +14,19 @@ const MenuSearch = (): JSX.Element => {
 	const { cardOpen } = useContext(CardOpenContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 
-	const secondaryColor: string = "var(--white-glass)";
-
 	return (
 		<>
-			<NavBar color={secondaryColor}>
-				{cardOpen == CardState.OPEN ? 
-				<OpenAnalysisMenu/> : 
-				<AnalysisMenu 
+			<NavBar color="var(--primary-glass)" textColor="white">
+				{cardOpen === CardState.OPEN ?
+				<OpenAnalysisMenu/> :
+				<AnalysisMenu
 					rightText="Clear Form"
 					onClear={() => setClearSearch(true)}
 				/>
 				}
 			</NavBar>
 			<MenuForm searchCleared={clearSearch} setClearSearch={setClearSearch}/>
-			<Footer color={secondaryColor} />
+			<Footer color="var(--primary-glass)" textColor="white" />
 		</>  
 	);
 }

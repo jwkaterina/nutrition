@@ -14,21 +14,21 @@ export default function Home(): JSX.Element {
     const { cardOpen } = useContext(CardOpenContext);
     const [deletedFood, setDeletedFood] = useState<boolean>(false);
 
-    const primaryColor = "var(--white-glass)";
+    const isOpen = cardOpen === CardState.OPEN;
 
     return (
         <>
-            <NavBar color={primaryColor}>
-                {cardOpen == CardState.OPEN ? 
-                    <OpenCardMenu 
+            <NavBar color="var(--primary-glass)" textColor="white">
+                {isOpen ?
+                    <OpenCardMenu
                         onFoodDelete={() => setDeletedFood(true)}
-                    /> : 
+                    /> :
                     <MainNav/>}
             </NavBar>
-            <Slider 
-                foodDeleted={deletedFood} 
+            <Slider
+                foodDeleted={deletedFood}
             />
-            <Footer color={primaryColor} />
+            <Footer color="var(--primary-glass)" textColor="white" />
         </>
     );
 }

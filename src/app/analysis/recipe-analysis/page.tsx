@@ -19,14 +19,12 @@ const RecipeAnalysis = ({ }: RecipeAnalysisProps): JSX.Element => {
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	const [file, setFile] = useState<Blob | null>(null);
 
-	const secondaryColor: string = "var(--white-glass)";
-
 	return (
 		<>
-			<NavBar color={secondaryColor}>
-				{cardOpen == CardState.OPEN ? 
-				<OpenAnalysisMenu file={file} setFile={setFile}/> : 
-				<AnalysisMenu 
+			<NavBar color="var(--primary-glass)" textColor="white">
+				{cardOpen === CardState.OPEN ?
+				<OpenAnalysisMenu file={file} setFile={setFile}/> :
+				<AnalysisMenu
 					rightText="Clear Form"
 					onClear={() => setClearSearch(true)}
 					setFile={setFile}
@@ -34,7 +32,7 @@ const RecipeAnalysis = ({ }: RecipeAnalysisProps): JSX.Element => {
 				}
 			</NavBar>
 			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch} setFile={setFile}/>
-			<Footer color={secondaryColor} setFile={setFile}/>
+			<Footer color="var(--primary-glass)" textColor="white" setFile={setFile}/>
 		</>  
 	);
 }
