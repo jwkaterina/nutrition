@@ -1,6 +1,5 @@
 'use client';
 import { useRef, useContext, useCallback, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import FoodSlide from '@/app/components/slider/slides/food-slide';
 import RecipeSlide from '@/app/components/slider/slides/recipe-slide';
 import MenuSlide from '@/app/components/slider/slides/menu-slide';
@@ -18,7 +17,6 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
     const slidesRef = useRef<HTMLDivElement | null>(null);
     const { cardOpen } = useContext(CardOpenContext);
     const { slide, setSlide, blockScroll, scrollBehavior, setScrollRatio } = useContext(SlideContext);
-    const router = useRouter();
 
     const scrollToSlide = useCallback((targetSlide: number, animated: boolean) => {
         const container = slidesRef.current;
@@ -40,7 +38,7 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
     // Keep URL in sync with active slide (no history entry)
     useEffect(() => {
         const names = { [SlideType.FOOD]: 'food', [SlideType.RECIPE]: 'recipe', [SlideType.MENU]: 'menu' };
-        router.replace(`/?tab=${names[slide]}`, { scroll: false });
+        window.history.replaceState(null, '', `/?tab=${names[slide]}`);
     }, [slide]);
 
     useEffect(() => {

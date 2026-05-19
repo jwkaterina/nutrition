@@ -12,9 +12,6 @@ import MenuSlide from './slides/menu-slide';
 jest.mock('./slides/food-slide');
 jest.mock('./slides/recipe-slide');
 jest.mock('./slides/menu-slide');
-jest.mock('next/navigation', () => ({
-    useRouter: () => ({ replace: jest.fn(), back: jest.fn() }),
-}));
 jest.spyOn(window, 'scrollTo').mockImplementationOnce(() => {
     console.log('Scrolled to:', 0, 0);
 });
