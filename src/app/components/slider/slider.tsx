@@ -38,7 +38,7 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
     // Keep URL in sync with active slide (no history entry)
     useEffect(() => {
         const names = { [SlideType.FOOD]: 'food', [SlideType.RECIPE]: 'recipe', [SlideType.MENU]: 'menu' };
-        window.history.replaceState(null, '', `/?tab=${names[slide]}`);
+        window.history.replaceState(window.history.state, '', `/?tab=${names[slide]}`);
     }, [slide]);
 
     useEffect(() => {
