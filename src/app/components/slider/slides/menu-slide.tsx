@@ -20,6 +20,7 @@ const MenuSlide = (): JSX.Element => {
             selectedServings: r.selectedServings
         }));
         const loaded: LoadedMenu = {
+            creator: menu.creator,
             menu: {
                 name: menu.menu.name,
                 ingredients: menu.menu.ingredients,

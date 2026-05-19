@@ -71,8 +71,6 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             card.style.paddingBottom = '0';
             card.style.background = BODY_BACKGROUND;
             card.style.backgroundAttachment = 'fixed';
-            card.style.backdropFilter = 'none';
-            card.style.webkitBackdropFilter = 'none';
 
             void card.offsetHeight; // force reflow before transition
 
@@ -107,8 +105,6 @@ const Card = ({ index, children, onCardClick, setIsOpen, isOpen }: CardProps): J
             card.style.paddingBottom = 'calc(var(--header-height) + 1rem)';
             card.style.background = BODY_BACKGROUND;
             card.style.backgroundAttachment = 'fixed';
-            card.style.backdropFilter = 'none';
-            card.style.webkitBackdropFilter = 'none';
         }
 
         if (cardOpen === CardState.CLOSING) {
