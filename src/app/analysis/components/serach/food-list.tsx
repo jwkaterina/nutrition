@@ -37,7 +37,7 @@ const FoodList = ({ foodArr, sort }: FoodListProps): JSX.Element => {
 		return <FoodCard food={hint} index={index + 1} key={index + 1} id={null} open={false}/>;
 	});
 
-	return <PageGrid>{foodList}</PageGrid>;
+	return <PageGrid compact>{foodList}</PageGrid>;
 }
 
 export default FoodList;

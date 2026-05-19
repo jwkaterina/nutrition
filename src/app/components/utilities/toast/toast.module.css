@@ -5,12 +5,12 @@
     right: 30px;
     width: 380px;
     border-radius: var(--radius-lg);
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    border-left: 4px solid transparent;
-    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    background: var(--primary-glass);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 4px solid rgba(255, 255, 255, 0.5);
+    box-shadow: var(--shadow-lg);
     padding: 16px 40px 16px 20px;
     overflow: hidden;
     transform: translateX(calc(100% + 30px));
@@ -22,11 +22,11 @@
 }
 
 .toast.success {
-    border-left-color: var(--secondary-darker-color);
+    border-left-color: var(--secondary-lighter-color);
 }
 
 .toast.error {
-    border-left-color: #E53935;
+    border-left-color: #EF9A9A;
 }
 
 .toast_content {
@@ -37,13 +37,13 @@
 
 .check {
     font-size: 22px;
-    color: var(--secondary-darker-color);
+    color: var(--secondary-lighter-color);
     flex-shrink: 0;
 }
 
 .fail {
     font-size: 22px;
-    color: #E53935;
+    color: #EF9A9A;
     flex-shrink: 0;
 }
 
@@ -56,14 +56,14 @@
 .status_label {
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: white;
     text-transform: capitalize;
 }
 
 .message {
     font-size: 0.85rem;
     font-weight: 400;
-    color: var(--gray-darker);
+    color: rgba(255, 255, 255, 0.85);
     line-height: 1.4;
 }
 
@@ -73,12 +73,12 @@
     right: 14px;
     font-size: 14px;
     cursor: pointer;
-    color: var(--gray);
+    color: rgba(255, 255, 255, 0.6);
     transition: color var(--transition);
 }
 
 .close:hover {
-    color: var(--text-primary);
+    color: white;
 }
 
 @keyframes toast_progress {
@@ -91,7 +91,7 @@
     bottom: 0;
     left: 0;
     height: 3px;
-    background: var(--primary-lighter-color);
+    background: rgba(255, 255, 255, 0.5);
     border-radius: 0 2px 2px 0;
     animation: toast_progress 4s linear forwards;
 }

@@ -1,4 +1,6 @@
-import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } from 'react' 
+'use client'
+
+import { useState, useContext, useEffect, useRef, FormEvent, KeyboardEvent } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import FoodList from './food-list';
@@ -31,7 +33,8 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 	const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 	const searchRef = useRef<HTMLDivElement>(null);
 
-	const showFilter: boolean = cardOpen == CardState.CLOSED && !showOptions;
+	const showFilter: boolean = !showOptions;
+	const searchVisible = cardOpen === CardState.CLOSED || cardOpen === CardState.CLOSING;
 
 	useEffect(() => {
 		if(searchCleared) {
@@ -140,41 +143,47 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 
     return (
         <div className={styles.container} style={style()} ref={searchRef}>
-            {cardOpen == CardState.CLOSED && <div className={styles.input_container}>
-                <input 
-                    type="text" 
-                    className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search } placeholder='search food' 
-                    onClick={() => setShowOptions(true)} 
-                    onInput={e => handleInput(e)} 
-                    value={input} 
-                    onKeyUp={handleEnterKey}
-				/>
-                {!showOptions && <FontAwesomeIcon 
-                    icon={faMagnifyingGlass} 
-                    className={styles.searchIcon}
-				/>}
-                {showOptions && <FontAwesomeIcon 
-                    icon={faArrowLeft} 
-                    className={styles.backIcon} 
-                    onClick={handleBackclick}
-				/>}
-                {showOptions && <FontAwesomeIcon 
-                    icon={faXmark} 
-                    className={styles.deleteIcon} 
-                    onClick={emptyInput}
-				/>}
-            </div>}
-            {showOptions && <Options 
-                queryOptions={queryOptions} 
-                onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}
-			/>}
-			{showFilter && <SortButtons 
-				setSort={setSort} 
-				setFilter={setFilter} 
-				filter={filter} 
-				isOpen={isFilterOpen} 
-				setOpen={setIsFilterOpen}
-			/>}
+            <div style={{
+                opacity: searchVisible ? 1 : 0,
+                transition: 'opacity 380ms ease',
+                pointerEvents: searchVisible ? 'auto' : 'none'
+            }}>
+                <div className={styles.input_container}>
+                    <input
+                        type="text"
+                        className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search} placeholder='search food'
+                        onClick={() => setShowOptions(true)}
+                        onInput={e => handleInput(e)}
+                        value={input}
+                        onKeyUp={handleEnterKey}
+                    />
+                    {!showOptions && <FontAwesomeIcon
+                        icon={faMagnifyingGlass}
+                        className={styles.searchIcon}
+                    />}
+                    {showOptions && <FontAwesomeIcon
+                        icon={faArrowLeft}
+                        className={styles.backIcon}
+                        onClick={handleBackclick}
+                    />}
+                    {showOptions && <FontAwesomeIcon
+                        icon={faXmark}
+                        className={styles.deleteIcon}
+                        onClick={emptyInput}
+                    />}
+                </div>
+                {showOptions && <Options
+                    queryOptions={queryOptions}
+                    onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}
+                />}
+                {showFilter && <SortButtons
+                    setSort={setSort}
+                    setFilter={setFilter}
+                    filter={filter}
+                    isOpen={isFilterOpen}
+                    setOpen={setIsFilterOpen}
+                />}
+            </div>
             {foodArr.length > 0 && <FoodList foodArr={foodArr} sort={sort}/>}
         </div>
     );

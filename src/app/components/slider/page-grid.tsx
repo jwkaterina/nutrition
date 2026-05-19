@@ -1,13 +1,14 @@
 import styles from './slider.module.css';
 
 interface PageGridProps {
-    children: React.ReactNode
+    children: React.ReactNode;
+    compact?: boolean;
 }
 
-const PageGrid = ( { children }: PageGridProps): JSX.Element => {
+const PageGrid = ({ children, compact }: PageGridProps): JSX.Element => {
 
     return (
-        <div className={styles.grid}>
+        <div className={styles.grid} style={compact ? { paddingTop: '1rem' } : undefined}>
             {children}
         </div>
     );
