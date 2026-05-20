@@ -1,7 +1,8 @@
 'use client';
-import { useState, useRef, FormEvent, KeyboardEvent } from 'react';
+import { useState, useRef, useContext, FormEvent, KeyboardEvent } from 'react';
 import { useHttpClient } from '@/app/hooks/http-hook';
-import { Food, Nutrients, StructuredIngredient } from '@/app/types/types';
+import { AuthContext } from '@/app/context/auth-context';
+import { Food, LoadedFood, Nutrients, StructuredIngredient } from '@/app/types/types';
 import styles from './form.module.css';
 
 const gramUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram";
@@ -16,7 +17,11 @@ interface IngredientSearchProps {
 }
 
 const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ingredients', placeholder = 'Search ingredient...' }: IngredientSearchProps): JSX.Element => {
+    const { token } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
+    const [mode, setMode] = useState<'search' | 'favorites'>('search');
+    const [favorites, setFavorites] = useState<LoadedFood[] | null>(null);
+    const [favQuery, setFavQuery] = useState('');
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [foods, setFoods] = useState<Food[]>([]);
@@ -24,8 +29,32 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ing
     const [quantityStr, setQuantityStr] = useState<string>('1');
     const [measureUri, setMeasureUri] = useState<string>('');
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [showFavDropdown, setShowFavDropdown] = useState(false);
     const [editIndex, setEditIndex] = useState<number | null>(null);
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const loadFavorites = async () => {
+        if (favorites !== null) return;
+        try {
+            const result = await sendRequest('/foods', 'GET', null, { Authorization: 'Bearer ' + token });
+            setFavorites(result.foods ?? []);
+        } catch {}
+    };
+
+    const switchMode = (m: 'search' | 'favorites') => {
+        setMode(m);
+        setSelectedFood(null);
+        setFoods([]);
+        setQuery('');
+        setShowSuggestions(false);
+        setShowFavDropdown(false);
+        setFavQuery('');
+        if (m === 'favorites') loadFavorites();
+    };
+
+    const filteredFavorites = (favorites ?? []).filter(f =>
+        f.food.food.label.toLowerCase().includes(favQuery.toLowerCase())
+    );
 
     const handleInput = (e: FormEvent) => {
         const value = (e.target as HTMLInputElement).value;
@@ -116,6 +145,8 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ing
 
         setSelectedFood(null);
         setSuggestions([]);
+        setShowFavDropdown(false);
+        setFavQuery('');
     };
 
     return (
@@ -126,6 +157,7 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ing
                 <ul className={styles.ingredient_list}>
                     {ingredients.map((ing, i) => (
                         editIndex === i ? (
+
                             <li key={i} className={styles.ingredient_edit_inline}>
                                 <p className={styles.selected_food_label}>{ing.food.food.label}</p>
                                 <div className={styles.short_inputs_group}>
@@ -170,41 +202,94 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ing
             )}
 
             {!selectedFood && editIndex === null && (
-                <div
-                    className={styles.ingredient_search_wrap}
-                    onBlur={e => {
-                        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-                            setShowSuggestions(false);
-                            setFoods([]);
-                            setQuery('');
-                        }
-                    }}
-                >
-                    <input
-                        type="text"
-                        placeholder={placeholder}
-                        value={query}
-                        onInput={handleInput}
-                        onKeyUp={(e: KeyboardEvent) => { if (e.key === 'Enter' && query) search(query); }}
-                    />
-                    {showSuggestions && suggestions.length > 0 && (
-                        <ul className={styles.suggestions}>
-                            {suggestions.map((s, i) => (
-                                <li key={i} onMouseDown={() => search(s)}>{s}</li>
-                            ))}
-                        </ul>
+                <>
+                    <div className={styles.mode_toggle}>
+                        <button type="button"
+                            className={mode === 'search' ? `${styles.mode_btn} ${styles.mode_btn_active}` : styles.mode_btn}
+                            onClick={() => switchMode('search')}>Search</button>
+                        <button type="button"
+                            className={mode === 'favorites' ? `${styles.mode_btn} ${styles.mode_btn_active}` : styles.mode_btn}
+                            onClick={() => switchMode('favorites')}>Favorites</button>
+                    </div>
+
+                    {mode === 'search' && (
+                        <div
+                            className={styles.ingredient_search_wrap}
+                            onBlur={e => {
+                                if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                                    setShowSuggestions(false);
+                                    setFoods([]);
+                                    setQuery('');
+                                }
+                            }}
+                        >
+                            <input
+                                type="text"
+                                placeholder={placeholder}
+                                value={query}
+                                onInput={handleInput}
+                                onKeyUp={(e: KeyboardEvent) => { if (e.key === 'Enter' && query) search(query); }}
+                            />
+                            {showSuggestions && suggestions.length > 0 && (
+                                <ul className={styles.suggestions}>
+                                    {suggestions.map((s, i) => (
+                                        <li key={i} onMouseDown={() => search(s)}>{s}</li>
+                                    ))}
+                                </ul>
+                            )}
+                            {foods.length > 0 && (
+                                <ul className={styles.food_results}>
+                                    {foods.map((food, i) => (
+                                        <li key={i} onMouseDown={() => handleSelectFood(food)}>
+                                            <span>{food.food.label}</span>
+                                            <span className={styles.food_kcal}>{Math.round(food.food.nutrients.ENERC_KCAL)} kcal/100g</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
                     )}
-                    {foods.length > 0 && (
-                        <ul className={styles.food_results}>
-                            {foods.map((food, i) => (
-                                <li key={i} onMouseDown={() => handleSelectFood(food)}>
-                                    <span>{food.food.label}</span>
-                                    <span className={styles.food_kcal}>{Math.round(food.food.nutrients.ENERC_KCAL)} kcal/100g</span>
-                                </li>
-                            ))}
-                        </ul>
+
+                    {mode === 'favorites' && (
+                        <div
+                            className={styles.ingredient_search_wrap}
+                            onBlur={e => {
+                                if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                                    setShowFavDropdown(false);
+                                    setFavQuery('');
+                                }
+                            }}
+                        >
+                            <input
+                                type="text"
+                                placeholder="Filter favorites..."
+                                value={favQuery}
+                                onFocus={() => setShowFavDropdown(true)}
+                                onInput={e => setFavQuery((e.target as HTMLInputElement).value)}
+                            />
+                            {showFavDropdown && favorites === null && (
+                                <ul className={styles.food_results}>
+                                    <li style={{ color: 'var(--gray)', pointerEvents: 'none' }}>Loading...</li>
+                                </ul>
+                            )}
+                            {showFavDropdown && favorites !== null && filteredFavorites.length === 0 && (
+                                <ul className={styles.food_results}>
+                                    <li style={{ color: 'var(--gray)', pointerEvents: 'none' }}>No favorites found.</li>
+                                </ul>
+                            )}
+                            {showFavDropdown && filteredFavorites.length > 0 && (
+                                <ul className={styles.food_results}>
+                                    {filteredFavorites.map((f, i) => (
+                                        <li key={i} onMouseDown={() => handleSelectFood(f.food)}>
+                                            <span>{f.food.food.label}</span>
+                                            <span className={styles.food_kcal}>{Math.round(f.food.food.nutrients.ENERC_KCAL)} kcal/100g</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
                     )}
-                </div>
+                </>
             )}
 
             {selectedFood && (

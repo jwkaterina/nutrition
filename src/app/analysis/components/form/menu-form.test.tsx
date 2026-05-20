@@ -8,7 +8,6 @@ import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
 import { AnalysisMode, CardState } from '@/app/types/types';
 import menu from '@/app/test_objects/menu1.json';
-import loadedRecipeWithID from '@/app/test_objects/loaded-recipe-withIDs.json';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 
@@ -28,6 +27,19 @@ jest.mock('../../../hooks/http-hook', () => ({
 jest.mock('./ingredient-search', () => {
     return function MockIngredientSearch() {
         return <input type="text" aria-label="Ingredients" readOnly />;
+    };
+});
+
+jest.mock('./recipe-search', () => {
+    const testRecipe = require('../../../test_objects/loaded-recipe-withIDs.json');
+    return function MockRecipeSearch({ onAdd }: { recipes: any[], onAdd: (r: any) => void, onRemove: any, onUpdate: any }) {
+        return (
+            <button type="button" onClick={() => onAdd({
+                selectedRecipeId: testRecipe.id,
+                selectedRecipe: testRecipe.recipe,
+                selectedServings: 1
+            })}>Add Recipe</button>
+        );
     };
 });
 
@@ -66,7 +78,6 @@ describe('menu-form', () => {
 
         expect(screen.getByRole('textbox', { name: /menu name/i })).toBeInTheDocument();
         expect(screen.getByRole('textbox', { name: /ingredients/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /add recipe/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /analyze/i })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /delete/i })).not.toBeInTheDocument();
     });
@@ -85,9 +96,6 @@ describe('menu-form', () => {
         renderComponentWithCurrentMenuContext(false, contextValue);
 
         expect(screen.getByRole('textbox', { name: /menu name/i })).toHaveValue(menu.menu.name);
-        expect(screen.getByRole('button', { name: /add recipe/i })).toBeInTheDocument();
-        expect(screen.getAllByRole('combobox')).toHaveLength(1);
-        expect(screen.getAllByText(/\+/i)).toHaveLength(1);
         expect(screen.getByRole('button', { name: /analyze/i })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /delete/i })).toBeInTheDocument();
     });
@@ -126,12 +134,6 @@ describe('menu-form', () => {
 
         await user.type(screen.getByRole('textbox', { name: /menu name/i }), menu.menu.name);
         await user.click(screen.getByRole('button', { name: /add recipe/i }));
-
-        const input = screen.getByRole('combobox');
-        const plusButton = screen.getByText(/\+/i);
-        await user.selectOptions(input, loadedRecipeWithID.recipe.name);
-        await user.click(plusButton);
-
         await user.click(screen.getByRole('button', { name: /analyze/i }));
 
         expect(contextValue.setCurrentMenu).toHaveBeenCalledWith(expect.objectContaining({

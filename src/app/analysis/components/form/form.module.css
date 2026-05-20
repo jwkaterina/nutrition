@@ -72,7 +72,7 @@
     letter-spacing: 0.01em;
 }
 
-.form_group input, .form_group button:not(.remove_button, .edit_button), .select_group select, .number, .minus_button, .plus_button{
+.form_group input, .form_group button:not(.remove_button, .edit_button, .mode_btn), .select_group select, .number, .minus_button, .plus_button{
     height: 2.5rem;
     padding: 0.5rem;
     border-radius: var(--radius-sm);
@@ -133,7 +133,7 @@
     transform: translateY(1px);
 }
 
-.form_group button:not(.remove_button, .edit_button) {
+.form_group button:not(.remove_button, .edit_button, .mode_btn) {
     width: 100%;
     border-radius: var(--radius-pill);
     font-weight: 600;
@@ -141,17 +141,17 @@
     align-self: center;
 }
 
-.form_group button:not(.remove_button, .edit_button, .add_button, .danger_button) {
+.form_group button:not(.remove_button, .edit_button, .add_button, .danger_button, .mode_btn) {
     border: none;
     background-color: var(--primary-color);
     color: white;
 }
 
-.form_group button:not(.remove_button, .edit_button, .add_button, .danger_button):hover {
+.form_group button:not(.remove_button, .edit_button, .add_button, .danger_button, .mode_btn):hover {
     background-color: var(--primary-darker-color);
 }
 
-.form_group button:not(.remove_button, .edit_button):active {
+.form_group button:not(.remove_button, .edit_button, .mode_btn):active {
     transform: translateY(1px);
 }
 
@@ -280,6 +280,44 @@
 .remove_button:hover {
     background-color: #FFEBEE;
     border-color: #C62828;
+}
+
+.mode_toggle {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.mode_btn {
+    height: 2.5rem;
+    padding: 0 1.75rem;
+    border: none;
+    border-radius: var(--radius-pill);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    background: var(--primary-glass);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    color: white;
+    transition: background-color var(--transition), box-shadow var(--transition);
+}
+
+.mode_btn:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.mode_btn_active {
+    background-color: white;
+    color: var(--primary-color);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+
+.mode_btn_active:hover {
+    background-color: white;
+    color: var(--primary-color);
 }
 
 .ingredient_search_wrap {

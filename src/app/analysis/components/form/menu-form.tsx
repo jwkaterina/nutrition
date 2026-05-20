@@ -2,10 +2,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter} from 'next/navigation';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
-import RecipeSelect from './recipe-select';
+import RecipeSearch from './recipe-search';
 import IngredientSearch from './ingredient-search';
-import SmallSpinner from '@/app/components/utilities/loading/small-spinner';
-import removeID from './utils/removeID';
 import { combineRecipes } from './utils/combine-recipes';
 import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
@@ -15,7 +13,7 @@ import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
 import { combineIngredientNutrients } from '@/app/hooks/utils/nutrients-calculator';
 import { MenuNutrientsCalculator } from '@/app/hooks/utils/nutrients-calculator';
-import { CardState, Nutrients, RecipeWithServings, AnalysisMode, StatusType, LoadedRecipe, StructuredIngredient } from '@/app/types/types';
+import { CardState, Nutrients, RecipeWithServings, AnalysisMode, StatusType, StructuredIngredient } from '@/app/types/types';
 import styles from './form.module.css';
 
 interface MenuFormProps {
@@ -35,33 +33,8 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const [ingredients, setIngredients] = useState<StructuredIngredient[]>([]);
     const [legacyIngredients, setLegacyIngredients] = useState<string[]>([]);
     const [currentRecipes, setCurrentRecipes] = useState<RecipeWithServings[]>([]);
-    const [loadedRecipes, setLoadedRecipes] = useState<LoadedRecipe[]>([]);
-    const [inputsnumber, setInputsnumber] = useState<number>(0);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const router = useRouter();
-
-    const fetchRecipes = async() => {
-        try {
-            setIsLoading(true);
-            const responseData = await sendRequest(
-                `/recipes`, 'GET', null, {
-                    Authorization: 'Bearer ' + token
-                }, false, false
-            );
-            setIsLoading(false);
-            const recipes = responseData.recipe.map((recipe: LoadedRecipe) => removeID(recipe));
-            if(recipes.length == 0) {
-                setStatus(StatusType.ERROR);
-                setMessage('You do not have any favorite recipes.');
-            } else {
-                setLoadedRecipes(recipes);
-            }
-        } catch (err) {
-            setIsLoading(false);
-            setMessage('Could not find recipes');
-        }
-    }
 
     useEffect(() => {
         if(searchCleared) {
@@ -75,14 +48,12 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         setIngredients([]);
         setLegacyIngredients([]);
         setClearSearch(false);
-        setInputsnumber(0);
         setCurrentRecipes([]);
     }, [searchCleared]);
 
     useEffect(() => {
         if(currentMenu.menu) {
             setName(currentMenu.menu.name);
-            setInputsnumber(currentMenu.menu.recipes.length);
             setCurrentRecipes(currentMenu.menu.recipes);
             // Support both new structured format and legacy string arrays
             const ings = currentMenu.menu.ingredients as any[];
@@ -93,9 +64,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                 setIngredients([]);
                 setLegacyIngredients(ings as string[]);
             }
-        }
-        if(currentMenu.menu && currentMenu.mode == AnalysisMode.EDIT && currentMenu.menu.recipes.length > 0) {
-            fetchRecipes();
         }
     }, [currentMenu]);
 
@@ -139,7 +107,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         if(!token) {
             setStatus(StatusType.ERROR);
             setMessage('You must be logged in to delete menu.');
-            setIsLoading(false);
             return;
         }
         try {
@@ -161,16 +128,6 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value);
-    }
-
-    const handleAddRecipe = async() => {
-        if(!token) {
-            setStatus(StatusType.ERROR);
-            setMessage('You need to be logged in to add a recipe');
-            return;
-        }
-        fetchRecipes();
-        setInputsnumber(inputsnumber + 1);
     }
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
@@ -203,17 +160,12 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             </ul>
                         </div>
                     )}
-                    <RecipeSelect
-                        inputs={inputsnumber}
-                        setCurrentRecipes={setCurrentRecipes}
-                        currentRecipes={currentRecipes}
-                        loadedRecipes={loadedRecipes}
-                        onRemoveRecipe={() => setInputsnumber(inputsnumber - 1)}
+                    <RecipeSearch
+                        recipes={currentRecipes}
+                        onAdd={r => setCurrentRecipes(prev => [...prev, r])}
+                        onRemove={i => setCurrentRecipes(prev => prev.filter((_, idx) => idx !== i))}
+                        onUpdate={(i, r) => setCurrentRecipes(prev => prev.map((item, idx) => idx === i ? r : item))}
                     />
-                    <div className={styles.form_group}>
-                        <button type="button" className={styles.add_button} onClick={handleAddRecipe}>Add Recipe</button>
-                        {isLoading && <SmallSpinner/>}
-                    </div>
                     <div className={styles.form_actions_row}>
                         <div className={styles.form_group}>
                             <button type="submit">Analyze</button>
