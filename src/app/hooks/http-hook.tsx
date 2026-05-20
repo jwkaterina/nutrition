@@ -17,7 +17,13 @@ export const useHttpClient = () => {
                     headers,
                 });
 
-                const responseData = await response.json();
+                const text = await response.text();
+                let responseData: any;
+                try {
+                    responseData = JSON.parse(text);
+                } catch {
+                    responseData = { message: 'Server error. Please try again.' };
+                }
                 if (!response.ok) {
                     throw new BackendError(responseData.message);
                 }

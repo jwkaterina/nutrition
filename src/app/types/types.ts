@@ -82,7 +82,8 @@ export type Nutrient = {
 export interface RecipeWithServings {
     selectedRecipeId: string,
     selectedRecipe: Recipe,
-    selectedServings: number
+    selectedServings: number,
+    image?: string | null,
 }
 
 export type LoadedFood = {
@@ -102,7 +103,8 @@ export type LoadedRecipe = {
 export type LoadedMenu = {
     creator: string,
     menu: MenuProp,
-    id: string
+    id: string,
+    image: string | null
 }
 
 export interface CurrentFood  {

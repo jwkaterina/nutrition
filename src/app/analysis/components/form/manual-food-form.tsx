@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { AuthContext } from '@/app/context/auth-context';
 import { StatusContext } from '@/app/context/status-context';
 import { useHttpClient } from '@/app/hooks/http-hook';
@@ -62,6 +62,9 @@ const ManualFoodForm = ({ onSaved, topPad }: ManualFoodFormProps): JSX.Element =
     const [name, setName] = useState('');
     const [category, setCategory] = useState<FoodType>(FoodType.GENERIC_FOODS);
     const [fields, setFields] = useState<Record<string, string>>({});
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const filePickerRef = useRef<HTMLInputElement | null>(null);
 
     const set = (key: string, val: string) =>
         setFields(prev => ({ ...prev, [key]: val }));
@@ -127,14 +130,26 @@ const ManualFoodForm = ({ onSaved, topPad }: ManualFoodFormProps): JSX.Element =
         };
 
         try {
-            await sendRequest('/foods', 'POST', JSON.stringify({ food }), {
-                'Content-Type': 'application/json',
+            const formData = new FormData();
+            formData.append('food', JSON.stringify(food));
+            if (imageFile) formData.append('image', imageFile);
+            await sendRequest('/foods', 'POST', formData, {
                 Authorization: 'Bearer ' + token,
             });
             setStatus(StatusType.SUCCESS);
             setMessage('Food added to favorites.');
             onSaved();
         } catch (err) {}
+    };
+
+    const pickedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length === 1) {
+            const file = e.target.files[0];
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onload = () => setPreviewUrl(reader.result as string);
+            reader.readAsDataURL(file);
+        }
     };
 
     const Field = ({ id, label, unit, required }: { id: string; label: string; unit: string; required?: boolean }) => (
@@ -165,6 +180,21 @@ const ManualFoodForm = ({ onSaved, topPad }: ManualFoodFormProps): JSX.Element =
                             value={name}
                             onInput={e => setName((e.target as HTMLInputElement).value)}
                         />
+                    </div>
+                    <div className={styles.form_group}>
+                        <input
+                            ref={filePickerRef}
+                            style={{ display: 'none' }}
+                            type="file"
+                            accept="image/*"
+                            onChange={pickedHandler}
+                        />
+                        <button type="button" className={styles.add_button} onClick={() => filePickerRef.current?.click()}>
+                            {previewUrl ? 'Change Image' : 'Add Image'}
+                        </button>
+                        {previewUrl && (
+                            <img src={previewUrl} alt="preview" style={{ marginTop: '0.5rem', maxHeight: '8rem', borderRadius: '0.5rem', objectFit: 'cover' }} />
+                        )}
                     </div>
                     <div className={styles.select_group}>
                         <label htmlFor="food-category">Category</label>

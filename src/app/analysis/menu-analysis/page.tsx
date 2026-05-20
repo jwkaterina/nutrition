@@ -17,6 +17,8 @@ const MenuSearch = (): JSX.Element => {
 	const { cardOpen } = useContext(CardOpenContext);
 	const { currentMenu } = useContext(CurrentMenuContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
+	const [file, setFile] = useState<Blob | null>(null);
+	const [imageUrl, setImageUrl] = useState<string | null>(null);
 
 	useEffect(() => {
 		const isEdit = new URLSearchParams(window.location.search).get('edit') === '1';
@@ -27,15 +29,16 @@ const MenuSearch = (): JSX.Element => {
 		<>
 			<NavBar color="var(--primary-glass)" textColor="white">
 				{cardOpen === CardState.OPEN ?
-				<OpenAnalysisMenu/> :
+				<OpenAnalysisMenu file={file} setFile={setFile} imageUrl={imageUrl} setImageUrl={setImageUrl}/> :
 				<AnalysisMenu
 					rightText="Clear Form"
-					onClear={() => setClearSearch(true)}
+					onClear={() => { setClearSearch(true); setImageUrl(null); }}
+					setFile={setFile}
 				/>
 				}
 			</NavBar>
-			<MenuForm searchCleared={clearSearch} setClearSearch={setClearSearch}/>
-			<Footer color="var(--primary-glass)" textColor="white" />
+			<MenuForm searchCleared={clearSearch} setClearSearch={setClearSearch} setFile={setFile} setImageUrl={setImageUrl}/>
+			<Footer color="var(--primary-glass)" textColor="white" setFile={setFile}/>
 		</>  
 	);
 }

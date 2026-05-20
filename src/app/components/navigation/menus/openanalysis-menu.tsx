@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useContext, useState } from "react";
 import { useRouter } from 'next/navigation';
 import Menu from './menu';
@@ -14,9 +15,11 @@ import { CardState, Food, Nutrients, Recipe, MenuProp, AnalysisMode, StatusType 
 interface OpenAnalysisMenuProps {
     file?: Blob | null;
     setFile?: (file: any) => void;
+    imageUrl?: string | null;
+    setImageUrl?: (url: string | null) => void;
 }
 
-const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element => {
+const OpenAnalysisMenu = ({ file, setFile, imageUrl, setImageUrl }: OpenAnalysisMenuProps): JSX.Element => {
 
     const router = useRouter();
     const { currentFood, setCurrentFood } = useContext(CurrentFoodContext);
@@ -61,12 +64,9 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
                 ...food!,
                 food: { ...food!.food, nutrients100g }
             };
-            await sendRequest(
-                '/foods',
-                'POST',
-                JSON.stringify({ food: foodWithNutrients }),
-                { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token }
-            );
+            const formData = new FormData();
+            formData.append('food', JSON.stringify(foodWithNutrients));
+            await sendRequest('/foods', 'POST', formData, { Authorization: 'Bearer ' + token });
             setRightText('Go To Favorites');
             setMessage('Food added to favorites.');
         } catch (err) {}
@@ -82,16 +82,10 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         }
         try {
             const formData = new FormData();
-            const recipeString = JSON.stringify(Recipe);
-            formData.append('recipe', recipeString);
-            formData.append('image', file as Blob);
-            await sendRequest(
-                '/recipes',
-                'POST',
-                formData, {
-                    Authorization: 'Bearer ' + token
-                }
-            );
+            formData.append('recipe', JSON.stringify(Recipe));
+            if (file) formData.append('image', file as Blob);
+            else if (imageUrl) formData.append('imageUrl', imageUrl);
+            await sendRequest('/recipes', 'POST', formData, { Authorization: 'Bearer ' + token });
             setRightText('Go To Favorites');
             setMessage('Recipe added to favorites.');
         } catch (err) {}
@@ -116,13 +110,11 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             return;
         }
         try {
-            await sendRequest(
-                '/menus',
-                'POST',
-                JSON.stringify({menu: Menu}),
-                { 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token }
-            );
+            const formData = new FormData();
+            formData.append('menu', JSON.stringify(Menu));
+            if (file) formData.append('image', file as Blob);
+            else if (imageUrl) formData.append('imageUrl', imageUrl);
+            await sendRequest('/menus', 'POST', formData, { Authorization: 'Bearer ' + token });
             setRightText('Go To Favorites');
             setMessage('Menu added to favorites.');
         } catch (err) {}
@@ -143,15 +135,10 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
         }
         try {
             const formData = new FormData();
-            const recipeString = JSON.stringify(Recipe);
-            formData.append('recipeString', recipeString);
-            formData.append('image', file as Blob);
-            await sendRequest(
-                `/recipes/${currentRecipe.id}`,
-                'PATCH',
-                formData,
-                { Authorization: 'Bearer ' + token }
-            );
+            formData.append('recipeString', JSON.stringify(Recipe));
+            if (file) formData.append('image', file as Blob);
+            else if (imageUrl) formData.append('imageUrl', imageUrl);
+            await sendRequest(`/recipes/${currentRecipe.id}`, 'PATCH', formData, { Authorization: 'Bearer ' + token });
             setRightText('Go To Favorites');
             setMessage('Recipe updated in favorites.');
         } catch (err) {}
@@ -176,15 +163,11 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             return;
         }
         try {
-            await sendRequest(
-                `/menus/${currentMenu.id}`,
-                'PATCH',
-                JSON.stringify({
-                updatedMenu: Menu
-                }),
-                { 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token }
-            );
+            const formData = new FormData();
+            formData.append('updatedMenu', JSON.stringify(Menu));
+            if (file) formData.append('image', file as Blob);
+            else if (imageUrl) formData.append('imageUrl', imageUrl);
+            await sendRequest(`/menus/${currentMenu.id}`, 'PATCH', formData, { Authorization: 'Bearer ' + token });
             setRightText('Go To Favorites');
             setMessage('Menu updated in favorites.');
         } catch (err) {}
@@ -199,6 +182,7 @@ const OpenAnalysisMenu = ({ file, setFile }: OpenAnalysisMenuProps): JSX.Element
             setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
             setFile && setFile(null);
+            setImageUrl && setImageUrl(null);
             setScrollBehavior('auto');
             router.push('/');
             setTimeout(() => {

@@ -18,6 +18,7 @@ const RecipeAnalysis = (): JSX.Element => {
 	const { currentRecipe } = useContext(CurrentRecipeContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	const [file, setFile] = useState<Blob | null>(null);
+	const [imageUrl, setImageUrl] = useState<string | null>(null);
 
 	useEffect(() => {
 		const isEdit = new URLSearchParams(window.location.search).get('edit') === '1';
@@ -28,15 +29,15 @@ const RecipeAnalysis = (): JSX.Element => {
 		<>
 			<NavBar color="var(--primary-glass)" textColor="white">
 				{cardOpen === CardState.OPEN ?
-				<OpenAnalysisMenu file={file} setFile={setFile}/> :
+				<OpenAnalysisMenu file={file} setFile={setFile} imageUrl={imageUrl} setImageUrl={setImageUrl}/> :
 				<AnalysisMenu
 					rightText="Clear Form"
-					onClear={() => setClearSearch(true)}
+					onClear={() => { setClearSearch(true); setImageUrl(null); }}
 					setFile={setFile}
 				/>
 				}
 			</NavBar>
-			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch} setFile={setFile}/>
+			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch} setFile={setFile} setImageUrl={setImageUrl}/>
 			<Footer color="var(--primary-glass)" textColor="white" setFile={setFile}/>
 		</>  
 	);
