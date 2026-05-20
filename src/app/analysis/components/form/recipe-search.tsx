@@ -50,6 +50,7 @@ const RecipeSearch = ({ recipes, onAdd, onRemove, onUpdate, label = 'Recipes' }:
             selectedRecipeId: selectedRecipe.id,
             selectedRecipe: selectedRecipe.recipe,
             selectedServings: servings,
+            image: selectedRecipe.image ?? null,
         });
         setSelectedRecipe(null);
         setServingsStr('1');
@@ -71,7 +72,7 @@ const RecipeSearch = ({ recipes, onAdd, onRemove, onUpdate, label = 'Recipes' }:
 
     return (
         <div className={styles.form_group}>
-            <label>{label}</label>
+            {label && <label>{label}</label>}
 
             {recipes.length > 0 && (
                 <ul className={styles.ingredient_list}>
@@ -96,7 +97,11 @@ const RecipeSearch = ({ recipes, onAdd, onRemove, onUpdate, label = 'Recipes' }:
                             </li>
                         ) : (
                             <li key={i} className={styles.ingredient_item}>
-                                <div>
+                                {r.image
+                                    ? <img src={r.image} alt="" className={styles.ingredient_thumb} />
+                                    : <div className={styles.ingredient_thumb_placeholder}>{r.selectedRecipe.name[0].toUpperCase()}</div>
+                                }
+                                <div className={styles.ingredient_text}>
                                     <div className={styles.ingredient_name}>{r.selectedRecipe.name}</div>
                                     <div className={styles.ingredient_amount}>{r.selectedServings} serving{r.selectedServings !== 1 ? 's' : ''}</div>
                                 </div>
@@ -122,7 +127,7 @@ const RecipeSearch = ({ recipes, onAdd, onRemove, onUpdate, label = 'Recipes' }:
                 >
                     <input
                         type="text"
-                        placeholder="Filter recipes..."
+                        placeholder="Type to filter…"
                         value={query}
                         onFocus={() => { loadRecipes(); setShowDropdown(true); }}
                         onInput={e => setQuery((e.target as HTMLInputElement).value)}

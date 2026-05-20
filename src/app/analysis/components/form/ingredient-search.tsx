@@ -16,7 +16,7 @@ interface IngredientSearchProps {
     placeholder?: string;
 }
 
-const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ingredients', placeholder = 'Search ingredient...' }: IngredientSearchProps): JSX.Element => {
+const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ingredients', placeholder = 'e.g. chicken breast, apple…' }: IngredientSearchProps): JSX.Element => {
     const { token } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [mode, setMode] = useState<'search' | 'favorites'>('search');
@@ -151,7 +151,7 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ing
 
     return (
         <div className={styles.form_group}>
-            <label>{label}</label>
+            {label && <label>{label}</label>}
 
             {ingredients.length > 0 && (
                 <ul className={styles.ingredient_list}>
@@ -187,7 +187,11 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ing
                             </li>
                         ) : (
                             <li key={i} className={styles.ingredient_item}>
-                                <div>
+                                {ing.food.food.image
+                                    ? <img src={ing.food.food.image} alt="" className={styles.ingredient_thumb} />
+                                    : <div className={styles.ingredient_thumb_placeholder}>{ing.food.food.label[0].toUpperCase()}</div>
+                                }
+                                <div className={styles.ingredient_text}>
                                     <div className={styles.ingredient_name}>{ing.food.food.label}</div>
                                     <div className={styles.ingredient_amount}>{ing.quantity} {ing.measureLabel}</div>
                                 </div>
@@ -206,10 +210,10 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ing
                     <div className={styles.mode_toggle}>
                         <button type="button"
                             className={mode === 'search' ? `${styles.mode_btn} ${styles.mode_btn_active}` : styles.mode_btn}
-                            onClick={() => switchMode('search')}>Search</button>
+                            onClick={() => switchMode('search')}>Find food</button>
                         <button type="button"
                             className={mode === 'favorites' ? `${styles.mode_btn} ${styles.mode_btn_active}` : styles.mode_btn}
-                            onClick={() => switchMode('favorites')}>Favorites</button>
+                            onClick={() => switchMode('favorites')}>My foods</button>
                     </div>
 
                     {mode === 'search' && (
@@ -262,7 +266,7 @@ const IngredientSearch = ({ ingredients, onAdd, onRemove, onUpdate, label = 'Ing
                         >
                             <input
                                 type="text"
-                                placeholder="Filter favorites..."
+                                placeholder="Type to filter…"
                                 value={favQuery}
                                 onFocus={() => setShowFavDropdown(true)}
                                 onInput={e => setFavQuery((e.target as HTMLInputElement).value)}

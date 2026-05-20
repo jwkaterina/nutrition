@@ -1,8 +1,9 @@
 'use client';
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter} from 'next/navigation';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import IngredientSearch from './ingredient-search';
+import ImagePicker from '@/app/components/utilities/image-picker';
 import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
 import { CurrentRecipeContext } from '@/app/context/recipe-context';
@@ -16,10 +17,11 @@ import styles from './form.module.css';
 interface RecipeFormProps {
     searchCleared: boolean,
     setClearSearch: (clearSearch: boolean) => void,
-    setFile: (file: any) => void
+    setFile: (file: any) => void,
+    setImageUrl: (url: string | null) => void,
 }
 
-const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps): JSX.Element => {
+const RecipeForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: RecipeFormProps): JSX.Element => {
 
     const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
@@ -33,7 +35,6 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
     const [legacyIngredients, setLegacyIngredients] = useState<string[]>([]);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [deleteReady, setDeleteReady] = useState<boolean>(false);
-    const filePickerRef = useRef<HTMLInputElement | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -144,21 +145,6 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         setServings(parseInt(e.currentTarget.value));
     }
 
-    const pickedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length === 1) {
-            setFile(event.target.files[0]);
-            const fileReader = new FileReader();
-            fileReader.onload = () => {
-                setPreviewUrl(fileReader.result as string);
-            };
-            fileReader.readAsDataURL(event.target.files[0]);
-        }
-    };
-
-    const pickImageHandler = () => {
-        (filePickerRef.current! as HTMLElement).click();
-    };
-
     if(currentRecipe.recipe && cardOpen == CardState.OPEN) {
         return (
             <div className={styles.card_container}>
@@ -171,25 +157,24 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
         <div className={styles.container}>
             <div className={styles.form_container}>
                 <form aria-label="form" className={styles.form} onSubmit={handleSubmit}>
-                    <div className={styles.form_group}>
-                        <label htmlFor="recipe-name">Recipe Name</label>
-                        <input type="text" id="recipe-name" name="recipe-name" required value={name} onInput={e => handleNameInput(e)}/>
+                    <div className={styles.two_col}>
+                        <div className={styles.form_group}>
+                            <label htmlFor="recipe-name">Recipe Name</label>
+                            <input type="text" id="recipe-name" name="recipe-name" required value={name} onInput={e => handleNameInput(e)}/>
+                        </div>
+                        <div className={styles.form_group}>
+                            <label htmlFor="recipe-servings">Servings</label>
+                            <input type="number" id="recipe-servings" name="recipe-servings" required min='1' value={servings} onInput={e => handleServingsInput(e)}/>
+                        </div>
                     </div>
-                    <div className={styles.form_group}>
-                        <input
-                            ref={filePickerRef}
-                            style={{ display: 'none' }}
-                            type="file"
-                            accept=".jpg,.png,.jpeg"
-                            onChange={pickedHandler}
-                        />
-                        <button type="button" className={styles.add_button} onClick={pickImageHandler}>{currentRecipe.mode == AnalysisMode.VIEW ? 'Add Image' : 'Change Image'}</button>
-                    </div>
+
+                    <div className={styles.section_header}>Ingredients</div>
                     <IngredientSearch
                         ingredients={ingredients}
                         onAdd={ing => setIngredients(prev => [...prev, ing])}
                         onRemove={i => setIngredients(prev => prev.filter((_, idx) => idx !== i))}
                         onUpdate={(i, ing) => setIngredients(prev => prev.map((item, idx) => idx === i ? ing : item))}
+                        label=""
                     />
                     {legacyIngredients.length > 0 && (
                         <div className={styles.form_group}>
@@ -199,10 +184,31 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile }: RecipeFormProps)
                             </ul>
                         </div>
                     )}
-                    <div className={styles.form_group}>
-                        <label htmlFor="recipe-servings">Number of Servings</label>
-                        <input type="number" id="recipe-servings" name="recipe-servings" required min='1' value={servings} onInput={e => handleServingsInput(e)}/>
-                    </div>
+
+                    <div className={styles.section_header}>Image</div>
+                    {previewUrl ? (
+                        <div className={styles.image_preview}>
+                            <img src={previewUrl} alt="preview" />
+                            <button type="button" aria-label="Change image" className={styles.image_preview_change} onClick={() => { setPreviewUrl(null); setFile(null); setImageUrl(null); }}>✕</button>
+                        </div>
+                    ) : (
+                        <ImagePicker
+                            availableImages={ingredients.map(i => i.food.food.image).filter(Boolean) as string[]}
+                            selectedUrl={previewUrl}
+                            onFile={file => {
+                                setFile(file);
+                                const reader = new FileReader();
+                                reader.onload = () => setPreviewUrl(reader.result as string);
+                                reader.readAsDataURL(file);
+                            }}
+                            onUrl={url => {
+                                setPreviewUrl(url);
+                                setFile(null);
+                                setImageUrl(url);
+                            }}
+                        />
+                    )}
+
                     <div className={styles.form_actions_row}>
                         <div className={styles.form_group}>
                             <button type="submit">Analyze</button>

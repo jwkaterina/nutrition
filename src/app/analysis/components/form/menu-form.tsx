@@ -4,6 +4,7 @@ import { useRouter} from 'next/navigation';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import RecipeSearch from './recipe-search';
 import IngredientSearch from './ingredient-search';
+import ImagePicker from '@/app/components/utilities/image-picker';
 import { combineRecipes } from './utils/combine-recipes';
 import { AuthContext } from '@/app/context/auth-context';
 import { CardOpenContext } from '@/app/context/card-context';
@@ -18,10 +19,12 @@ import styles from './form.module.css';
 
 interface MenuFormProps {
     searchCleared: boolean,
-    setClearSearch: (clearSearch: boolean) => void
+    setClearSearch: (clearSearch: boolean) => void,
+    setFile: (file: any) => void,
+    setImageUrl: (url: string | null) => void,
 }
 
-const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element => {
+const MenuForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: MenuFormProps): JSX.Element => {
 
     const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
@@ -33,6 +36,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
     const [ingredients, setIngredients] = useState<StructuredIngredient[]>([]);
     const [legacyIngredients, setLegacyIngredients] = useState<string[]>([]);
     const [currentRecipes, setCurrentRecipes] = useState<RecipeWithServings[]>([]);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
     const router = useRouter();
 
@@ -49,6 +53,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
         setLegacyIngredients([]);
         setClearSearch(false);
         setCurrentRecipes([]);
+        setPreviewUrl(null);
     }, [searchCleared]);
 
     useEffect(() => {
@@ -132,7 +137,7 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
 
     if(currentMenu.menu && cardOpen == CardState.OPEN) return (
         <div className={styles.card_container}>
-            <MenuCard menu={currentMenu.menu} index={0} id={null} open={true}/>
+            <MenuCard menu={currentMenu.menu} index={0} id={null} open={true} image={previewUrl}/>
         </div>
     )
 
@@ -144,13 +149,15 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                         <label htmlFor="menu-name">Menu Name</label>
                         <input type="text" id="menu-name" name="menu-name" required value={name} onInput={e => handleNameInput(e)}/>
                     </div>
+
+                    <div className={styles.section_header}>Food</div>
                     <IngredientSearch
                         ingredients={ingredients}
                         onAdd={ing => setIngredients(prev => [...prev, ing])}
                         onRemove={i => setIngredients(prev => prev.filter((_, idx) => idx !== i))}
                         onUpdate={(i, ing) => setIngredients(prev => prev.map((item, idx) => idx === i ? ing : item))}
-                        label="Food"
-                        placeholder="Search food..."
+                        label=""
+                        placeholder="e.g. eggs, whole milk…"
                     />
                     {legacyIngredients.length > 0 && (
                         <div className={styles.form_group}>
@@ -160,12 +167,44 @@ const MenuForm = ({ searchCleared, setClearSearch }: MenuFormProps): JSX.Element
                             </ul>
                         </div>
                     )}
+
+                    <div className={styles.section_header}>Recipes</div>
                     <RecipeSearch
                         recipes={currentRecipes}
                         onAdd={r => setCurrentRecipes(prev => [...prev, r])}
                         onRemove={i => setCurrentRecipes(prev => prev.filter((_, idx) => idx !== i))}
                         onUpdate={(i, r) => setCurrentRecipes(prev => prev.map((item, idx) => idx === i ? r : item))}
+                        label=""
                     />
+
+                    <div className={styles.section_header}>Image</div>
+                    {previewUrl ? (
+                        <div className={styles.image_preview}>
+                            <img src={previewUrl} alt="preview" />
+                            <button type="button" className={styles.image_preview_change} onClick={() => { setPreviewUrl(null); setFile(null); setImageUrl(null); }}>✕</button>
+                        </div>
+                    ) : (
+                        <ImagePicker
+                            availableImages={[
+                                ...ingredients.map(i => i.food.food.image),
+                                ...currentRecipes.map(r => r.image ?? ''),
+                            ].filter(Boolean) as string[]}
+                            emptyHint="Or add food and recipes to pick from their images."
+                            selectedUrl={previewUrl}
+                            onFile={file => {
+                                setFile(file);
+                                const reader = new FileReader();
+                                reader.onload = () => setPreviewUrl(reader.result as string);
+                                reader.readAsDataURL(file);
+                            }}
+                            onUrl={url => {
+                                setPreviewUrl(url);
+                                setFile(null);
+                                setImageUrl(url);
+                            }}
+                        />
+                    )}
+
                     <div className={styles.form_actions_row}>
                         <div className={styles.form_group}>
                             <button type="submit">Analyze</button>

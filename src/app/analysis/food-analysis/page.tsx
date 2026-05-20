@@ -13,7 +13,7 @@ import { SlideContext } from '@/app/context/slide-context';
 import { CardState } from '@/app/types/types';
 import pageStyles from './food-analysis.module.css';
 
-const TAB_BAR_HEIGHT = '4rem';
+const TAB_BAR_HEIGHT = '3rem';
 const TOP_WITH_TABS = `calc(var(--header-height) + ${TAB_BAR_HEIGHT})`;
 
 const FoodAnalysis = (): JSX.Element => {
