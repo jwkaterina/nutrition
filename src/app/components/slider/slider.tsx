@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useContext, useCallback, useEffect } from 'react';
+import { useRef, useContext, useCallback, useEffect, useLayoutEffect } from 'react';
 import FoodSlide from '@/app/components/slider/slides/food-slide';
 import RecipeSlide from '@/app/components/slider/slides/recipe-slide';
 import MenuSlide from '@/app/components/slider/slides/menu-slide';
@@ -27,12 +27,13 @@ const Slider = ({ foodDeleted }: SliderProps): JSX.Element => {
         });
     }, []);
 
-    // Restore slide from URL on mount (browser refresh / direct link)
-    useEffect(() => {
+    // Restore slide from URL before first paint so the underline and scroll
+    // position are correct immediately, with no visible jump or animation.
+    useLayoutEffect(() => {
         const tab = new URLSearchParams(window.location.search).get('tab');
-        if (tab === 'recipe') setSlide(SlideType.RECIPE);
-        else if (tab === 'menu') setSlide(SlideType.MENU);
-        else if (tab === 'food') setSlide(SlideType.FOOD);
+        if (tab === 'recipe') { setSlide(SlideType.RECIPE); setScrollRatio(SlideType.RECIPE); scrollToSlide(SlideType.RECIPE, false); }
+        else if (tab === 'menu') { setSlide(SlideType.MENU); setScrollRatio(SlideType.MENU); scrollToSlide(SlideType.MENU, false); }
+        else if (tab === 'food') { setSlide(SlideType.FOOD); setScrollRatio(SlideType.FOOD); scrollToSlide(SlideType.FOOD, false); }
     }, []);
 
     // Keep URL in sync with active slide (no history entry)

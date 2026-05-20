@@ -1,4 +1,5 @@
-import { useContext } from 'react';
+'use client';
+import { useContext, useLayoutEffect, useState } from 'react';
 import { SlideContext } from '@/app/context/slide-context';
 import { SlideType } from "@/app/types/types";
 import styles from './nav-bar.module.css';
@@ -6,6 +7,11 @@ import styles from './nav-bar.module.css';
 const MainNav = (): JSX.Element => {
 
     const { slide, setSlide, setBlockScroll, scrollRatio } = useContext(SlideContext);
+    const [visible, setVisible] = useState(false);
+
+    useLayoutEffect(() => {
+        setVisible(true);
+    }, []);
 
     // All sizes in CSS units — no window access, so SSR and client produce identical HTML.
     // pos1 = center of first tab minus half bar width; step = distance between tab centers.
@@ -29,7 +35,8 @@ const MainNav = (): JSX.Element => {
             </div>
             <div className={styles.scroll_bar} style={{
                 width: '20vw',
-                left
+                left,
+                opacity: visible ? 1 : 0,
             }}></div>
         </>
     );
