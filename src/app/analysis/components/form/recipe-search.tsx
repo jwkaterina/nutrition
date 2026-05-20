@@ -79,7 +79,7 @@ const RecipeSearch = ({ recipes, onAdd, onRemove, onUpdate, label = 'Recipes' }:
                     {recipes.map((r, i) => (
                         editIndex === i ? (
                             <li key={i} className={styles.ingredient_edit_inline}>
-                                <p className={styles.selected_food_label}>{r.selectedRecipe.name}</p>
+                                <p className={styles.selected_food_label}>{r.selectedRecipe?.name ?? ''}</p>
                                 <div className={styles.number_group}>
                                     <label>Servings</label>
                                     <input
@@ -99,10 +99,10 @@ const RecipeSearch = ({ recipes, onAdd, onRemove, onUpdate, label = 'Recipes' }:
                             <li key={i} className={styles.ingredient_item}>
                                 {r.image
                                     ? <img src={r.image} alt="" className={styles.ingredient_thumb} />
-                                    : <div className={styles.ingredient_thumb_placeholder}>{r.selectedRecipe.name[0].toUpperCase()}</div>
+                                    : <div className={styles.ingredient_thumb_placeholder}>{r.selectedRecipe?.name?.[0]?.toUpperCase() ?? '?'}</div>
                                 }
                                 <div className={styles.ingredient_text}>
-                                    <div className={styles.ingredient_name}>{r.selectedRecipe.name}</div>
+                                    <div className={styles.ingredient_name}>{r.selectedRecipe?.name ?? ''}</div>
                                     <div className={styles.ingredient_amount}>{r.selectedServings} serving{r.selectedServings !== 1 ? 's' : ''}</div>
                                 </div>
                                 <div className={styles.ingredient_item_actions}>
