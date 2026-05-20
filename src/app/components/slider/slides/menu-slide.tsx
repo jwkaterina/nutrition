@@ -17,7 +17,8 @@ const MenuSlide = (): JSX.Element => {
         const recipes: RecipeWithServings[] = menu.menu.recipes.map((r: any) => ({
             selectedRecipeId: r.selectedRecipe.id,
             selectedRecipe: r.selectedRecipe.recipe as Recipe,
-            selectedServings: r.selectedServings
+            selectedServings: r.selectedServings,
+            image: r.selectedRecipe.image ?? null
         }));
         const loaded: LoadedMenu = {
             creator: menu.creator,
@@ -27,10 +28,11 @@ const MenuSlide = (): JSX.Element => {
                 nutrients: menu.menu.nutrients,
                 recipes
             },
-            id: menu.id
+            id: menu.id,
+            image: menu.image ?? null
         };
         return (
-            <MenuCard menu={loaded.menu} index={index + 1} key={index + 1} id={loaded.id} open={false}/>
+            <MenuCard menu={loaded.menu} index={index + 1} key={index + 1} id={loaded.id} image={loaded.image} open={false}/>
         );
     }) ?? [];
 

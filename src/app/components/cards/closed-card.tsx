@@ -1,3 +1,4 @@
+import CardPlaceholder from '../utilities/card-placeholder';
 import styles from './card.module.css';
 
 interface ClosedCardProps {
@@ -16,7 +17,10 @@ const ClosedCard = ({ title, image, calories, protein, fat, carbs }: ClosedCardP
     return (
         <>
             <div className={styles.title}>
-                {image && <img src={image} alt="" className={styles.img}/>}
+                {image
+                    ? <img src={image} alt="" className={styles.img}/>
+                    : <CardPlaceholder name={title} size={50} />
+                }
                 <h2>{title}</h2>
             </div>
             <div className={styles.nutrients}>

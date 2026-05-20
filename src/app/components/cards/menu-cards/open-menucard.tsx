@@ -9,10 +9,11 @@ import { MenuProp } from '@/app/types/types';
 import styles from '../card.module.css';
 
 interface OpenMenuCardProps {
-    menu: MenuProp
+    menu: MenuProp,
+    image?: string | null,
 }
 
-const OpenMenuCard  = ({ menu }: OpenMenuCardProps): JSX.Element => {
+const OpenMenuCard  = ({ menu, image = null }: OpenMenuCardProps): JSX.Element => {
 
     const weight: number = menu.nutrients?.totalWeight ?? 0;
     const devideBy: number = weight > 0 ? weight / 100 : 1;
@@ -23,7 +24,7 @@ const OpenMenuCard  = ({ menu }: OpenMenuCardProps): JSX.Element => {
 
     return (
         <div className={styles.card_grid}>
-            <MenuHeaderCard menu={menu} />
+            <MenuHeaderCard menu={menu} image={image} />
             {menu.nutrients && <DailyValueCard content={menu.nutrients} />}
             <CompositionCard
                 protein={proteinPer100gram}
