@@ -65,12 +65,17 @@ const getRecipesById = async (req, res, next) => {
 
 const createRecipe = async (req, res, next) => {
 
-    const { recipe } = req.body;
-    const parsedRecipe = JSON.parse(recipe);
+    let parsedRecipe;
+    try {
+        const { recipe } = req.body;
+        parsedRecipe = typeof recipe === 'string' ? JSON.parse(recipe) : recipe;
+    } catch (err) {
+        return next(new HttpError('Invalid recipe data.', 400));
+    }
 
     const createdRecipe = new Recipe({
         recipe: parsedRecipe,
-        image: req.image && req.image.url,
+        image: (req.image && req.image.url) || req.body.imageUrl || null,
         imageName: req.image && req.image.fileName,
         creator: req.userData.userId
     });
@@ -129,10 +134,15 @@ const createRecipe = async (req, res, next) => {
 };
 
 const updateRecipe = async (req, res, next) => {
-    const { recipeString } = req.body;
-    const updatedRecipe = JSON.parse(recipeString);
+    let updatedRecipe;
+    try {
+        const { recipeString } = req.body;
+        updatedRecipe = typeof recipeString === 'string' ? JSON.parse(recipeString) : recipeString;
+    } catch (err) {
+        return next(new HttpError('Invalid recipe data.', 400));
+    }
 
-    const updatedImage = req.image && req.image.url;
+    const updatedImage = (req.image && req.image.url) || req.body.imageUrl;
     const recipeId = req.params.id;
 
     let recipe;
@@ -167,7 +177,7 @@ const updateRecipe = async (req, res, next) => {
             next(err);
         }
         recipe.image = updatedImage;
-        recipe.imageName = req.image.fileName
+        if (req.image) recipe.imageName = req.image.fileName;
     }
 
     try {

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const HttpError = require('../models/http-error');
 const Food = require('../models/food');
 const User = require('../models/user');
+const gcpStorage = require('../storage-controllers/gcpStorage-controllers');
 
 const getFoods = async (req, res, next) => {
     const userId = req.userData.userId;
@@ -34,10 +35,17 @@ const getFoods = async (req, res, next) => {
 
 const createFood = async (req, res, next) => {
 
-    const { food } = req.body;
+    const foodData = typeof req.body.food === 'string' ? JSON.parse(req.body.food) : req.body.food;
+    const imageUrl = req.image && req.image.url;
+    const imageName = req.image && req.image.fileName;
+
+    if (imageUrl) {
+        foodData.food.image = imageUrl;
+    }
 
     const createdFood = new Food({
-        food,
+        food: foodData,
+        imageName: imageName || null,
         creator: req.userData.userId
     });
 
@@ -58,7 +66,7 @@ const createFood = async (req, res, next) => {
 
     let existingFood
     try {
-        existingFood = await Food.findOne({ "food.food.label": food.food.label, "creator": req.userData.userId})
+        existingFood = await Food.findOne({ "food.food.label": foodData.food.label, "creator": req.userData.userId})
     } catch (err) {
         console.error(err);
         const error = new HttpError(
@@ -139,6 +147,10 @@ const deleteFood = async (req, res, next) => {
             500
         );
         return next(error);
+    }
+
+    if (food.imageName) {
+        gcpStorage.deleteImage(food.imageName);
     }
 
     res.status(200).json({ message: 'Deleted food.' });

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const HttpError = require('../models/http-error');
 const Menu = require('../models/menu');
 const User = require('../models/user');
+const gcpStorage = require('../storage-controllers/gcpStorage-controllers');
 
 const getMenus = async (req, res, next) => {
     const userId = req.userData.userId;
@@ -38,12 +39,16 @@ const getMenus = async (req, res, next) => {
 
 const createMenu = async (req, res, next) => {
 
-    const { menu } = req.body;
+    const menuData = typeof req.body.menu === 'string' ? JSON.parse(req.body.menu) : req.body.menu;
+    const imageUrl = (req.image && req.image.url) || req.body.imageUrl || null;
+    const imageName = req.image && req.image.fileName;
 
-    console.log(menu);
+    console.log(menuData);
 
     const createdMenu = new Menu({
-        menu,
+        menu: menuData,
+        image: imageUrl,
+        imageName: imageName || null,
         creator: req.userData.userId
     });
 
@@ -64,7 +69,7 @@ const createMenu = async (req, res, next) => {
 
     let existingMenu
     try {
-        existingMenu = await Menu.findOne({ "menu.name": menu.name, "creator": req.userData.userId})
+        existingMenu = await Menu.findOne({ "menu.name": menuData.name, "creator": req.userData.userId})
     } catch (err) {
         console.error(err);
         const error = new HttpError(
@@ -103,7 +108,9 @@ const createMenu = async (req, res, next) => {
 
 const updateMenu = async (req, res, next) => {
 
-    const { updatedMenu } = req.body;
+    const updatedMenu = typeof req.body.updatedMenu === 'string' ? JSON.parse(req.body.updatedMenu) : req.body.updatedMenu;
+    const updatedImage = (req.image && req.image.url) || req.body.imageUrl;
+    const updatedImageName = req.image && req.image.fileName;
     const menuId = req.params.id;
     console.log(updatedMenu);
 
@@ -133,6 +140,10 @@ const updateMenu = async (req, res, next) => {
 
 
     menu.menu = updatedMenu;
+    if (updatedImage) {
+        menu.image = updatedImage;
+        if (updatedImageName) menu.imageName = updatedImageName;
+    }
 
     try {
         await menu.save();
@@ -192,6 +203,10 @@ const deleteMenu = async (req, res, next) => {
             500
         );
         return next(error);
+    }
+
+    if (menu.imageName) {
+        gcpStorage.deleteImage(menu.imageName);
     }
 
     res.status(200).json({ message: 'Deleted menu.' });

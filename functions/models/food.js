@@ -27,6 +27,7 @@ const foodSchema = new Schema({
             weight: { type: Number, required: true }
         }]
     },
+    imageName: { type: String, required: false },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User'}
 });
 

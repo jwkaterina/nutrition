@@ -14,6 +14,8 @@ const menuSchema = new Schema({
         recipes: [{ type: MenuRecipe, required: false}],
         nutrients: { type: mongoose.Schema.Types.Mixed, required: false }
     },
+    image: { type: String, required: false },
+    imageName: { type: String, required: false },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User'}
 });
 
