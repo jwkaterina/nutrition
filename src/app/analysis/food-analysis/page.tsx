@@ -11,6 +11,10 @@ import OpenAnalysisMenu from '@/app/components/navigation/menus/openanalysis-men
 import { CardOpenContext } from '@/app/context/card-context';
 import { SlideContext } from '@/app/context/slide-context';
 import { CardState } from '@/app/types/types';
+import pageStyles from './food-analysis.module.css';
+
+const TAB_BAR_HEIGHT = '4rem';
+const TOP_WITH_TABS = `calc(var(--header-height) + ${TAB_BAR_HEIGHT})`;
 
 const FoodAnalysis = (): JSX.Element => {
 
@@ -19,6 +23,8 @@ const FoodAnalysis = (): JSX.Element => {
 	const { setScrollBehavior } = useContext(SlideContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	const [manual, setManual] = useState<boolean>(false);
+
+	const showTabs = cardOpen !== CardState.OPEN;
 
 	const handleSaved = () => {
 		setScrollBehavior('auto');
@@ -32,14 +38,32 @@ const FoodAnalysis = (): JSX.Element => {
 				{cardOpen === CardState.OPEN ?
 				<OpenAnalysisMenu /> :
 				<AnalysisMenu
-					rightText={manual ? 'Search Food' : 'Add Manually'}
-					onClear={manual ? () => setManual(false) : () => setManual(true)}
+					rightText="Clear Search"
+					onClear={() => setClearSearch(true)}
 				/>
 				}
 			</NavBar>
+
+			{showTabs && (
+				<div className={pageStyles.tab_bar}>
+					<button
+						className={manual ? pageStyles.tab : `${pageStyles.tab} ${pageStyles.tab_active}`}
+						onClick={() => setManual(false)}
+					>Search</button>
+					<button
+						className={manual ? `${pageStyles.tab} ${pageStyles.tab_active}` : pageStyles.tab}
+						onClick={() => setManual(true)}
+					>Add Manually</button>
+				</div>
+			)}
+
 			{manual
-				? <ManualFoodForm onSaved={handleSaved} />
-				: <FoodSearch searchCleared={clearSearch} setClearSearch={setClearSearch}/>
+				? <ManualFoodForm onSaved={handleSaved} topPad={TOP_WITH_TABS} />
+				: <FoodSearch
+					searchCleared={clearSearch}
+					setClearSearch={setClearSearch}
+					topPad={showTabs ? TOP_WITH_TABS : undefined}
+				/>
 			}
 			<Footer color="var(--primary-glass)" textColor="white" />
 		</>

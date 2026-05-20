@@ -15,10 +15,11 @@ import styles from './search.module.css'
 
 interface FoodSearchProps {
 	searchCleared: boolean,
-	setClearSearch: (clearSearch: boolean) => void
+	setClearSearch: (clearSearch: boolean) => void,
+	topPad?: string
 }
 
-const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Element => {
+const FoodSearch = ({ searchCleared, setClearSearch, topPad }: FoodSearchProps): JSX.Element => {
 
     const { cardOpen } = useContext(CardOpenContext);
 	const { setMessage, setStatus } = useContext(StatusContext);
@@ -133,13 +134,10 @@ const FoodSearch = ({ searchCleared, setClearSearch }: FoodSearchProps): JSX.Ele
 		setQueryOptions(null);
 	}
 
-    const style = () => {
-        if(cardOpen == CardState.OPEN) {
-            return {overflow: 'hidden'};
-        } else {
-            return {overflow: 'auto'};
-        }
-    }
+    const style = (): React.CSSProperties => ({
+        overflow: cardOpen == CardState.OPEN ? 'hidden' : 'auto',
+        ...(topPad ? { paddingTop: topPad } : {}),
+    });
 
     return (
         <div className={styles.container} style={style()} ref={searchRef}>

@@ -8,6 +8,7 @@ import styles from './form.module.css';
 
 interface ManualFoodFormProps {
     onSaved: () => void;
+    topPad?: string;
 }
 
 const DV: Record<string, number> = {
@@ -53,7 +54,7 @@ const NUTRIENT_META: Record<string, { label: string; unit: string }> = {
     P:          { label: 'Phosphorus, P', unit: 'mg' },
 };
 
-const ManualFoodForm = ({ onSaved }: ManualFoodFormProps): JSX.Element => {
+const ManualFoodForm = ({ onSaved, topPad }: ManualFoodFormProps): JSX.Element => {
     const { token } = useContext(AuthContext);
     const { setMessage, setStatus } = useContext(StatusContext);
     const { sendRequest } = useHttpClient();
@@ -151,7 +152,7 @@ const ManualFoodForm = ({ onSaved }: ManualFoodFormProps): JSX.Element => {
     );
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={topPad ? { paddingTop: topPad } : undefined}>
             <div className={`${styles.form_container} ${styles.form_container_wide}`}>
                 <form aria-label="form" className={styles.form} onSubmit={handleSubmit}>
 
