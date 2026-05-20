@@ -92,55 +92,62 @@
     background-color: var(--primary-light-color);
 }
 
-/* sort buttons */
+/* sort + filter row */
 
 .sort_buttons {
     display: flex;
     flex-direction: row;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
 }
 
 .filter_dropdown, .sort_select {
+    flex: 1;
     position: relative;
-    height: 40px;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-sm);
-    margin-left: 1rem;
+    height: 2.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--gray-dark);
     z-index: 3;
-    transition: box-shadow var(--transition);
-    overflow: hidden;
+    overflow: visible;
+    transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .filter_dropdown:hover, .sort_select:hover {
-    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light-color);
 }
 
-.filter_dropdown, .sort_select, .filter_dropdown .dropbtn {
-    background-color: white;
+.dropbtn {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: none;
     border: none;
-    font-weight: 400;
-    font-size: 1rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
     color: var(--gray-dark);
-}
-
-.filter_dropdown .dropbtn {
-    padding: 0 10px;
-}
-
-.filter_dropdown .dropbtn, .sort_select select {
     cursor: pointer;
 }
 
-.sort_select {
-    width: 150px;
+.filter_icon {
+    color: var(--gray);
+    font-size: 0.9rem;
 }
 
 .sort_select select {
     appearance: none;
-    background-color: white;
-    padding: 0 10px;
+    background-color: transparent;
+    padding: 0 0.75rem;
     height: 100%;
     width: 100%;
     font-family: inherit;
@@ -152,44 +159,28 @@
     cursor: pointer;
 }
 
-/* filter dropdown */
-
-.filter_dropdown {
-    width: 200px;
-}
-
-.filter_icon {
-    color: var(--gray-darker)
-}
-
-.dropbtn {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
 .dropdown_content {
     position: absolute;
-    top: 45px;
+    top: calc(2.5rem + 4px);
     left: 0;
-    background-color: #f9f9f9;
-    min-width: 200px;
+    background-color: white;
+    min-width: 100%;
     border-radius: var(--radius-sm);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: var(--shadow-md);
     font-weight: 400;
     color: var(--gray-dark);
-    z-index: 1;
+    z-index: 10;
 }
 
 .dropdown_row {
     display: flex;
     flex-direction: row;
-    padding: 10px;
-    font-size: 1rem;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem;
     align-items: center;
     justify-content: space-between;
+    gap: 0.5rem;
 }
 
 /* toggler */
@@ -241,13 +232,116 @@
 	box-shadow: 0 2px 6px rgba(153, 153, 153, 0.75);
 }
 
-@media screen and (max-width: 500px) {
-    .sort_select {
-        width: calc(40% - 1rem);
-        margin-right: 1rem;
-    }
-    
-    .filter_dropdown {
-        width: 60%;
+
+/* Card layout — matches the glass card style used by recipe/menu forms */
+
+.search_card {
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 560px;
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.card_input_container {
+    position: relative;
+    margin-bottom: 0.75rem;
+}
+
+.card_input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    font-size: 1rem;
+    height: 2.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-sm);
+    color: var(--gray-darker);
+    background-color: white;
+    box-sizing: border-box;
+    transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+.card_input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light-color);
+}
+
+.card_input::placeholder {
+    color: var(--gray);
+}
+
+.card_input.expanded {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.card_icon_left {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.65rem;
+    color: var(--gray-darker);
+    font-size: 1rem;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.card_icon_left.clickable {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.card_icon_right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0.65rem;
+    color: var(--gray-darker);
+    font-size: 1rem;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.card_options {
+    width: 100%;
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: none;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+}
+
+.card_options ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card_options ul li {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--gray-darker);
+    cursor: pointer;
+    transition: background-color var(--transition);
+}
+
+.card_options ul li:hover {
+    background-color: var(--primary-light-color);
+}
+
+@media(max-width: 500px) {
+    .search_card {
+        width: 95%;
+        padding: 1.25rem;
     }
 }

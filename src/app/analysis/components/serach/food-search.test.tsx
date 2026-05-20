@@ -35,7 +35,7 @@ describe('food search', () => {
         const { container } = render(<FoodSearch {...props} />);
 
         const input = screen.getByRole('textbox');
-        const searchIcon = container.querySelector('.searchIcon');
+        const searchIcon = container.querySelector('.card_icon_left');
         const sortButtons = container.querySelector('.sort_buttons');
 
         expect(input).toBeInTheDocument();
@@ -43,9 +43,9 @@ describe('food search', () => {
         expect(sortButtons).toBeInTheDocument();
 
         await user.click(input);
-        const backIcon = container.querySelector('.backIcon');
-        const deleteIcon = container.querySelector('.deleteIcon');
-        const options = container.querySelector('.options');
+        const backIcon = container.querySelector('.card_icon_left.clickable');
+        const deleteIcon = container.querySelector('.card_icon_right');
+        const options = container.querySelector('.card_options');
         expect(backIcon).toBeInTheDocument();
         expect(deleteIcon).toBeInTheDocument();
         expect(options).toBeInTheDocument();
@@ -84,9 +84,10 @@ describe('food search', () => {
         const { container } = render(<FoodSearch {...props} />);
 
         const input = screen.getByRole('textbox');
+        await user.click(input);
         await user.type(input, 'ban');
 
-        const backIcon = container.querySelector('.backIcon');
+        const backIcon = container.querySelector('.card_icon_left.clickable');
 
         await user.click(backIcon!);
 

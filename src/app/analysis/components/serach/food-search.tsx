@@ -141,15 +141,16 @@ const FoodSearch = ({ searchCleared, setClearSearch, topPad }: FoodSearchProps):
 
     return (
         <div className={styles.container} style={style()} ref={searchRef}>
-            <div style={{
+            <div className={styles.search_card} style={{
                 opacity: searchVisible ? 1 : 0,
                 transition: 'opacity 380ms ease',
                 pointerEvents: searchVisible ? 'auto' : 'none'
             }}>
-                <div className={styles.input_container}>
+                <div className={styles.card_input_container}>
                     <input
                         type="text"
-                        className={showOptions ? `${styles.search} ${styles.expanded}` : styles.search} placeholder='search food'
+                        className={showOptions ? `${styles.card_input} ${styles.expanded}` : styles.card_input}
+                        placeholder='search food'
                         onClick={() => setShowOptions(true)}
                         onInput={e => handleInput(e)}
                         value={input}
@@ -157,22 +158,23 @@ const FoodSearch = ({ searchCleared, setClearSearch, topPad }: FoodSearchProps):
                     />
                     {!showOptions && <FontAwesomeIcon
                         icon={faMagnifyingGlass}
-                        className={styles.searchIcon}
+                        className={styles.card_icon_left}
                     />}
                     {showOptions && <FontAwesomeIcon
                         icon={faArrowLeft}
-                        className={styles.backIcon}
+                        className={`${styles.card_icon_left} ${styles.clickable}`}
                         onClick={handleBackclick}
                     />}
                     {showOptions && <FontAwesomeIcon
                         icon={faXmark}
-                        className={styles.deleteIcon}
+                        className={styles.card_icon_right}
                         onClick={emptyInput}
                     />}
                 </div>
                 {showOptions && <Options
                     queryOptions={queryOptions}
                     onclick={(e: any) => handleOptionClick(e.target as HTMLLIElement)}
+                    className={styles.card_options}
                 />}
                 {showFilter && <SortButtons
                     setSort={setSort}
