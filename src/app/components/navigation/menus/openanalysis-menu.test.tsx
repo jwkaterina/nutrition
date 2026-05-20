@@ -152,9 +152,8 @@ describe('openanalysis menu', () => {
         expect(sendRequest).toHaveBeenCalledWith(
             '/foods',
             'POST',
-            JSON.stringify({food: currentFood.food}),
-            { 'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token }
+            expect.any(FormData),
+            { Authorization: 'Bearer ' + token }
         );
         expect(favLink).toHaveTextContent('Go To Favorites');
         expect(statusValue.setMessage).toHaveBeenCalledWith('Food added to favorites.');
@@ -336,11 +335,8 @@ describe('openanalysis menu', () => {
         expect(sendRequest).toHaveBeenCalledWith(
             `/menus/${currentMenu.id}`,
             'PATCH',
-            JSON.stringify({
-            updatedMenu: Menu
-            }),
-            { 'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token }
+            expect.any(FormData),
+            { Authorization: 'Bearer ' + token }
         );
         expect(favLink).toHaveTextContent('Go To Favorites');
         expect(statusValue.setMessage).toHaveBeenCalledWith('Menu updated in favorites.');

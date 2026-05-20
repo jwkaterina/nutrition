@@ -66,7 +66,7 @@ describe('menu card', () => {
 
         const card = container.querySelector('.card');
         expect(card).toBeInTheDocument();
-        expect(OpenMenuCard).toHaveBeenCalledWith({menu: props.menu}, undefined);
+        expect(OpenMenuCard).toHaveBeenCalledWith({menu: props.menu, image: null}, undefined);
 
         await user.click(card!);
         expect(setCurrentMenu).not.toHaveBeenCalled();
@@ -111,7 +111,7 @@ describe('menu card', () => {
 
         expect(setCurrentMenu).toHaveBeenCalledWith({menu: props.menu, id: props.id, mode: AnalysisMode.VIEW});
         expect(setCardOpen).toHaveBeenCalledWith(CardState.OPENING)
-        expect(OpenMenuCard).toHaveBeenCalledWith({menu: props.menu}, undefined);
+        expect(OpenMenuCard).toHaveBeenCalledWith({menu: props.menu, image: null}, undefined);
 
     })
 })

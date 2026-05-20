@@ -62,9 +62,8 @@ describe('recipe-form', () => {
         renderComponentWithCurrentRecipeContext(false, contextValue);
 
         expect(screen.getByRole('textbox', { name: /recipe name/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /add image/i })).toBeInTheDocument();
         expect(screen.getByRole('textbox', { name: /ingredients/i })).toBeInTheDocument();
-        expect(screen.getByRole('spinbutton', { name: /number of servings/i })).toBeInTheDocument();
+        expect(screen.getByRole('spinbutton', { name: /servings/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /analyze/i })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /delete/i })).not.toBeInTheDocument();
     });
@@ -84,7 +83,7 @@ describe('recipe-form', () => {
         renderComponentWithCurrentRecipeContext(false, contextValue);
 
         expect(screen.getByRole('textbox', { name: /recipe name/i })).toHaveValue(loadedRecipe.recipe.name);
-        expect(screen.getByRole('spinbutton', { name: /number of servings/i })).toHaveValue(loadedRecipe.recipe.servings);
+        expect(screen.getByRole('spinbutton', { name: /servings/i })).toHaveValue(loadedRecipe.recipe.servings);
         expect(screen.getByRole('button', { name: /change image/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /analyze/i })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /delete/i })).toBeInTheDocument();

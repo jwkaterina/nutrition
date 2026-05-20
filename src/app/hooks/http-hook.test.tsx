@@ -11,7 +11,7 @@ describe('http-hook', () => {
 
         global.fetch = jest.fn().mockResolvedValue({
             ok: true,
-            json: () => Promise.resolve({message: 'ok'})
+            text: () => Promise.resolve(JSON.stringify({message: 'ok'}))
         });
 
         const status = {
@@ -41,7 +41,7 @@ describe('http-hook', () => {
 
         global.fetch = jest.fn().mockResolvedValue({
             ok: false,
-            json: () => Promise.resolve({message: 'Backend error'})
+            text: () => Promise.resolve(JSON.stringify({message: 'Backend error'}))
         });
 
         const status = {
