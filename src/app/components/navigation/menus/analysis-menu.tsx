@@ -7,12 +7,10 @@ import { CurrentMenuContext } from '@/app/context/menu-context';
 import { AnalysisMode } from '@/app/types/types';
 
 interface AnalysisMenuProps {
-	onClear: () => void,
-	rightText: string,
 	setFile?: (file: any) => void
 }
 
-const AnalysisMenu = ({ onClear, rightText, setFile }: AnalysisMenuProps): JSX.Element => {
+const AnalysisMenu = ({ setFile }: AnalysisMenuProps): JSX.Element => {
 
 	const router = useRouter();
 	const { setScrollBehavior } = useContext(SlideContext);
@@ -31,11 +29,9 @@ const AnalysisMenu = ({ onClear, rightText, setFile }: AnalysisMenuProps): JSX.E
 	}
 
 	return (
-		<Menu 
-		   leftText="Back To Favorites" 
-		   rightText= {rightText}
-		   onLeftclick={onBackClick} 
-		   onRightclick={() => onClear()}
+		<Menu
+		   leftText="Back To Favorites"
+		   onLeftclick={onBackClick}
 		/>
 	);
 }

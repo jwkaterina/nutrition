@@ -2,9 +2,9 @@ import styles from '../nav-bar.module.css';
 
 interface MenuProps {
 	leftText: string,
-	rightText: string,
+	rightText?: string,
 	onLeftclick: () => void,
-	onRightclick: () => void
+	onRightclick?: () => void
 }
 
 const Menu = ({ leftText, rightText, onLeftclick, onRightclick}: MenuProps): JSX.Element => {
@@ -12,8 +12,8 @@ const Menu = ({ leftText, rightText, onLeftclick, onRightclick}: MenuProps): JSX
 	return (
 		<>
 			<div className={styles.links}>
-				<a className={styles.link} onClick={onLeftclick}>{leftText}</a>
-				<a className={styles.link} onClick={onRightclick}>{rightText}</a>
+				<a className={styles.link} onClick={onLeftclick}>← {leftText}</a>
+				{rightText && <a className={`${styles.link} ${styles.nav_button}`} onClick={onRightclick}>{rightText}</a>}
 			</div>
 		</>
 	);

@@ -471,6 +471,22 @@
     flex: 1;
 }
 
+.clear_link {
+    background: none;
+    border: none;
+    color: var(--gray-darker);
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    margin-top: 0.25rem;
+    align-self: center;
+}
+
+.clear_link:hover {
+    color: var(--gray-dark);
+}
+
 .image_preview {
     position: relative;
     width: 10rem;

@@ -264,6 +264,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
                             <button type="button" className={styles.danger_button} onClick={deleteRecipe}>Delete</button>
                         </div>}
                     </div>
+                    <button type="button" className={styles.clear_link} onClick={() => { setClearSearch(true); setImageUrl(null); setFile(null); }}>Clear form</button>
                 </form>
             </div>
         </div>

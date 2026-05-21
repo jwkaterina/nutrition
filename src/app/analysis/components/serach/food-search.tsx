@@ -14,12 +14,10 @@ import { StatusContext } from '@/app/context/status-context';
 import styles from './search.module.css'
 
 interface FoodSearchProps {
-	searchCleared: boolean,
-	setClearSearch: (clearSearch: boolean) => void,
 	topPad?: string
 }
 
-const FoodSearch = ({ searchCleared, setClearSearch, topPad }: FoodSearchProps): JSX.Element => {
+const FoodSearch = ({ topPad }: FoodSearchProps): JSX.Element => {
 
     const { cardOpen } = useContext(CardOpenContext);
 	const { setMessage, setStatus } = useContext(StatusContext);
@@ -36,16 +34,6 @@ const FoodSearch = ({ searchCleared, setClearSearch, topPad }: FoodSearchProps):
 
 	const showFilter: boolean = !showOptions;
 	const searchVisible = cardOpen === CardState.CLOSED || cardOpen === CardState.CLOSING;
-
-	useEffect(() => {
-		if(searchCleared) {
-			setFoodArr([]);
-			setInput('');
-			setShowOptions(false);
-			setQueryOptions(null);
-			setClearSearch(false);
-		}
-	}, [searchCleared]);
 
 	useEffect(() => {
 		if(!hintsArr || hintsArr.length == 0) return;

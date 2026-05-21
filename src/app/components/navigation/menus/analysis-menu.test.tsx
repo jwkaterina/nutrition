@@ -22,8 +22,6 @@ describe('analysis menu', () => {
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
 
     const props = {
-        onClear: jest.fn(),
-        rightText: 'Clear Search',
         setFile: jest.fn()
     }
 
@@ -64,10 +62,8 @@ describe('analysis menu', () => {
 
         const links = menu.querySelectorAll('.link');
         const backLink = links[0];
-        const clearLink = links[1];
 
         expect(backLink).toBeInTheDocument();
-        expect(clearLink).toBeInTheDocument();
 
         await user.click(backLink);
 
@@ -75,9 +71,6 @@ describe('analysis menu', () => {
         expect(props.setFile).toHaveBeenCalledWith(null);
         expect(recipeValue.setCurrentRecipe).toHaveBeenCalledWith({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
         expect(menuValue.setCurrentMenu).toHaveBeenCalledWith({id: null, menu: null, mode: AnalysisMode.VIEW});
-
-        await user.click(clearLink);
-        expect(props.onClear).toHaveBeenCalled();
     });
     
 })

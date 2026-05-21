@@ -21,7 +21,6 @@ const FoodAnalysis = (): JSX.Element => {
 	const router = useRouter();
 	const { cardOpen } = useContext(CardOpenContext);
 	const { setScrollBehavior } = useContext(SlideContext);
-	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	const [manual, setManual] = useState<boolean>(false);
 
 	const showTabs = cardOpen !== CardState.OPEN;
@@ -37,10 +36,7 @@ const FoodAnalysis = (): JSX.Element => {
 			<NavBar color="var(--primary-glass)" textColor="white">
 				{cardOpen === CardState.OPEN ?
 				<OpenAnalysisMenu /> :
-				<AnalysisMenu
-					rightText="Clear Search"
-					onClear={() => setClearSearch(true)}
-				/>
+				<AnalysisMenu />
 				}
 			</NavBar>
 
@@ -60,8 +56,6 @@ const FoodAnalysis = (): JSX.Element => {
 			{manual
 				? <ManualFoodForm onSaved={handleSaved} topPad={TOP_WITH_TABS} />
 				: <FoodSearch
-					searchCleared={clearSearch}
-					setClearSearch={setClearSearch}
 					topPad={showTabs ? TOP_WITH_TABS : undefined}
 				/>
 			}

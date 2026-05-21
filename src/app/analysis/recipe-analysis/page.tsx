@@ -35,11 +35,7 @@ const RecipeAnalysis = (): JSX.Element => {
 			<NavBar color="var(--primary-glass)" textColor="white">
 				{cardOpen === CardState.OPEN ?
 				<OpenAnalysisMenu file={file} setFile={setFile} imageUrl={imageUrl} setImageUrl={setImageUrl}/> :
-				<AnalysisMenu
-					rightText="Clear Form"
-					onClear={() => { setClearSearch(true); setImageUrl(null); }}
-					setFile={setFile}
-				/>
+				<AnalysisMenu setFile={setFile} />
 				}
 			</NavBar>
 			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch} file={file} setFile={setFile} imageUrl={imageUrl} setImageUrl={setImageUrl}/>

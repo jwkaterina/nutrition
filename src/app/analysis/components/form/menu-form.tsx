@@ -276,6 +276,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
                             <button type="button" className={styles.danger_button} onClick={deleteMenu}>Delete</button>
                         </div>}
                     </div>
+                    <button type="button" className={styles.clear_link} onClick={() => { setClearSearch(true); setImageUrl(null); setFile(null); }}>Clear form</button>
                 </form>
             </div>
         </div>
