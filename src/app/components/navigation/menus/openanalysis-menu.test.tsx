@@ -142,7 +142,7 @@ describe('openanalysis menu', () => {
         expect(backLink).toBeInTheDocument();
         expect(favLink).toBeInTheDocument();
         expect(backLink).toHaveTextContent('Back to Analysis');
-        expect(favLink).toHaveTextContent('Add To Favorites');
+        expect(favLink).toHaveTextContent('Save');
 
         await user.click(backLink);
         expect(cardOpenValue.setCardOpen).toHaveBeenCalledWith(CardState.CLOSING);
@@ -200,7 +200,7 @@ describe('openanalysis menu', () => {
 
         await user.click(favLink);
         expect(sendRequest).not.toHaveBeenCalledWith();
-        expect(favLink).not.toHaveTextContent('Go To Favorites');
+        expect(favLink).toHaveTextContent('Save');
         expect(statusValue.setMessage).not.toHaveBeenCalledWith('Food added to favorites.');
 
     });

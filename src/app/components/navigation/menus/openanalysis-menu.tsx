@@ -30,10 +30,10 @@ const OpenAnalysisMenu = ({ file, setFile, imageUrl, setImageUrl }: OpenAnalysis
     const { token } = useContext(AuthContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const { sendRequest } = useHttpClient();
-    const [rightText, setRightText] = useState<string>('Add To Favorites');
+    const [rightText, setRightText] = useState<string>('Save');
 
     useEffect(() => {
-        if(currentRecipe.mode == AnalysisMode.EDIT || currentMenu.mode == AnalysisMode.EDIT) setRightText('Update Favorites');
+        if(currentRecipe.mode == AnalysisMode.EDIT || currentMenu.mode == AnalysisMode.EDIT) setRightText('Save');
     }, [currentRecipe.mode, currentMenu.mode]);
  
     const addToFavorites = async () => {
@@ -174,8 +174,12 @@ const OpenAnalysisMenu = ({ file, setFile, imageUrl, setImageUrl }: OpenAnalysis
     }
 
     const handleRightClick = (): void => {
-        if(rightText === 'Add To Favorites') {
-            addToFavorites();
+        if(rightText === 'Save') {
+            if(currentRecipe.mode === AnalysisMode.EDIT || currentMenu.mode === AnalysisMode.EDIT) {
+                updateFavorites();
+            } else {
+                addToFavorites();
+            }
         } else if(rightText === 'Go To Favorites') {
             setCardOpen(CardState.CLOSED);
             setCurrentFood({id: null, food: null});
@@ -188,8 +192,6 @@ const OpenAnalysisMenu = ({ file, setFile, imageUrl, setImageUrl }: OpenAnalysis
             setTimeout(() => {
                 setScrollBehavior('smooth');
             }, 500);
-        } else if (rightText === 'Update Favorites') {
-            updateFavorites();
         }
     }
 
@@ -203,10 +205,11 @@ const OpenAnalysisMenu = ({ file, setFile, imageUrl, setImageUrl }: OpenAnalysis
     }
 
     return (
-        <Menu 
-            leftText='Back to Analysis' 
-            rightText={rightText} 
-            onLeftclick={handleBackClick} 
+        <Menu
+            leftText='Back to Analysis'
+            rightText={rightText}
+            rightIsLink={rightText === 'Go To Favorites'}
+            onLeftclick={handleBackClick}
             onRightclick={handleRightClick}
         />
     );
