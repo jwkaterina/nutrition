@@ -94,10 +94,14 @@ const MenuForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: MenuF
 
         const nutrients: Nutrients = MenuNutrientsCalculator(all);
 
+        const ingredientsToSave = ingredients.length > 0
+            ? ingredients
+            : (currentMenu.mode === AnalysisMode.EDIT ? (currentMenu.menu?.ingredients ?? []) as StructuredIngredient[] : []);
+
         const newMenu = {
             name,
             nutrients,
-            ingredients,
+            ingredients: ingredientsToSave,
             recipes: recipesArray
         };
         setCardOpen(CardState.OPEN);

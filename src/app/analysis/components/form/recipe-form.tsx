@@ -86,11 +86,15 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: Rec
             return;
         }
 
+        const ingredientsToSave = ingredients.length > 0
+            ? ingredients
+            : (currentRecipe.mode === AnalysisMode.EDIT ? (currentRecipe.recipe?.ingredients ?? []) as StructuredIngredient[] : []);
+
         const newRecipe: Recipe = {
             name,
             servings,
             nutrients,
-            ingredients
+            ingredients: ingredientsToSave
         };
         setCurrentRecipe({
             recipe: newRecipe,
