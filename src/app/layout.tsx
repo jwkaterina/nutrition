@@ -1,5 +1,3 @@
-'use client'
-
 import { Inter } from 'next/font/google';
 import ContextProviders from '@/app/context/context-providers';
 import LoadingSpinner from './components/utilities/loading/loading-spinner';

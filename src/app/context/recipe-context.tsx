@@ -1,9 +1,10 @@
+'use client';
 import { createContext, useState, useMemo } from 'react';
 import { CurrentRecipe, AnalysisMode } from '@/app/types/types';
 
 export interface CurrentRecipeContextProps {
     currentRecipe: CurrentRecipe,
-    setCurrentRecipe: React.SetStateAction<any>
+    setCurrentRecipe: React.Dispatch<React.SetStateAction<CurrentRecipe>>
 }
 
 export const CurrentRecipeContext = createContext<CurrentRecipeContextProps>({

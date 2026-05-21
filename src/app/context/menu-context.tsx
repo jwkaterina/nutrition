@@ -1,9 +1,10 @@
+'use client';
 import { createContext, useState, useMemo } from 'react';
 import { CurrentMenu, AnalysisMode } from '@/app/types/types';
 
 export interface CurrentMenuContextProps {
     currentMenu: CurrentMenu,
-    setCurrentMenu: React.SetStateAction<any>
+    setCurrentMenu: React.Dispatch<React.SetStateAction<CurrentMenu>>
 }
 
 export const CurrentMenuContext = createContext<CurrentMenuContextProps>({

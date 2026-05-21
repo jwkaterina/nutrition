@@ -33,7 +33,7 @@ export const SlideProvider = ({ children }: any) => {
     const [scrollBehavior, setScrollBehavior] = useState<ScrollBehavior>('smooth');
     const [scrollRatio, setScrollRatio] = useState<number>(0);
 
-    const contextVaue = useMemo(() => ({
+    const contextValue = useMemo(() => ({
         slide,
         setSlide,
         blockScroll,
@@ -45,7 +45,7 @@ export const SlideProvider = ({ children }: any) => {
     }), [slide, setSlide, blockScroll, setBlockScroll, scrollBehavior, setScrollBehavior, scrollRatio, setScrollRatio]);
 
     return (
-        <SlideContext.Provider value={contextVaue}>
+        <SlideContext.Provider value={contextValue}>
             {children}
         </SlideContext.Provider>
     );

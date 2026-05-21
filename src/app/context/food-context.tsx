@@ -1,9 +1,10 @@
+'use client';
 import { createContext, useState, useMemo } from 'react';
 import { CurrentFood } from '@/app/types/types';
 
 interface CurrentFoodContextProps {
     currentFood: CurrentFood,
-    setCurrentFood: React.SetStateAction<any>
+    setCurrentFood: React.Dispatch<React.SetStateAction<CurrentFood>>
 }
 
 export const CurrentFoodContext = createContext<CurrentFoodContextProps>({

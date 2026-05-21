@@ -1,3 +1,5 @@
+'use client';
+
 import { CurrentFoodProvider } from './food-context'
 import { CurrentRecipeProvider } from './recipe-context'
 import { CurrentMenuProvider } from './menu-context'
