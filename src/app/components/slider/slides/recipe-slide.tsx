@@ -7,7 +7,10 @@ import { AuthContext } from '@/app/context/auth-context';
 import { LoadedRecipe } from '@/app/types/types';
 
 const fetcher = ([url, token]: [string, string]) =>
-    fetch(url, { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json());
+    fetch(url, { headers: { Authorization: 'Bearer ' + token } }).then(r => {
+        if (!r.ok) throw new Error(r.statusText);
+        return r.json();
+    });
 
 const RecipeSlide = (): JSX.Element => {
     const { token } = useContext(AuthContext);

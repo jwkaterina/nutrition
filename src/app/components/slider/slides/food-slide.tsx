@@ -11,7 +11,10 @@ interface FoodSlideProps {
 }
 
 const fetcher = ([url, token]: [string, string]) =>
-    fetch(url, { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json());
+    fetch(url, { headers: { Authorization: 'Bearer ' + token } }).then(r => {
+        if (!r.ok) throw new Error(r.statusText);
+        return r.json();
+    });
 
 const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
     const { token } = useContext(AuthContext);
