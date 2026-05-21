@@ -15,23 +15,14 @@ const RecipeAnalysis = (): JSX.Element => {
 
 	const router = useRouter();
 	const { cardOpen } = useContext(CardOpenContext);
-	const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
+	const { currentRecipe } = useContext(CurrentRecipeContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	const [file, setFile] = useState<Blob | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 
 	useEffect(() => {
 		const isEdit = new URLSearchParams(window.location.search).get('edit') === '1';
-		if (!isEdit || currentRecipe.recipe) return;
-		try {
-			const saved = sessionStorage.getItem('editRecipe');
-			if (saved) {
-				setCurrentRecipe(JSON.parse(saved));
-				sessionStorage.removeItem('editRecipe');
-				return;
-			}
-		} catch {}
-		router.replace('/');
+		if (isEdit && !currentRecipe.recipe) router.replace('/');
 	}, []);
 
 	return (

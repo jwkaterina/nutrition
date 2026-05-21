@@ -52,12 +52,10 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const handleRightClick = (): void => {
         if(rightText === 'Edit') {
             if(currentRecipe.recipe) {
-                try { sessionStorage.setItem('editRecipe', JSON.stringify({ id: currentRecipe.id, recipe: currentRecipe.recipe, image: currentRecipe.image, mode: AnalysisMode.EDIT })); } catch {}
                 setCurrentRecipe({id: currentRecipe.id, recipe: currentRecipe.recipe, image: currentRecipe.image, mode: AnalysisMode.EDIT});
                 router.push('/analysis/recipe-analysis?edit=1');
             }
             if(currentMenu.menu) {
-                try { sessionStorage.setItem('editMenu', JSON.stringify({ id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT })); } catch {}
                 setCurrentMenu({id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT});
                 router.push('/analysis/menu-analysis?edit=1');
             }
