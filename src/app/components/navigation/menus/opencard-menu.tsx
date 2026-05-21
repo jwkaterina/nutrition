@@ -56,8 +56,9 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
                 setCurrentRecipe({id: currentRecipe.id, recipe: currentRecipe.recipe, image: currentRecipe.image, mode: AnalysisMode.EDIT});
             }
             if(currentMenu.menu) {
-                router.push('/analysis/menu-analysis?edit=1');
+                try { sessionStorage.setItem('editMenu', JSON.stringify({ id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT })); } catch {}
                 setCurrentMenu({id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT});
+                router.push('/analysis/menu-analysis?edit=1');
             }
             setCardOpen(CardState.CLOSED);
         } else deleteFood();

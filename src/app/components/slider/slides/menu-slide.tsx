@@ -18,10 +18,10 @@ const MenuSlide = (): JSX.Element => {
 
     const menuList = data?.menus?.map((menu: any, index: number) => {
         const recipes: RecipeWithServings[] = menu.menu.recipes
-            .filter((r: any) => r.selectedRecipe?.recipe)
+            .filter((r: any) => r.selectedRecipe != null && typeof r.selectedRecipe === 'object')
             .map((r: any) => ({
-                selectedRecipeId: r.selectedRecipe.id,
-                selectedRecipe: r.selectedRecipe.recipe as Recipe,
+                selectedRecipeId: r.selectedRecipe.id ?? r.selectedRecipe._id?.toString(),
+                selectedRecipe: (r.selectedRecipe.recipe ?? r.selectedRecipe) as Recipe,
                 selectedServings: r.selectedServings,
                 image: r.selectedRecipe.image ?? null
             }));
