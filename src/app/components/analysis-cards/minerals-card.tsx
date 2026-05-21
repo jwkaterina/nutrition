@@ -45,7 +45,7 @@ const MineralsCard = ({ content }: MineralsCardProps) => {
            <div>
                <CircleRow nutrient={sodium} nutrientPercent={sodiumPercent} label={'sodium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
                <CircleRow nutrient={calcium} nutrientPercent={calciumPercent} label={'calcium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
-               <CircleRow nutrient={magnesium} nutrientPercent={magnesiumPercent} label={'magnesium'} color={'var(--secondary-color-color)'} lightColor='var(--primary-light-color)'/>
+               <CircleRow nutrient={magnesium} nutrientPercent={magnesiumPercent} label={'magnesium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
                <CircleRow nutrient={potassium} nutrientPercent={potassiumPercent} label={'potassium'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
                <CircleRow nutrient={iron} nutrientPercent={ironPercent} label={'iron'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>
                <CircleRow nutrient={zinc} nutrientPercent={zincPercent} label={'zinc'} color={'var(--primary-color)'} lightColor='var(--primary-light-color)'/>

@@ -57,7 +57,7 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
             <div>
                 <CircleRow nutrient={vitaminA} nutrientPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
                 <CircleRow nutrient={vitaminC} nutrientPercent={vitaminCPercent} label={'vitaminC'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-                <CircleRow nutrient={thiamin} nutrientPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
+                <CircleRow nutrient={thiamin} nutrientPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
                 <CircleRow nutrient={riboflavin} nutrientPercent={riboflavinPercent} label={'riboflavin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
                 <CircleRow nutrient={niacin} nutrientPercent={niacinPercent} label={'niacin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
                 <CircleRow nutrient={vitaminB6} nutrientPercent={vitaminB6Percent} label={'vitaminB6'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
@@ -78,7 +78,7 @@ const VitaminsCard = ({ content }: VitaminsCardProps): JSX.Element => {
             <div className={styles.bar_chart}>
                 <BarColumn nutrient={vitaminA} nutrientPercent={vitaminAPercent} label={'vitaminA'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
                 <BarColumn nutrient={vitaminC} nutrientPercent={vitaminCPercent} label={'vitaminC'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
-                <BarColumn nutrient={thiamin} nutrientPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color-color)'} lightColor='var(--secondary-light-color)'/>
+                <BarColumn nutrient={thiamin} nutrientPercent={thiaminPercent} label={'thiamin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
                 <BarColumn nutrient={riboflavin} nutrientPercent={riboflavinPercent} label={'riboflavin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
                 <BarColumn nutrient={niacin} nutrientPercent={niacinPercent} label={'niacin'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
                 <BarColumn nutrient={vitaminB6} nutrientPercent={vitaminB6Percent} label={'vitaminB6'} color={'var(--secondary-color)'} lightColor='var(--secondary-light-color)'/>
