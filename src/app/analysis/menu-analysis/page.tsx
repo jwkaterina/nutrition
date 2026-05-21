@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AnalysisMenu from '@/app/components/navigation/menus/analysis-menu';
 import Footer from '@/app/components/navigation/footer';
@@ -14,11 +14,16 @@ import { CardState } from '@/app/types/types';
 const MenuSearch = (): JSX.Element => {
 
 	const router = useRouter();
-	const { cardOpen } = useContext(CardOpenContext);
+	const { cardOpen, setCardOpen } = useContext(CardOpenContext);
 	const { currentMenu } = useContext(CurrentMenuContext);
 	const [clearSearch, setClearSearch] = useState<boolean>(false);
 	const [file, setFile] = useState<Blob | null>(null);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+	useLayoutEffect(() => {
+		const isEdit = new URLSearchParams(window.location.search).get('edit') === '1';
+		if (isEdit) setCardOpen(CardState.CLOSED);
+	}, []);
 
 	useEffect(() => {
 		const isEdit = new URLSearchParams(window.location.search).get('edit') === '1';

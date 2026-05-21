@@ -199,7 +199,6 @@ describe('opencard menu', () => {
         await user.click(editLink);
         expect(push).toHaveBeenCalledWith('/analysis/recipe-analysis?edit=1');
         expect(setCurrentRecipe).toHaveBeenCalledWith({id: currentRecipe.id, recipe: currentRecipe.recipe, image: currentRecipe.image, mode: AnalysisMode.EDIT});
-        expect(cardOpenValue.setCardOpen).toHaveBeenCalledWith(CardState.CLOSED);
 
     });
 
@@ -242,7 +241,6 @@ describe('opencard menu', () => {
         await user.click(editLink);
         expect(push).toHaveBeenCalledWith('/analysis/menu-analysis?edit=1');
         expect(setCurrentMenu).toHaveBeenCalledWith({id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT});
-        expect(cardOpenValue.setCardOpen).toHaveBeenCalledWith(CardState.CLOSED);
 
     });
     

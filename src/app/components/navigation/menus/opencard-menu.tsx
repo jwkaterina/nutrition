@@ -59,7 +59,6 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
                 setCurrentMenu({id: currentMenu.id, menu: currentMenu.menu, mode: AnalysisMode.EDIT});
                 router.push('/analysis/menu-analysis?edit=1');
             }
-            setCardOpen(CardState.CLOSED);
         } else deleteFood();
     }
 
