@@ -144,7 +144,7 @@ describe('opencard menu', () => {
         expect(cardOpenValue.setCardOpen).toHaveBeenCalledWith(CardState.CLOSING);
         expect(setCurrentFood).toHaveBeenCalledWith({id: null, food: null});
         expect(setCurrentRecipe).toHaveBeenCalledWith({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
-        expect(setCurrentMenu).toHaveBeenCalledWith({id: null, recipe: null, mode: AnalysisMode.VIEW});
+        expect(setCurrentMenu).toHaveBeenCalledWith({id: null, menu: null, mode: AnalysisMode.VIEW});
 
         await user.click(deleteLink);
         expect(props.onFoodDelete).toHaveBeenCalled();
@@ -194,7 +194,7 @@ describe('opencard menu', () => {
         expect(cardOpenValue.setCardOpen).toHaveBeenCalledWith(CardState.CLOSING);
         expect(setCurrentFood).toHaveBeenCalledWith({id: null, food: null});
         expect(setCurrentRecipe).toHaveBeenCalledWith({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
-        expect(setCurrentMenu).toHaveBeenCalledWith({id: null, recipe: null, mode: AnalysisMode.VIEW});
+        expect(setCurrentMenu).toHaveBeenCalledWith({id: null, menu: null, mode: AnalysisMode.VIEW});
 
         await user.click(editLink);
         expect(push).toHaveBeenCalledWith('/analysis/recipe-analysis?edit=1');
@@ -237,7 +237,7 @@ describe('opencard menu', () => {
         expect(cardOpenValue.setCardOpen).toHaveBeenCalledWith(CardState.CLOSING);
         expect(setCurrentFood).toHaveBeenCalledWith({id: null, food: null});
         expect(setCurrentRecipe).toHaveBeenCalledWith({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
-        expect(setCurrentMenu).toHaveBeenCalledWith({id: null, recipe: null, mode: AnalysisMode.VIEW});
+        expect(setCurrentMenu).toHaveBeenCalledWith({id: null, menu: null, mode: AnalysisMode.VIEW});
 
         await user.click(editLink);
         expect(push).toHaveBeenCalledWith('/analysis/menu-analysis?edit=1');

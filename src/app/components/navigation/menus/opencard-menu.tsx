@@ -46,7 +46,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
         setCardOpen(CardState.CLOSING);
         setCurrentFood({id: null, food: null});
         setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
-        setCurrentMenu({id: null, recipe: null, mode: AnalysisMode.VIEW});
+        setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
     }
 
     const handleRightClick = (): void => {
