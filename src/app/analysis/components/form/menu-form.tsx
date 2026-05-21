@@ -59,9 +59,9 @@ const MenuForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: MenuF
     useEffect(() => {
         if(currentMenu.menu) {
             setName(currentMenu.menu.name);
-            setCurrentRecipes(currentMenu.menu.recipes);
+            setCurrentRecipes(currentMenu.menu.recipes ?? []);
             // Support both new structured format and legacy string arrays
-            const ings = currentMenu.menu.ingredients as any[];
+            const ings = (currentMenu.menu.ingredients ?? []) as any[];
             if (ings.length > 0 && typeof ings[0] === 'object') {
                 setIngredients(ings as StructuredIngredient[]);
                 setLegacyIngredients([]);
