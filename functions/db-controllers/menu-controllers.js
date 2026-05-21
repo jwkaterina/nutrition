@@ -37,13 +37,21 @@ const getMenus = async (req, res, next) => {
     });
 };
 
+const normalizeMenuRecipes = (recipes) => {
+    if (!Array.isArray(recipes)) return recipes;
+    return recipes.map(r => ({
+        selectedRecipe: r.selectedRecipeId ?? r.selectedRecipe,
+        selectedServings: r.selectedServings
+    }));
+};
+
 const createMenu = async (req, res, next) => {
 
     const menuData = typeof req.body.menu === 'string' ? JSON.parse(req.body.menu) : req.body.menu;
     const imageUrl = (req.image && req.image.url) || req.body.imageUrl || null;
     const imageName = req.image && req.image.fileName;
 
-    console.log(menuData);
+    menuData.recipes = normalizeMenuRecipes(menuData.recipes);
 
     const createdMenu = new Menu({
         menu: menuData,
@@ -112,7 +120,7 @@ const updateMenu = async (req, res, next) => {
     const updatedImage = (req.image && req.image.url) || req.body.imageUrl;
     const updatedImageName = req.image && req.image.fileName;
     const menuId = req.params.id;
-    console.log(updatedMenu);
+    updatedMenu.recipes = normalizeMenuRecipes(updatedMenu.recipes);
 
     let menu;
     try {

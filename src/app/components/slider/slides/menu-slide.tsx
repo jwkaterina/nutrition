@@ -17,14 +17,20 @@ const MenuSlide = (): JSX.Element => {
     const { data } = useSWR(token ? ['/menus', token] : null, fetcher);
 
     const menuList = data?.menus?.map((menu: any, index: number) => {
-        const recipes: RecipeWithServings[] = menu.menu.recipes
-            .filter((r: any) => r.selectedRecipe?.recipe)
-            .map((r: any) => ({
-                selectedRecipeId: r.selectedRecipe.id,
-                selectedRecipe: r.selectedRecipe.recipe as Recipe,
-                selectedServings: r.selectedServings,
-                image: r.selectedRecipe.image ?? null
-            }));
+        const recipes: RecipeWithServings[] = (menu.menu.recipes ?? [])
+            .filter((r: any) => {
+                if (!r.selectedRecipe || typeof r.selectedRecipe === 'string') return false;
+                return !!(r.selectedRecipe.recipe || r.selectedRecipe.name);
+            })
+            .map((r: any) => {
+                const isDoc = !!r.selectedRecipe.recipe;
+                return {
+                    selectedRecipeId: isDoc ? r.selectedRecipe.id : (r.selectedRecipeId ?? ''),
+                    selectedRecipe: (isDoc ? r.selectedRecipe.recipe : r.selectedRecipe) as Recipe,
+                    selectedServings: r.selectedServings,
+                    image: (isDoc ? r.selectedRecipe.image : r.image) ?? null
+                };
+            });
         const loaded: LoadedMenu = {
             creator: menu.creator,
             menu: {
