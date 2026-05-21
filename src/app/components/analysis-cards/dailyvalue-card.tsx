@@ -27,7 +27,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     daily={dailyCalories} 
                     text = 'Calories'
                     color='var(--gray-darker)'
-                    lighterColor='var(--gray-light)'
+                    lighterColor='var(--track-color)'
                     radius={44}
                     strokeWidth={6}
                     centerX={50}
@@ -38,7 +38,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     daily={dailyProtein} 
                     text = 'Protein'
                     color='var(--primary-color)'
-                    lighterColor='var(--primary-light-color)'
+                    lighterColor='var(--track-color)'
                     radius={30}
                     strokeWidth={4}
                     centerX={32}
@@ -49,7 +49,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     daily={dailyCarbs} 
                     text = 'Carbs'
                     color='var(--secondary-color)'
-                    lighterColor='var(--secondary-light-color)'
+                    lighterColor='var(--track-color)'
                     radius={30}
                     strokeWidth={4}
                     centerX={32}
@@ -60,7 +60,7 @@ const DailyValueCard = ({ content }: DailyValueCardProps): JSX.Element => {
                     daily={dailyFat} 
                     text = 'Fat'
                     color='var(--tertiary-color)'
-                    lighterColor='var(--tertiary-lightest-plus)'
+                    lighterColor='var(--track-color)'
                     radius={30}
                     strokeWidth={4}
                     centerX={32}

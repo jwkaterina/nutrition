@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useRef } from 'react';
 import { Nutrient } from '@/app/types/types';
 import styles from './diagrams.module.css';
@@ -70,13 +71,13 @@ const CircleRow = ({ nutrient, nutrientPercent, label, color, lightColor }: Circ
 
     return (
         <div className={styles.circle_row}>
-            <p>{label}</p>
-            <span>{`${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
+            <p style={{fontWeight: 600}}>{label}</p>
+            <span style={{color: 'var(--gray-darker)'}}>{`${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
             <svg width={widthHeight} height={widthHeight}>
-                <circle  style={styleArc()}  cx={centerX} cy={centerY} r={radius} stroke={lightColor} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
-                <circle ref={arcRef} style={styleProgress()}  cx={centerX} cy={centerY} r={radius} stroke={color} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
-            </svg>     
-            {nutrientPercent ? <span>{`${nutrientPercent.quantity.toFixed(0)}${nutrientPercent.unit}`}</span> : <span>0%</span>}                
+                <circle style={styleArc()} cx={centerX} cy={centerY} r={radius} stroke={lightColor} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
+                <circle ref={arcRef} style={styleProgress()} cx={centerX} cy={centerY} r={radius} stroke={color} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
+            </svg>
+            {nutrientPercent ? <span style={{color: 'var(--gray-darker)'}}>{`${nutrientPercent.quantity.toFixed(0)}${nutrientPercent.unit}`}</span> : <span style={{color: 'var(--gray-darker)'}}>0%</span>}
         </div>
     );
 }

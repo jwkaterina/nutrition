@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useRef } from 'react';
 import { Nutrient } from '@/app/types/types';
 import styles from './diagrams.module.css';
@@ -92,8 +93,8 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
                 {daily && <span>{`${daily.quantity.toFixed(0)}${daily.unit}`}</span>}
             </div>
             <div className={styles.text}>
-                <p style={styleText()}>
-                    <span style={styleText()}>{`${nutrient.quantity.toFixed(0)}${unit} `}</span>
+                <p style={{...styleText(), fontWeight: 600}}>
+                    <span style={{...styleText(), color: 'var(--gray-darker)', fontWeight: 400}}>{`${nutrient.quantity.toFixed(0)}${unit} `}</span>
                     {text}
                 </p>
             </div>

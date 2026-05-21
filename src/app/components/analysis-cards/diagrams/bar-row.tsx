@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useRef } from 'react';
 import { Nutrient } from '@/app/types/types';
 import styles from './diagrams.module.css';
@@ -65,13 +66,13 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
 
     return (
         <div className={styles.bar_row}>
-            <p>{title}</p>
-            <span>{`${nutrient.quantity.toFixed(0)}${nutrient.unit}`}</span>
+            <p style={{fontWeight: 600}}>{title}</p>
+            <span style={{color: 'var(--gray-darker)'}}>{`${nutrient.quantity.toFixed(0)}${nutrient.unit}`}</span>
             <svg width='90px' height='40px'>
-                <line x1="10" y1="20" x2="80" y2="20" stroke="var(--gray-light)" strokeWidth="6" strokeLinecap="round" style={styleLine()}/> 
-                <line x1="10" y1="20" x2="80" y2="20" stroke={color} strokeWidth="6" strokeLinecap="round" style={styleProgress()} ref={lineRef}/> 
+                <line x1="10" y1="20" x2="80" y2="20" stroke="var(--track-color)" strokeWidth="6" strokeLinecap="round" style={styleLine()}/>
+                <line x1="10" y1="20" x2="80" y2="20" stroke={color} strokeWidth="6" strokeLinecap="round" style={styleProgress()} ref={lineRef}/>
             </svg>
-            {daily && <span>{`${daily.quantity.toFixed(0)}${daily.unit}`}</span>}
+            {daily && <span style={{color: 'var(--gray-darker)'}}>{`${daily.quantity.toFixed(0)}${daily.unit}`}</span>}
         </div>
     );
 }

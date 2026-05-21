@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useRef } from 'react';
 import { Nutrient } from '@/app/types/types';
 import styles from './diagrams.module.css';
@@ -42,15 +43,15 @@ const BarColumn = ({ nutrient, nutrientPercent, label, color, lightColor }: BarC
     return (
         <div className={styles.bar_column}>
             <div className={styles.bar_label}>
-                {nutrientPercent ? <span>{`${nutrientPercent.quantity.toFixed(1)}${nutrientPercent.unit}`}</span> : <span>0%</span>}
-            </div>   
+                {nutrientPercent ? <span style={{color: 'var(--gray-darker)'}}>{`${nutrientPercent.quantity.toFixed(1)}${nutrientPercent.unit}`}</span> : <span style={{color: 'var(--gray-darker)'}}>0%</span>}
+            </div>
             <div className={styles.bar} style={{height: `${barHeight}px`, backgroundColor: lightColor}}>
                 <div className={styles.percent_bar} ref={barRef} style={{backgroundColor: color}}></div>
-            </div>        
+            </div>
             <div className={styles.bar_label}>
-                <p>{label}</p>
-                <span>{`${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
-            </div>                      
+                <span style={{color: 'var(--gray-darker)'}}>{`${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
+            </div>
+            <p style={{fontWeight: 600, marginTop: '0.8rem'}}>{label}</p>
         </div>
     );
 }

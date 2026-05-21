@@ -12,8 +12,6 @@ interface ClosedCardProps {
 
 const ClosedCard = ({ title, image, calories, protein, fat, carbs }: ClosedCardProps): JSX.Element => {
 
-    if(title.length >30) title = title.substring(0,30) + '...';
-
     return (
         <>
             <div className={styles.title}>

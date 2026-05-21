@@ -170,6 +170,7 @@ const updateRecipe = async (req, res, next) => {
     }
 
     recipe.recipe = updatedRecipe;
+    recipe.markModified('recipe');
     if(updatedImage) {
         try{
             gcpStorage.deleteImage(recipe.imageName);

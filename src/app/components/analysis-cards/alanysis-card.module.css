@@ -31,8 +31,8 @@
 }
 
 .container h1 {
-    font-size: 1.5rem;
-    font-weight: 400;
+    font-size: 1.3rem;
+    font-weight: 600;
     color: var(--gray-dark);
     justify-self: center;
     text-align: center;
@@ -81,7 +81,7 @@
 .title {
     margin-bottom: 1rem;
     color: var(--gray-dark);
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .daily_grid {
@@ -129,17 +129,16 @@
 }
 
 .container p {
-    color: var(--gray-darker);
-    
+    color: var(--gray-dark);
 }
 
 .container span {
-    color: var(--gray);
+    color: var(--gray-dark);
 }
 
 .info {
     font-size: 0.8rem;
-    color: var(--gray);
+    color: var(--gray-darker);
 }
 
 @media (max-width: 1100px) {

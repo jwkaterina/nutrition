@@ -11,8 +11,8 @@ const SmallCircle = ({ percent, color, text, heightWidth }: SmallCircleProps): J
     return (
         <div className={styles.composition_cell}>
             <div className={styles.circle} style={{backgroundColor: color, height: heightWidth, width: heightWidth}}></div>
-            <p>
-                <span>{`${Math.round(percent)}% `}</span>
+            <p style={{fontWeight: 600}}>
+                <span style={{color: 'var(--gray-darker)', fontWeight: 400}}>{`${Math.round(percent)}% `}</span>
                 {text}
             </p>
         </div>
