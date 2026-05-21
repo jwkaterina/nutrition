@@ -60,7 +60,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: Rec
             setName(currentRecipe.recipe.name);
             setServings(currentRecipe.recipe.servings);
             // Support both new structured format and legacy string arrays
-            const ings = currentRecipe.recipe.ingredients as any[];
+            const ings = (currentRecipe.recipe.ingredients ?? []) as any[];
             if (ings.length > 0 && typeof ings[0] === 'object') {
                 setIngredients(ings as StructuredIngredient[]);
                 setLegacyIngredients([]);
