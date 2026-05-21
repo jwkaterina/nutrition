@@ -1,5 +1,5 @@
 {
-"functions": [
+  "functions": [
     {
       "source": "functions",
       "codebase": "default",
@@ -10,23 +10,5 @@
         "firebase-debug.*.log"
       ]
     }
-  ],
-  "hosting": {
-    "public": "out",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "frameworksBackend": {
-      "region": "europe-west1"
-    },
-    "rewrites": [
-      { "source": "/analysis/food-analysis", "destination": "/analysis/food-analysis.html" },
-      { "source": "/analysis/recipe-analysis", "destination": "/analysis/recipe-analysis.html" },
-      { "source": "/analysis/menu-analysis", "destination": "/analysis/menu-analysis.html" },
-      { "source": "/auth/basic_auth", "destination": "/auth/basic_auth.html" },
-      { "source": "**", "function": "app" }
-    ]
-  }
+  ]
 }

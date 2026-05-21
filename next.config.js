@@ -1,42 +1,23 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
- 
+
+const FIREBASE_API = 'https://us-central1-nutrition-3236d.cloudfunctions.net/app';
+
+const apiRewrites = (base) => [
+  { source: '/api/:path*',     destination: `${base}/api/:path*` },
+  { source: '/foods/:path*',   destination: `${base}/foods/:path*` },
+  { source: '/recipes/:path*', destination: `${base}/recipes/:path*` },
+  { source: '/users/:path*',   destination: `${base}/users/:path*` },
+  { source: '/menus/:path*',   destination: `${base}/menus/:path*` },
+];
+
 module.exports = (phase, { defaultConfig }) => {
-  if (phase === PHASE_DEVELOPMENT_SERVER) {
-    return {
-        ...defaultConfig,
-        async rewrites() {
-            return [
-              {
-                source: '/api/:path*',
-                destination: 'http://localhost:5001/api/:path*'
-              },
-              {
-                source: '/foods/:path*',
-                destination: 'http://localhost:5001/foods/:path*'
-              },
-              {
-                source: '/recipes/:path*',
-                destination: 'http://localhost:5001/recipes/:path*'
-              },
-              {
-                source: '/users/:path*',
-                destination: 'http://localhost:5001/users/:path*'
-              },
-              {
-                source: '/menus/:path*',
-                destination: 'http://localhost:5001/menus/:path*'
-              }
-            ]
-        }
-    }
-  }
- 
+  const isDev = phase === PHASE_DEVELOPMENT_SERVER;
+
   return {
     ...defaultConfig,
-    output: "export",
     reactStrictMode: true,
-    images: {
-      unoptimized: true,
+    async rewrites() {
+      return apiRewrites(isDev ? 'http://localhost:5001' : FIREBASE_API);
     },
-  }
-}
+  };
+};
