@@ -1,3 +1,4 @@
+'use client';
 import { useContext, useEffect, useState } from 'react';
 import { StatusContext } from '@/app/context/status-context';
 import styles from './loading-spinner.module.css';

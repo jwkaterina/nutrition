@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useState, useCallback } from "react";
 import { StatusType } from "@/app/types/types";
 

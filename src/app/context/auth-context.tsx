@@ -1,3 +1,4 @@
+'use client';
 import { createContext } from "react";
 import { useAuth } from "@/app/hooks/auth-hook";
 

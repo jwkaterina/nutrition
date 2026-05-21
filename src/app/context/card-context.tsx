@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useState, useMemo } from "react";
 import { CardState } from "../types/types";
 
