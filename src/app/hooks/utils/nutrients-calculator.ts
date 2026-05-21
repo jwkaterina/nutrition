@@ -15,21 +15,13 @@ export const RecipeNutrientsCalculator = (recipe: RecipeCalculatorProps): Nutrie
     const newCalories: number = calories * recipe.selectedServings / recipe.totalServings;
     const newTotalNutrients: NutrientsProp = Object.fromEntries(
         Object.entries(totalNutrients).map(([key, value]) => {
-            return [key, {
-                label: value.label,
-                quantity: value.quantity * recipe.selectedServings / recipe.totalServings,
-                unit: value.unit
-            }];
+            return [key, { ...value, quantity: value.quantity * recipe.selectedServings / recipe.totalServings }];
         })
     );
-    
+
     const newTotalDaily: NutrientsProp = Object.fromEntries(
         Object.entries(totalDaily).map(([key, value]) => {
-            return [key, {
-                label: value.label,
-                quantity: value.quantity * recipe.selectedServings / recipe.totalServings,
-                unit: value.unit
-            }];
+            return [key, { ...value, quantity: value.quantity * recipe.selectedServings / recipe.totalServings }];
         })
     );
     
@@ -70,39 +62,36 @@ export interface MenuCalculatorProps {
 }
 
 
+const unionReduceNutrients = (nutrientsList: NutrientsProp[]): NutrientsProp => {
+    if (nutrientsList.length === 0) return {};
+    return nutrientsList.reduce((acc, curr) => {
+        const result: NutrientsProp = {};
+        Object.entries(acc).forEach(([key, value]) => {
+            if (curr[key]) {
+                result[key] = { ...value, quantity: value.quantity + curr[key].quantity, partial: value.partial || curr[key].partial };
+            } else {
+                result[key] = { ...value, partial: true };
+            }
+        });
+        Object.entries(curr).forEach(([key, value]) => {
+            if (!acc[key]) {
+                result[key] = { ...value, partial: true };
+            }
+        });
+        return result;
+    });
+};
+
 export const MenuNutrientsCalculator = (recipes: MenuCalculatorProps[]): Nutrients => {
-    const recipesNutrients: Nutrients[] = recipes.map((recipe) => { 
+    const recipesNutrients: Nutrients[] = recipes.map((recipe) => {
         return RecipeNutrientsCalculator({
-            nutrients: recipe.nutrients, 
-            totalServings: 1, 
+            nutrients: recipe.nutrients,
+            totalServings: 1,
             selectedServings: recipe.selectedServings});
     });
     const newCalories: number = recipesNutrients.reduce((acc, curr) => acc + curr.calories, 0);
-    const newTotalNutrients: NutrientsProp = recipesNutrients.map((value) => value.totalNutrients).reduce((acc, curr) => {
-        const updatedNutrients: NutrientsProp = {};
-        Object.entries(acc).forEach(([key, value]) => {
-            if (curr[key]) {
-                updatedNutrients[key] = {
-                    ...value,
-                    quantity: value.quantity + curr[key].quantity
-                };
-            };
-        });
-        return updatedNutrients;
-    });
-    const newTotalDaily: NutrientsProp = recipesNutrients.map((value) => value.totalDaily).reduce((acc, curr) => {
-        const updatedNutrients: NutrientsProp = {};
-        Object.entries(acc).forEach(([key, value]) => {
-            if (curr[key]) {
-                updatedNutrients[key] = {
-                    ...value,
-                    quantity: value.quantity + curr[key].quantity
-                };
-            };
-        });
-        return updatedNutrients;
-    });
-
+    const newTotalNutrients: NutrientsProp = unionReduceNutrients(recipesNutrients.map(n => n.totalNutrients));
+    const newTotalDaily: NutrientsProp = unionReduceNutrients(recipesNutrients.map(n => n.totalDaily));
     const newTotalWeight: number = recipesNutrients.reduce((acc, curr) => acc + curr.totalWeight, 0);
 
     return({

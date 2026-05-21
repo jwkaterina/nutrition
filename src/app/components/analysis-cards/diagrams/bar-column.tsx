@@ -49,7 +49,7 @@ const BarColumn = ({ nutrient, nutrientPercent, label, color, lightColor }: BarC
                 <div className={styles.percent_bar} ref={barRef} style={{backgroundColor: color}}></div>
             </div>
             <div className={styles.bar_label}>
-                <span style={{color: 'var(--gray-darker)'}}>{`${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
+                <span style={{color: 'var(--gray-darker)'}}>{`${nutrient.partial ? '~' : ''}${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
             </div>
             <p style={{fontWeight: 600, marginTop: '0.8rem'}}>{label}</p>
         </div>

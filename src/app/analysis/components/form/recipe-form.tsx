@@ -17,11 +17,13 @@ import styles from './form.module.css';
 interface RecipeFormProps {
     searchCleared: boolean,
     setClearSearch: (clearSearch: boolean) => void,
+    file: Blob | null,
     setFile: (file: any) => void,
+    imageUrl: string | null,
     setImageUrl: (url: string | null) => void,
 }
 
-const RecipeForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: RecipeFormProps): JSX.Element => {
+const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setImageUrl }: RecipeFormProps): JSX.Element => {
 
     const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
@@ -103,6 +105,44 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: Rec
             mode: currentRecipe.mode
         });
         setCardOpen(CardState.OPEN);
+    }
+
+    const handleSave = async () => {
+        if (!token) {
+            setStatus(StatusType.ERROR);
+            setMessage('You must be logged in to save a recipe.');
+            return;
+        }
+        let nutrients;
+        if (ingredients.length > 0) {
+            nutrients = combineIngredientNutrients(ingredients);
+        } else if (currentRecipe.mode === AnalysisMode.EDIT && currentRecipe.recipe?.nutrients) {
+            nutrients = currentRecipe.recipe.nutrients;
+        } else {
+            setStatus(StatusType.ERROR);
+            setMessage('Add at least one ingredient.');
+            return;
+        }
+        const ingredientsToSave = ingredients.length > 0
+            ? ingredients
+            : (currentRecipe.mode === AnalysisMode.EDIT ? (currentRecipe.recipe?.ingredients ?? []) as StructuredIngredient[] : []);
+        const recipe: Recipe = { name, servings, nutrients, ingredients: ingredientsToSave };
+        try {
+            const formData = new FormData();
+            if (currentRecipe.mode === AnalysisMode.EDIT && currentRecipe.id) {
+                formData.append('recipeString', JSON.stringify(recipe));
+                if (file) formData.append('image', file);
+                else if (imageUrl) formData.append('imageUrl', imageUrl);
+                await sendRequest(`/recipes/${currentRecipe.id}`, 'PATCH', formData, { Authorization: 'Bearer ' + token });
+                setMessage('Recipe updated.');
+            } else {
+                formData.append('recipe', JSON.stringify(recipe));
+                if (file) formData.append('image', file);
+                else if (imageUrl) formData.append('imageUrl', imageUrl);
+                await sendRequest('/recipes', 'POST', formData, { Authorization: 'Bearer ' + token });
+                setMessage('Recipe saved.');
+            }
+        } catch (err) {}
     }
 
     const deleteRecipe = async () => {
@@ -216,6 +256,9 @@ const RecipeForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: Rec
                     <div className={styles.form_actions_row}>
                         <div className={styles.form_group}>
                             <button type="submit">Analyze</button>
+                        </div>
+                        <div className={styles.form_group}>
+                            <button type="button" className={styles.add_button} onClick={handleSave}>Save</button>
                         </div>
                         {currentRecipe.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
                             <button type="button" className={styles.danger_button} onClick={deleteRecipe}>Delete</button>

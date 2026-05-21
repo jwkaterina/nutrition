@@ -42,7 +42,7 @@ const RecipeAnalysis = (): JSX.Element => {
 				/>
 				}
 			</NavBar>
-			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch} setFile={setFile} setImageUrl={setImageUrl}/>
+			<RecipeForm searchCleared={clearSearch} setClearSearch={setClearSearch} file={file} setFile={setFile} imageUrl={imageUrl} setImageUrl={setImageUrl}/>
 			<Footer color="var(--primary-glass)" textColor="white" setFile={setFile}/>
 		</>  
 	);

@@ -42,7 +42,7 @@ const MenuSearch = (): JSX.Element => {
 				/>
 				}
 			</NavBar>
-			<MenuForm searchCleared={clearSearch} setClearSearch={setClearSearch} setFile={setFile} setImageUrl={setImageUrl}/>
+			<MenuForm searchCleared={clearSearch} setClearSearch={setClearSearch} file={file} setFile={setFile} imageUrl={imageUrl} setImageUrl={setImageUrl}/>
 			<Footer color="var(--primary-glass)" textColor="white" setFile={setFile}/>
 		</>  
 	);

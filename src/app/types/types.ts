@@ -76,7 +76,8 @@ export interface NutrientsProp {
 export type Nutrient = {
     label: string,
     quantity: number,
-    unit: string
+    unit: string,
+    partial?: boolean
 }
 
 export interface RecipeWithServings {

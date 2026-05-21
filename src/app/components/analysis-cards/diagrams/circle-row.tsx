@@ -72,7 +72,7 @@ const CircleRow = ({ nutrient, nutrientPercent, label, color, lightColor }: Circ
     return (
         <div className={styles.circle_row}>
             <p style={{fontWeight: 600}}>{label}</p>
-            <span style={{color: 'var(--gray-darker)'}}>{`${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
+            <span style={{color: 'var(--gray-darker)'}}>{`${nutrient.partial ? '~' : ''}${nutrient.quantity.toFixed(1)}${nutrient.unit}`}</span>
             <svg width={widthHeight} height={widthHeight}>
                 <circle style={styleArc()} cx={centerX} cy={centerY} r={radius} stroke={lightColor} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>
                 <circle ref={arcRef} style={styleProgress()} cx={centerX} cy={centerY} r={radius} stroke={color} strokeWidth={strokeWidth} fill="none" strokeLinecap="round"/>

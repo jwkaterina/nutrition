@@ -20,11 +20,13 @@ import styles from './form.module.css';
 interface MenuFormProps {
     searchCleared: boolean,
     setClearSearch: (clearSearch: boolean) => void,
+    file: Blob | null,
     setFile: (file: any) => void,
+    imageUrl: string | null,
     setImageUrl: (url: string | null) => void,
 }
 
-const MenuForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: MenuFormProps): JSX.Element => {
+const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setImageUrl }: MenuFormProps): JSX.Element => {
 
     const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
@@ -110,6 +112,60 @@ const MenuForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: MenuF
             id: currentMenu.mode == AnalysisMode.EDIT ? currentMenu.id : null,
             mode: currentMenu.mode
         });
+    }
+
+    const handleSave = async () => {
+        if (!token) {
+            setStatus(StatusType.ERROR);
+            setMessage('You must be logged in to save a menu.');
+            return;
+        }
+        const recipesArray = combineRecipes(currentRecipes);
+        const ingredientsPart = ingredients.length > 0
+            ? [{ nutrients: combineIngredientNutrients(ingredients), selectedServings: 1 }]
+            : [];
+        const recipesPart = recipesArray.map(r => ({
+            nutrients: r.selectedRecipe.nutrients,
+            selectedServings: r.selectedServings
+        }));
+        const all = [...ingredientsPart, ...recipesPart];
+        if (all.length === 0) {
+            setStatus(StatusType.ERROR);
+            setMessage('Choose at least one recipe or ingredient and try again.');
+            return;
+        }
+        const nutrients: Nutrients = MenuNutrientsCalculator(all);
+        const ingredientsToSave = ingredients.length > 0
+            ? ingredients
+            : (currentMenu.mode === AnalysisMode.EDIT ? (currentMenu.menu?.ingredients ?? []) as StructuredIngredient[] : []);
+        try {
+            const formData = new FormData();
+            if (currentMenu.mode === AnalysisMode.EDIT && currentMenu.id) {
+                const updatedMenu = {
+                    name,
+                    ingredients: ingredientsToSave,
+                    nutrients,
+                    recipes: recipesArray.map(r => ({ selectedRecipe: r.selectedRecipeId, selectedServings: r.selectedServings }))
+                };
+                formData.append('updatedMenu', JSON.stringify(updatedMenu));
+                if (file) formData.append('image', file);
+                else if (imageUrl) formData.append('imageUrl', imageUrl);
+                await sendRequest(`/menus/${currentMenu.id}`, 'PATCH', formData, { Authorization: 'Bearer ' + token });
+                setMessage('Menu updated.');
+            } else {
+                const newMenu = {
+                    name,
+                    ingredients: ingredientsToSave,
+                    nutrients,
+                    recipes: recipesArray.map(r => ({ selectedRecipe: r.selectedRecipeId, selectedServings: r.selectedServings }))
+                };
+                formData.append('menu', JSON.stringify(newMenu));
+                if (file) formData.append('image', file);
+                else if (imageUrl) formData.append('imageUrl', imageUrl);
+                await sendRequest('/menus', 'POST', formData, { Authorization: 'Bearer ' + token });
+                setMessage('Menu saved.');
+            }
+        } catch (err) {}
     }
 
     const deleteMenu = async () => {
@@ -212,6 +268,9 @@ const MenuForm = ({ searchCleared, setClearSearch, setFile, setImageUrl }: MenuF
                     <div className={styles.form_actions_row}>
                         <div className={styles.form_group}>
                             <button type="submit">Analyze</button>
+                        </div>
+                        <div className={styles.form_group}>
+                            <button type="button" className={styles.add_button} onClick={handleSave}>Save</button>
                         </div>
                         {currentMenu.mode == AnalysisMode.EDIT && <div className={styles.form_group}>
                             <button type="button" className={styles.danger_button} onClick={deleteMenu}>Delete</button>

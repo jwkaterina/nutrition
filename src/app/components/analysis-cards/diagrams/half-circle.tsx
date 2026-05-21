@@ -94,7 +94,7 @@ const HalfCircle = ({ nutrient, daily, text, color, lighterColor, radius, stroke
             </div>
             <div className={styles.text}>
                 <p style={{...styleText(), fontWeight: 600}}>
-                    <span style={{...styleText(), color: 'var(--gray-darker)', fontWeight: 400}}>{`${nutrient.quantity.toFixed(0)}${unit} `}</span>
+                    <span style={{...styleText(), color: 'var(--gray-darker)', fontWeight: 400}}>{`${nutrient.partial ? '~' : ''}${nutrient.quantity.toFixed(0)}${unit} `}</span>
                     {text}
                 </p>
             </div>

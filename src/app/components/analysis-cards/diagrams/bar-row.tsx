@@ -67,7 +67,7 @@ const BarRow = ({ title, color, nutrient, daily }: BarRowProps): JSX.Element => 
     return (
         <div className={styles.bar_row}>
             <p style={{fontWeight: 600}}>{title}</p>
-            <span style={{color: 'var(--gray-darker)'}}>{`${nutrient.quantity.toFixed(0)}${nutrient.unit}`}</span>
+            <span style={{color: 'var(--gray-darker)'}}>{`${nutrient.partial ? '~' : ''}${nutrient.quantity.toFixed(0)}${nutrient.unit}`}</span>
             <svg width='90px' height='40px'>
                 <line x1="10" y1="20" x2="80" y2="20" stroke="var(--track-color)" strokeWidth="6" strokeLinecap="round" style={styleLine()}/>
                 <line x1="10" y1="20" x2="80" y2="20" stroke={color} strokeWidth="6" strokeLinecap="round" style={styleProgress()} ref={lineRef}/>
