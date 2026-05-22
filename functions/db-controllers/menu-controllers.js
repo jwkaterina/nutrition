@@ -214,7 +214,11 @@ const deleteMenu = async (req, res, next) => {
     }
 
     if (menu.imageName) {
-        gcpStorage.deleteImage(menu.imageName);
+        try {
+            await gcpStorage.deleteImage(menu.imageName);
+        } catch(err) {
+            return next(err);
+        }
     }
 
     res.status(200).json({ message: 'Deleted menu.' });

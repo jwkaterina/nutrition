@@ -172,10 +172,12 @@ const updateRecipe = async (req, res, next) => {
     recipe.recipe = updatedRecipe;
     recipe.markModified('recipe');
     if(updatedImage) {
-        try{
-            gcpStorage.deleteImage(recipe.imageName);
-        } catch(err) {
-            next(err);
+        if (recipe.imageName) {
+            try {
+                await gcpStorage.deleteImage(recipe.imageName);
+            } catch(err) {
+                return next(err);
+            }
         }
         recipe.image = updatedImage;
         if (req.image) recipe.imageName = req.image.fileName;
@@ -241,11 +243,11 @@ const deleteRecipe = async (req, res, next) => {
         return next(error);
     }
 
-    if(recipe.image) {
-        try{
-            gcpStorage.deleteImage(recipe.imageName);
+    if(recipe.imageName) {
+        try {
+            await gcpStorage.deleteImage(recipe.imageName);
         } catch(err) {
-            next(err);
+            return next(err);
         }
     }
 
