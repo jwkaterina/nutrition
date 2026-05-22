@@ -18,6 +18,8 @@ jobs:
         uses: we-cli/coverage-badge-action@main
       - name: Install functions dependencies
         run: npm ci --prefix functions
+      - name: Create functions env file
+        run: echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" > functions/.env
       - name: Deploy to Firebase Functions
         run: |
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NUTRITION_3236D }}' > /tmp/sa.json
