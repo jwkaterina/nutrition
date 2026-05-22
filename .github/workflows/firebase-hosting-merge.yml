@@ -15,7 +15,14 @@ jobs:
       - name: Test
         run: npm run test
       - name: Update Coverage Badge
-        uses: we-cli/coverage-badge-action@main
+        run: |
+          COV=$(jq '[.total | .lines.pct, .statements.pct, .functions.pct, .branches.pct] | min | floor' coverage/coverage-summary.json)
+          COLOR=$([ "$COV" -ge 90 ] && echo 'brightgreen' || ([ "$COV" -ge 75 ] && echo 'green' || ([ "$COV" -ge 60 ] && echo 'yellow' || echo 'red')))
+          echo "{\"schemaVersion\":1,\"label\":\"coverage\",\"message\":\"${COV}%\",\"color\":\"${COLOR}\"}" > coverage-badge.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add coverage-badge.json
+          git diff --staged --quiet || (git commit -m 'Update coverage badge [skip ci]' && git push)
       - name: Install functions dependencies
         run: npm ci --prefix functions
       - name: Create functions env file
