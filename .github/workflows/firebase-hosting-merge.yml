@@ -16,3 +16,10 @@ jobs:
         run: npm run test
       - name: Update Coverage Badge
         uses: we-cli/coverage-badge-action@main
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-firebase-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_NUTRITION_3236D }}'
+          channelId: live
+          projectId: nutrition-3236d
