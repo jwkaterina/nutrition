@@ -1,6 +1,7 @@
 'use client';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useRouter} from 'next/navigation';
+import useSWR from 'swr';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import IngredientSearch from './ingredient-search';
 import ImagePicker from '@/app/components/utilities/image-picker';
@@ -31,6 +32,24 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
     const { setMessage, setStatus, setIsLoading } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const { sendRequest } = useHttpClient();
+    const menusFetcher = ([url, t]: [string, string]) =>
+        fetch(url, { headers: { Authorization: 'Bearer ' + t } }).then(r => (r.ok ? r.json() : { menus: [] }));
+    const { data: menusData } = useSWR(token ? ['/menus', token] : null, menusFetcher);
+    const affectedMenuNames = useMemo<string[]>(() => {
+        if (!currentRecipe.id || !menusData?.menus) return [];
+        const names: string[] = [];
+        for (const menu of menusData.menus) {
+            const recipes = menu?.menu?.recipes ?? [];
+            const hit = recipes.some((r: any) => {
+                const sel = r?.selectedRecipe;
+                if (!sel) return false;
+                if (typeof sel === 'string') return sel === currentRecipe.id;
+                return sel.id === currentRecipe.id || sel._id === currentRecipe.id;
+            });
+            if (hit && menu?.menu?.name) names.push(menu.menu.name);
+        }
+        return names;
+    }, [menusData, currentRecipe.id]);
     const [name, setName] = useState<string>('');
     const [servings, setServings] = useState<number>(1);
     const [ingredients, setIngredients] = useState<StructuredIngredient[]>([]);
@@ -173,12 +192,19 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
     }
 
     const confirmed = () => {
-        if(deleteReady) return true;
+        if (affectedMenuNames.length === 0) return true;
+        if (deleteReady) return true;
 
         setStatus(StatusType.ERROR);
-        setMessage('Menus with this recipe will be modified. If you agree press delete button again');
+        setMessage(`This recipe is in ${formatList(affectedMenuNames)}. Deleting will remove it from them. Press delete again to confirm.`);
         setDeleteReady(true);
         return false;
+    }
+
+    const formatList = (items: string[]): string => {
+        if (items.length === 1) return items[0];
+        if (items.length === 2) return `${items[0]} and ${items[1]}`;
+        return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {

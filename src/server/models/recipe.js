@@ -57,6 +57,7 @@ const recipeSchema = new Schema({
     },
     image: { type: String, required: false },
     imageName: { type: String, required: false },
+    archived: { type: Boolean, default: false },
     creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User'}
 });
 

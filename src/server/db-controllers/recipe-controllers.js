@@ -30,9 +30,9 @@ const getAllRecipes = async (req, res, next) => {
     }
 
     res.json({
-        recipe: userWithRecipe.recipes.map(recipe =>
-            recipe.toObject({ getters: true })
-        )
+        recipe: userWithRecipe.recipes
+            .filter(recipe => !recipe.archived)
+            .map(recipe => recipe.toObject({ getters: true }))
     });
 };
 
@@ -97,7 +97,7 @@ const createRecipe = async (req, res, next) => {
 
     let existingRecipe
     try {
-        existingRecipe = await Recipe.findOne({ "recipe.name": parsedRecipe.name, "creator": req.userData.userId});
+        existingRecipe = await Recipe.findOne({ "recipe.name": parsedRecipe.name, "creator": req.userData.userId, "archived": { $ne: true } });
     } catch (err) {
         console.error(err);
         const error = new HttpError(
@@ -202,7 +202,7 @@ const deleteRecipe = async (req, res, next) => {
 
     let recipe;
     try {
-        recipe = await Recipe.findById(recipeId).populate('creator');
+        recipe = await Recipe.findById(recipeId);
     } catch (err) {
         console.error(err);
         const error = new HttpError(
@@ -218,7 +218,7 @@ const deleteRecipe = async (req, res, next) => {
         return next(error);
     }
 
-    if (recipe.creator.id !== req.userData.userId) {
+    if (recipe.creator.toString() !== req.userData.userId) {
         console.error('Not authorized.');
         const error = new HttpError(
             'You are not allowed to delete this recipe.',
@@ -227,13 +227,9 @@ const deleteRecipe = async (req, res, next) => {
         return next(error);
     }
 
+    recipe.archived = true;
     try {
-        const sess = await mongoose.startSession();
-        sess.startTransaction();
-        await recipe.deleteOne({ session: sess });
-        recipe.creator.recipes.pull(recipe);
-        await recipe.creator.save({ session: sess });
-        await sess.commitTransaction();
+        await recipe.save();
     } catch (err) {
         console.error(err);
         const error = new HttpError(
@@ -243,58 +239,8 @@ const deleteRecipe = async (req, res, next) => {
         return next(error);
     }
 
-    if(recipe.imageName) {
-        try {
-            await gcpStorage.deleteImage(recipe.imageName);
-        } catch(err) {
-            return next(err);
-        }
-    }
-
-    try {
-        await modifyMenus(recipeId, recipe.creator);
-    } catch(err) {
-        console.error(err);
-        const error = new HttpError(
-            'Could not modify menu. Try again later.',
-            500
-        );
-        return next(error);
-    }
-
     res.status(200).json({ message: 'Deleted recipe.' });
 };
-
-const modifyMenus = async(recipeId, user) => {
-    let userWithMenu;
-    try {
-        userWithMenu = await User.findById(user.id).populate('menus');
-    } catch (err) {
-        throw new HttpError('Could not find menu. Try again later.', 500);
-    }
-
-    if (!userWithMenu) {
-        throw new HttpError('Could not find menu. Try again later.', 404);
-    }
-
-    for (const menu of userWithMenu.menus) {
-        menu.menu.recipes = menu.menu.recipes.filter(recipe => recipe.selectedRecipe != recipeId);
-        const ingredients = menu.menu.ingredients;
-        const ingredientsEmpty = !ingredients || ingredients.length === 0;
-        if (menu.menu.recipes.length === 0 && ingredientsEmpty) {
-            console.log('empty menu');
-            const sess = await mongoose.startSession();
-            sess.startTransaction();
-            await menu.deleteOne({ session: sess });
-            user.menus.pull(menu);
-            await user.save({ session: sess });
-            await sess.commitTransaction();
-        } else {
-            menu.markModified('menu');
-            await menu.save();
-        }
-    }
-}
 
 exports.getAllRecipes = getAllRecipes;
 exports.getRecipesById = getRecipesById;
