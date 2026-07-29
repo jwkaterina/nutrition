@@ -149,7 +149,7 @@ describe('opencard menu', () => {
         await user.click(deleteLink);
         expect(props.onFoodDelete).toHaveBeenCalled();
         expect(setCurrentFood).toHaveBeenCalledWith({id: null, food: null});
-        expect(statusValue.setMessage).toHaveBeenCalledWith("Food deleted successfully");
+        expect(statusValue.setMessage).toHaveBeenCalledWith("Food deleted");
         expect(cardOpenValue.setCardOpen).toHaveBeenCalledWith(CardState.CLOSED);
         expect(sendRequest).toHaveBeenCalledWith(  
             `/foods/${currentFood.id}`,

@@ -22,23 +22,42 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const { currentFood, setCurrentFood } = useContext(CurrentFoodContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
-    const { setMessage } = useContext(StatusContext);
+    const { setMessage, setAction } = useContext(StatusContext);
     const { token } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [rightText, setRightText] = useState<string>("Delete");
 
     const deleteFood = async () => {
+        const snapshot = currentFood.food;
         try {
-            await sendRequest(
+            const response = await sendRequest(
                 `/foods/${currentFood.id}`,
                 'DELETE', null, {
                     Authorization: 'Bearer ' + token
                 }
             );
+            const savedImageName = response?.imageName ?? null;
             onFoodDelete();
             setCurrentFood({id: null, food: null});
-            setMessage("Food deleted successfully");
             setCardOpen(CardState.CLOSED);
+            if (snapshot) {
+                setMessage("Food deleted");
+                setAction({
+                    label: 'Undo',
+                    onClick: async () => {
+                        try {
+                            const formData = new FormData();
+                            formData.append('food', JSON.stringify(snapshot));
+                            if (snapshot.food?.image) formData.append('imageUrl', snapshot.food.image);
+                            await sendRequest('/foods', 'POST', formData, { Authorization: 'Bearer ' + token });
+                            onFoodDelete();
+                            setMessage('Food restored');
+                        } catch (err) {}
+                    }
+                });
+            } else {
+                setMessage("Food deleted successfully");
+            }
         } catch (err) {}
     }
 

@@ -29,7 +29,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
     const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
-    const { setMessage, setStatus, setIsLoading } = useContext(StatusContext);
+    const { setMessage, setStatus, setIsLoading, setAction } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const { sendRequest } = useHttpClient();
     const menusFetcher = ([url, t]: [string, string]) =>
@@ -176,6 +176,8 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
             return;
         }
 
+        const snapshotRecipe = currentRecipe.recipe;
+        const snapshotImage = currentRecipe.image;
         try {
             await sendRequest(
                 `/recipes/${currentRecipe.id}`,
@@ -189,7 +191,23 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
                 setScrollBehavior('smooth');
             }, 500);
             setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
-            setMessage("Recipe deleted successfully");
+            if (snapshotRecipe) {
+                setMessage("Recipe deleted");
+                setAction({
+                    label: 'Undo',
+                    onClick: async () => {
+                        try {
+                            const formData = new FormData();
+                            formData.append('recipe', JSON.stringify(snapshotRecipe));
+                            if (snapshotImage) formData.append('imageUrl', snapshotImage);
+                            await sendRequest('/recipes', 'POST', formData, { Authorization: 'Bearer ' + token });
+                            setMessage('Recipe restored');
+                        } catch (err) {}
+                    }
+                });
+            } else {
+                setMessage("Recipe deleted successfully");
+            }
         } catch (err) {}
     }
 

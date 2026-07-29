@@ -265,15 +265,7 @@ const deleteRecipe = async (req, res, next) => {
         return next(error);
     }
 
-    if(recipe.imageName) {
-        try {
-            await gcpStorage.deleteImage(recipe.imageName);
-        } catch(err) {
-            return next(err);
-        }
-    }
-
-    res.status(200).json({ message: 'Deleted recipe.' });
+    res.status(200).json({ message: 'Deleted recipe.', imageName: recipe.imageName || null });
 };
 
 exports.getAllRecipes = getAllRecipes;

@@ -39,6 +39,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
     const [legacyIngredients, setLegacyIngredients] = useState<string[]>([]);
     const [currentRecipes, setCurrentRecipes] = useState<RecipeWithServings[]>([]);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [deleteReady, setDeleteReady] = useState<boolean>(false);
 
     const router = useRouter();
 
@@ -174,6 +175,12 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
             setMessage('You must be logged in to delete menu.');
             return;
         }
+        if (!deleteReady) {
+            setStatus(StatusType.ERROR);
+            setMessage('Delete this menu? Press delete again to confirm.');
+            setDeleteReady(true);
+            return;
+        }
         try {
             await sendRequest(
                 `/menus/${currentMenu.id}`,
@@ -188,6 +195,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
             }, 500);
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
             setMessage("Menu deleted successfully");
+            setDeleteReady(false);
         } catch (err) {}
     }
 
