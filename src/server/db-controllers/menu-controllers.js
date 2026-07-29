@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const HttpError = require('../models/http-error');
 const Menu = require('../models/menu');
 const User = require('../models/user');
-const gcpStorage = require('../storage-controllers/gcpStorage-controllers');
+const imageStorage = require('../storage-controllers/image-storage');
 
 const getMenus = async (req, res, next) => {
     const userId = req.userData.userId;
@@ -215,7 +215,7 @@ const deleteMenu = async (req, res, next) => {
 
     if (menu.imageName) {
         try {
-            await gcpStorage.deleteImage(menu.imageName);
+            await imageStorage.deleteImage(menu.imageName);
         } catch(err) {
             return next(err);
         }

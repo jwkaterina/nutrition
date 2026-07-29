@@ -4,16 +4,16 @@ const menuControllers = require('../db-controllers/menu-controllers');
 const checkAuth = require('../middleware/check-auth');
 const multer = require('../middleware/multer');
 const compress = require('../middleware/file-compress');
-const gcpStorageControllers = require('../storage-controllers/gcpStorage-controllers');
+const imageStorage = require('../storage-controllers/image-storage');
 
 const router = express.Router();
 router.use(checkAuth);
 
 router.get('/', menuControllers.getMenus);
 
-router.post('/', multer.all, compress.compressFile, gcpStorageControllers.putImage, menuControllers.createMenu);
+router.post('/', multer.all, compress.compressFile, imageStorage.putImage, menuControllers.createMenu);
 
-router.patch('/:id', multer.all, compress.compressFile, gcpStorageControllers.putImage, menuControllers.updateMenu);
+router.patch('/:id', multer.all, compress.compressFile, imageStorage.putImage, menuControllers.updateMenu);
 
 router.delete('/:id', menuControllers.deleteMenu);
 

@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const HttpError = require('../models/http-error');
 const Recipe = require('../models/recipe');
 const User = require('../models/user');
-const gcpStorage = require('../storage-controllers/gcpStorage-controllers');
+const imageStorage = require('../storage-controllers/image-storage');
 
 const getAllRecipes = async (req, res, next) => {
     const userId = req.userData.userId;
@@ -174,7 +174,7 @@ const updateRecipe = async (req, res, next) => {
     if(updatedImage) {
         if (recipe.imageName) {
             try {
-                await gcpStorage.deleteImage(recipe.imageName);
+                await imageStorage.deleteImage(recipe.imageName);
             } catch(err) {
                 return next(err);
             }

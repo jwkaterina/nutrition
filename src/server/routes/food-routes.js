@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('../middleware/multer');
 const compress = require('../middleware/file-compress');
-const gcpStorageControllers = require('../storage-controllers/gcpStorage-controllers');
+const imageStorage = require('../storage-controllers/image-storage');
 
 const foodControllers = require('../db-controllers/food-controllers');
 const checkAuth = require('../middleware/check-auth');
@@ -15,7 +15,7 @@ router.post(
     '/',
     multer.all,
     compress.compressFile,
-    gcpStorageControllers.putImage,
+    imageStorage.putImage,
     foodControllers.createFood
 );
 
