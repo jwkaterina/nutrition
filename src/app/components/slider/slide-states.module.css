@@ -6,22 +6,16 @@
     padding: 1rem;
 }
 
-@keyframes skeleton_shimmer {
-    0% { background-position: -180px 0; }
-    100% { background-position: 180px 0; }
+@keyframes skeleton_pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
 }
 
 .skeleton_title,
 .skeleton_col {
-    background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.55) 50%,
-        rgba(255, 255, 255, 0.25) 100%
-    );
-    background-size: 360px 100%;
+    background: rgba(0, 0, 0, 0.1);
     border-radius: var(--radius-sm);
-    animation: skeleton_shimmer 1.4s linear infinite;
+    animation: skeleton_pulse 1.4s ease-in-out infinite;
 }
 
 .skeleton_title {
