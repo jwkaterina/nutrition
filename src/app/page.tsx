@@ -6,6 +6,7 @@ import MainNav from '@/app/components/navigation/main-nav';
 import NavBar from '@/app/components/navigation/nav-bar';
 import OpenCardMenu from '@/app/components/navigation/menus/opencard-menu';
 import Slider from '@/app/components/slider/slider';
+import FirstRunTour from './components/utilities/first-run-tour/first-run-tour';
 import { CardOpenContext } from './context/card-context';
 import { CardState } from './types/types';
 
@@ -29,6 +30,7 @@ export default function Home(): JSX.Element {
                 foodDeleted={deletedFood}
             />
             <Footer color="var(--primary-glass)" textColor="white" />
+            <FirstRunTour />
         </>
     );
 }
