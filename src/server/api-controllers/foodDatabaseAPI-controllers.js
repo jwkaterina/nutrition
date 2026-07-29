@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const HttpError = require('../models/http-error');
 
 const appId= "1ed9471e";
