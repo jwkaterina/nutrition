@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import Button from '@/app/components/slider/button';
 import MenuCard from '../../cards/menu-cards/menu-card';
 import Slide from './slide';
+import { SkeletonCard, EmptyState } from '../slide-states';
 import { AuthContext } from '@/app/context/auth-context';
 import { LoadedMenu, RecipeWithServings, Recipe } from '@/app/types/types';
 
@@ -14,9 +15,13 @@ const fetcher = ([url, token]: [string, string]) =>
 
 const MenuSlide = (): JSX.Element => {
     const { token } = useContext(AuthContext);
-    const { data } = useSWR(token ? ['/menus', token] : null, fetcher);
+    const { data, isLoading } = useSWR(token ? ['/menus', token] : null, fetcher);
 
-    const menuList = data?.menus?.map((menu: any, index: number) => {
+    const rawMenus: any[] = data?.menus ?? [];
+    const showSkeletons = !!token && (isLoading || (!data && rawMenus.length === 0));
+    const showEmpty = !!token && !isLoading && !!data && rawMenus.length === 0;
+
+    const menuList = rawMenus.map((menu: any, index: number) => {
         const recipes: RecipeWithServings[] = (menu.menu.recipes ?? [])
             .filter((r: any) => {
                 if (!r.selectedRecipe || typeof r.selectedRecipe === 'string') return false;
@@ -45,12 +50,20 @@ const MenuSlide = (): JSX.Element => {
         return (
             <MenuCard menu={loaded.menu} index={index + 1} key={index + 1} id={loaded.id} image={loaded.image} open={false}/>
         );
-    }) ?? [];
+    });
 
     return (
         <Slide>
-            {menuList.length > 0 && menuList}
-            <Button search={'analysis/menu-analysis'}/>
+            {showSkeletons && Array.from({ length: 6 }, (_, i) => <SkeletonCard key={`s-${i}`} />)}
+            {!showSkeletons && menuList}
+            {showEmpty && (
+                <EmptyState
+                    message="No menus yet. Group recipes into a menu to plan your meals."
+                    cta="Create your first menu"
+                    search="analysis/menu-analysis"
+                />
+            )}
+            {!showEmpty && <Button search={'analysis/menu-analysis'}/>}
         </Slide>
     );
 }
