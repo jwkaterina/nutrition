@@ -183,9 +183,6 @@ describe('recipe-form', () => {
         );
 
         await user.click(screen.getByRole('button', { name: /delete/i }));
-        expect(contextValue.setCurrentRecipe).not.toHaveBeenCalled();
-
-        await user.click(screen.getByRole('button', { name: /delete/i }));
         expect(contextValue.setCurrentRecipe).toHaveBeenCalledWith({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
     });
 

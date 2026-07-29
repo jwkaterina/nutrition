@@ -227,6 +227,28 @@ const deleteRecipe = async (req, res, next) => {
         return next(error);
     }
 
+    let userWithMenu;
+    try {
+        userWithMenu = await User.findById(req.userData.userId).populate('menus');
+    } catch (err) {
+        console.error(err);
+        const error = new HttpError('Could not delete recipe. Try again later.', 500);
+        return next(error);
+    }
+
+    const referencingMenus = (userWithMenu?.menus ?? []).filter(menu =>
+        (menu.menu.recipes ?? []).some(r => r.selectedRecipe && r.selectedRecipe.toString() === recipeId)
+    );
+
+    if (referencingMenus.length > 0) {
+        const names = referencingMenus.map(m => m.menu.name).join(', ');
+        const error = new HttpError(
+            `Recipe is used in menu: ${names}. Remove it from the menu first.`,
+            409
+        );
+        return next(error);
+    }
+
     try {
         const sess = await mongoose.startSession();
         sess.startTransaction();
@@ -251,50 +273,8 @@ const deleteRecipe = async (req, res, next) => {
         }
     }
 
-    try {
-        await modifyMenus(recipeId, recipe.creator);
-    } catch(err) {
-        console.error(err);
-        const error = new HttpError(
-            'Could not modify menu. Try again later.',
-            500
-        );
-        return next(error);
-    }
-
     res.status(200).json({ message: 'Deleted recipe.' });
 };
-
-const modifyMenus = async(recipeId, user) => {
-    let userWithMenu;
-    try {
-        userWithMenu = await User.findById(user.id).populate('menus');
-    } catch (err) {
-        throw new HttpError('Could not find menu. Try again later.', 500);
-    }
-
-    if (!userWithMenu) {
-        throw new HttpError('Could not find menu. Try again later.', 404);
-    }
-
-    for (const menu of userWithMenu.menus) {
-        menu.menu.recipes = menu.menu.recipes.filter(recipe => recipe.selectedRecipe != recipeId);
-        const ingredients = menu.menu.ingredients;
-        const ingredientsEmpty = !ingredients || ingredients.length === 0;
-        if (menu.menu.recipes.length === 0 && ingredientsEmpty) {
-            console.log('empty menu');
-            const sess = await mongoose.startSession();
-            sess.startTransaction();
-            await menu.deleteOne({ session: sess });
-            user.menus.pull(menu);
-            await user.save({ session: sess });
-            await sess.commitTransaction();
-        } else {
-            menu.markModified('menu');
-            await menu.save();
-        }
-    }
-}
 
 exports.getAllRecipes = getAllRecipes;
 exports.getRecipesById = getRecipesById;

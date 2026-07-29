@@ -1,6 +1,7 @@
 'use client';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useRouter} from 'next/navigation';
+import useSWR from 'swr';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import IngredientSearch from './ingredient-search';
 import ImagePicker from '@/app/components/utilities/image-picker';
@@ -31,12 +32,29 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
     const { setMessage, setStatus, setIsLoading } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const { sendRequest } = useHttpClient();
+    const menusFetcher = ([url, t]: [string, string]) =>
+        fetch(url, { headers: { Authorization: 'Bearer ' + t } }).then(r => (r.ok ? r.json() : { menus: [] }));
+    const { data: menusData } = useSWR(token ? ['/menus', token] : null, menusFetcher);
+    const affectedMenuNames = useMemo<string[]>(() => {
+        if (!currentRecipe.id || !menusData?.menus) return [];
+        const names: string[] = [];
+        for (const menu of menusData.menus) {
+            const recipes = menu?.menu?.recipes ?? [];
+            const hit = recipes.some((r: any) => {
+                const sel = r?.selectedRecipe;
+                if (!sel) return false;
+                if (typeof sel === 'string') return sel === currentRecipe.id;
+                return sel.id === currentRecipe.id || sel._id === currentRecipe.id;
+            });
+            if (hit && menu?.menu?.name) names.push(menu.menu.name);
+        }
+        return names;
+    }, [menusData, currentRecipe.id]);
     const [name, setName] = useState<string>('');
     const [servings, setServings] = useState<number>(1);
     const [ingredients, setIngredients] = useState<StructuredIngredient[]>([]);
     const [legacyIngredients, setLegacyIngredients] = useState<string[]>([]);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [deleteReady, setDeleteReady] = useState<boolean>(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -152,7 +170,11 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
             setIsLoading(false);
             return;
         }
-        if(!confirmed()) return;
+        if (affectedMenuNames.length > 0) {
+            setStatus(StatusType.ERROR);
+            setMessage(`Recipe is used in menu: ${affectedMenuNames.join(', ')}. Remove it from the menu first.`);
+            return;
+        }
 
         try {
             await sendRequest(
@@ -168,17 +190,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
             }, 500);
             setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
             setMessage("Recipe deleted successfully");
-            setDeleteReady(false);
         } catch (err) {}
-    }
-
-    const confirmed = () => {
-        if(deleteReady) return true;
-
-        setStatus(StatusType.ERROR);
-        setMessage('Menus with this recipe will be modified. If you agree press delete button again');
-        setDeleteReady(true);
-        return false;
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
