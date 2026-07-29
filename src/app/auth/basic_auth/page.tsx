@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useEffect, useMemo, useRef } from 'react';
 import { useRouter} from 'next/navigation';
 import AuthMenu from '@/app/components/navigation/menus/auth-menu';
 import NavBar from '@/app/components/navigation/nav-bar';
@@ -17,9 +17,23 @@ const Auth = (): JSX.Element => {
     const { setScrollBehavior, slide } = useContext(SlideContext);
     const { login, token } = useContext(AuthContext);
     const [loginMode, setLoginMode] = useState<boolean>(true);
+    const [password, setPassword] = useState<string>('');
     const { setMessage } = useContext(StatusContext);
     const router = useRouter();
     const shouldNavigate = useRef(false);
+
+    const passwordStrength = useMemo(() => {
+        if (loginMode) return null;
+        const hasLen = password.length >= 8;
+        const hasLetter = /[A-Za-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSymbol = /[^A-Za-z0-9]/.test(password);
+        const score = [hasLen, hasLetter, hasNumber, hasSymbol].filter(Boolean).length;
+        if (password.length === 0) return null;
+        if (score <= 2) return { label: 'Weak', level: 'weak' as const };
+        if (score === 3) return { label: 'Medium', level: 'medium' as const };
+        return { label: 'Strong', level: 'strong' as const };
+    }, [password, loginMode]);
 
     useEffect(() => {
         if (!token || !shouldNavigate.current) return;
@@ -95,7 +109,19 @@ const Auth = (): JSX.Element => {
                     </div>
                     <div className={styles.form_group}>
                         <label htmlFor="password">Password</label>
-                        <input id="password" type="password" minLength={5} required/>
+                        <input
+                            id="password"
+                            type="password"
+                            minLength={loginMode ? undefined : 8}
+                            required
+                            value={password}
+                            onChange={e => setPassword(e.currentTarget.value)}
+                        />
+                        {passwordStrength && (
+                            <div className={`${styles.password_strength} ${styles[`strength_${passwordStrength.level}`]}`}>
+                                {passwordStrength.label}
+                            </div>
+                        )}
                     </div>
                     <div className={styles.form_group}>
                         <button type="submit">{loginMode ? 'Login' : 'Signup'}</button>

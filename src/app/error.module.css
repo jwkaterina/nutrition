@@ -1,0 +1,71 @@
+.container {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.card {
+    max-width: 420px;
+    width: 100%;
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: #222;
+}
+
+.message {
+    margin: 0 0 1.5rem;
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.primary,
+.secondary {
+    height: 2.5rem;
+    padding: 0 1.25rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition);
+}
+
+.primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.primary:hover {
+    background-color: var(--primary-darker-color);
+}
+
+.secondary {
+    background-color: white;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.secondary:hover {
+    background-color: var(--primary-light-color);
+}
