@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import Button from '@/app/components/slider/button';
 import FoodCard from '../../cards/food-cards/food-card';
 import Slide from './slide';
-import { SkeletonCard, EmptyState } from '../slide-states';
+import { SkeletonCard, EmptyState, useMinimumSkeletonTime } from '../slide-states';
 import { AuthContext } from '@/app/context/auth-context';
 import { LoadedFood } from '@/app/types/types';
 
@@ -20,10 +20,12 @@ const fetcher = ([url, token]: [string, string]) =>
 const FoodSlide = ({ foodDeleted }: FoodSlideProps): JSX.Element => {
     const { token } = useContext(AuthContext);
     const { data, isLoading } = useSWR(token ? ['/foods', token, foodDeleted] : null, fetcher);
+    const minSkeletonElapsed = useMinimumSkeletonTime(!!data);
 
     const foods: LoadedFood[] = data?.foods ?? [];
-    const showSkeletons = !!token && (isLoading || (!data && foods.length === 0));
-    const showEmpty = !!token && !isLoading && !!data && foods.length === 0;
+    const stillLoading = isLoading || !data || !minSkeletonElapsed;
+    const showSkeletons = !!token && stillLoading;
+    const showEmpty = !!token && !stillLoading && foods.length === 0;
 
     return (
         <Slide>

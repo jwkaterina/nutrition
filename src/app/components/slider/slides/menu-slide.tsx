@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import Button from '@/app/components/slider/button';
 import MenuCard from '../../cards/menu-cards/menu-card';
 import Slide from './slide';
-import { SkeletonCard, EmptyState } from '../slide-states';
+import { SkeletonCard, EmptyState, useMinimumSkeletonTime } from '../slide-states';
 import { AuthContext } from '@/app/context/auth-context';
 import { LoadedMenu, RecipeWithServings, Recipe } from '@/app/types/types';
 
@@ -16,10 +16,12 @@ const fetcher = ([url, token]: [string, string]) =>
 const MenuSlide = (): JSX.Element => {
     const { token } = useContext(AuthContext);
     const { data, isLoading } = useSWR(token ? ['/menus', token] : null, fetcher);
+    const minSkeletonElapsed = useMinimumSkeletonTime(!!data);
 
     const rawMenus: any[] = data?.menus ?? [];
-    const showSkeletons = !!token && (isLoading || (!data && rawMenus.length === 0));
-    const showEmpty = !!token && !isLoading && !!data && rawMenus.length === 0;
+    const stillLoading = isLoading || !data || !minSkeletonElapsed;
+    const showSkeletons = !!token && stillLoading;
+    const showEmpty = !!token && !stillLoading && rawMenus.length === 0;
 
     const menuList = rawMenus.map((menu: any, index: number) => {
         const recipes: RecipeWithServings[] = (menu.menu.recipes ?? [])

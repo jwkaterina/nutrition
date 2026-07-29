@@ -1,6 +1,18 @@
+'use client';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import cardStyles from '@/app/components/cards/card.module.css';
 import styles from './slide-states.module.css';
+
+export const useMinimumSkeletonTime = (initiallyReady: boolean, ms = 500): boolean => {
+    const [elapsed, setElapsed] = useState(initiallyReady);
+    useEffect(() => {
+        if (elapsed) return;
+        const t = setTimeout(() => setElapsed(true), ms);
+        return () => clearTimeout(t);
+    }, []);
+    return elapsed;
+};
 
 export const SkeletonCard = (): JSX.Element => (
     <div className={cardStyles.placeholder}>

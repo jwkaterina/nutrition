@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import Button from '@/app/components/slider/button';
 import RecipeCard from '../../cards/recipe-cards/recipe-card';
 import Slide from './slide';
-import { SkeletonCard, EmptyState } from '../slide-states';
+import { SkeletonCard, EmptyState, useMinimumSkeletonTime } from '../slide-states';
 import { AuthContext } from '@/app/context/auth-context';
 import { LoadedRecipe } from '@/app/types/types';
 
@@ -16,10 +16,12 @@ const fetcher = ([url, token]: [string, string]) =>
 const RecipeSlide = (): JSX.Element => {
     const { token } = useContext(AuthContext);
     const { data, isLoading } = useSWR(token ? ['/recipes', token] : null, fetcher);
+    const minSkeletonElapsed = useMinimumSkeletonTime(!!data);
 
     const recipes: LoadedRecipe[] = data?.recipe ?? [];
-    const showSkeletons = !!token && (isLoading || (!data && recipes.length === 0));
-    const showEmpty = !!token && !isLoading && !!data && recipes.length === 0;
+    const stillLoading = isLoading || !data || !minSkeletonElapsed;
+    const showSkeletons = !!token && stillLoading;
+    const showEmpty = !!token && !stillLoading && recipes.length === 0;
 
     return (
         <Slide>
