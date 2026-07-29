@@ -50,7 +50,7 @@ describe('main nav', () => {
         expect(scroll).toBeInTheDocument();
         expect((scroll!)).toHaveStyle({left: position1});
 
-        const recipeLink = screen.getByText(/my recipes/i);
+        const recipeLink = screen.getByText(/^recipes$/i);
         await user.click(recipeLink);
         expect(setBlockScroll).toHaveBeenLastCalledWith(true);
         expect(setSlide).toHaveBeenLastCalledWith(SlideType.RECIPE);

@@ -118,7 +118,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
     const handleSave = async () => {
         if (!token) {
             setStatus(StatusType.ERROR);
-            setMessage('You must be logged in to save a menu.');
+            setMessage('You must be logged in to save a meal plan.');
             return;
         }
         const recipesArray = combineRecipes(currentRecipes);
@@ -152,7 +152,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
                 if (file) formData.append('image', file);
                 else if (imageUrl) formData.append('imageUrl', imageUrl);
                 await sendRequest(`/menus/${currentMenu.id}`, 'PATCH', formData, { Authorization: 'Bearer ' + token });
-                setMessage('Menu updated.');
+                setMessage('Meal plan updated.');
             } else {
                 const newMenu = {
                     name,
@@ -164,7 +164,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
                 if (file) formData.append('image', file);
                 else if (imageUrl) formData.append('imageUrl', imageUrl);
                 await sendRequest('/menus', 'POST', formData, { Authorization: 'Bearer ' + token });
-                setMessage('Menu saved.');
+                setMessage('Meal plan saved.');
             }
         } catch (err) {}
     }
@@ -172,7 +172,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
     const deleteMenu = async () => {
         if(!token) {
             setStatus(StatusType.ERROR);
-            setMessage('You must be logged in to delete menu.');
+            setMessage('You must be logged in to delete meal plan.');
             return;
         }
         const snapshotMenu = currentMenu.menu;
@@ -192,7 +192,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
             }, 500);
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
             if (snapshotMenu) {
-                setMessage('Menu deleted');
+                setMessage('Meal plan deleted');
                 setAction({
                     label: 'Undo',
                     onClick: async () => {
@@ -212,12 +212,12 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
                             if (snapshotImage) formData.append('imageUrl', snapshotImage);
                             await sendRequest('/menus', 'POST', formData, { Authorization: 'Bearer ' + token });
                             await mutate(key => Array.isArray(key) && key[0] === '/menus');
-                            setMessage('Menu restored');
+                            setMessage('Meal plan restored');
                         } catch (err) {}
                     }
                 });
             } else {
-                setMessage('Menu deleted successfully');
+                setMessage('Meal plan deleted successfully');
             }
         } catch (err) {}
     }
@@ -237,7 +237,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
             <div className={styles.form_container}>
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div className={styles.form_group}>
-                        <label htmlFor="menu-name">Menu Name</label>
+                        <label htmlFor="menu-name">Meal Plan Name</label>
                         <input type="text" id="menu-name" name="menu-name" required value={name} onInput={e => handleNameInput(e)}/>
                     </div>
 

@@ -172,7 +172,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
         }
         if (affectedMenuNames.length > 0) {
             setStatus(StatusType.ERROR);
-            setMessage(`Recipe is used in menu: ${affectedMenuNames.join(', ')}. Remove it from the menu first.`);
+            setMessage(`Recipe is used in meal plan: ${affectedMenuNames.join(', ')}. Remove it from the meal plan first.`);
             return;
         }
 
