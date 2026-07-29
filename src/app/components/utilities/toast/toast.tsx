@@ -8,7 +8,7 @@ import styles from './toast.module.css';
 
 const Toast = () => {
 
-    const { message, setMessage, status } = useContext(StatusContext);
+    const { message, setMessage, status, action, setAction } = useContext(StatusContext);
     const [open, setOpen] = useState(false);
     const timers = useRef<NodeJS.Timeout[]>([]);
 
@@ -21,17 +21,32 @@ const Toast = () => {
         if (!message) return;
         clearTimers();
         setOpen(true);
+        const visibleMs = action ? 10000 : 4000;
         timers.current.push(
-            setTimeout(() => setOpen(false), 4000),
-            setTimeout(() => setMessage(null), 4500)
+            setTimeout(() => setOpen(false), visibleMs),
+            setTimeout(() => setMessage(null), visibleMs + 500)
         );
         return clearTimers;
-    }, [message, status]);
+    }, [message, status, action]);
 
     const onClose = () => {
         clearTimers();
         setOpen(false);
-        setTimeout(() => setMessage(null), 500);
+        setTimeout(() => {
+            setMessage(null);
+            setAction(null);
+        }, 500);
+    };
+
+    const onActionClick = () => {
+        if (!action) return;
+        clearTimers();
+        action.onClick();
+        setOpen(false);
+        setTimeout(() => {
+            setMessage(null);
+            setAction(null);
+        }, 500);
     };
 
     const isSuccess = status === StatusType.SUCCESS;
@@ -53,8 +68,13 @@ const Toast = () => {
                     <span className={styles.message}>{message}</span>
                 </div>
             </div>
+            {action && (
+                <button type="button" className={styles.action} onClick={onActionClick}>
+                    {action.label}
+                </button>
+            )}
             <FontAwesomeIcon icon={faXmark} className={styles.close} onClick={onClose} />
-            <div key={`${message}-${status}`} className={styles.progress} />
+            <div key={`${message}-${status}-${action?.label || ''}`} className={`${styles.progress} ${action ? styles.progress_long : ''}`} />
         </div>
     );
 }

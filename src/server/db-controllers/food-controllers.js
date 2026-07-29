@@ -149,11 +149,7 @@ const deleteFood = async (req, res, next) => {
         return next(error);
     }
 
-    if (food.imageName) {
-        gcpStorage.deleteImage(food.imageName);
-    }
-
-    res.status(200).json({ message: 'Deleted food.' });
+    res.status(200).json({ message: 'Deleted food.', imageName: food.imageName || null });
 };
 
 exports.getFoods = getFoods;

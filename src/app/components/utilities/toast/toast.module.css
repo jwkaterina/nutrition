@@ -96,6 +96,32 @@
     animation: toast_progress 4s linear forwards;
 }
 
+.progress_long {
+    animation-duration: 10s;
+}
+
+.action {
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    transition: background var(--transition);
+}
+
+.action:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
 .toast.success .progress {
     background: var(--secondary-lighter-color);
 }

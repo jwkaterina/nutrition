@@ -1,5 +1,6 @@
 'use client';
 import { useContext, useEffect, useState } from "react";
+import { mutate } from 'swr';
 import Menu from "./menu";
 import { useRouter} from 'next/navigation';
 import { AuthContext } from "@/app/context/auth-context";
@@ -10,6 +11,9 @@ import { CurrentMenuContext } from '@/app/context/menu-context';
 import { StatusContext } from "@/app/context/status-context";
 import { useHttpClient } from "@/app/hooks/http-hook";
 import { CardState, AnalysisMode } from "@/app/types/types";
+
+const revalidateKey = (base: string) => (key: unknown) =>
+    Array.isArray(key) && key[0] === base;
 
 interface OpenCardMenuProps {
     onFoodDelete: () => void
@@ -22,12 +26,13 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const { currentFood, setCurrentFood } = useContext(CurrentFoodContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
-    const { setMessage } = useContext(StatusContext);
+    const { setMessage, setAction } = useContext(StatusContext);
     const { token } = useContext(AuthContext);
     const { sendRequest } = useHttpClient();
     const [rightText, setRightText] = useState<string>("Delete");
 
     const deleteFood = async () => {
+        const snapshot = currentFood.food;
         try {
             await sendRequest(
                 `/foods/${currentFood.id}`,
@@ -36,9 +41,27 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
                 }
             );
             onFoodDelete();
+            await mutate(revalidateKey('/foods'));
             setCurrentFood({id: null, food: null});
-            setMessage("Food deleted successfully");
             setCardOpen(CardState.CLOSED);
+            if (snapshot) {
+                setMessage("Food deleted");
+                setAction({
+                    label: 'Undo',
+                    onClick: async () => {
+                        try {
+                            const formData = new FormData();
+                            formData.append('food', JSON.stringify(snapshot));
+                            if (snapshot.food?.image) formData.append('imageUrl', snapshot.food.image);
+                            await sendRequest('/foods', 'POST', formData, { Authorization: 'Bearer ' + token });
+                            await mutate(revalidateKey('/foods'));
+                            setMessage('Food restored');
+                        } catch (err) {}
+                    }
+                });
+            } else {
+                setMessage("Food deleted successfully");
+            }
         } catch (err) {}
     }
 
