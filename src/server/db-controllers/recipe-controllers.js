@@ -30,9 +30,9 @@ const getAllRecipes = async (req, res, next) => {
     }
 
     res.json({
-        recipe: userWithRecipe.recipes
-            .filter(recipe => !recipe.archived)
-            .map(recipe => recipe.toObject({ getters: true }))
+        recipe: userWithRecipe.recipes.map(recipe =>
+            recipe.toObject({ getters: true })
+        )
     });
 };
 
@@ -97,7 +97,7 @@ const createRecipe = async (req, res, next) => {
 
     let existingRecipe
     try {
-        existingRecipe = await Recipe.findOne({ "recipe.name": parsedRecipe.name, "creator": req.userData.userId, "archived": { $ne: true } });
+        existingRecipe = await Recipe.findOne({ "recipe.name": parsedRecipe.name, "creator": req.userData.userId});
     } catch (err) {
         console.error(err);
         const error = new HttpError(
@@ -202,7 +202,7 @@ const deleteRecipe = async (req, res, next) => {
 
     let recipe;
     try {
-        recipe = await Recipe.findById(recipeId);
+        recipe = await Recipe.findById(recipeId).populate('creator');
     } catch (err) {
         console.error(err);
         const error = new HttpError(
@@ -218,7 +218,7 @@ const deleteRecipe = async (req, res, next) => {
         return next(error);
     }
 
-    if (recipe.creator.toString() !== req.userData.userId) {
+    if (recipe.creator.id !== req.userData.userId) {
         console.error('Not authorized.');
         const error = new HttpError(
             'You are not allowed to delete this recipe.',
@@ -227,9 +227,35 @@ const deleteRecipe = async (req, res, next) => {
         return next(error);
     }
 
-    recipe.archived = true;
+    let userWithMenu;
     try {
-        await recipe.save();
+        userWithMenu = await User.findById(req.userData.userId).populate('menus');
+    } catch (err) {
+        console.error(err);
+        const error = new HttpError('Could not delete recipe. Try again later.', 500);
+        return next(error);
+    }
+
+    const referencingMenus = (userWithMenu?.menus ?? []).filter(menu =>
+        (menu.menu.recipes ?? []).some(r => r.selectedRecipe && r.selectedRecipe.toString() === recipeId)
+    );
+
+    if (referencingMenus.length > 0) {
+        const names = referencingMenus.map(m => m.menu.name).join(', ');
+        const error = new HttpError(
+            `Recipe is used in menu: ${names}. Remove it from the menu first.`,
+            409
+        );
+        return next(error);
+    }
+
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await recipe.deleteOne({ session: sess });
+        recipe.creator.recipes.pull(recipe);
+        await recipe.creator.save({ session: sess });
+        await sess.commitTransaction();
     } catch (err) {
         console.error(err);
         const error = new HttpError(
@@ -237,6 +263,14 @@ const deleteRecipe = async (req, res, next) => {
             500
         );
         return next(error);
+    }
+
+    if(recipe.imageName) {
+        try {
+            await gcpStorage.deleteImage(recipe.imageName);
+        } catch(err) {
+            return next(err);
+        }
     }
 
     res.status(200).json({ message: 'Deleted recipe.' });

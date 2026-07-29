@@ -55,7 +55,6 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
     const [ingredients, setIngredients] = useState<StructuredIngredient[]>([]);
     const [legacyIngredients, setLegacyIngredients] = useState<string[]>([]);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [deleteReady, setDeleteReady] = useState<boolean>(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -171,7 +170,11 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
             setIsLoading(false);
             return;
         }
-        if(!confirmed()) return;
+        if (affectedMenuNames.length > 0) {
+            setStatus(StatusType.ERROR);
+            setMessage(`Recipe is used in menu: ${affectedMenuNames.join(', ')}. Remove it from the menu first.`);
+            return;
+        }
 
         try {
             await sendRequest(
@@ -187,24 +190,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
             }, 500);
             setCurrentRecipe({id: null, recipe: null, image: null, mode: AnalysisMode.VIEW});
             setMessage("Recipe deleted successfully");
-            setDeleteReady(false);
         } catch (err) {}
-    }
-
-    const confirmed = () => {
-        if (affectedMenuNames.length === 0) return true;
-        if (deleteReady) return true;
-
-        setStatus(StatusType.ERROR);
-        setMessage(`This recipe is in ${formatList(affectedMenuNames)}. Deleting will remove it from them. Press delete again to confirm.`);
-        setDeleteReady(true);
-        return false;
-    }
-
-    const formatList = (items: string[]): string => {
-        if (items.length === 1) return items[0];
-        if (items.length === 2) return `${items[0]} and ${items[1]}`;
-        return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
     }
 
     const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
