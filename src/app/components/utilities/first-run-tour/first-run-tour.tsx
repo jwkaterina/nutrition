@@ -23,8 +23,8 @@ const STEPS: Step[] = [
         body: 'Multiple ingredients combined. Add foods with quantities and the total nutrients per serving are calculated for you.',
     },
     {
-        title: 'Menus',
-        body: 'A meal plan built from recipes (and optional extra ingredients). Great for weekly planning or tracking a full day.',
+        title: 'Meal plans',
+        body: 'A plan built from recipes (and optional extra ingredients). Great for weekly planning or tracking a full day.',
     },
 ];
 
