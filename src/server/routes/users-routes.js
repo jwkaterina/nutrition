@@ -14,7 +14,10 @@ router.post(
         check('email')
         .normalizeEmail()
         .isEmail(),
-        check('password').isLength({ min: 5 })
+        check('password')
+            .isLength({ min: 8 }).withMessage('Password must be at least 8 characters.')
+            .matches(/[A-Za-z]/).withMessage('Password must contain a letter.')
+            .matches(/[0-9]/).withMessage('Password must contain a number.')
     ], 
     usersController.signup
 );

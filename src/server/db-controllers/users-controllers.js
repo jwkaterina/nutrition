@@ -8,9 +8,10 @@ const signup = async (req, res, next) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        console.error('Validation failed.');
+        console.error('Validation failed.', errors.array());
+        const first = errors.array()[0];
         return next(
-        new HttpError('Invalid inputs passed, please check your data.', 422)
+            new HttpError(first?.msg || 'Invalid inputs passed, please check your data.', 422)
         );
     }
 

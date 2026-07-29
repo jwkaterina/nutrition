@@ -18,7 +18,7 @@ const all = async (req, res, next) => {
 
     busboy.on('file', (fieldname, file, {filename, mimeType}) => {
         console.log(`Processed file ${filename}`);
-        dataContainer = {};
+        const dataContainer = {};
 
         file.on('data', (data) => {
             if (!dataContainer.data) {

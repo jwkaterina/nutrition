@@ -90,6 +90,26 @@
     background-color: var(--primary-light-color);
 }
 
+.password_strength {
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.strength_weak {
+    color: #c62828;
+}
+
+.strength_medium {
+    color: #ef6c00;
+}
+
+.strength_strong {
+    color: #2e7d32;
+}
+
 @media screen and (max-width: 500px) {
     .container {
         height: 100%;
