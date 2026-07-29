@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const HttpError = require('../models/http-error');
 const Food = require('../models/food');
 const User = require('../models/user');
-const gcpStorage = require('../storage-controllers/gcpStorage-controllers');
+const imageStorage = require('../storage-controllers/image-storage');
 
 const getFoods = async (req, res, next) => {
     const userId = req.userData.userId;
