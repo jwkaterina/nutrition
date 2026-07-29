@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import Button from '@/app/components/slider/button';
 import MenuCard from '../../cards/menu-cards/menu-card';
 import Slide from './slide';
-import { SkeletonCard, EmptyState, useMinimumSkeletonTime } from '../slide-states';
+import { SkeletonCard, EmptyState, SignInPrompt, useMinimumSkeletonTime } from '../slide-states';
 import { AuthContext } from '@/app/context/auth-context';
 import { LoadedMenu, RecipeWithServings, Recipe } from '@/app/types/types';
 
@@ -56,16 +56,17 @@ const MenuSlide = (): JSX.Element => {
 
     return (
         <Slide>
-            {showSkeletons && Array.from({ length: 6 }, (_, i) => <SkeletonCard key={`s-${i}`} />)}
-            {!showSkeletons && menuList}
-            {showEmpty && (
+            {!token && <SignInPrompt kind="menus" />}
+            {token && showSkeletons && Array.from({ length: 6 }, (_, i) => <SkeletonCard key={`s-${i}`} />)}
+            {token && !showSkeletons && menuList}
+            {token && showEmpty && (
                 <EmptyState
                     message="No menus yet. Group recipes into a menu to plan your meals."
                     cta="Create your first menu"
                     search="analysis/menu-analysis"
                 />
             )}
-            {!showEmpty && <Button search={'analysis/menu-analysis'}/>}
+            {token && !showEmpty && <Button search={'analysis/menu-analysis'}/>}
         </Slide>
     );
 }
