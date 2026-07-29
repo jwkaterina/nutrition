@@ -76,7 +76,7 @@ describe('menu-form', () => {
         }
         renderComponentWithCurrentMenuContext(false, contextValue);
 
-        expect(screen.getByRole('textbox', { name: /menu name/i })).toBeInTheDocument();
+        expect(screen.getByRole('textbox', { name: /meal plan name/i })).toBeInTheDocument();
         expect(screen.getByRole('textbox', { name: /ingredients/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /analyze/i })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /delete/i })).not.toBeInTheDocument();
@@ -95,7 +95,7 @@ describe('menu-form', () => {
         }
         renderComponentWithCurrentMenuContext(false, contextValue);
 
-        expect(screen.getByRole('textbox', { name: /menu name/i })).toHaveValue(menu.menu.name);
+        expect(screen.getByRole('textbox', { name: /meal plan name/i })).toHaveValue(menu.menu.name);
         expect(screen.getByRole('button', { name: /analyze/i })).toBeInTheDocument();
         expect(screen.queryByRole('button', { name: /delete/i })).toBeInTheDocument();
     });
@@ -132,7 +132,7 @@ describe('menu-form', () => {
             </CurrentMenuContext.Provider>
         );
 
-        await user.type(screen.getByRole('textbox', { name: /menu name/i }), menu.menu.name);
+        await user.type(screen.getByRole('textbox', { name: /meal plan name/i }), menu.menu.name);
         await user.click(screen.getByRole('button', { name: /add recipe/i }));
         await user.click(screen.getByRole('button', { name: /analyze/i }));
 

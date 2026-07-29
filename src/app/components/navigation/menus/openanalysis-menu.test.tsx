@@ -286,7 +286,7 @@ describe('openanalysis menu', () => {
 
         await user.click(favLink);
         expect(statusValue.setStatus).toHaveBeenCalledWith(StatusType.ERROR);
-        expect(statusValue.setMessage).toHaveBeenCalledWith('You must be logged in to add menu to favorites.');
+        expect(statusValue.setMessage).toHaveBeenCalledWith('You must be logged in to add meal plan to favorites.');
         expect(statusValue.setIsLoading).toHaveBeenCalledWith(false);
         expect(sendRequest).not.toHaveBeenCalled();
 
@@ -339,7 +339,7 @@ describe('openanalysis menu', () => {
             { Authorization: 'Bearer ' + token }
         );
         expect(favLink).toHaveTextContent('Go To Favorites');
-        expect(statusValue.setMessage).toHaveBeenCalledWith('Menu updated in favorites.');
+        expect(statusValue.setMessage).toHaveBeenCalledWith('Meal plan updated in favorites.');
 
     });
     
