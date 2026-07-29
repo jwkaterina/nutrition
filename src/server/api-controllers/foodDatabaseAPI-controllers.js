@@ -16,16 +16,13 @@ const autocomplete = async (req, res, next) => {
     try {
         const response = await fetch(url, options);
         if (!response.ok) {
-            const body = await response.text().catch(() => '');
-            throw new Error(`Edamam ${response.status} ${response.statusText}: ${body.slice(0, 300)}`);
+            throw new Error(response.statusText);
         }
         const result = await response.json();
         res.status(200).json(result);
     } catch (err) {
         console.error('autocomplete failed', err);
-        const error = new HttpError(
-            `Could not find any results (${err && err.message ? err.message : 'unknown'})`, 404
-        );
+        const error = new HttpError('Could not find any results', 404);
         return next(error);
     }
 }
@@ -45,16 +42,13 @@ const parseQuery = async (req, res, next) => {
     try {
         const response = await fetch(url, options);
         if (!response.ok) {
-            const body = await response.text().catch(() => '');
-            throw new Error(`Edamam ${response.status} ${response.statusText}: ${body.slice(0, 300)}`);
+            throw new Error(response.statusText);
         }
         const result = await response.json();
         res.status(200).json(result);
     } catch (err) {
         console.error('parseQuery failed', err);
-        const error = new HttpError(
-            `Could not find any results (${err && err.message ? err.message : 'unknown'})`, 404
-        );
+        const error = new HttpError('Could not find any results', 404);
         return next(error);
     }
 }
