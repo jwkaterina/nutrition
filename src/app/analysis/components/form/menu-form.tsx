@@ -1,6 +1,7 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter} from 'next/navigation';
+import { mutate } from 'swr';
 import MenuCard from '@/app/components/cards/menu-cards/menu-card';
 import RecipeSearch from './recipe-search';
 import IngredientSearch from './ingredient-search';
@@ -31,7 +32,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
     const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
-    const { setMessage, setStatus } = useContext(StatusContext);
+    const { setMessage, setStatus, setAction } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const { sendRequest } = useHttpClient();
     const [name, setName] = useState<string>('');
@@ -39,7 +40,6 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
     const [legacyIngredients, setLegacyIngredients] = useState<string[]>([]);
     const [currentRecipes, setCurrentRecipes] = useState<RecipeWithServings[]>([]);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [deleteReady, setDeleteReady] = useState<boolean>(false);
 
     const router = useRouter();
 
@@ -175,12 +175,8 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
             setMessage('You must be logged in to delete menu.');
             return;
         }
-        if (!deleteReady) {
-            setStatus(StatusType.ERROR);
-            setMessage('Delete this menu? Press delete again to confirm.');
-            setDeleteReady(true);
-            return;
-        }
+        const snapshotMenu = currentMenu.menu;
+        const snapshotImage = imageUrl;
         try {
             await sendRequest(
                 `/menus/${currentMenu.id}`,
@@ -188,14 +184,41 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
                     Authorization: 'Bearer ' + token
                 }
             );
+            await mutate(key => Array.isArray(key) && key[0] === '/menus');
             setScrollBehavior('auto');
             router.replace('/?tab=menu');
             setTimeout(() => {
                 setScrollBehavior('smooth');
             }, 500);
             setCurrentMenu({id: null, menu: null, mode: AnalysisMode.VIEW});
-            setMessage("Menu deleted successfully");
-            setDeleteReady(false);
+            if (snapshotMenu) {
+                setMessage('Menu deleted');
+                setAction({
+                    label: 'Undo',
+                    onClick: async () => {
+                        try {
+                            const recipesForPost = (snapshotMenu.recipes ?? []).map((r: any) => ({
+                                selectedRecipe: r.selectedRecipeId ?? r.selectedRecipe,
+                                selectedServings: r.selectedServings
+                            }));
+                            const menuPayload = {
+                                name: snapshotMenu.name,
+                                ingredients: snapshotMenu.ingredients ?? [],
+                                nutrients: snapshotMenu.nutrients,
+                                recipes: recipesForPost
+                            };
+                            const formData = new FormData();
+                            formData.append('menu', JSON.stringify(menuPayload));
+                            if (snapshotImage) formData.append('imageUrl', snapshotImage);
+                            await sendRequest('/menus', 'POST', formData, { Authorization: 'Bearer ' + token });
+                            await mutate(key => Array.isArray(key) && key[0] === '/menus');
+                            setMessage('Menu restored');
+                        } catch (err) {}
+                    }
+                });
+            } else {
+                setMessage('Menu deleted successfully');
+            }
         } catch (err) {}
     }
 

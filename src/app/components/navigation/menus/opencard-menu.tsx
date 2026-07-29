@@ -1,5 +1,6 @@
 'use client';
 import { useContext, useEffect, useState } from "react";
+import { mutate } from 'swr';
 import Menu from "./menu";
 import { useRouter} from 'next/navigation';
 import { AuthContext } from "@/app/context/auth-context";
@@ -10,6 +11,9 @@ import { CurrentMenuContext } from '@/app/context/menu-context';
 import { StatusContext } from "@/app/context/status-context";
 import { useHttpClient } from "@/app/hooks/http-hook";
 import { CardState, AnalysisMode } from "@/app/types/types";
+
+const revalidateKey = (base: string) => (key: unknown) =>
+    Array.isArray(key) && key[0] === base;
 
 interface OpenCardMenuProps {
     onFoodDelete: () => void
@@ -30,14 +34,14 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
     const deleteFood = async () => {
         const snapshot = currentFood.food;
         try {
-            const response = await sendRequest(
+            await sendRequest(
                 `/foods/${currentFood.id}`,
                 'DELETE', null, {
                     Authorization: 'Bearer ' + token
                 }
             );
-            const savedImageName = response?.imageName ?? null;
             onFoodDelete();
+            await mutate(revalidateKey('/foods'));
             setCurrentFood({id: null, food: null});
             setCardOpen(CardState.CLOSED);
             if (snapshot) {
@@ -50,7 +54,7 @@ const OpenCardMenu = ({ onFoodDelete }: OpenCardMenuProps): JSX.Element => {
                             formData.append('food', JSON.stringify(snapshot));
                             if (snapshot.food?.image) formData.append('imageUrl', snapshot.food.image);
                             await sendRequest('/foods', 'POST', formData, { Authorization: 'Bearer ' + token });
-                            onFoodDelete();
+                            await mutate(revalidateKey('/foods'));
                             setMessage('Food restored');
                         } catch (err) {}
                     }

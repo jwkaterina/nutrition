@@ -207,9 +207,6 @@ describe('menu-form', () => {
         );
 
         await user.click(screen.getByRole('button', { name: /delete/i }));
-        expect(contextValue.setCurrentMenu).not.toHaveBeenCalled();
-
-        await user.click(screen.getByRole('button', { name: /delete/i }));
         expect(contextValue.setCurrentMenu).toHaveBeenCalledWith({id: null, menu: null, mode: AnalysisMode.VIEW});
     });
 
@@ -241,9 +238,6 @@ describe('menu-form', () => {
                 </AuthContext.Provider>
             </CurrentMenuContext.Provider>
         );
-
-        await user.click(screen.getByRole('button', { name: /delete/i }));
-        expect(contextValue.setCurrentMenu).not.toHaveBeenCalled();
 
         await user.click(screen.getByRole('button', { name: /delete/i }));
         expect(contextValue.setCurrentMenu).not.toHaveBeenCalled();

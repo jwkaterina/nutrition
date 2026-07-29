@@ -1,7 +1,7 @@
 'use client';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useRouter} from 'next/navigation';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import RecipeCard from '@/app/components/cards/recipe-cards/recipe-card';
 import IngredientSearch from './ingredient-search';
 import ImagePicker from '@/app/components/utilities/image-picker';
@@ -185,6 +185,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
                     Authorization: 'Bearer ' + token
                 }
             );
+            await mutate(key => Array.isArray(key) && key[0] === '/recipes');
             setScrollBehavior('auto');
             router.replace('/?tab=recipe');
             setTimeout(() => {
@@ -201,6 +202,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
                             formData.append('recipe', JSON.stringify(snapshotRecipe));
                             if (snapshotImage) formData.append('imageUrl', snapshotImage);
                             await sendRequest('/recipes', 'POST', formData, { Authorization: 'Bearer ' + token });
+                            await mutate(key => Array.isArray(key) && key[0] === '/recipes');
                             setMessage('Recipe restored');
                         } catch (err) {}
                     }
