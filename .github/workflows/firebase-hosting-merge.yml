@@ -23,9 +23,3 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add coverage-badge.json
           git diff --staged --quiet || (git commit -m 'Update coverage badge [skip ci]' && git push)
-      - name: Install functions dependencies
-        run: npm ci --prefix functions
-      - name: Create functions env file
-        run: echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" > functions/.env
-      - name: Deploy to Firebase Functions
-        run: npx firebase-tools deploy --only functions --project nutrition-3236d --token ${{ secrets.FIREBASE_TOKEN }}
