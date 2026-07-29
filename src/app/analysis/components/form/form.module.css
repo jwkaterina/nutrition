@@ -525,6 +525,30 @@
     background: rgba(0, 0, 0, 0.7);
 }
 
+.image_preview_overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    border-radius: inherit;
+}
+
+@keyframes image_preview_spin {
+    to { transform: rotate(360deg); }
+}
+
+.image_preview_spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 3px solid rgba(255, 255, 255, 0.35);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: image_preview_spin 0.9s linear infinite;
+}
+
 .form_container_wide {
     max-width: 760px;
 }

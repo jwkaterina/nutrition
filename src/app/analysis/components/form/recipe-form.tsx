@@ -29,7 +29,7 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
     const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentRecipe, setCurrentRecipe } = useContext(CurrentRecipeContext);
-    const { setMessage, setStatus, setIsLoading, setAction } = useContext(StatusContext);
+    const { setMessage, setStatus, setIsLoading, setAction, isLoading } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const { sendRequest } = useHttpClient();
     const menusFetcher = ([url, t]: [string, string]) =>
@@ -266,6 +266,11 @@ const RecipeForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, se
                         <div className={styles.image_preview}>
                             <img src={previewUrl} alt="preview" />
                             <button type="button" aria-label="Change image" className={styles.image_preview_change} onClick={() => { setPreviewUrl(null); setFile(null); setImageUrl(null); }}>✕</button>
+                            {isLoading && (
+                                <div className={styles.image_preview_overlay} aria-label="Uploading">
+                                    <div className={styles.image_preview_spinner} />
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <ImagePicker

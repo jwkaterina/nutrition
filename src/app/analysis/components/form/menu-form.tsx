@@ -32,7 +32,7 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
     const { token } = useContext(AuthContext);
     const { cardOpen, setCardOpen } = useContext(CardOpenContext);
     const { currentMenu, setCurrentMenu } = useContext(CurrentMenuContext);
-    const { setMessage, setStatus, setAction } = useContext(StatusContext);
+    const { setMessage, setStatus, setAction, isLoading } = useContext(StatusContext);
     const { setScrollBehavior } = useContext(SlideContext);
     const { sendRequest } = useHttpClient();
     const [name, setName] = useState<string>('');
@@ -273,6 +273,11 @@ const MenuForm = ({ searchCleared, setClearSearch, file, setFile, imageUrl, setI
                         <div className={styles.image_preview}>
                             <img src={previewUrl} alt="preview" />
                             <button type="button" className={styles.image_preview_change} onClick={() => { setPreviewUrl(null); setFile(null); setImageUrl(null); }}>✕</button>
+                            {isLoading && (
+                                <div className={styles.image_preview_overlay} aria-label="Uploading">
+                                    <div className={styles.image_preview_spinner} />
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <ImagePicker
