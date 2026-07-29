@@ -31,7 +31,7 @@ const MainNav = (): JSX.Element => {
             <div className={styles.main_links}>
                 <a className={styles.link} style={{width: '200px'}} onClick={() => handleClick(SlideType.FOOD)}>My Food</a>
                 <a className={styles.link} style={{width: '200px'}} onClick={() => handleClick(SlideType.RECIPE)}>My Recipes</a>
-                <a className={styles.link} style={{width: '200px'}} onClick={() => handleClick(SlideType.MENU)}>My Menus</a>
+                <a className={styles.link} style={{width: '200px'}} onClick={() => handleClick(SlideType.MENU)}>My Meal Plans</a>
             </div>
             <div className={styles.scroll_bar} style={{
                 width: '20vw',

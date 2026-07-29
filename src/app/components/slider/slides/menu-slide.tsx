@@ -61,8 +61,8 @@ const MenuSlide = (): JSX.Element => {
             {token && !showSkeletons && menuList}
             {token && showEmpty && (
                 <EmptyState
-                    message="No menus yet. Group recipes into a menu to plan your meals."
-                    cta="Create your first menu"
+                    message="No meal plans yet. Group recipes into a meal plan for the day or week."
+                    cta="Create your first meal plan"
                     search="analysis/menu-analysis"
                 />
             )}

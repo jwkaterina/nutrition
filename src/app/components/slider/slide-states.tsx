@@ -46,10 +46,16 @@ interface SignInPromptProps {
     kind: 'foods' | 'recipes' | 'menus';
 }
 
+const KIND_LABELS: Record<SignInPromptProps['kind'], string> = {
+    foods: 'foods',
+    recipes: 'recipes',
+    menus: 'meal plans',
+};
+
 export const SignInPrompt = ({ kind }: SignInPromptProps): JSX.Element => (
     <div className={styles.empty_wrap}>
         <div className={styles.empty_card}>
-            <p className={styles.empty_message}>Sign in to see your {kind}.</p>
+            <p className={styles.empty_message}>Sign in to see your {KIND_LABELS[kind]}.</p>
             <Link href="/auth/basic_auth" className={styles.empty_cta}>Sign in</Link>
         </div>
     </div>

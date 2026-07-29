@@ -105,7 +105,7 @@ const OpenAnalysisMenu = ({ file, setFile, imageUrl, setImageUrl }: OpenAnalysis
         };
         if(!token) {
             setStatus(StatusType.ERROR);
-            setMessage('You must be logged in to add menu to favorites.');
+            setMessage('You must be logged in to add meal plan to favorites.');
             setIsLoading(false);
             return;
         }
@@ -116,7 +116,7 @@ const OpenAnalysisMenu = ({ file, setFile, imageUrl, setImageUrl }: OpenAnalysis
             else if (imageUrl) formData.append('imageUrl', imageUrl);
             await sendRequest('/menus', 'POST', formData, { Authorization: 'Bearer ' + token });
             setRightText('Go To Favorites');
-            setMessage('Menu added to favorites.');
+            setMessage('Meal plan added to favorites.');
         } catch (err) {}
     }
 
@@ -158,7 +158,7 @@ const OpenAnalysisMenu = ({ file, setFile, imageUrl, setImageUrl }: OpenAnalysis
         };
         if(!token) {
             setStatus(StatusType.ERROR);
-            setMessage('You must be logged in to update menu.');
+            setMessage('You must be logged in to update meal plan.');
             setIsLoading(false);
             return;
         }
@@ -169,7 +169,7 @@ const OpenAnalysisMenu = ({ file, setFile, imageUrl, setImageUrl }: OpenAnalysis
             else if (imageUrl) formData.append('imageUrl', imageUrl);
             await sendRequest(`/menus/${currentMenu.id}`, 'PATCH', formData, { Authorization: 'Bearer ' + token });
             setRightText('Go To Favorites');
-            setMessage('Menu updated in favorites.');
+            setMessage('Meal plan updated in favorites.');
         } catch (err) {}
     }
 
